@@ -33,7 +33,7 @@ public class MoreBlocksRegister {
     public static final Block DAUB_FRAME = register(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_frame");
 
     public static final Block CAGE = register(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).mapColor(DyeColor.GRAY).strength(3f, 6f)),"cage");
-    public static final Block SACK = register(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.BROWN).strength(0.8f)),"sack");
+    public static final Block SACK = register(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.WOOL).mapColor(DyeColor.BROWN).strength(0.8f)),"sack");
     public static final Block SAFE = register(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).mapColor(DyeColor.GRAY).strength(5.0F, 6.0F)),"safe");
 
 
