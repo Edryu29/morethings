@@ -4,5 +4,7 @@
   "block.moreblocks.daub_brace": "Daub",
   "block.moreblocks.daub_brace_flipped": "Daub",
   "block.moreblocks.daub_cross_brace": "Daub",
-  "block.moreblocks.daub_frame": "Daub"
+  "block.moreblocks.daub_frame": "Daub",
+  "block.moreblocks.sack": "Sack",
+  "block.moreblocks.safe": "Safe"
 }

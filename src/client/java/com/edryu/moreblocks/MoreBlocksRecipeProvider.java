@@ -22,7 +22,6 @@ public class MoreBlocksRecipeProvider extends FabricRecipeProvider {
         FabricRecipeProvider.offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, MoreBlocksRegister.DAUB_BRACE_FLIPPED, Items.JUNGLE_PLANKS);
         FabricRecipeProvider.offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, MoreBlocksRegister.DAUB_CROSS_BRACE, Items.JUNGLE_PLANKS);
         FabricRecipeProvider.offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, MoreBlocksRegister.DAUB_FRAME, Items.JUNGLE_PLANKS);
-        FabricRecipeProvider.offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, MoreBlocksRegister.CAGE, Items.JUNGLE_PLANKS);
         FabricRecipeProvider.offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, MoreBlocksRegister.SACK, Items.JUNGLE_PLANKS);
         FabricRecipeProvider.offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, MoreBlocksRegister.SAFE, Items.JUNGLE_PLANKS);
 	}
