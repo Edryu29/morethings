@@ -1,6 +1,7 @@
 package com.edryu.moreblocks;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -31,15 +32,28 @@ public class MoreBlocksRegister {
     public static final Block DAUB_CROSS_BRACE = register(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_cross_brace");
     public static final Block DAUB_FRAME = register(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_frame");
 
+    public static final Block CAGE = register(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).mapColor(DyeColor.GRAY).strength(3f, 6f)),"cage");
+    public static final Block SACK = register(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.BROWN).strength(0.8f)),"sack");
+    public static final Block SAFE = register(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).mapColor(DyeColor.GRAY).strength(5.0F, 6.0F)),"safe");
+
 
     public static final RegistryKey<ItemGroup> MORE_BLOCKS_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MoreBlocksMain.MOD_ID, "more_blocks"));
     public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(DAUB)).displayName(Text.translatable("itemGroup.more_blocks")).build();
 
     public static void initialize() {
-        ItemGroupEvents.modifyEntriesEvent(MORE_BLOCKS_GROUP_KEY).register((itemGroup) -> {itemGroup.add(DAUB.asItem());});
-        ItemGroupEvents.modifyEntriesEvent(MORE_BLOCKS_GROUP_KEY).register((itemGroup) -> {itemGroup.add(DAUB_BRACE.asItem());});
-        ItemGroupEvents.modifyEntriesEvent(MORE_BLOCKS_GROUP_KEY).register((itemGroup) -> {itemGroup.add(DAUB_BRACE_FLIPPED.asItem());});
-        ItemGroupEvents.modifyEntriesEvent(MORE_BLOCKS_GROUP_KEY).register((itemGroup) -> {itemGroup.add(DAUB_CROSS_BRACE.asItem());});
-        ItemGroupEvents.modifyEntriesEvent(MORE_BLOCKS_GROUP_KEY).register((itemGroup) -> {itemGroup.add(DAUB_FRAME.asItem());});
+        // Register the group.
+        Registry.register(Registries.ITEM_GROUP, MORE_BLOCKS_GROUP_KEY, MORE_BLOCKS_GROUP);
+
+        // Register items to the custom item group.
+        ItemGroupEvents.modifyEntriesEvent(MORE_BLOCKS_GROUP_KEY).register(itemGroup -> {
+            itemGroup.add(DAUB.asItem());
+            itemGroup.add(DAUB_BRACE.asItem());
+            itemGroup.add(DAUB_BRACE_FLIPPED.asItem());
+            itemGroup.add(DAUB_CROSS_BRACE.asItem());
+            itemGroup.add(DAUB_FRAME.asItem());
+            itemGroup.add(CAGE.asItem());
+            itemGroup.add(SACK.asItem());
+            itemGroup.add(SAFE.asItem());
+        });
     }
 }

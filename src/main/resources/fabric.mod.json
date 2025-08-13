@@ -16,7 +16,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.edryu.moreblocks.MoreBlocks"
+			"com.edryu.moreblocks.MoreBlocksMain"
 		],
 		"client": [
 			"com.edryu.moreblocks.MoreBlocksClient"
