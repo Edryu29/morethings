@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
-      "model": "moreblocks:block/sack"
+    "open=false": {
+      "model": "moreblocks:block/sack_closed"
+    },
+    "open=true": {
+      "model": "moreblocks:block/sack_open"
     }
   }
 }
