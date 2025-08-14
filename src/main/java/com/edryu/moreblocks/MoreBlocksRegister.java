@@ -2,7 +2,6 @@ package com.edryu.moreblocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.ChainBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -13,6 +12,7 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.registry.Registries;
 
 import com.edryu.moreblocks.blocks.CageBlock;
+import com.edryu.moreblocks.blocks.RopeBlock;
 import com.edryu.moreblocks.blocks.SackBlock;
 import com.edryu.moreblocks.blocks.SafeBlock;
 
@@ -41,12 +41,12 @@ public class MoreBlocksRegister {
     public static final Block CAGE = register(new CageBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).mapColor(DyeColor.GRAY).strength(3f, 6f).nonOpaque()),"cage");
     public static final Block SACK = register(new SackBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.WOOL).mapColor(DyeColor.BROWN).strength(0.8f)),"sack");
     public static final Block SAFE = register(new SafeBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).mapColor(DyeColor.GRAY).strength(5.0F, 6.0F)),"safe");
-    public static final Block ROPE = register(new ChainBlock(AbstractBlock.Settings.copy(Blocks.CHAIN)),"rope");
+    public static final Block ROPE = register(new RopeBlock(AbstractBlock.Settings.copy(Blocks.CHAIN)),"rope");
 
 
 
     public static final RegistryKey<ItemGroup> MORE_BLOCKS_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MoreBlocksMain.MOD_ID, "more_blocks"));
-    public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(DAUB)).displayName(Text.translatable("itemGroup.more_blocks")).build();
+    public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(SACK)).displayName(Text.translatable("itemGroup.more_blocks")).build();
 
     public static void initialize() {
         // Register the group.

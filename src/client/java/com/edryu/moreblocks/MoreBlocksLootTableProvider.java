@@ -20,5 +20,6 @@ public class MoreBlocksLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(MoreBlocksRegister.CAGE);
         addDrop(MoreBlocksRegister.SACK);
         addDrop(MoreBlocksRegister.SAFE);
+        addDrop(MoreBlocksRegister.ROPE);
 	}
 }

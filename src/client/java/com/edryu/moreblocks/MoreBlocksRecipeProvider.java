@@ -25,5 +25,6 @@ public class MoreBlocksRecipeProvider extends FabricRecipeProvider {
         FabricRecipeProvider.offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, MoreBlocksRegister.CAGE, Items.JUNGLE_PLANKS);
         FabricRecipeProvider.offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, MoreBlocksRegister.SACK, Items.JUNGLE_PLANKS);
         FabricRecipeProvider.offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, MoreBlocksRegister.SAFE, Items.JUNGLE_PLANKS);
+        FabricRecipeProvider.offerStonecuttingRecipe(recipeExporter, RecipeCategory.BUILDING_BLOCKS, MoreBlocksRegister.ROPE, Items.JUNGLE_PLANKS);
 	}
 }

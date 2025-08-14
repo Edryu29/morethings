@@ -19,7 +19,6 @@ public class MoreBlocksModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleCubeAll(MoreBlocksRegister.DAUB_FRAME);
     }
     
-    
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
 
