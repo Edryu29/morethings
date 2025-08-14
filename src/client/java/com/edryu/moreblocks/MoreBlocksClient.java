@@ -8,5 +8,6 @@ public class MoreBlocksClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
         BlockRenderLayerMap.INSTANCE.putBlock(MoreBlocksRegister.CAGE, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(MoreBlocksRegister.JAR_BOAT, RenderLayer.getCutout());
 	}
 }

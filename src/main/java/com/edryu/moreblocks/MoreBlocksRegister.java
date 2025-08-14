@@ -12,6 +12,7 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.registry.Registries;
 
 import com.edryu.moreblocks.blocks.CageBlock;
+import com.edryu.moreblocks.blocks.JarBoatBlock;
 import com.edryu.moreblocks.blocks.RopeBlock;
 import com.edryu.moreblocks.blocks.SackBlock;
 import com.edryu.moreblocks.blocks.SafeBlock;
@@ -52,13 +53,14 @@ public class MoreBlocksRegister {
 
     public static final Block CAGE = registerBlock(new CageBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).mapColor(DyeColor.GRAY).strength(3f, 6f).nonOpaque()),"cage");
     public static final Block SACK = registerBlock(new SackBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.WOOL).mapColor(DyeColor.BROWN).strength(0.8f)),"sack");
-    public static final Block SAFE = registerBlock(new SafeBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).mapColor(DyeColor.GRAY).strength(5.0F, 6.0F)),"safe");
-    public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.copy(Blocks.CHAIN)),"rope");
+    public static final Block SAFE = registerBlock(new SafeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)),"safe");
+    public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.WOOL).mapColor(DyeColor.BROWN).strength(0.25f)),"rope");
+    public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
 
 
     // ITEM GROUP
     public static final RegistryKey<ItemGroup> MORE_BLOCKS_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MoreBlocksMain.MOD_ID, "more_blocks"));
-    public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(SACK)).displayName(Text.translatable("itemGroup.more_blocks")).build();
+    public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(DAUB_BRACE)).displayName(Text.translatable("itemGroup.more_blocks")).build();
 
 
     public static void initialize() {
@@ -80,6 +82,7 @@ public class MoreBlocksRegister {
             itemGroup.add(SACK.asItem());
             itemGroup.add(SAFE.asItem());
             itemGroup.add(ROPE.asItem());
+            itemGroup.add(JAR_BOAT.asItem());
         });
     }
 }

@@ -8,5 +8,6 @@
   "block.moreblocks.rope": "Rope",
   "block.moreblocks.sack": "Sack",
   "block.moreblocks.safe": "Safe",
-  "item.mod_id.wrench": "Wrench"
+  "block.moreblocks.jar_boat": "Jar Boat",
+  "item.moreblocks.wrench": "Wrench"
 }
