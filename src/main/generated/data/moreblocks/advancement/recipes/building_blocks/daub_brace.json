@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_jungle_planks": {
+    "has_daub": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:jungle_planks"
+            "items": "moreblocks:daub"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "moreblocks:sack_from_jungle_planks_stonecutting"
+        "recipe": "moreblocks:daub_brace"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_jungle_planks"
+      "has_daub"
     ]
   ],
   "rewards": {
     "recipes": [
-      "moreblocks:sack_from_jungle_planks_stonecutting"
+      "moreblocks:daub_brace"
     ]
   }
 }

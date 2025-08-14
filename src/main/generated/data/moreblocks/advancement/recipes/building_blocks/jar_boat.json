@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_jungle_planks": {
+    "has_glass_pane": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:jungle_planks"
+            "items": "minecraft:glass_pane"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "moreblocks:daub_frame_from_jungle_planks_stonecutting"
+        "recipe": "moreblocks:jar_boat"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_jungle_planks"
+      "has_glass_pane"
     ]
   ],
   "rewards": {
     "recipes": [
-      "moreblocks:daub_frame_from_jungle_planks_stonecutting"
+      "moreblocks:jar_boat"
     ]
   }
 }

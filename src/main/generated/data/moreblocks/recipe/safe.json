@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "1": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "111",
+    "1 1",
+    "111"
+  ],
+  "result": {
+    "count": 1,
+    "id": "moreblocks:safe"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "1": {
+      "item": "minecraft:stick"
+    },
+    "2": {
+      "item": "moreblocks:daub"
+    }
+  },
+  "pattern": [
+    "1 1",
+    " 2 ",
+    "1 1"
+  ],
+  "result": {
+    "count": 1,
+    "id": "moreblocks:daub_cross_brace"
+  }
+}
