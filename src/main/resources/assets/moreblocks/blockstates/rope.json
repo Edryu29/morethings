@@ -1,16 +1,31 @@
 {
-  "variants": {
-    "axis=x": {
-      "model": "minecraft:block/chain",
-      "x": 90,
-      "y": 90
+  "multipart": [
+    {   "when": { "axis": "x" },
+        "apply": { "model": "moreblocks:block/rope_up", "x": 90, "y": 90}
     },
-    "axis=y": {
-      "model": "minecraft:block/chain"
+    {   "when": { "axis": "x" },
+        "apply": { "model": "moreblocks:block/rope_down", "x": 90, "y": 90}
     },
-    "axis=z": {
-      "model": "minecraft:block/chain",
-      "x": 90
+    {   "when": { "axis": "x" },
+        "apply": { "model": "moreblocks:block/rope_knot", "x": 90, "y": 90}
+    },
+    {   "when": { "axis": "y" },
+        "apply": { "model": "moreblocks:block/rope_up"}
+    },
+    {   "when": { "axis": "y" },
+        "apply": { "model": "moreblocks:block/rope_down"}
+    },
+    {   "when": { "axis": "y" },
+        "apply": { "model": "moreblocks:block/rope_knot"}
+    },
+    {   "when": { "axis": "z" },
+        "apply": { "model": "moreblocks:block/rope_up", "x": 90}
+    },
+    {   "when": { "axis": "z" },
+        "apply": { "model": "moreblocks:block/rope_down", "x": 90}
+    },
+    {   "when": { "axis": "z" },
+        "apply": { "model": "moreblocks:block/rope_knot", "x": 90}
     }
-  }
+  ]
 }

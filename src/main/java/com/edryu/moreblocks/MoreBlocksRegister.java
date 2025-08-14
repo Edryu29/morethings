@@ -2,6 +2,7 @@ package com.edryu.moreblocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.ChainBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -10,9 +11,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.registry.Registries;
-import net.minecraft.block.ChainBlock;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.StairsBlock;
 
 import com.edryu.moreblocks.blocks.CageBlock;
 import com.edryu.moreblocks.blocks.SackBlock;
