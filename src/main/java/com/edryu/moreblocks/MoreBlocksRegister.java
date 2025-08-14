@@ -1,6 +1,7 @@
 package com.edryu.moreblocks;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -9,6 +10,9 @@ import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.registry.Registries;
+import net.minecraft.block.ChainBlock;
+import net.minecraft.block.SlabBlock;
+import net.minecraft.block.StairsBlock;
 
 import com.edryu.moreblocks.blocks.CageBlock;
 import com.edryu.moreblocks.blocks.SackBlock;
@@ -36,9 +40,11 @@ public class MoreBlocksRegister {
     public static final Block DAUB_CROSS_BRACE = register(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_cross_brace");
     public static final Block DAUB_FRAME = register(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_frame");
 
-    public static final Block CAGE = register(new CageBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).mapColor(DyeColor.GRAY).strength(3f, 6f)),"cage");
+    public static final Block CAGE = register(new CageBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).mapColor(DyeColor.GRAY).strength(3f, 6f).nonOpaque()),"cage");
     public static final Block SACK = register(new SackBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.WOOL).mapColor(DyeColor.BROWN).strength(0.8f)),"sack");
     public static final Block SAFE = register(new SafeBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).mapColor(DyeColor.GRAY).strength(5.0F, 6.0F)),"safe");
+    public static final Block ROPE = register(new ChainBlock(AbstractBlock.Settings.copy(Blocks.CHAIN)),"rope");
+
 
 
     public static final RegistryKey<ItemGroup> MORE_BLOCKS_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MoreBlocksMain.MOD_ID, "more_blocks"));
@@ -58,6 +64,7 @@ public class MoreBlocksRegister {
             itemGroup.add(CAGE.asItem());
             itemGroup.add(SACK.asItem());
             itemGroup.add(SAFE.asItem());
+            itemGroup.add(ROPE.asItem());
         });
     }
 }
