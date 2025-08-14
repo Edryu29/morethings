@@ -1,5 +1,7 @@
 package com.edryu.moreblocks.blocks;
 
+import com.edryu.moreblocks.MoreBlocksRegister;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
@@ -42,7 +44,7 @@ public class SackBlock extends Block {
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!player.getAbilities().allowModifyWorld) {
+        if (!player.getAbilities().allowModifyWorld || (player != null && !player.isHolding(MoreBlocksRegister.WRENCH))) {
             return ActionResult.PASS;
         } else {
             boolean is_open = state.get(OPEN);

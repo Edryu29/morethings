@@ -4,5 +4,9 @@
   "block.moreblocks.daub_brace": "Daub",
   "block.moreblocks.daub_brace_flipped": "Daub",
   "block.moreblocks.daub_cross_brace": "Daub",
-  "block.moreblocks.daub_frame": "Daub"
+  "block.moreblocks.cage": "Cage",
+  "block.moreblocks.rope": "Rope",
+  "block.moreblocks.sack": "Sack",
+  "block.moreblocks.safe": "Safe",
+  "item.mod_id.wrench": "Wrench"
 }
