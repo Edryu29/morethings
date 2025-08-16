@@ -16,6 +16,7 @@ import com.edryu.moreblocks.blocks.JarBoatBlock;
 import com.edryu.moreblocks.blocks.RopeBlock;
 import com.edryu.moreblocks.blocks.SackBlock;
 import com.edryu.moreblocks.blocks.SafeBlock;
+import com.edryu.moreblocks.blocks.BookPileBlock;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -41,7 +42,7 @@ public class MoreBlocksRegister {
 
 
     // ITEMS
-    public static final Item WRENCH = registerItem(new Item(new Item.Settings()), "wrench");
+    public static final Item WRENCH = registerItem(new Item(new Item.Settings().maxCount(1)), "wrench");
 
     
     // BLOCKS
@@ -56,11 +57,12 @@ public class MoreBlocksRegister {
     public static final Block SAFE = registerBlock(new SafeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)),"safe");
     public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.WOOL).mapColor(DyeColor.BROWN).strength(0.25f)),"rope");
     public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
+    public static final Block BOOK_PILE = registerBlock(new BookPileBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"book_pile");
 
 
     // ITEM GROUP
     public static final RegistryKey<ItemGroup> MORE_BLOCKS_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MoreBlocksMain.MOD_ID, "more_blocks"));
-    public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(DAUB_BRACE)).displayName(Text.translatable("itemGroup.more_blocks")).build();
+    public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(SACK)).displayName(Text.translatable("itemGroup.more_blocks")).build();
 
 
     public static void initialize() {
@@ -83,6 +85,7 @@ public class MoreBlocksRegister {
             itemGroup.add(SAFE.asItem());
             itemGroup.add(ROPE.asItem());
             itemGroup.add(JAR_BOAT.asItem());
+            itemGroup.add(BOOK_PILE.asItem());
         });
     }
 }

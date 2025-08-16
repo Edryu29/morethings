@@ -49,11 +49,7 @@ public class SackBlock extends Block {
         } else {
             boolean is_open = state.get(OPEN);
             world.setBlockState(pos, state.with(OPEN, !is_open));
-            if (is_open){
-                world.playSound(player, pos, SoundEvents.BLOCK_SHULKER_BOX_OPEN, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            } else {
-                world.playSound(player, pos, SoundEvents.BLOCK_SHULKER_BOX_CLOSE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            }
+            world.playSound(player, pos, SoundEvents.BLOCK_WOOD_HIT, SoundCategory.BLOCKS, 1.0F, 1.0F);
             return ActionResult.SUCCESS;
         }
     }
