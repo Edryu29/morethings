@@ -27,6 +27,28 @@ import net.minecraft.text.Text;
 
 public class MoreBlocksRegister {
 
+    // ITEMS
+    public static final Item WRENCH = registerItem(new Item(new Item.Settings().maxCount(1)), "wrench");
+
+    // BLOCKS
+    public static final Block DAUB = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub");
+    public static final Block DAUB_BRACE = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_brace");
+    public static final Block DAUB_BRACE_FLIPPED = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_brace_flipped");
+    public static final Block DAUB_CROSS_BRACE = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_cross_brace");
+    public static final Block DAUB_FRAME = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_frame");
+
+    public static final Block CAGE = registerBlock(new CageBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).mapColor(DyeColor.GRAY).strength(3f, 6f).nonOpaque()),"cage");
+    public static final Block SACK = registerBlock(new SackBlock(AbstractBlock.Settings.create().sounds(MoreBlocksSounds.SACK).mapColor(DyeColor.BROWN).strength(0.8f)),"sack");
+    public static final Block SAFE = registerBlock(new SafeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)),"safe");
+    public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(MoreBlocksSounds.ROPE).mapColor(DyeColor.BROWN).strength(0.25f)),"rope");
+    public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
+    public static final Block BOOK_PILE = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(MoreBlocksSounds.BOOKS).mapColor(DyeColor.BROWN).strength(0.5F).nonOpaque()),"book_pile");
+
+    // ITEM GROUP
+    public static final RegistryKey<ItemGroup> MORE_BLOCKS_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MoreBlocksMain.MOD_ID, "more_blocks"));
+    public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(SACK)).displayName(Text.translatable("itemGroup.more_blocks")).build();
+
+
 	public static Block registerBlock(Block block, String name) {
 		Identifier blockID = Identifier.of(MoreBlocksMain.MOD_ID, name);
         BlockItem blockItem = new BlockItem(block, new Item.Settings());
@@ -39,31 +61,6 @@ public class MoreBlocksRegister {
 		Item registeredItem = Registry.register(Registries.ITEM, itemID, item);
 		return registeredItem;
 	}
-
-
-    // ITEMS
-    public static final Item WRENCH = registerItem(new Item(new Item.Settings().maxCount(1)), "wrench");
-
-    
-    // BLOCKS
-    public static final Block DAUB = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub");
-    public static final Block DAUB_BRACE = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_brace");
-    public static final Block DAUB_BRACE_FLIPPED = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_brace_flipped");
-    public static final Block DAUB_CROSS_BRACE = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_cross_brace");
-    public static final Block DAUB_FRAME = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_frame");
-
-    public static final Block CAGE = registerBlock(new CageBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).mapColor(DyeColor.GRAY).strength(3f, 6f).nonOpaque()),"cage");
-    public static final Block SACK = registerBlock(new SackBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.WOOL).mapColor(DyeColor.BROWN).strength(0.8f)),"sack");
-    public static final Block SAFE = registerBlock(new SafeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)),"safe");
-    public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.WOOL).mapColor(DyeColor.BROWN).strength(0.25f)),"rope");
-    public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
-    public static final Block BOOK_PILE = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.ROOTS).mapColor(DyeColor.BROWN).strength(0.5F)),"book_pile");
-
-
-    // ITEM GROUP
-    public static final RegistryKey<ItemGroup> MORE_BLOCKS_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MoreBlocksMain.MOD_ID, "more_blocks"));
-    public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(SACK)).displayName(Text.translatable("itemGroup.more_blocks")).build();
-
 
     public static void initialize() {
         // Register the group.

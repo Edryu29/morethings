@@ -55,7 +55,7 @@ public class BookPileBlock extends HorizontalFacingBlock {
                 world.setBlockState(pos, state.with(VERTICAL, vertical_pile).with(BOOKS, (books_amount + 1) % 4));
             }
             
-            world.playSound(player, pos, SoundEvents.BLOCK_SCAFFOLDING_HIT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.playSound(player, pos, SoundEvents.ITEM_BOOK_PUT, SoundCategory.BLOCKS, 1.0F, 1.0F);
             return ActionResult.SUCCESS;
         }
     }

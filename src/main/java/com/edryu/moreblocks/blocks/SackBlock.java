@@ -1,6 +1,7 @@
 package com.edryu.moreblocks.blocks;
 
 import com.edryu.moreblocks.MoreBlocksRegister;
+import com.edryu.moreblocks.MoreBlocksSounds;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -49,7 +50,7 @@ public class SackBlock extends Block {
         } else {
             boolean is_open = state.get(OPEN);
             world.setBlockState(pos, state.with(OPEN, !is_open));
-            world.playSound(player, pos, SoundEvents.BLOCK_WOOD_HIT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.playSound(player, pos, MoreBlocksSounds.SACK_OPEN, SoundCategory.BLOCKS, 1.0F, 1.0F);
             return ActionResult.SUCCESS;
         }
     }

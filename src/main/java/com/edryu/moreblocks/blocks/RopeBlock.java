@@ -2,6 +2,7 @@ package com.edryu.moreblocks.blocks;
 
 
 import com.edryu.moreblocks.MoreBlocksRegister;
+import com.edryu.moreblocks.MoreBlocksSounds;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -131,7 +132,7 @@ public class RopeBlock extends ChainBlock {
                 }
             }
 
-            world.playSound(player, pos, SoundEvents.BLOCK_ROOTS_HIT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.playSound(player, pos, MoreBlocksSounds.ROPE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
             return ActionResult.SUCCESS;
         }
     }
