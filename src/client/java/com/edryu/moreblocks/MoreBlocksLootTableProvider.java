@@ -22,5 +22,6 @@ public class MoreBlocksLootTableProvider extends FabricBlockLootTableProvider {
         addDrop(MoreBlocksRegister.SAFE);
         addDrop(MoreBlocksRegister.ROPE);
         addDrop(MoreBlocksRegister.JAR_BOAT);
+        addDrop(MoreBlocksRegister.BOOK_PILE);
 	}
 }

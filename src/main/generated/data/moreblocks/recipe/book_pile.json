@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "1": {
+      "item": "minecraft:book"
+    }
+  },
+  "pattern": [
+    "   ",
+    " 1 ",
+    "111"
+  ],
+  "result": {
+    "count": 1,
+    "id": "moreblocks:book_pile"
+  }
+}

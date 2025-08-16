@@ -57,7 +57,7 @@ public class MoreBlocksRegister {
     public static final Block SAFE = registerBlock(new SafeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)),"safe");
     public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.WOOL).mapColor(DyeColor.BROWN).strength(0.25f)),"rope");
     public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
-    public static final Block BOOK_PILE = registerBlock(new BookPileBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"book_pile");
+    public static final Block BOOK_PILE = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.ROOTS).mapColor(DyeColor.BROWN).strength(0.5F)),"book_pile");
 
 
     // ITEM GROUP
