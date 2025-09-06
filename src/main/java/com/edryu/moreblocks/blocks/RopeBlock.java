@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChainBlock;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
@@ -46,11 +47,11 @@ public class RopeBlock extends ChainBlock {
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!player.getAbilities().allowModifyWorld || (player != null && !player.isHolding(MoreBlocksRegister.WRENCH))) {
+        if (!player.getAbilities().allowModifyWorld || (player != null && !player.isHolding(Items.STICK))) {
             return ActionResult.PASS;
         } else {
             boolean connection_mode_value = state.get(CONNECTION_MODE);
-            if (player.getStackInHand(Hand.OFF_HAND).isOf(MoreBlocksRegister.WRENCH)) {
+            if (player.getStackInHand(Hand.OFF_HAND).isOf(Items.STICK)) {
                 world.setBlockState(pos,state.with(CONNECTION_MODE, !connection_mode_value).with(CONNECTION_STATE, 0)
                     .with(KNOT, false).with(ROPE_STATE, 0)
                     .with(UP, true).with(DOWN, true)

@@ -2,6 +2,7 @@ package com.edryu.moreblocks.blocks;
 
 import com.edryu.moreblocks.MoreBlocksRegister;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.item.Items;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -43,13 +44,13 @@ public class BookPileBlock extends HorizontalFacingBlock {
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!player.getAbilities().allowModifyWorld || player == null || !player.isHolding(MoreBlocksRegister.WRENCH)) {
+        if (!player.getAbilities().allowModifyWorld || player == null || !player.isHolding(Items.BOOK)) {
             return ActionResult.PASS;
         } else {
             boolean vertical_pile = state.get(VERTICAL);
             int books_amount = state.get(BOOKS);
 
-            if (player.getStackInHand(Hand.OFF_HAND).isOf(MoreBlocksRegister.WRENCH)) {
+            if (player.getStackInHand(Hand.OFF_HAND).isOf(Items.BOOK)) {
                 world.setBlockState(pos, state.with(VERTICAL, !vertical_pile).with(BOOKS, books_amount));
             } else {
                 world.setBlockState(pos, state.with(VERTICAL, vertical_pile).with(BOOKS, (books_amount + 1) % 4));

@@ -27,9 +27,6 @@ import net.minecraft.text.Text;
 
 public class MoreBlocksRegister {
 
-    // ITEMS
-    public static final Item WRENCH = registerItem(new Item(new Item.Settings().maxCount(1)), "wrench");
-
     // BLOCKS
     public static final Block DAUB = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub");
     public static final Block DAUB_BRACE = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_brace");
@@ -68,8 +65,6 @@ public class MoreBlocksRegister {
 
         // Register items to the custom item group.
         ItemGroupEvents.modifyEntriesEvent(MORE_BLOCKS_GROUP_KEY).register(itemGroup -> {
-            // ITEMS
-            itemGroup.add(WRENCH);
 
             // BLOCKS
             itemGroup.add(DAUB.asItem());

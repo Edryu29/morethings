@@ -115,13 +115,5 @@ public class MoreBlocksRecipeProvider extends FabricRecipeProvider {
             .input('1', Items.BOOK)
             .criterion(FabricRecipeProvider.hasItem(Items.BOOK), FabricRecipeProvider.conditionsFromItem(Items.BOOK))
             .offerTo(recipeExporter);
-
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreBlocksRegister.WRENCH, 1)
-            .pattern("1 1")
-            .pattern(" 1 ")
-            .pattern(" 1 ")
-            .input('1', Items.COPPER_INGOT)
-            .criterion(FabricRecipeProvider.hasItem(Items.COPPER_INGOT), FabricRecipeProvider.conditionsFromItem(Items.COPPER_INGOT))
-            .offerTo(recipeExporter);
 	}
 }
