@@ -17,8 +17,6 @@ public class MoreBlocksModelProvider extends FabricModelProvider {
         blockStateModelGenerator.registerSimpleCubeAll(MoreBlocksRegister.DAUB_BRACE_FLIPPED);
         blockStateModelGenerator.registerSimpleCubeAll(MoreBlocksRegister.DAUB_CROSS_BRACE);
         blockStateModelGenerator.registerSimpleCubeAll(MoreBlocksRegister.DAUB_FRAME);
-
-        blockStateModelGenerator.registerItemModel(MoreBlocksRegister.ROPE);
     }
     
     @Override
