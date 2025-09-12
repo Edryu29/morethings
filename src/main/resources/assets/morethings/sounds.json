@@ -1,0 +1,71 @@
+{
+  "block.sack.break": {
+    "sounds": [
+      "morethings:block/sack_break_0",
+      "morethings:block/sack_break_1",
+      "morethings:block/sack_break_2",
+      "morethings:block/sack_break_3"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.sack.place": {
+    "sounds": [
+      "morethings:block/sack_place_0",
+      "morethings:block/sack_place_1",
+      "morethings:block/sack_place_2",
+      "morethings:block/sack_place_3"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.sack.open": {
+    "sounds": [
+      "morethings:block/sack_open_0",
+      "morethings:block/sack_open_1"
+    ],
+    "subtitle": "subtitles.morethings.sack.open"
+  },
+  "block.rope.break": {
+    "sounds": [
+      "morethings:block/rope_break_0",
+      "morethings:block/rope_break_1",
+      "morethings:block/rope_break_2",
+      "morethings:block/rope_break_3"
+    ],
+    "subtitle": "subtitles.block.generic.break"
+  },
+  "block.rope.place": {
+    "sounds": [
+      "morethings:block/rope_place_0",
+      "morethings:block/rope_place_1",
+      "morethings:block/rope_place_2",
+      "morethings:block/rope_place_3"
+    ],
+    "subtitle": "subtitles.block.generic.place"
+  },
+  "block.rope.step": {
+    "sounds": [
+      "morethings:block/rope_step_0",
+      "morethings:block/rope_step_1",
+      "morethings:block/rope_step_2",
+      "morethings:block/rope_step_3"
+    ],
+    "subtitle": "subtitles.block.generic.footsteps"
+  },
+  "block.rope.fall": {
+    "sounds": [
+      "morethings:block/rope_step_0",
+      "morethings:block/rope_step_1",
+      "morethings:block/rope_step_2",
+      "morethings:block/rope_step_3"
+    ]
+  },
+  "block.rope.hit": {
+    "sounds": [
+      "morethings:block/rope_step_0",
+      "morethings:block/rope_step_1",
+      "morethings:block/rope_step_2",
+      "morethings:block/rope_step_3"
+    ],
+    "subtitle": "subtitles.block.generic.hit"
+  }
+}

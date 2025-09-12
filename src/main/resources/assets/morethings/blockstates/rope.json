@@ -1,0 +1,80 @@
+{
+  "multipart": [
+    {   "when": { "axis": "x", "up": "true" },
+        "apply": { "model": "morethings:block/rope_up", "x": 90, "y": 90}
+    },
+    {   "when": { "axis": "x", "down": "true" },
+        "apply": { "model": "morethings:block/rope_down", "x": 90, "y": 90}
+    },
+    {   "when": { "axis": "x", "knot": "true" },
+        "apply": { "model": "morethings:block/rope_knot", "x": 90, "y": 90}
+    },
+    {   "when": { "axis": "y", "north": "true" },
+        "apply": { "model": "morethings:block/rope_connection", "x": 90, "y": 90}
+    },
+    {   "when": { "axis": "y", "east": "true" },
+        "apply": { "model": "morethings:block/rope_connection", "x": 90, "y": 180}
+    },
+    {   "when": { "axis": "y", "south": "true" },
+        "apply": { "model": "morethings:block/rope_connection", "x": 90, "y": 270}
+    },
+    {   "when": { "axis": "y", "west": "true" },
+        "apply": { "model": "morethings:block/rope_connection", "x": 90}
+    },
+    {   "when": { "axis": "y", "connection_mode": "true" },
+        "apply": { "model": "morethings:block/rope_connection_knot", "x": 90, "y": 90}
+    },
+
+
+    {   "when": { "axis": "y", "up": "true" },
+        "apply": { "model": "morethings:block/rope_up"}
+    },
+    {   "when": { "axis": "y", "down": "true" },
+        "apply": { "model": "morethings:block/rope_down"}
+    },
+    {   "when": { "axis": "y", "knot": "true" },
+        "apply": { "model": "morethings:block/rope_knot"}
+    },
+    {   "when": { "axis": "y", "north": "true" },
+        "apply": { "model": "morethings:block/rope_connection"}
+    },
+    {   "when": { "axis": "y", "east": "true" },
+        "apply": { "model": "morethings:block/rope_connection", "y": 90}
+    },
+    {   "when": { "axis": "y", "south": "true" },
+        "apply": { "model": "morethings:block/rope_connection", "y": 180}
+    },
+    {   "when": { "axis": "y", "west": "true" },
+        "apply": { "model": "morethings:block/rope_connection", "y": 270}
+    },
+    {   "when": { "axis": "y", "connection_mode": "true" },
+        "apply": { "model": "morethings:block/rope_connection_knot"}
+    },
+
+
+    {   "when": { "axis": "z", "up": "true" },
+        "apply": { "model": "morethings:block/rope_up", "x": 90}
+    },
+    {   "when": { "axis": "z", "down": "true" },
+        "apply": { "model": "morethings:block/rope_down", "x": 90}
+    },
+    {   "when": { "axis": "z", "knot": "true" },
+        "apply": { "model": "morethings:block/rope_knot", "x": 90}
+    },
+    {   "when": { "axis": "y", "north": "true" },
+        "apply": { "model": "morethings:block/rope_connection", "x": 90}
+    },
+    {   "when": { "axis": "y", "east": "true" },
+        "apply": { "model": "morethings:block/rope_connection", "x": 90, "y": 90}
+    },
+    {   "when": { "axis": "y", "south": "true" },
+        "apply": { "model": "morethings:block/rope_connection", "x": 90, "y": 180}
+    },
+    {   "when": { "axis": "y", "west": "true" },
+        "apply": { "model": "morethings:block/rope_connection", "x": 90, "y": 270}
+    },
+    {   "when": { "axis": "y", "connection_mode": "true" },
+        "apply": { "model": "morethings:block/rope_connection_knot", "x": 90}
+    }
+  ]
+}

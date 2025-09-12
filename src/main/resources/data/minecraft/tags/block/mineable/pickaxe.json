@@ -1,11 +1,11 @@
 {
   "values": [
-    "moreblocks:daub",
-    "moreblocks:daub_brace",
-    "moreblocks:daub_brace_flipped",
-    "moreblocks:daub_cross_brace",
-    "moreblocks:daub_frame",
-    "moreblocks:cage",
-    "moreblocks:safe"
+    "morethings:daub",
+    "morethings:daub_brace",
+    "morethings:daub_brace_flipped",
+    "morethings:daub_cross_brace",
+    "morethings:daub_frame",
+    "morethings:cage",
+    "morethings:safe"
   ]
 }

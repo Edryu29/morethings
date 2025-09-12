@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "0": {
+      "tag": "minecraft:wooden_slabs"
+    },
+    "1": {
+      "item": "minecraft:iron_ingot"
+    },
+    "2": {
+      "item": "minecraft:iron_bars"
+    }
+  },
+  "pattern": [
+    "111",
+    "2 2",
+    "000"
+  ],
+  "result": {
+    "count": 1,
+    "id": "morethings:cage"
+  }
+}

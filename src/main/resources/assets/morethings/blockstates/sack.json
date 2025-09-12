@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "open=false": {
+      "model": "morethings:block/sack_closed"
+    },
+    "open=true": {
+      "model": "morethings:block/sack_open"
+    }
+  }
+}

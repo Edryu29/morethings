@@ -1,8 +1,8 @@
 {
 	"schemaVersion": 1,
-	"id": "moreblocks",
+	"id": "morethings",
 	"version": "${version}",
-	"name": "More Blocks",
+	"name": "More Things",
 	"description": "This is an example description! Tell everyone what your mod is about!",
 	"authors": [
 		"Me!"
@@ -12,23 +12,23 @@
 		"sources": "https://github.com/FabricMC/fabric-example-mod"
 	},
 	"license": "CC0-1.0",
-	"icon": "assets/moreblocks/icon.png",
+	"icon": "assets/morethings/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"com.edryu.moreblocks.MoreBlocksMain"
+			"com.edryu.morethings.MoreThingsMain"
 		],
 		"client": [
-			"com.edryu.moreblocks.MoreBlocksClient"
+			"com.edryu.morethings.MoreThingsClient"
 		],
 		"fabric-datagen": [
-			"com.edryu.moreblocks.MoreBlocksDataGenerator"
+			"com.edryu.morethings.MoreThingsDataGenerator"
 		]
 	},
 	"mixins": [
-		"moreblocks.mixins.json",
+		"morethings.mixins.json",
 		{
-			"config": "moreblocks.client.mixins.json",
+			"config": "morethings.client.mixins.json",
 			"environment": "client"
 		}
 	],

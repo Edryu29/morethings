@@ -1,0 +1,13 @@
+{
+  "textures": {
+    "chain": "morethings:block/rope",
+    "knot": "morethings:entity/rope_knot"
+  },
+  "model": "connectiblechains:square",
+  "uv": [
+    7,
+    9,
+    7,
+    9
+  ]
+}
