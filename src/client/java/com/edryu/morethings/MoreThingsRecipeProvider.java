@@ -108,10 +108,18 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.GLASS_PANE), FabricRecipeProvider.conditionsFromItem(Items.GLASS_PANE))
             .offerTo(recipeExporter);
             
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.BOOK_PILE, 1)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.BOOK_PILE_HORIZONTAL, 1)
             .pattern("   ")
             .pattern(" 1 ")
             .pattern("111")
+            .input('1', Items.BOOK)
+            .criterion(FabricRecipeProvider.hasItem(Items.BOOK), FabricRecipeProvider.conditionsFromItem(Items.BOOK))
+            .offerTo(recipeExporter);
+            
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.BOOK_PILE_VERTICAL, 1)
+            .pattern(" 1 ")
+            .pattern(" 1 ")
+            .pattern("11 ")
             .input('1', Items.BOOK)
             .criterion(FabricRecipeProvider.hasItem(Items.BOOK), FabricRecipeProvider.conditionsFromItem(Items.BOOK))
             .offerTo(recipeExporter);

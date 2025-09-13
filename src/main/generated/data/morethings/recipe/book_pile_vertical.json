@@ -7,12 +7,12 @@
     }
   },
   "pattern": [
-    "   ",
     " 1 ",
-    "111"
+    " 1 ",
+    "11 "
   ],
   "result": {
     "count": 1,
-    "id": "morethings:book_pile"
+    "id": "morethings:book_pile_vertical"
   }
 }

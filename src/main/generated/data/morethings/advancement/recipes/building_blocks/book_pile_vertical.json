@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "morethings:book_pile"
+        "recipe": "morethings:book_pile_vertical"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "morethings:book_pile"
+      "morethings:book_pile_vertical"
     ]
   }
 }
