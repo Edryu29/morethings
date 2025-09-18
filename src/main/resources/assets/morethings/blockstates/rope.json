@@ -9,6 +9,20 @@
     {   "when": { "axis": "x", "knot": "true" },
         "apply": { "model": "morethings:block/rope_knot", "x": 90, "y": 90}
     },
+    {   "when": { "axis": "x", "north": "true"  },
+        "apply": { "model": "morethings:block/rope_north", "x": 90, "y": 90}
+    },
+    {   "when": { "axis": "x", "south": "true"  },
+        "apply": { "model": "morethings:block/rope_south", "x": 90, "y": 90}
+    },
+    {   "when": { "axis": "x", "west": "true"  },
+        "apply": { "model": "morethings:block/rope_west", "x": 90, "y": 90}
+    },
+    {   "when": { "axis": "x", "east": "true"  },
+        "apply": { "model": "morethings:block/rope_east", "x": 90, "y": 90}
+    },
+
+
     {   "when": { "axis": "y", "up": "true" },
         "apply": { "model": "morethings:block/rope_up"}
     },
@@ -18,6 +32,20 @@
     {   "when": { "axis": "y", "knot": "true" },
         "apply": { "model": "morethings:block/rope_knot"}
     },
+    {   "when": { "axis": "y", "north": "true" },
+        "apply": { "model": "morethings:block/rope_north"}
+    },
+    {   "when": { "axis": "y", "south": "true" },
+        "apply": { "model": "morethings:block/rope_south", "z": 90}
+    },
+    {   "when": { "axis": "y", "west": "true" },
+        "apply": { "model": "morethings:block/rope_west", "z": 180}
+    },
+    {   "when": { "axis": "y", "east": "true" },
+        "apply": { "model": "morethings:block/rope_east", "z": 270}
+    },
+
+
     {   "when": { "axis": "z", "up": "true" },
         "apply": { "model": "morethings:block/rope_up", "x": 90}
     },
@@ -26,6 +54,18 @@
     },
     {   "when": { "axis": "z", "knot": "true" },
         "apply": { "model": "morethings:block/rope_knot", "x": 90}
+    },
+    {   "when": { "axis": "z", "north": "true" },
+        "apply": { "model": "morethings:block/rope_north", "x": 90}
+    },
+    {   "when": { "axis": "z", "south": "true" },
+        "apply": { "model": "morethings:block/rope_south", "x": 90, "z": 90}
+    },
+    {   "when": { "axis": "z", "west": "true" },
+        "apply": { "model": "morethings:block/rope_west", "x": 90, "z": 180}
+    },
+    {   "when": { "axis": "z", "east": "true" },
+        "apply": { "model": "morethings:block/rope_east", "x": 90, "z": 270}
     }
   ]
 }
