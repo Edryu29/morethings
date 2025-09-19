@@ -2,7 +2,9 @@
 	"required": true,
 	"package": "com.edryu.morethings.mixin",
 	"compatibilityLevel": "JAVA_21",
-	"mixins": [],
+	"mixins": [
+		"ItemStackMixin"
+	],
 	"injectors": {
 		"defaultRequire": 1
 	},
