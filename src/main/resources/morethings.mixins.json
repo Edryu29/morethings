@@ -3,7 +3,8 @@
 	"package": "com.edryu.morethings.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"ItemStackMixin"
+		"ItemStackMixin",
+		"OpenDoorsTaskMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
