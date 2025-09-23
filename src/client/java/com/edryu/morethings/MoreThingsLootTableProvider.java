@@ -23,6 +23,7 @@ public class MoreThingsLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(MoreThingsRegister.DAUB_BRACE_FLIPPED);
                 addDrop(MoreThingsRegister.DAUB_CROSS_BRACE);
                 addDrop(MoreThingsRegister.DAUB_FRAME);
+                addDrop(MoreThingsRegister.CRATE);
                 addDrop(MoreThingsRegister.CAGE);
                 addDrop(MoreThingsRegister.SACK);
                 addDrop(MoreThingsRegister.SAFE);

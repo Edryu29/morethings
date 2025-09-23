@@ -63,6 +63,15 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(MoreThingsRegister.DAUB), FabricRecipeProvider.conditionsFromItem(MoreThingsRegister.DAUB))
             .offerTo(recipeExporter);
 
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.CRATE, 2)
+            .pattern(" 2 ")
+            .pattern("212")
+            .pattern(" 2 ")
+            .input('1', Items.CHEST)
+            .input('2', ItemTags.PLANKS)
+            .criterion(FabricRecipeProvider.hasItem(Items.CHEST), FabricRecipeProvider.conditionsFromItem(Items.CHEST))
+            .offerTo(recipeExporter);
+
         ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.CAGE, 1)
             .pattern("111")
             .pattern("2 2")
