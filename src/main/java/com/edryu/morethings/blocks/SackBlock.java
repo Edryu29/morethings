@@ -43,7 +43,7 @@ public class SackBlock extends Block {
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!player.getAbilities().allowModifyWorld || (player != null && !player.isHolding(MoreThingsRegister.STAFF))) {
+        if (!player.getAbilities().allowModifyWorld || (player != null && !player.isHolding(MoreThingsRegister.ORB))) {
             return ActionResult.PASS;
         } else {
             boolean is_open = state.get(OPEN);

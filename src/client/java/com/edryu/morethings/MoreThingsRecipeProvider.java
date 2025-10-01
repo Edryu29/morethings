@@ -133,13 +133,13 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.BOOK), FabricRecipeProvider.conditionsFromItem(Items.BOOK))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.STAFF, 1)
-            .pattern(" 11")
-            .pattern(" 21")
-            .pattern("2  ")
-            .input('1', Items.AMETHYST_SHARD)
-            .input('2', Items.GOLD_INGOT)
-            .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.ORB, 1)
+            .pattern(" 1 ")
+            .pattern("121")
+            .pattern(" 1 ")
+            .input('1', Items.GLASS)
+            .input('2', Items.LAPIS_LAZULI)
+            .criterion(FabricRecipeProvider.hasItem(Items.LAPIS_LAZULI), FabricRecipeProvider.conditionsFromItem(Items.LAPIS_LAZULI))
             .offerTo(recipeExporter);
 
 	}

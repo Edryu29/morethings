@@ -40,7 +40,7 @@ public class RopeBlock extends ChainBlock {
     
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!player.getAbilities().allowModifyWorld || (player != null && !player.isHolding(MoreThingsRegister.STAFF))) {
+        if (!player.getAbilities().allowModifyWorld || (player != null && !player.isHolding(MoreThingsRegister.ORB))) {
             return ActionResult.PASS;
         } else {
             int knot_value = (state.get(KNOT_STATE) + 1) % 8;

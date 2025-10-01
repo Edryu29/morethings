@@ -3,19 +3,19 @@
   "category": "equipment",
   "key": {
     "1": {
-      "item": "minecraft:amethyst_shard"
+      "item": "minecraft:glass"
     },
     "2": {
-      "item": "minecraft:gold_ingot"
+      "item": "minecraft:lapis_lazuli"
     }
   },
   "pattern": [
-    " 11",
-    " 21",
-    "2  "
+    " 1 ",
+    "121",
+    " 1 "
   ],
   "result": {
     "count": 1,
-    "id": "morethings:staff"
+    "id": "morethings:orb"
   }
 }

@@ -44,7 +44,7 @@ public class MoreThingsRegister {
     public static final Block BOOK_PILE_VERTICAL = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).mapColor(DyeColor.BROWN).strength(0.5F).nonOpaque()),"book_pile_vertical");
 
     // ITEMS
-    public static final Item STAFF = registerItem(new Item(new Item.Settings().maxCount(1)), "staff");
+    public static final Item ORB = registerItem(new Item(new Item.Settings().maxCount(1)), "orb");
 
     // ITEM GROUP
     public static final RegistryKey<ItemGroup> MORE_BLOCKS_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MoreThingsMain.MOD_ID, "more_blocks"));
@@ -87,7 +87,7 @@ public class MoreThingsRegister {
             itemGroup.add(BOOK_PILE_VERTICAL.asItem());
 
             // ITEMS
-            itemGroup.add(STAFF);
+            itemGroup.add(ORB);
         });
     }
 }
