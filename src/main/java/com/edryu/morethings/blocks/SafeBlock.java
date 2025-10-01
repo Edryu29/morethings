@@ -1,5 +1,6 @@
 package com.edryu.morethings.blocks;
 
+import com.edryu.morethings.MoreThingsRegister;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -7,7 +8,6 @@ import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
@@ -48,7 +48,7 @@ public class SafeBlock extends HorizontalFacingBlock {
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!player.getAbilities().allowModifyWorld || (player != null && !player.isHolding(Items.STICK))) {
+        if (!player.getAbilities().allowModifyWorld || (player != null && !player.isHolding(MoreThingsRegister.STAFF))) {
             return ActionResult.PASS;
         } else {
             boolean is_open = state.get(OPEN);

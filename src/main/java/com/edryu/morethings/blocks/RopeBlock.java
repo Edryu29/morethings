@@ -1,11 +1,11 @@
 package com.edryu.morethings.blocks;
 
+import com.edryu.morethings.MoreThingsRegister;
 import com.edryu.morethings.MoreThingsSounds;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChainBlock;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -40,7 +40,7 @@ public class RopeBlock extends ChainBlock {
     
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!player.getAbilities().allowModifyWorld || (player != null && !player.isHolding(Items.STICK))) {
+        if (!player.getAbilities().allowModifyWorld || (player != null && !player.isHolding(MoreThingsRegister.STAFF))) {
             return ActionResult.PASS;
         } else {
             int knot_value = (state.get(KNOT_STATE) + 1) % 8;

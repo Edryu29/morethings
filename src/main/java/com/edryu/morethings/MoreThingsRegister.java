@@ -43,6 +43,9 @@ public class MoreThingsRegister {
     public static final Block BOOK_PILE_HORIZONTAL = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).mapColor(DyeColor.BROWN).strength(0.5F).nonOpaque()),"book_pile_horizontal");
     public static final Block BOOK_PILE_VERTICAL = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).mapColor(DyeColor.BROWN).strength(0.5F).nonOpaque()),"book_pile_vertical");
 
+    // ITEMS
+    public static final Item STAFF = registerItem(new Item(new Item.Settings().maxCount(1)), "staff");
+
     // ITEM GROUP
     public static final RegistryKey<ItemGroup> MORE_BLOCKS_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MoreThingsMain.MOD_ID, "more_blocks"));
     public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(SACK)).displayName(Text.translatable("itemGroup.more_blocks")).build();
@@ -82,6 +85,9 @@ public class MoreThingsRegister {
             itemGroup.add(JAR_BOAT.asItem());
             itemGroup.add(BOOK_PILE_HORIZONTAL.asItem());
             itemGroup.add(BOOK_PILE_VERTICAL.asItem());
+
+            // ITEMS
+            itemGroup.add(STAFF);
         });
     }
 }
