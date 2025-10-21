@@ -36,8 +36,6 @@ public class RopeBlock extends ChainBlock {
             .with(NORTH, false).with(SOUTH, false).with(WEST, false).with(EAST, false));
     }
 
-
-    
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!player.getAbilities().allowModifyWorld || (player != null && !player.isHolding(MoreThingsRegister.ORB))) {

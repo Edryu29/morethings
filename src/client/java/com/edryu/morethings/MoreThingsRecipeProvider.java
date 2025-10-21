@@ -142,5 +142,14 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.LAPIS_LAZULI), FabricRecipeProvider.conditionsFromItem(Items.LAPIS_LAZULI))
             .offerTo(recipeExporter);
 
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.PEDESTAL, 1)
+            .pattern("111")
+            .pattern(" 0 ")
+            .pattern("111")
+            .input('0', ItemTags.STONE_BRICKS)
+            .input('1', Items.STONE_BRICK_SLAB)
+            .criterion(FabricRecipeProvider.hasItem(Items.GLASS_PANE), FabricRecipeProvider.conditionsFromItem(Items.GLASS_PANE))
+            .offerTo(recipeExporter);
+
 	}
 }

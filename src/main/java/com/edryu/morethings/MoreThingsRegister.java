@@ -17,6 +17,7 @@ import com.edryu.morethings.blocks.RopeBlock;
 import com.edryu.morethings.blocks.SackBlock;
 import com.edryu.morethings.blocks.SafeBlock;
 import com.edryu.morethings.blocks.BookPileBlock;
+import com.edryu.morethings.blocks.PedestalBlock;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -42,6 +43,7 @@ public class MoreThingsRegister {
     public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
     public static final Block BOOK_PILE_HORIZONTAL = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).mapColor(DyeColor.BROWN).strength(0.5F).nonOpaque()),"book_pile_horizontal");
     public static final Block BOOK_PILE_VERTICAL = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).mapColor(DyeColor.BROWN).strength(0.5F).nonOpaque()),"book_pile_vertical");
+    public static final Block PEDESTAL = registerBlock(new PedestalBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"pedestal");
 
     // ITEMS
     public static final Item ORB = registerItem(new Item(new Item.Settings().maxCount(1)), "orb");
@@ -85,6 +87,7 @@ public class MoreThingsRegister {
             itemGroup.add(JAR_BOAT.asItem());
             itemGroup.add(BOOK_PILE_HORIZONTAL.asItem());
             itemGroup.add(BOOK_PILE_VERTICAL.asItem());
+            itemGroup.add(PEDESTAL.asItem());
 
             // ITEMS
             itemGroup.add(ORB);
