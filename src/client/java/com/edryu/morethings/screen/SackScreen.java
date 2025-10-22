@@ -2,8 +2,6 @@ package com.edryu.morethings.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.Identifier;
 import net.minecraft.text.Text;
@@ -38,7 +36,6 @@ public class SackScreen extends HandledScreen<SackScreenHandler> {
     @Override
     protected void init() {
         super.init();
-        // Center the title
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
     }
 }

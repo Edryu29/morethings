@@ -1,7 +1,5 @@
 package com.edryu.morethings;
 
-import com.edryu.morethings.MoreThingsRegister;
-
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.data.client.BlockStateModelGenerator;

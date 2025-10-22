@@ -1,6 +1,8 @@
 package com.edryu.morethings.entity;
 
 import com.edryu.morethings.MoreThingsRegister;
+import com.edryu.morethings.MoreThingsSounds;
+import com.edryu.morethings.block.SackBlock;
 import com.edryu.morethings.screen.SackScreenHandler;
 
 import net.minecraft.block.BlockState;
@@ -10,14 +12,12 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 	
 
@@ -54,4 +54,23 @@ public class SackBlockEntity extends BlockEntity implements NamedScreenHandlerFa
         super.writeNbt(nbt, registryLookup);
         Inventories.writeNbt(nbt, this.inventory, registryLookup);
     }
+
+   void playSound() {
+        double d = (double)this.pos.getX() + 0.5;
+        double e = (double)this.pos.getY() + 1;
+        double f = (double)this.pos.getZ() + 0.5;
+        this.world.playSound((PlayerEntity)null, d, e, f, MoreThingsSounds.SACK_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
+   }
+
+
+   public void onOpen(PlayerEntity player) {
+        this.playSound();
+        this.world.setBlockState(this.getPos(), (BlockState)this.getCachedState().with(SackBlock.OPEN, true), 3);
+   }
+
+   public void onClose(PlayerEntity player) {
+        this.playSound();
+        this.world.setBlockState(this.getPos(), (BlockState)this.getCachedState().with(SackBlock.OPEN, false), 3);
+   }
+
 }

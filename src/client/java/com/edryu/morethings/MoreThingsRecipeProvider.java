@@ -2,8 +2,6 @@ package com.edryu.morethings;
 
 import java.util.concurrent.CompletableFuture;
 
-import com.edryu.morethings.MoreThingsRegister;
-
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Items;
