@@ -1,9 +1,0 @@
-{
-  "variants": {
-      "": [
-      { "model": "morethings:block/crate" },
-      { "model": "morethings:block/crate1" },
-      { "model": "morethings:block/crate2" }
-    ]
-  }
-}

@@ -10,7 +10,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 public class MoreThingsClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.CAGE, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.JAR_BOAT, RenderLayer.getCutout());
 
 		BlockEntityRendererFactories.register(MoreThingsRegister.ITEM_DISPLAY_BLOCK_ENTITY, ItemDisplayBlockEntityRenderer::new);

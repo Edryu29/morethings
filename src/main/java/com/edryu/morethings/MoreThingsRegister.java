@@ -14,7 +14,6 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.registry.Registries;
 
 import com.edryu.morethings.block.BookPileBlock;
-import com.edryu.morethings.block.CageBlock;
 import com.edryu.morethings.block.JarBoatBlock;
 import com.edryu.morethings.block.PedestalBlock;
 import com.edryu.morethings.block.RopeBlock;
@@ -38,8 +37,6 @@ public class MoreThingsRegister {
     public static final Block DAUB_BRACE_FLIPPED = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_brace_flipped");
     public static final Block DAUB_CROSS_BRACE = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_cross_brace");
     public static final Block DAUB_FRAME = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_frame");
-    public static final Block CRATE = registerBlock(new Block(AbstractBlock.Settings.copy(Blocks.BARREL)),"crate");
-    public static final Block CAGE = registerBlock(new CageBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).mapColor(DyeColor.GRAY).strength(3f, 6f).nonOpaque()),"cage");
     public static final Block SACK = registerBlock(new SackBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.SACK).mapColor(DyeColor.BROWN).strength(0.8f)),"sack");
     public static final Block SAFE = registerBlock(new SafeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)),"safe");
     public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.ROPE).mapColor(DyeColor.BROWN).strength(0.25f)),"rope");
@@ -93,8 +90,6 @@ public class MoreThingsRegister {
             itemGroup.add(DAUB_BRACE_FLIPPED.asItem());
             itemGroup.add(DAUB_CROSS_BRACE.asItem());
             itemGroup.add(DAUB_FRAME.asItem());
-            itemGroup.add(CRATE.asItem());
-            itemGroup.add(CAGE.asItem());
             itemGroup.add(SACK.asItem());
             itemGroup.add(SAFE.asItem());
             itemGroup.add(ROPE.asItem());

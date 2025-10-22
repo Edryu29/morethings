@@ -1,4 +1,4 @@
-package com.edryu.morethings.datagen;
+package com.edryu.morethings;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;

@@ -1,4 +1,4 @@
-package com.edryu.morethings.datagen;
+package com.edryu.morethings;
 
 import com.edryu.morethings.MoreThingsRegister;
 
