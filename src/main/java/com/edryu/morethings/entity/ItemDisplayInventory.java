@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
 
 public interface ItemDisplayInventory extends Inventory {
+    
     DefaultedList<ItemStack> getItems();
  
     static ItemDisplayInventory of(DefaultedList<ItemStack> items) {
