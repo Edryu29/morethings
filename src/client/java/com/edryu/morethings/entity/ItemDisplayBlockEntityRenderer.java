@@ -102,7 +102,7 @@ public class ItemDisplayBlockEntityRenderer implements BlockEntityRenderer<ItemD
     @Override
     public void render(ItemDisplayBlockEntity entity, float tickDelta, MatrixStack matrices,
                        VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        ItemStack stack = entity.getStoredItem();
+        ItemStack stack = entity.getStack(0);
 
         if (!stack.isEmpty()) {
             matrices.push();
