@@ -65,6 +65,10 @@ public class MoreThingsRegister {
 
     // ITEMS
     public static final Item ORB = registerItem(new Item(new Item.Settings().maxCount(1)), "orb");
+    public static final Item BLUE_CRYSTAL = registerItem(new Item(new Item.Settings().maxCount(16)), "blue_crystal");
+    public static final Item GREEN_CRYSTAL = registerItem(new Item(new Item.Settings().maxCount(16)), "green_crystal");
+    public static final Item PURPLE_CRYSTAL = registerItem(new Item(new Item.Settings().maxCount(16)), "purple_crystal");
+    public static final Item RED_CRYSTAL = registerItem(new Item(new Item.Settings().maxCount(16)), "red_crystal");
 
 
     // ITEM GROUP
@@ -113,6 +117,10 @@ public class MoreThingsRegister {
 
             // ITEMS
             itemGroup.add(ORB);
+            itemGroup.add(BLUE_CRYSTAL);
+            itemGroup.add(GREEN_CRYSTAL);
+            itemGroup.add(PURPLE_CRYSTAL);
+            itemGroup.add(RED_CRYSTAL);
         });
     }
 }

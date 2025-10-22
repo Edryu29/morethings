@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "1": {
+      "item": "minecraft:blue_stained_glass_pane"
+    },
+    "2": {
+      "item": "minecraft:amethyst_shard"
+    }
+  },
+  "pattern": [
+    " 1 ",
+    "121",
+    " 1 "
+  ],
+  "result": {
+    "count": 1,
+    "id": "morethings:blue_crystal"
+  }
+}

@@ -24,7 +24,7 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .pattern("12")
             .input('1', Items.CLAY_BALL)
             .input('2', Items.WHEAT)
-            .criterion(FabricRecipeProvider.hasItem(Items.CLAY_BALL), FabricRecipeProvider.conditionsFromItem(Items.CLAY_BALL))
+            .criterion(FabricRecipeProvider.hasItem(Items.WHEAT), FabricRecipeProvider.conditionsFromItem(Items.WHEAT))
             .offerTo(recipeExporter);
 
         ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.DAUB_BRACE, 1)
@@ -129,16 +129,51 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .pattern("111")
             .input('0', ItemTags.STONE_BRICKS)
             .input('1', Items.STONE_BRICK_SLAB)
-            .criterion(FabricRecipeProvider.hasItem(Items.STONE_BRICK_SLAB), FabricRecipeProvider.conditionsFromItem(Items.STONE_BRICK_SLAB))
+            .criterion(FabricRecipeProvider.hasItem(Items.STONE_BRICKS), FabricRecipeProvider.conditionsFromItem(Items.STONE_BRICKS))
             .offerTo(recipeExporter);
 
         ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.ITEM_DISPLAY_BLOCK, 1)
+            .pattern(" 0 ")
+            .pattern("0 0")
+            .pattern(" 0 ")
+            .input('0', Items.STONE_BRICK_SLAB)
+            .criterion(FabricRecipeProvider.hasItem(Items.STONE_BRICK_SLAB), FabricRecipeProvider.conditionsFromItem(Items.STONE_BRICK_SLAB))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.BLUE_CRYSTAL, 1)
             .pattern(" 1 ")
-            .pattern("101")
+            .pattern("121")
             .pattern(" 1 ")
-            .input('0', Items.ITEM_FRAME)
-            .input('1', Items.STONE_SLAB)
-            .criterion(FabricRecipeProvider.hasItem(Items.ITEM_FRAME), FabricRecipeProvider.conditionsFromItem(Items.ITEM_FRAME))
+            .input('1', Items.BLUE_STAINED_GLASS_PANE)
+            .input('2', Items.AMETHYST_SHARD)
+            .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.GREEN_CRYSTAL, 1)
+            .pattern(" 1 ")
+            .pattern("121")
+            .pattern(" 1 ")
+            .input('1', Items.GREEN_STAINED_GLASS_PANE)
+            .input('2', Items.AMETHYST_SHARD)
+            .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.PURPLE_CRYSTAL, 1)
+            .pattern(" 1 ")
+            .pattern("121")
+            .pattern(" 1 ")
+            .input('1', Items.PURPLE_STAINED_GLASS_PANE)
+            .input('2', Items.AMETHYST_SHARD)
+            .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.RED_CRYSTAL, 1)
+            .pattern(" 1 ")
+            .pattern("121")
+            .pattern(" 1 ")
+            .input('1', Items.RED_STAINED_GLASS_PANE)
+            .input('2', Items.AMETHYST_SHARD)
+            .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
             .offerTo(recipeExporter);
 
 	}

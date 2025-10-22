@@ -1,32 +1,32 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "morethings:daub"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_wheat": {
+    "has_amethyst_shard": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:wheat"
+            "items": "minecraft:amethyst_shard"
           }
         ]
       },
       "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "morethings:blue_crystal"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_wheat"
+      "has_amethyst_shard"
     ]
   ],
   "rewards": {
     "recipes": [
-      "morethings:daub"
+      "morethings:blue_crystal"
     ]
   }
 }

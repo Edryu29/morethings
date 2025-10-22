@@ -13,5 +13,9 @@
   "block.morethings.book_pile_vertical": "Book Pile",
   "block.morethings.pedestal": "Pedestal",
   "block.morethings.item_display": "Item Display",
-  "item.morethings.orb": "Orb of Change"
+  "item.morethings.orb": "Orb of Change",
+  "item.morethings.blue_crystal": "Blue Crystal",
+  "item.morethings.green_crystal": "Green Crystal",
+  "item.morethings.red_crystal": "Red Crystal",
+  "item.morethings.yellow_crystal": "Yellow Crystal"
 }
