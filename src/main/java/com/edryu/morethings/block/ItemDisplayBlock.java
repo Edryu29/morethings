@@ -12,8 +12,11 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -22,11 +25,14 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldEvents;
 
 public class ItemDisplayBlock extends Block implements BlockEntityProvider {
+    public static final BooleanProperty ROTATE = BooleanProperty.of("rotate");
 
     public ItemDisplayBlock(Settings settings) {
         super(settings);
+        setDefaultState(getDefaultState().with(ROTATE, true));
     }
 
     @Override
@@ -46,22 +52,28 @@ public class ItemDisplayBlock extends Block implements BlockEntityProvider {
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+        ItemStack playerHeldItem = player.getStackInHand(Hand.MAIN_HAND);
 
-        if (world.getBlockEntity(pos) instanceof ItemDisplayBlockEntity ItemDisplayBlockEntity) {
-            ItemStack playerHeldItem = player.getStackInHand(Hand.MAIN_HAND);
+        if (player != null && player.getAbilities().allowModifyWorld && player.isHolding(Items.HONEYCOMB) && state.get(ROTATE)) {
+            world.setBlockState(pos, state.with(ROTATE, false));
+            world.playSound(player, pos, SoundEvents.ITEM_HONEYCOMB_WAX_ON, SoundCategory.BLOCKS, 1.0f, 1.0f);
+            playerHeldItem.decrementUnlessCreative(1, player);
+            player.getWorld().syncWorldEvent(null, WorldEvents.BLOCK_WAXED, pos, 0);
+            return ActionResult.SUCCESS;
+
+        } else if (world.getBlockEntity(pos) instanceof ItemDisplayBlockEntity ItemDisplayBlockEntity) {
             ItemStack storedItem = ItemDisplayBlockEntity.getStack(0);
             ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), storedItem);
 
             if (storedItem.isEmpty() ) {
                 ItemDisplayBlockEntity.setStack(0, playerHeldItem.split(1));
-                world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                return ActionResult.SUCCESS;
+                world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
             } else {
                 world.spawnEntity(itemEntity);
-                world.playSound(null, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 ItemDisplayBlockEntity.setStack(0, ItemStack.EMPTY);
-                return ActionResult.SUCCESS;
             }
+            return ActionResult.SUCCESS;
         }
 
         return ActionResult.PASS;
@@ -81,6 +93,11 @@ public class ItemDisplayBlock extends Block implements BlockEntityProvider {
         }
 
         return super.onBreak(world, pos, state, player);
+    }
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(ROTATE);
     }
 
 }
