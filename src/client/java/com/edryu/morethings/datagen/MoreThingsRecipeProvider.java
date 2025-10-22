@@ -1,6 +1,8 @@
-package com.edryu.morethings;
+package com.edryu.morethings.datagen;
 
 import java.util.concurrent.CompletableFuture;
+
+import com.edryu.morethings.MoreThingsRegister;
 
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
@@ -151,7 +153,7 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.STONE_BRICK_SLAB), FabricRecipeProvider.conditionsFromItem(Items.STONE_BRICK_SLAB))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.ITEM_DISPLAY, 1)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.ITEM_DISPLAY_BLOCK, 1)
             .pattern(" 1 ")
             .pattern("101")
             .pattern(" 1 ")

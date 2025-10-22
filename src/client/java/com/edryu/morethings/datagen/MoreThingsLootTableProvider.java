@@ -1,8 +1,10 @@
-package com.edryu.morethings;
+package com.edryu.morethings.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import java.util.concurrent.CompletableFuture;
+
+import com.edryu.morethings.MoreThingsRegister;
 
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;
@@ -30,7 +32,7 @@ public class MoreThingsLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(MoreThingsRegister.ROPE);
                 addDrop(MoreThingsRegister.JAR_BOAT);
                 addDrop(MoreThingsRegister.PEDESTAL);
-                addDrop(MoreThingsRegister.ITEM_DISPLAY);
+                addDrop(MoreThingsRegister.ITEM_DISPLAY_BLOCK);
 
                 addDrop(MoreThingsRegister.BOOK_PILE_HORIZONTAL, LootTable.builder().pool(addSurvivesExplosionCondition(Items.BOOK, LootPool.builder()
                         .rolls(new ConstantLootNumberProvider(4)).with(ItemEntry.builder(Items.BOOK)))));

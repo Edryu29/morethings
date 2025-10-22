@@ -2,6 +2,8 @@ package com.edryu.morethings;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -18,6 +20,7 @@ import com.edryu.morethings.block.PedestalBlock;
 import com.edryu.morethings.block.RopeBlock;
 import com.edryu.morethings.block.SackBlock;
 import com.edryu.morethings.block.SafeBlock;
+import com.edryu.morethings.entity.ItemDisplayBlockEntity;
 import com.edryu.morethings.block.ItemDisplayBlock;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
@@ -36,7 +39,6 @@ public class MoreThingsRegister {
     public static final Block DAUB_CROSS_BRACE = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_cross_brace");
     public static final Block DAUB_FRAME = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_frame");
     public static final Block CRATE = registerBlock(new Block(AbstractBlock.Settings.copy(Blocks.BARREL)),"crate");
-
     public static final Block CAGE = registerBlock(new CageBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).mapColor(DyeColor.GRAY).strength(3f, 6f).nonOpaque()),"cage");
     public static final Block SACK = registerBlock(new SackBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.SACK).mapColor(DyeColor.BROWN).strength(0.8f)),"sack");
     public static final Block SAFE = registerBlock(new SafeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)),"safe");
@@ -45,10 +47,16 @@ public class MoreThingsRegister {
     public static final Block BOOK_PILE_HORIZONTAL = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).mapColor(DyeColor.BROWN).strength(0.5F).nonOpaque()),"book_pile_horizontal");
     public static final Block BOOK_PILE_VERTICAL = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).mapColor(DyeColor.BROWN).strength(0.5F).nonOpaque()),"book_pile_vertical");
     public static final Block PEDESTAL = registerBlock(new PedestalBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"pedestal");
-    public static final Block ITEM_DISPLAY = registerBlock(new ItemDisplayBlock(AbstractBlock.Settings.copy(Blocks.STONE_PRESSURE_PLATE)),"item_display");
+    public static final Block ITEM_DISPLAY_BLOCK = registerBlock(new ItemDisplayBlock(AbstractBlock.Settings.copy(Blocks.STONE_PRESSURE_PLATE)),"item_display");
+
+
+    // ENTITIES
+    public static final BlockEntityType<ItemDisplayBlockEntity> ITEM_DISPLAY_BLOCK_ENTITY = registerEntity("item_display", ItemDisplayBlockEntity::new, MoreThingsRegister.ITEM_DISPLAY_BLOCK);
+
 
     // ITEMS
     public static final Item ORB = registerItem(new Item(new Item.Settings().maxCount(1)), "orb");
+
 
     // ITEM GROUP
     public static final RegistryKey<ItemGroup> MORE_BLOCKS_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MoreThingsMain.MOD_ID, "more_blocks"));
@@ -62,11 +70,15 @@ public class MoreThingsRegister {
 		return Registry.register(Registries.BLOCK, blockID, block);
 	}
 
-	public static Item registerItem(Item item, String id) {
-		Identifier itemID = Identifier.of(MoreThingsMain.MOD_ID, id);
-		Item registeredItem = Registry.register(Registries.ITEM, itemID, item);
-		return registeredItem;
+	public static Item registerItem(Item item, String name) {
+		Identifier itemID = Identifier.of(MoreThingsMain.MOD_ID, name);
+		return Registry.register(Registries.ITEM, itemID, item);
 	}
+
+    private static <T extends BlockEntity> BlockEntityType<T> registerEntity(String name, BlockEntityType.BlockEntityFactory<? extends T> entityFactory, Block... blocks) {
+        Identifier entityID = Identifier.of(MoreThingsMain.MOD_ID, name);
+        return Registry.register(Registries.BLOCK_ENTITY_TYPE, entityID, BlockEntityType.Builder.<T>create(entityFactory, blocks).build());
+    }
 
     public static void initialize() {
         // Register the group.
@@ -90,7 +102,7 @@ public class MoreThingsRegister {
             itemGroup.add(BOOK_PILE_HORIZONTAL.asItem());
             itemGroup.add(BOOK_PILE_VERTICAL.asItem());
             itemGroup.add(PEDESTAL.asItem());
-            itemGroup.add(ITEM_DISPLAY.asItem());
+            itemGroup.add(ITEM_DISPLAY_BLOCK.asItem());
 
             // ITEMS
             itemGroup.add(ORB);
