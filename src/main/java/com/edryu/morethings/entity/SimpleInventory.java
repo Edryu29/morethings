@@ -6,15 +6,15 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
 
-public interface ItemDisplayInventory extends Inventory {
+public interface SimpleInventory extends Inventory {
     
     DefaultedList<ItemStack> getItems();
  
-    static ItemDisplayInventory of(DefaultedList<ItemStack> items) {
+    static SimpleInventory of(DefaultedList<ItemStack> items) {
         return () -> items;
     }
  
-    static ItemDisplayInventory ofSize(int size) {
+    static SimpleInventory ofSize(int size) {
         return of(DefaultedList.ofSize(size, ItemStack.EMPTY));
     }
  

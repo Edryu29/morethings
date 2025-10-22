@@ -17,7 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.network.packet.Packet;
 	
 
-public class ItemDisplayBlockEntity extends BlockEntity implements ItemDisplayInventory {
+public class ItemDisplayBlockEntity extends BlockEntity implements SimpleInventory {
 
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
