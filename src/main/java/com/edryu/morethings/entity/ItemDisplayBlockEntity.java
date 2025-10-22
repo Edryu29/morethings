@@ -1,7 +1,5 @@
 package com.edryu.morethings.entity;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.edryu.morethings.MoreThingsRegister;
 
 import net.minecraft.block.BlockState;
@@ -10,11 +8,13 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.network.packet.Packet;
+
+import org.jetbrains.annotations.Nullable;
 	
 
 public class ItemDisplayBlockEntity extends BlockEntity implements SimpleInventory {

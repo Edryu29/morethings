@@ -1,22 +1,23 @@
 package com.edryu.morethings.block;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.item.Items;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 
 public class BookPileBlock extends HorizontalFacingBlock {
     public static final MapCodec<BookPileBlock> CODEC = Block.createCodec(BookPileBlock::new);

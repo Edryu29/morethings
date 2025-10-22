@@ -1,18 +1,21 @@
 package com.edryu.morethings.screen;
 
+import com.edryu.morethings.MoreThingsMain;
+
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.Identifier;
-import net.minecraft.text.Text;
+
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 
-public class SimpleScreen extends HandledScreen<SimpleScreenHandler> {
+public class SafeScreen extends HandledScreen<SafeScreenHandler> {
 
-    private static final Identifier TEXTURE = Identifier.ofVanilla("textures/gui/container/dispenser.png");
+    private static final Identifier TEXTURE = Identifier.of(MoreThingsMain.MOD_ID, "textures/gui/container/safe.png");
     
-    public SimpleScreen(SimpleScreenHandler handler, PlayerInventory inventory, Text title) {
+    public SafeScreen(SafeScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
     

@@ -2,6 +2,7 @@ package com.edryu.morethings.block;
 
 import com.edryu.morethings.MoreThingsRegister;
 import com.edryu.morethings.MoreThingsSounds;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChainBlock;

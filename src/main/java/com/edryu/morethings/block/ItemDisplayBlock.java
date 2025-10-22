@@ -1,6 +1,7 @@
 package com.edryu.morethings.block;
 
 import com.edryu.morethings.entity.ItemDisplayBlockEntity;
+
 import com.mojang.serialization.MapCodec;
 
 import net.minecraft.block.Block;

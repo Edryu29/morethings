@@ -11,15 +11,15 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 
 
-public class SimpleScreenHandler extends ScreenHandler {
+public class SafeScreenHandler extends ScreenHandler {
     private final Inventory inventory;
     
-    public SimpleScreenHandler(int syncId, PlayerInventory playerInventory) {
+    public SafeScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(syncId, playerInventory, new SimpleInventory(9));
     }
     
-    public SimpleScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
-        super(MoreThingsRegister.SIMPLE_SCREEN_HANDLER, syncId);
+    public SafeScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
+        super(MoreThingsRegister.SAFE_SCREEN_HANDLER, syncId);
         checkSize(inventory, 9);
         this.inventory = inventory;
 

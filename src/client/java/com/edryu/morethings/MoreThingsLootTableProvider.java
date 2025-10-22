@@ -1,8 +1,9 @@
 package com.edryu.morethings;
 
+import java.util.concurrent.CompletableFuture;
+
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import java.util.concurrent.CompletableFuture;
 
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootPool;

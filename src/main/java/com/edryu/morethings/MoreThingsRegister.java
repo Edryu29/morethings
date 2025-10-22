@@ -1,20 +1,7 @@
 package com.edryu.morethings;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.screen.ScreenHandlerType;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.registry.Registries;
-
 import com.edryu.morethings.block.BookPileBlock;
+import com.edryu.morethings.block.ItemDisplayBlock;
 import com.edryu.morethings.block.JarBoatBlock;
 import com.edryu.morethings.block.PedestalBlock;
 import com.edryu.morethings.block.RopeBlock;
@@ -23,16 +10,30 @@ import com.edryu.morethings.block.SafeBlock;
 import com.edryu.morethings.entity.ItemDisplayBlockEntity;
 import com.edryu.morethings.entity.SackBlockEntity;
 import com.edryu.morethings.entity.SafeBlockEntity;
-import com.edryu.morethings.screen.SimpleScreenHandler;
-import com.edryu.morethings.block.ItemDisplayBlock;
-import net.minecraft.resource.featuretoggle.FeatureSet;
+import com.edryu.morethings.screen.SackScreenHandler;
+import com.edryu.morethings.screen.SafeScreenHandler;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.DyeColor;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.resource.featuretoggle.FeatureSet;
+import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.Text;
+import net.minecraft.util.DyeColor;
+import net.minecraft.util.Identifier;
 
 public class MoreThingsRegister {
 
@@ -59,7 +60,8 @@ public class MoreThingsRegister {
     public static final BlockEntityType<SafeBlockEntity> SAFE_BLOCK_ENTITY = registerEntity("safe", SafeBlockEntity::new, MoreThingsRegister.SAFE_BLOCK);
 
     // SCREENS
-    public static final ScreenHandlerType<SimpleScreenHandler> SIMPLE_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, Identifier.of(MoreThingsMain.MOD_ID, "sack"), new ScreenHandlerType<>(SimpleScreenHandler::new, FeatureSet.empty()));
+    public static final ScreenHandlerType<SackScreenHandler> SACK_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, Identifier.of(MoreThingsMain.MOD_ID, "sack"), new ScreenHandlerType<>(SackScreenHandler::new, FeatureSet.empty()));
+    public static final ScreenHandlerType<SafeScreenHandler> SAFE_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, Identifier.of(MoreThingsMain.MOD_ID, "safe"), new ScreenHandlerType<>(SafeScreenHandler::new, FeatureSet.empty()));
 
     // ITEMS
     public static final Item ORB = registerItem(new Item(new Item.Settings().maxCount(1)), "orb");

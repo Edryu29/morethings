@@ -2,7 +2,7 @@ package com.edryu.morethings.entity;
 
 import com.edryu.morethings.MoreThingsRegister;
 import com.edryu.morethings.block.SafeBlock;
-import com.edryu.morethings.screen.SimpleScreenHandler;
+import com.edryu.morethings.screen.SafeScreenHandler;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -12,15 +12,15 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3i;
 	
 
 public class SafeBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, SimpleInventory {
@@ -37,7 +37,7 @@ public class SafeBlockEntity extends BlockEntity implements NamedScreenHandlerFa
     
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new SimpleScreenHandler(syncId, playerInventory, this);
+        return new SafeScreenHandler(syncId, playerInventory, this);
     }
     
     @Override
