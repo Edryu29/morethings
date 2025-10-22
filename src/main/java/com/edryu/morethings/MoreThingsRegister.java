@@ -22,7 +22,8 @@ import com.edryu.morethings.block.SackBlock;
 import com.edryu.morethings.block.SafeBlock;
 import com.edryu.morethings.entity.ItemDisplayBlockEntity;
 import com.edryu.morethings.entity.SackBlockEntity;
-import com.edryu.morethings.screen.SackScreenHandler;
+import com.edryu.morethings.entity.SafeBlockEntity;
+import com.edryu.morethings.screen.SimpleScreenHandler;
 import com.edryu.morethings.block.ItemDisplayBlock;
 import net.minecraft.resource.featuretoggle.FeatureSet;
 
@@ -41,7 +42,6 @@ public class MoreThingsRegister {
     public static final Block DAUB_BRACE_FLIPPED = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_brace_flipped");
     public static final Block DAUB_CROSS_BRACE = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_cross_brace");
     public static final Block DAUB_FRAME = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_frame");
-    public static final Block SAFE = registerBlock(new SafeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)),"safe");
     public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.ROPE).mapColor(DyeColor.BROWN).strength(0.25f)),"rope");
     public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
     public static final Block BOOK_PILE_HORIZONTAL = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).mapColor(DyeColor.BROWN).strength(0.5F).nonOpaque()),"book_pile_horizontal");
@@ -51,13 +51,15 @@ public class MoreThingsRegister {
     // BLOCKS WITH ENTITIES
     public static final Block ITEM_DISPLAY_BLOCK = registerBlock(new ItemDisplayBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).mapColor(DyeColor.GRAY).strength(0.2F)),"item_display");
     public static final Block SACK_BLOCK = registerBlock(new SackBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.SACK).mapColor(DyeColor.BROWN).strength(0.8f)),"sack");
+    public static final Block SAFE_BLOCK = registerBlock(new SafeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)),"safe");
 
     // ENTITIES
     public static final BlockEntityType<ItemDisplayBlockEntity> ITEM_DISPLAY_BLOCK_ENTITY = registerEntity("item_display", ItemDisplayBlockEntity::new, MoreThingsRegister.ITEM_DISPLAY_BLOCK);
     public static final BlockEntityType<SackBlockEntity> SACK_BLOCK_ENTITY = registerEntity("sack", SackBlockEntity::new, MoreThingsRegister.SACK_BLOCK);
+    public static final BlockEntityType<SafeBlockEntity> SAFE_BLOCK_ENTITY = registerEntity("safe", SafeBlockEntity::new, MoreThingsRegister.SAFE_BLOCK);
 
     // SCREENS
-    public static final ScreenHandlerType<SackScreenHandler> SACK_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, Identifier.of(MoreThingsMain.MOD_ID, "sack"), new ScreenHandlerType<>(SackScreenHandler::new, FeatureSet.empty()));
+    public static final ScreenHandlerType<SimpleScreenHandler> SIMPLE_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, Identifier.of(MoreThingsMain.MOD_ID, "sack"), new ScreenHandlerType<>(SimpleScreenHandler::new, FeatureSet.empty()));
 
     // ITEMS
     public static final Item ORB = registerItem(new Item(new Item.Settings().maxCount(1)), "orb");
@@ -99,7 +101,7 @@ public class MoreThingsRegister {
             itemGroup.add(DAUB_CROSS_BRACE.asItem());
             itemGroup.add(DAUB_FRAME.asItem());
             itemGroup.add(SACK_BLOCK.asItem());
-            itemGroup.add(SAFE.asItem());
+            itemGroup.add(SAFE_BLOCK.asItem());
             itemGroup.add(ROPE.asItem());
             itemGroup.add(JAR_BOAT.asItem());
             itemGroup.add(BOOK_PILE_HORIZONTAL.asItem());

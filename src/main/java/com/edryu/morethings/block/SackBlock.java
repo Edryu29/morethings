@@ -22,7 +22,8 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.World;
 import net.minecraft.world.BlockView;
 
-public class SackBlock extends BlockWithEntity  {
+public class SackBlock extends BlockWithEntity {
+   public static final MapCodec<SackBlock> CODEC = createCodec(SackBlock::new);
 	public static final BooleanProperty OPEN = BooleanProperty.of("open");
 
     public SackBlock(Settings settings) {
@@ -71,11 +72,6 @@ public class SackBlock extends BlockWithEntity  {
         }
         return ActionResult.SUCCESS;
     }
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(OPEN);
-    }
  
     @Override
     public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
@@ -83,5 +79,10 @@ public class SackBlock extends BlockWithEntity  {
             ItemScatterer.spawn(world, pos, SackBlockEntity);
         }
         return super.onBreak(world, pos, state, player);
+    }
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(OPEN);
     }
 }

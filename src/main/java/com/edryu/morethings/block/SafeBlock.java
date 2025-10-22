@@ -1,18 +1,21 @@
 package com.edryu.morethings.block;
 
-import com.edryu.morethings.MoreThingsRegister;
+import com.edryu.morethings.entity.SafeBlockEntity;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalFacingBlock;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -22,19 +25,30 @@ import net.minecraft.world.BlockView;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.Direction;
 
-public class SafeBlock extends HorizontalFacingBlock {
+public class SafeBlock extends BlockWithEntity {
     public static final MapCodec<SafeBlock> CODEC = Block.createCodec(SafeBlock::new);
+    public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
 	public static final BooleanProperty OPEN = BooleanProperty.of("open");
 
     public SafeBlock(Settings settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(OPEN, false).with(Properties.HORIZONTAL_FACING, Direction.NORTH));
+        setDefaultState(getDefaultState().with(OPEN, false).with(FACING, Direction.NORTH));
     }
 
 	@Override
 	protected MapCodec<? extends SafeBlock> getCodec() {
 		return CODEC;
 	}
+
+    @Override
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
+    }
+ 
+    @Override
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new SafeBlockEntity(pos, state);
+    }
 
     @Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
@@ -48,23 +62,27 @@ public class SafeBlock extends HorizontalFacingBlock {
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!player.getAbilities().allowModifyWorld || (player != null && !player.isHolding(MoreThingsRegister.ORB))) {
-            return ActionResult.PASS;
-        } else {
-            boolean is_open = state.get(OPEN);
-            world.setBlockState(pos, state.with(OPEN, !is_open));
-            if (is_open){
-                world.playSound(player, pos, SoundEvents.BLOCK_IRON_DOOR_CLOSE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            } else {
-                world.playSound(player, pos, SoundEvents.BLOCK_IRON_DOOR_OPEN, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        if (!world.isClient) {
+            NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
+            if (screenHandlerFactory != null) {
+                player.openHandledScreen(screenHandlerFactory);
             }
-            return ActionResult.SUCCESS;
         }
+        return ActionResult.SUCCESS;
     }
+ 
+    @Override
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        if (world.getBlockEntity(pos) instanceof SafeBlockEntity SafeBlockEntity) {
+            ItemScatterer.spawn(world, pos, SafeBlockEntity);
+        }
+        return super.onBreak(world, pos, state, player);
+    }
+
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(OPEN);
-        builder.add(Properties.HORIZONTAL_FACING);
+        builder.add(FACING);
     }
 }

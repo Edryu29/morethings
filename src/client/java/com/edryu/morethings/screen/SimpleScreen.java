@@ -8,11 +8,11 @@ import net.minecraft.text.Text;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.GameRenderer;
 
-public class SackScreen extends HandledScreen<SackScreenHandler> {
+public class SimpleScreen extends HandledScreen<SimpleScreenHandler> {
 
     private static final Identifier TEXTURE = Identifier.ofVanilla("textures/gui/container/dispenser.png");
     
-    public SackScreen(SackScreenHandler handler, PlayerInventory inventory, Text title) {
+    public SimpleScreen(SimpleScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
     
