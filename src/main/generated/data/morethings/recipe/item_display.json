@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "0": {
+      "item": "minecraft:item_frame"
+    },
+    "1": {
+      "item": "minecraft:stone_slab"
+    }
+  },
+  "pattern": [
+    " 1 ",
+    "101",
+    " 1 "
+  ],
+  "result": {
+    "count": 1,
+    "id": "morethings:item_display"
+  }
+}

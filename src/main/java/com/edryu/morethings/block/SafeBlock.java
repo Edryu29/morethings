@@ -1,4 +1,4 @@
-package com.edryu.morethings.blocks;
+package com.edryu.morethings.block;
 
 import com.edryu.morethings.MoreThingsRegister;
 import com.mojang.serialization.MapCodec;

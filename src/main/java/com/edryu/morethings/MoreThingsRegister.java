@@ -11,13 +11,14 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.registry.Registries;
 
-import com.edryu.morethings.blocks.CageBlock;
-import com.edryu.morethings.blocks.JarBoatBlock;
-import com.edryu.morethings.blocks.RopeBlock;
-import com.edryu.morethings.blocks.SackBlock;
-import com.edryu.morethings.blocks.SafeBlock;
-import com.edryu.morethings.blocks.BookPileBlock;
-import com.edryu.morethings.blocks.PedestalBlock;
+import com.edryu.morethings.block.BookPileBlock;
+import com.edryu.morethings.block.CageBlock;
+import com.edryu.morethings.block.JarBoatBlock;
+import com.edryu.morethings.block.PedestalBlock;
+import com.edryu.morethings.block.RopeBlock;
+import com.edryu.morethings.block.SackBlock;
+import com.edryu.morethings.block.SafeBlock;
+import com.edryu.morethings.block.ItemDisplayBlock;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -44,6 +45,7 @@ public class MoreThingsRegister {
     public static final Block BOOK_PILE_HORIZONTAL = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).mapColor(DyeColor.BROWN).strength(0.5F).nonOpaque()),"book_pile_horizontal");
     public static final Block BOOK_PILE_VERTICAL = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).mapColor(DyeColor.BROWN).strength(0.5F).nonOpaque()),"book_pile_vertical");
     public static final Block PEDESTAL = registerBlock(new PedestalBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"pedestal");
+    public static final Block ITEM_DISPLAY = registerBlock(new ItemDisplayBlock(AbstractBlock.Settings.copy(Blocks.STONE_PRESSURE_PLATE)),"item_display");
 
     // ITEMS
     public static final Item ORB = registerItem(new Item(new Item.Settings().maxCount(1)), "orb");
@@ -88,6 +90,7 @@ public class MoreThingsRegister {
             itemGroup.add(BOOK_PILE_HORIZONTAL.asItem());
             itemGroup.add(BOOK_PILE_VERTICAL.asItem());
             itemGroup.add(PEDESTAL.asItem());
+            itemGroup.add(ITEM_DISPLAY.asItem());
 
             // ITEMS
             itemGroup.add(ORB);

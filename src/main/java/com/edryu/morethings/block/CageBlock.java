@@ -1,4 +1,4 @@
-package com.edryu.morethings.blocks;
+package com.edryu.morethings.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

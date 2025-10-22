@@ -1,0 +1,21 @@
+{
+	"textures": {
+		"0": "morethings:block/pedestal_top",
+		"particle": "morethings:block/pedestal_top"
+	},
+	"elements": [
+		{
+			"from": [3, 0, 3],
+			"to": [13, 1, 13],
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [3, 2, 13, 3], "texture": "#0"},
+				"east": {"uv": [3, 13, 13, 14], "texture": "#0"},
+				"south": {"uv": [3, 2, 13, 3], "texture": "#0"},
+				"west": {"uv": [3, 13, 13, 14], "texture": "#0"},
+				"up": {"uv": [3, 3, 13, 13], "texture": "#0"},
+				"down": {"uv": [3, 3, 13, 13], "texture": "#0"}
+			}
+		}
+	]
+}

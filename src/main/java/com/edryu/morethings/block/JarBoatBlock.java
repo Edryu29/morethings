@@ -1,4 +1,4 @@
-package com.edryu.morethings.blocks;
+package com.edryu.morethings.block;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.block.Block;

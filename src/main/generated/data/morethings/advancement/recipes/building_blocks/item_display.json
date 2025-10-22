@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_stone_brick_slab": {
+    "has_item_frame": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:stone_brick_slab"
+            "items": "minecraft:item_frame"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "morethings:pedestal"
+        "recipe": "morethings:item_display"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_stone_brick_slab"
+      "has_item_frame"
     ]
   ],
   "rewards": {
     "recipes": [
-      "morethings:pedestal"
+      "morethings:item_display"
     ]
   }
 }

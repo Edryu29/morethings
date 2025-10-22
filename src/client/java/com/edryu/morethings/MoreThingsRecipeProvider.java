@@ -148,7 +148,16 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .pattern("111")
             .input('0', ItemTags.STONE_BRICKS)
             .input('1', Items.STONE_BRICK_SLAB)
-            .criterion(FabricRecipeProvider.hasItem(Items.GLASS_PANE), FabricRecipeProvider.conditionsFromItem(Items.GLASS_PANE))
+            .criterion(FabricRecipeProvider.hasItem(Items.STONE_BRICK_SLAB), FabricRecipeProvider.conditionsFromItem(Items.STONE_BRICK_SLAB))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.ITEM_DISPLAY, 1)
+            .pattern(" 1 ")
+            .pattern("101")
+            .pattern(" 1 ")
+            .input('0', Items.ITEM_FRAME)
+            .input('1', Items.STONE_SLAB)
+            .criterion(FabricRecipeProvider.hasItem(Items.ITEM_FRAME), FabricRecipeProvider.conditionsFromItem(Items.ITEM_FRAME))
             .offerTo(recipeExporter);
 
 	}
