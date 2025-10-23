@@ -10,6 +10,7 @@ import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.math.RotationAxis;
 
 public class ItemDisplayBlockEntityRenderer implements BlockEntityRenderer<ItemDisplayBlockEntity>{
@@ -23,12 +24,21 @@ public class ItemDisplayBlockEntityRenderer implements BlockEntityRenderer<ItemD
 
         if (!storedItem.isEmpty()) {
             matrices.push();
-            double yOffset = 0.3 + 0.05 * Math.sin((blockEntity.getWorld().getTime() + tickDelta) / 8.0);
-            matrices.translate(0.5, yOffset, 0.5);
-            float rotation = (System.currentTimeMillis() / 20) % 360;
-            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotation * rotate));
+
+            if (storedItem.isIn(ItemTags.SWORDS)) {
+                matrices.translate(0.3, 0.5, 0.5);
+                matrices.scale(1.5f, 1.5f, 1.5f);
+                matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(235));
+
+            } else {
+                double yOffset = 0.3 + 0.05 * Math.sin((blockEntity.getWorld().getTime() + tickDelta) / 8.0);
+                float rotation = (System.currentTimeMillis() / 20) % 360;
+                matrices.translate(0.5, yOffset, 0.5);
+                matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotation * rotate));
+                matrices.scale(1.2f, 1.2f, 1.2f);
+            }
+
             ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
-            matrices.scale(1.2f, 1.2f, 1.2f);
             itemRenderer.renderItem(storedItem, ModelTransformationMode.GROUND, light, overlay, matrices, vertexConsumers, blockEntity.getWorld(), 0);
             matrices.pop();
         } else {
