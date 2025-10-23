@@ -2,7 +2,7 @@ package com.edryu.morethings.entity;
 
 import com.edryu.morethings.MoreThingsRegister;
 import com.edryu.morethings.block.SafeBlock;
-import com.edryu.morethings.screen.SafeScreenHandler;
+import com.edryu.morethings.screen.SimpleScreenHandler;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -37,7 +37,7 @@ public class SafeBlockEntity extends BlockEntity implements NamedScreenHandlerFa
     
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new SafeScreenHandler(syncId, playerInventory, this);
+        return new SimpleScreenHandler(syncId, playerInventory, this);
     }
     
     @Override

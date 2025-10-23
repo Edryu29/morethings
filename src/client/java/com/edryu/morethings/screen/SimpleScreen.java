@@ -11,11 +11,11 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class SafeScreen extends HandledScreen<SafeScreenHandler> {
+public class SimpleScreen extends HandledScreen<SimpleScreenHandler> {
 
-    private static final Identifier TEXTURE = Identifier.of(MoreThingsMain.MOD_ID, "textures/gui/container/safe.png");
+    private static final Identifier TEXTURE = Identifier.of(MoreThingsMain.MOD_ID, "textures/gui/container/simple.png");
     
-    public SafeScreen(SafeScreenHandler handler, PlayerInventory inventory, Text title) {
+    public SimpleScreen(SimpleScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
     

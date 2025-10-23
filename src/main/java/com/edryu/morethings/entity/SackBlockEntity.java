@@ -3,7 +3,7 @@ package com.edryu.morethings.entity;
 import com.edryu.morethings.MoreThingsRegister;
 import com.edryu.morethings.MoreThingsSounds;
 import com.edryu.morethings.block.SackBlock;
-import com.edryu.morethings.screen.SackScreenHandler;
+import com.edryu.morethings.screen.SimpleScreenHandler;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -35,7 +35,7 @@ public class SackBlockEntity extends BlockEntity implements NamedScreenHandlerFa
     
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new SackScreenHandler(syncId, playerInventory, this);
+        return new SimpleScreenHandler(syncId, playerInventory, this);
     }
     
     @Override

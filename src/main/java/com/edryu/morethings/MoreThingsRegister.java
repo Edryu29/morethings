@@ -10,8 +10,7 @@ import com.edryu.morethings.block.SafeBlock;
 import com.edryu.morethings.entity.ItemDisplayBlockEntity;
 import com.edryu.morethings.entity.SackBlockEntity;
 import com.edryu.morethings.entity.SafeBlockEntity;
-import com.edryu.morethings.screen.SackScreenHandler;
-import com.edryu.morethings.screen.SafeScreenHandler;
+import com.edryu.morethings.screen.SimpleScreenHandler;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -60,8 +59,8 @@ public class MoreThingsRegister {
     public static final BlockEntityType<SafeBlockEntity> SAFE_BLOCK_ENTITY = registerEntity("safe", SafeBlockEntity::new, MoreThingsRegister.SAFE_BLOCK);
 
     // SCREENS
-    public static final ScreenHandlerType<SackScreenHandler> SACK_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, Identifier.of(MoreThingsMain.MOD_ID, "sack"), new ScreenHandlerType<>(SackScreenHandler::new, FeatureSet.empty()));
-    public static final ScreenHandlerType<SafeScreenHandler> SAFE_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, Identifier.of(MoreThingsMain.MOD_ID, "safe"), new ScreenHandlerType<>(SafeScreenHandler::new, FeatureSet.empty()));
+    public static final ScreenHandlerType<SimpleScreenHandler> SACK_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, Identifier.of(MoreThingsMain.MOD_ID, "sack"), new ScreenHandlerType<>(SimpleScreenHandler::new, FeatureSet.empty()));
+    public static final ScreenHandlerType<SimpleScreenHandler> SAFE_SCREEN_HANDLER = Registry.register(Registries.SCREEN_HANDLER, Identifier.of(MoreThingsMain.MOD_ID, "safe"), new ScreenHandlerType<>(SimpleScreenHandler::new, FeatureSet.empty()));
 
     // ITEMS
     public static final Item ORB = registerItem(new Item(new Item.Settings().maxCount(1)), "orb");
