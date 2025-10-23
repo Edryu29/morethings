@@ -69,10 +69,12 @@ public class ItemDisplayBlock extends Block implements BlockEntityProvider {
             if (storedItem.isEmpty() ) {
                 ItemDisplayBlockEntity.setStack(0, playerHeldItem.split(1));
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                ItemDisplayBlockEntity.markDirty();
             } else {
                 world.spawnEntity(itemEntity);
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                ItemDisplayBlockEntity.setStack(0, ItemStack.EMPTY);
+                ItemDisplayBlockEntity.removeStack(0);
+                ItemDisplayBlockEntity.markDirty();
             }
             return ActionResult.SUCCESS;
         }
@@ -89,7 +91,7 @@ public class ItemDisplayBlock extends Block implements BlockEntityProvider {
             if (!storedItem.isEmpty()) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), storedItem);
                 world.spawnEntity(itemEntity);
-                ItemDisplayBlockEntity.setStack(0, ItemStack.EMPTY);
+                ItemDisplayBlockEntity.removeStack(0);
             }
         }
 

@@ -36,16 +36,6 @@ public class SafeBlockEntity extends BlockEntity implements NamedScreenHandlerFa
     }
     
     @Override
-    public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new SimpleScreenHandler(syncId, playerInventory, this);
-    }
-    
-    @Override
-    public Text getDisplayName() {
-        return Text.translatable(getCachedState().getBlock().getTranslationKey());
-    }
-    
-    @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.readNbt(nbt, registryLookup);
         Inventories.readNbt(nbt, this.inventory, registryLookup);
@@ -55,6 +45,16 @@ public class SafeBlockEntity extends BlockEntity implements NamedScreenHandlerFa
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         super.writeNbt(nbt, registryLookup);
         Inventories.writeNbt(nbt, this.inventory, registryLookup);
+    }
+    
+    @Override
+    public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+        return new SimpleScreenHandler(syncId, playerInventory, this);
+    }
+    
+    @Override
+    public Text getDisplayName() {
+        return Text.translatable(getCachedState().getBlock().getTranslationKey());
     }
 
    void playOpenSound(BlockState state) {

@@ -41,9 +41,6 @@ public class ItemDisplayBlockEntityRenderer implements BlockEntityRenderer<ItemD
             ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
             itemRenderer.renderItem(storedItem, ModelTransformationMode.GROUND, light, overlay, matrices, vertexConsumers, blockEntity.getWorld(), 0);
             matrices.pop();
-        } else {
-            ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
-            itemRenderer.renderItem(ItemStack.EMPTY, ModelTransformationMode.GROUND, light, overlay, matrices, vertexConsumers, blockEntity.getWorld(), 0);
         }
     }
 }
