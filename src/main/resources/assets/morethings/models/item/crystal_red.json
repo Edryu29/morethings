@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "morethings:item/blue_crystal"
+    "layer0": "morethings:item/crystal_red"
   }
 }

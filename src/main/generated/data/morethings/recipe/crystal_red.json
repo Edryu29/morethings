@@ -3,7 +3,7 @@
   "category": "equipment",
   "key": {
     "1": {
-      "item": "minecraft:purple_stained_glass_pane"
+      "item": "minecraft:red_stained_glass_pane"
     },
     "2": {
       "item": "minecraft:amethyst_shard"
@@ -16,6 +16,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "morethings:purple_crystal"
+    "id": "morethings:crystal_red"
   }
 }

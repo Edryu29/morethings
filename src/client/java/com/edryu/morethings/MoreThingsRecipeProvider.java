@@ -140,7 +140,7 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.STONE_BRICK_SLAB), FabricRecipeProvider.conditionsFromItem(Items.STONE_BRICK_SLAB))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.BLUE_CRYSTAL, 1)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.CRYSTAL_BLUE, 1)
             .pattern(" 1 ")
             .pattern("121")
             .pattern(" 1 ")
@@ -149,7 +149,7 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.GREEN_CRYSTAL, 1)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.CRYSTAL_GREEN, 1)
             .pattern(" 1 ")
             .pattern("121")
             .pattern(" 1 ")
@@ -158,7 +158,7 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.PURPLE_CRYSTAL, 1)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.CRYSTAL_PURPLE, 1)
             .pattern(" 1 ")
             .pattern("121")
             .pattern(" 1 ")
@@ -167,13 +167,48 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.RED_CRYSTAL, 1)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.CRYSTAL_RED, 1)
             .pattern(" 1 ")
             .pattern("121")
             .pattern(" 1 ")
             .input('1', Items.RED_STAINED_GLASS_PANE)
             .input('2', Items.AMETHYST_SHARD)
             .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.BUSHY_LEAVES, 4)
+            .pattern(" 1 ")
+            .pattern("1 1")
+            .pattern(" 1 ")
+            .input('1', ItemTags.LEAVES)
+            .criterion(FabricRecipeProvider.hasItem(Items.OAK_LEAVES), FabricRecipeProvider.conditionsFromItem(Items.OAK_LEAVES))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.BUSHY_LEAVES_GREEN, 4)
+            .pattern(" 1 ")
+            .pattern("121")
+            .pattern(" 1 ")
+            .input('1', ItemTags.LEAVES)
+            .input('2', Items.GREEN_DYE)
+            .criterion(FabricRecipeProvider.hasItem(Items.OAK_LEAVES), FabricRecipeProvider.conditionsFromItem(Items.OAK_LEAVES))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.BUSHY_LEAVES_RED, 4)
+            .pattern(" 1 ")
+            .pattern("121")
+            .pattern(" 1 ")
+            .input('1', ItemTags.LEAVES)
+            .input('2', Items.RED_DYE)
+            .criterion(FabricRecipeProvider.hasItem(Items.OAK_LEAVES), FabricRecipeProvider.conditionsFromItem(Items.OAK_LEAVES))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.BUSHY_LEAVES_YELLOW, 4)
+            .pattern(" 1 ")
+            .pattern("121")
+            .pattern(" 1 ")
+            .input('1', ItemTags.LEAVES)
+            .input('2', Items.YELLOW_DYE)
+            .criterion(FabricRecipeProvider.hasItem(Items.OAK_LEAVES), FabricRecipeProvider.conditionsFromItem(Items.OAK_LEAVES))
             .offerTo(recipeExporter);
 
 	}

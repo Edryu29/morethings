@@ -33,7 +33,7 @@ public class SafeBlock extends BlockWithEntity {
 
     public SafeBlock(Settings settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(OPEN, false).with(FACING, Direction.NORTH));
+        setDefaultState(getDefaultState().with(FACING, Direction.NORTH).with(OPEN, false));
     }
 
 	@Override
@@ -80,10 +80,8 @@ public class SafeBlock extends BlockWithEntity {
         return super.onBreak(world, pos, state, player);
     }
 
-
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(OPEN);
-        builder.add(FACING);
+        builder.add(FACING).add(OPEN);
     }
 }

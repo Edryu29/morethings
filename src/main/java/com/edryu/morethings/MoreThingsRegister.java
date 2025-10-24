@@ -18,6 +18,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
@@ -42,10 +43,17 @@ public class MoreThingsRegister {
     public static final Block DAUB_BRACE_FLIPPED = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_brace_flipped");
     public static final Block DAUB_CROSS_BRACE = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_cross_brace");
     public static final Block DAUB_FRAME = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_frame");
-    public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.ROPE).mapColor(DyeColor.BROWN).strength(0.25f)),"rope");
-    public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
+
     public static final Block BOOK_PILE_HORIZONTAL = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).mapColor(DyeColor.BROWN).strength(0.5F).nonOpaque()),"book_pile_horizontal");
     public static final Block BOOK_PILE_VERTICAL = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).mapColor(DyeColor.BROWN).strength(0.5F).nonOpaque()),"book_pile_vertical");
+    
+    public static final Block BUSHY_LEAVES = registerBlock(new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)),"bushy_leaves");
+    public static final Block BUSHY_LEAVES_GREEN = registerBlock(new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)),"bushy_leaves_green");
+    public static final Block BUSHY_LEAVES_RED = registerBlock(new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)),"bushy_leaves_red");
+    public static final Block BUSHY_LEAVES_YELLOW = registerBlock(new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)),"bushy_leaves_yellow");
+
+    public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.ROPE).mapColor(DyeColor.BROWN).strength(0.25f)),"rope");
+    public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
     public static final Block PEDESTAL = registerBlock(new PedestalBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"pedestal");
 
     // BLOCKS WITH ENTITIES
@@ -64,10 +72,10 @@ public class MoreThingsRegister {
 
     // ITEMS
     public static final Item ORB = registerItem(new Item(new Item.Settings().maxCount(1)), "orb");
-    public static final Item BLUE_CRYSTAL = registerItem(new Item(new Item.Settings().maxCount(16)), "blue_crystal");
-    public static final Item GREEN_CRYSTAL = registerItem(new Item(new Item.Settings().maxCount(16)), "green_crystal");
-    public static final Item PURPLE_CRYSTAL = registerItem(new Item(new Item.Settings().maxCount(16)), "purple_crystal");
-    public static final Item RED_CRYSTAL = registerItem(new Item(new Item.Settings().maxCount(16)), "red_crystal");
+    public static final Item CRYSTAL_BLUE = registerItem(new Item(new Item.Settings().maxCount(16)), "crystal_blue");
+    public static final Item CRYSTAL_GREEN = registerItem(new Item(new Item.Settings().maxCount(16)), "crystal_green");
+    public static final Item CRYSTAL_PURPLE = registerItem(new Item(new Item.Settings().maxCount(16)), "crystal_purple");
+    public static final Item CRYSTAL_RED = registerItem(new Item(new Item.Settings().maxCount(16)), "crystal_red");
 
 
     // ITEM GROUP
@@ -113,13 +121,17 @@ public class MoreThingsRegister {
             itemGroup.add(BOOK_PILE_VERTICAL.asItem());
             itemGroup.add(PEDESTAL.asItem());
             itemGroup.add(ITEM_DISPLAY_BLOCK.asItem());
+            itemGroup.add(BUSHY_LEAVES.asItem());
+            itemGroup.add(BUSHY_LEAVES_GREEN.asItem());
+            itemGroup.add(BUSHY_LEAVES_RED.asItem());
+            itemGroup.add(BUSHY_LEAVES_YELLOW.asItem());
 
             // ITEMS
             itemGroup.add(ORB);
-            itemGroup.add(BLUE_CRYSTAL);
-            itemGroup.add(GREEN_CRYSTAL);
-            itemGroup.add(PURPLE_CRYSTAL);
-            itemGroup.add(RED_CRYSTAL);
+            itemGroup.add(CRYSTAL_BLUE);
+            itemGroup.add(CRYSTAL_GREEN);
+            itemGroup.add(CRYSTAL_PURPLE);
+            itemGroup.add(CRYSTAL_RED);
         });
     }
 }

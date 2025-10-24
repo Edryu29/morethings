@@ -30,6 +30,10 @@ public class MoreThingsLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(MoreThingsRegister.JAR_BOAT);
                 addDrop(MoreThingsRegister.PEDESTAL);
                 addDrop(MoreThingsRegister.ITEM_DISPLAY_BLOCK);
+                addDrop(MoreThingsRegister.BUSHY_LEAVES);
+                addDrop(MoreThingsRegister.BUSHY_LEAVES_GREEN);
+                addDrop(MoreThingsRegister.BUSHY_LEAVES_RED);
+                addDrop(MoreThingsRegister.BUSHY_LEAVES_YELLOW);
 
                 addDrop(MoreThingsRegister.BOOK_PILE_HORIZONTAL, LootTable.builder().pool(addSurvivesExplosionCondition(Items.BOOK, LootPool.builder()
                         .rolls(new ConstantLootNumberProvider(4)).with(ItemEntry.builder(Items.BOOK)))));

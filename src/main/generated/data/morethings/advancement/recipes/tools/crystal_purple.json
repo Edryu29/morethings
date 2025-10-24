@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "morethings:purple_crystal"
+        "recipe": "morethings:crystal_purple"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "morethings:purple_crystal"
+      "morethings:crystal_purple"
     ]
   }
 }

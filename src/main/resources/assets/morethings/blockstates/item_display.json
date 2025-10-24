@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "visible=true": {
       "model": "morethings:block/item_display"
+    },
+    "visible=false": {
+      "model": "morethings:block/invisible"
     }
   }
 }

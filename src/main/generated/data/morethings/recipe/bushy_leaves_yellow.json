@@ -3,10 +3,10 @@
   "category": "equipment",
   "key": {
     "1": {
-      "item": "minecraft:green_stained_glass_pane"
+      "tag": "minecraft:leaves"
     },
     "2": {
-      "item": "minecraft:amethyst_shard"
+      "item": "minecraft:yellow_dye"
     }
   },
   "pattern": [
@@ -15,7 +15,7 @@
     " 1 "
   ],
   "result": {
-    "count": 1,
-    "id": "morethings:green_crystal"
+    "count": 4,
+    "id": "morethings:bushy_leaves_yellow"
   }
 }
