@@ -8,7 +8,15 @@
       { "model": "morethings:block/bushy_leaves_1" },
       { "model": "morethings:block/bushy_leaves_1", "y": 90 },
       { "model": "morethings:block/bushy_leaves_1", "y": 180 },
-      { "model": "morethings:block/bushy_leaves_1", "y": 270 }
+      { "model": "morethings:block/bushy_leaves_1", "y": 270 },
+      { "model": "morethings:block/bushy_leaves_2" },
+      { "model": "morethings:block/bushy_leaves_2", "y": 90 },
+      { "model": "morethings:block/bushy_leaves_2", "y": 180 },
+      { "model": "morethings:block/bushy_leaves_2", "y": 270 },
+      { "model": "morethings:block/bushy_leaves_3" },
+      { "model": "morethings:block/bushy_leaves_3", "y": 90 },
+      { "model": "morethings:block/bushy_leaves_3", "y": 180 },
+      { "model": "morethings:block/bushy_leaves_3", "y": 270 }
     ]
   }
 }
