@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
@@ -88,7 +89,7 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.STRING), FabricRecipeProvider.conditionsFromItem(Items.STRING))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.JAR_BOAT, 1)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, MoreThingsRegister.JAR_BOAT, 1)
             .pattern("111")
             .pattern("121")
             .pattern("000")
@@ -98,7 +99,7 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.GLASS_PANE), FabricRecipeProvider.conditionsFromItem(Items.GLASS_PANE))
             .offerTo(recipeExporter);
             
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.BOOK_PILE_HORIZONTAL, 1)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, MoreThingsRegister.BOOK_PILE_HORIZONTAL, 1)
             .pattern("   ")
             .pattern(" 1 ")
             .pattern("111")
@@ -106,7 +107,7 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.BOOK), FabricRecipeProvider.conditionsFromItem(Items.BOOK))
             .offerTo(recipeExporter);
             
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.BOOK_PILE_VERTICAL, 1)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, MoreThingsRegister.BOOK_PILE_VERTICAL, 1)
             .pattern(" 1 ")
             .pattern(" 1 ")
             .pattern("11 ")
@@ -140,7 +141,7 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.STONE_BRICK_SLAB), FabricRecipeProvider.conditionsFromItem(Items.STONE_BRICK_SLAB))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.CRYSTAL_BLUE, 1)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, MoreThingsRegister.CRYSTAL_BLUE, 1)
             .pattern(" 1 ")
             .pattern("121")
             .pattern(" 1 ")
@@ -149,7 +150,7 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.CRYSTAL_GREEN, 1)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, MoreThingsRegister.CRYSTAL_GREEN, 1)
             .pattern(" 1 ")
             .pattern("121")
             .pattern(" 1 ")
@@ -158,7 +159,7 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.CRYSTAL_PURPLE, 1)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, MoreThingsRegister.CRYSTAL_PURPLE, 1)
             .pattern(" 1 ")
             .pattern("121")
             .pattern(" 1 ")
@@ -167,7 +168,7 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.CRYSTAL_RED, 1)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, MoreThingsRegister.CRYSTAL_RED, 1)
             .pattern(" 1 ")
             .pattern("121")
             .pattern(" 1 ")
@@ -176,7 +177,7 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.BUSHY_LEAVES, 4)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, MoreThingsRegister.BUSHY_LEAVES, 4)
             .pattern(" 1 ")
             .pattern("1 1")
             .pattern(" 1 ")
@@ -184,7 +185,7 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.OAK_LEAVES), FabricRecipeProvider.conditionsFromItem(Items.OAK_LEAVES))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.BUSHY_LEAVES_GREEN, 4)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, MoreThingsRegister.BUSHY_LEAVES_GREEN, 4)
             .pattern(" 1 ")
             .pattern("121")
             .pattern(" 1 ")
@@ -193,7 +194,7 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.OAK_LEAVES), FabricRecipeProvider.conditionsFromItem(Items.OAK_LEAVES))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.BUSHY_LEAVES_RED, 4)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, MoreThingsRegister.BUSHY_LEAVES_RED, 4)
             .pattern(" 1 ")
             .pattern("121")
             .pattern(" 1 ")
@@ -202,13 +203,28 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.OAK_LEAVES), FabricRecipeProvider.conditionsFromItem(Items.OAK_LEAVES))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, MoreThingsRegister.BUSHY_LEAVES_YELLOW, 4)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, MoreThingsRegister.BUSHY_LEAVES_YELLOW, 4)
             .pattern(" 1 ")
             .pattern("121")
             .pattern(" 1 ")
             .input('1', ItemTags.LEAVES)
             .input('2', Items.YELLOW_DYE)
             .criterion(FabricRecipeProvider.hasItem(Items.OAK_LEAVES), FabricRecipeProvider.conditionsFromItem(Items.OAK_LEAVES))
+            .offerTo(recipeExporter);
+
+        ShapelessRecipeJsonBuilder.create(RecipeCategory.REDSTONE, MoreThingsRegister.RED_BUTTON)
+                .input(Items.STONE_BUTTON)
+                .input(Items.RED_DYE)
+                .criterion(FabricRecipeProvider.hasItem(Items.STONE_BUTTON), FabricRecipeProvider.conditionsFromItem(Items.STONE_BUTTON))
+                .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, MoreThingsRegister.RED_SAFE_BUTTON, 1)
+            .pattern("   ")
+            .pattern("222")
+            .pattern("212")
+            .input('1', MoreThingsRegister.RED_BUTTON)
+            .input('2', Items.GLASS_PANE)
+            .criterion(FabricRecipeProvider.hasItem(MoreThingsRegister.RED_BUTTON), FabricRecipeProvider.conditionsFromItem(MoreThingsRegister.RED_BUTTON))
             .offerTo(recipeExporter);
 
 	}

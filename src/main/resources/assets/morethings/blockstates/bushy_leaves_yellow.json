@@ -1,14 +1,14 @@
 {
   "variants": {
     "": [
-      { "model": "morethings:block/bushy_leaves_0" },
-      { "model": "morethings:block/bushy_leaves_0", "y": 90 },
-      { "model": "morethings:block/bushy_leaves_0", "y": 180 },
-      { "model": "morethings:block/bushy_leaves_0", "y": 270 },
-      { "model": "morethings:block/bushy_leaves_1" },
-      { "model": "morethings:block/bushy_leaves_1", "y": 90 },
-      { "model": "morethings:block/bushy_leaves_1", "y": 180 },
-      { "model": "morethings:block/bushy_leaves_1", "y": 270 }
+      { "model": "morethings:block/bushy_leaves/bushy_leaves_0" },
+      { "model": "morethings:block/bushy_leaves/bushy_leaves_0", "y": 90 },
+      { "model": "morethings:block/bushy_leaves/bushy_leaves_0", "y": 180 },
+      { "model": "morethings:block/bushy_leaves/bushy_leaves_0", "y": 270 },
+      { "model": "morethings:block/bushy_leaves/bushy_leaves_1" },
+      { "model": "morethings:block/bushy_leaves/bushy_leaves_1", "y": 90 },
+      { "model": "morethings:block/bushy_leaves/bushy_leaves_1", "y": 180 },
+      { "model": "morethings:block/bushy_leaves/bushy_leaves_1", "y": 270 }
     ]
   }
 }

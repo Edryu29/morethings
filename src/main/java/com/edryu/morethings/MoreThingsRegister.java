@@ -4,6 +4,8 @@ import com.edryu.morethings.block.BookPileBlock;
 import com.edryu.morethings.block.ItemDisplayBlock;
 import com.edryu.morethings.block.JarBoatBlock;
 import com.edryu.morethings.block.PedestalBlock;
+import com.edryu.morethings.block.RedButtonBlock;
+import com.edryu.morethings.block.RedSafeButtonBlock;
 import com.edryu.morethings.block.RopeBlock;
 import com.edryu.morethings.block.SackBlock;
 import com.edryu.morethings.block.SafeBlock;
@@ -21,6 +23,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -55,6 +58,10 @@ public class MoreThingsRegister {
     public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.ROPE).mapColor(DyeColor.BROWN).strength(0.25f)),"rope");
     public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
     public static final Block PEDESTAL = registerBlock(new PedestalBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"pedestal");
+
+    // BUTTONS
+    public static final Block RED_BUTTON = registerBlock(new RedButtonBlock(AbstractBlock.Settings.create().noCollision().strength(0.5F).pistonBehavior(PistonBehavior.DESTROY)),"red_button");
+    public static final Block RED_SAFE_BUTTON = registerBlock(new RedSafeButtonBlock(AbstractBlock.Settings.create().noCollision().nonOpaque().strength(0.5F).pistonBehavior(PistonBehavior.DESTROY)),"red_safe_button");
 
     // BLOCKS WITH ENTITIES
     public static final Block ITEM_DISPLAY_BLOCK = registerBlock(new ItemDisplayBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).mapColor(DyeColor.GRAY).strength(0.2F)),"item_display");
@@ -125,6 +132,8 @@ public class MoreThingsRegister {
             itemGroup.add(BUSHY_LEAVES_GREEN.asItem());
             itemGroup.add(BUSHY_LEAVES_RED.asItem());
             itemGroup.add(BUSHY_LEAVES_YELLOW.asItem());
+            itemGroup.add(RED_BUTTON.asItem());
+            itemGroup.add(RED_SAFE_BUTTON.asItem());
 
             // ITEMS
             itemGroup.add(ORB);
