@@ -23,7 +23,6 @@ public class MoreThingsClient implements ClientModInitializer {
 		HandledScreens.register(MoreThingsRegister.SAFE_SCREEN_HANDLER, SimpleScreen::new);
 
 		ColorProviderRegistry.BLOCK.register((state, level, pos, tintIndex) -> level != null && pos != null ? BiomeColors.getFoliageColor(level, pos) : 0x77AB2F, MoreThingsRegister.BUSHY_LEAVES);
-		ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x77AB2F, MoreThingsRegister.BUSHY_LEAVES.asItem());
 
 		ColorProviderRegistry.BLOCK.register((state, view, pos, tintIndex) -> 0x73A456, MoreThingsRegister.BUSHY_LEAVES_GREEN);
 		ColorProviderRegistry.ITEM.register((stack, tintIndex) -> 0x73A456, MoreThingsRegister.BUSHY_LEAVES_GREEN.asItem());
