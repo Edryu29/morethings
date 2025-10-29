@@ -1,12 +1,14 @@
 {
   "values": [
-    "morethings:daub",
+    "morethings:bar_panel",
+    "morethings:big_chain",
     "morethings:daub_brace",
     "morethings:daub_brace_flipped",
     "morethings:daub_cross_brace",
     "morethings:daub_frame",
-    "morethings:safe",
+    "morethings:item_display",
     "morethings:pedestal",
-    "morethings:item_display"
+    "morethings:safe",
+    "morethings:stone_pillar"
   ]
 }

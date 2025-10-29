@@ -36,6 +36,6 @@ public class BigChainBlock extends ChainBlock {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(WATERLOGGED).add(AXIS);
+        builder.add(WATERLOGGED, AXIS);
     }
 }

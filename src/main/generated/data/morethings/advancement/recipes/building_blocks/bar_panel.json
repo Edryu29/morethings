@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_green_dye": {
+    "has_iron_bars": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:green_dye"
+            "items": "minecraft:iron_bars"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "morethings:bushy_leaves_green"
+        "recipe": "morethings:bar_panel"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_green_dye"
+      "has_iron_bars"
     ]
   ],
   "rewards": {
     "recipes": [
-      "morethings:bushy_leaves_green"
+      "morethings:bar_panel"
     ]
   }
 }

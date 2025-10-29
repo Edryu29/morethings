@@ -26,20 +26,24 @@ public class MoreThingsLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(MoreThingsRegister.DAUB_BRACE_FLIPPED);
                 addDrop(MoreThingsRegister.DAUB_CROSS_BRACE);
                 addDrop(MoreThingsRegister.DAUB_FRAME);
+
+                addDrop(MoreThingsRegister.BUSHY_LEAVES);
+                addDrop(MoreThingsRegister.BUSHY_LEAVES_GREEN);
+                addDrop(MoreThingsRegister.BUSHY_LEAVES_RED);
+                addDrop(MoreThingsRegister.BUSHY_LEAVES_YELLOW);
+
                 addDrop(MoreThingsRegister.SACK_BLOCK);
                 addDrop(MoreThingsRegister.SAFE_BLOCK);
                 addDrop(MoreThingsRegister.ROPE);
                 addDrop(MoreThingsRegister.JAR_BOAT);
                 addDrop(MoreThingsRegister.PEDESTAL);
                 addDrop(MoreThingsRegister.ITEM_DISPLAY_BLOCK);
-                addDrop(MoreThingsRegister.BUSHY_LEAVES);
-                addDrop(MoreThingsRegister.BUSHY_LEAVES_GREEN);
-                addDrop(MoreThingsRegister.BUSHY_LEAVES_RED);
-                addDrop(MoreThingsRegister.BUSHY_LEAVES_YELLOW);
                 addDrop(MoreThingsRegister.RED_BUTTON);
                 addDrop(MoreThingsRegister.RED_SAFE_BUTTON);
                 addDrop(MoreThingsRegister.STONE_PILLAR);
                 addDrop(MoreThingsRegister.BIG_CHAIN);
+                addDrop(MoreThingsRegister.BAR_PANEL);
+                addDrop(MoreThingsRegister.LATTICE);
 
                 addDrop(MoreThingsRegister.BOOK_PILE_HORIZONTAL, LootTable.builder().pool(addSurvivesExplosionCondition(Items.BOOK, LootPool.builder()
                         .rolls(new ConstantLootNumberProvider(4)).with(ItemEntry.builder(Items.BOOK)))));

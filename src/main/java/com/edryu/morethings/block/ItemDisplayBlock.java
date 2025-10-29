@@ -110,7 +110,7 @@ public class ItemDisplayBlock extends Block implements BlockEntityProvider {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(ROTATE).add(VISIBLE);
+        builder.add(ROTATE, VISIBLE);
     }
 
 }

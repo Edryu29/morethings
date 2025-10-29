@@ -109,6 +109,6 @@ public class SackBlock extends BlockWithEntity implements Waterloggable {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(WATERLOGGED).add(OPEN);
+        builder.add(WATERLOGGED, OPEN);
     }
 }

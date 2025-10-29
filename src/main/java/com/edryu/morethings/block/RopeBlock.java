@@ -94,8 +94,8 @@ public class RopeBlock extends ChainBlock {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(WATERLOGGED).add(AXIS);
-        builder.add(KNOT_STATE).add(KNOT).add(UP).add(DOWN);
-        builder.add(NORTH).add(SOUTH).add(WEST).add(EAST);
+        builder.add(WATERLOGGED, AXIS);
+        builder.add(KNOT_STATE, KNOT, UP, DOWN);
+        builder.add(NORTH, SOUTH, WEST, EAST);
     }
 }

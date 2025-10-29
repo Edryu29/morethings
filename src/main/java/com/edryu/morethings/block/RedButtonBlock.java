@@ -41,6 +41,11 @@ public class RedButtonBlock extends ButtonBlock {
     private static final VoxelShape CEILING_SHAPE = VoxelShapes.union(Block.createCuboidShape(5, 11, 5, 11, 15, 11), STONE_UP);
     private static final VoxelShape CEILING_PRESSED_SHAPE = VoxelShapes.union(Block.createCuboidShape(5, 13, 5, 11, 15, 11), STONE_UP);
 
+    public RedButtonBlock(Settings settings) {
+        super(BlockSetType.STONE, 30, settings);
+        setDefaultState(getDefaultState().with(FACING, Direction.NORTH).with(POWERED, false).with(FACE, BlockFace.WALL));
+    }
+    
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
         Direction direction = state.get(FACING);
@@ -87,10 +92,5 @@ public class RedButtonBlock extends ButtonBlock {
     @Override
     protected SoundEvent getClickSound(boolean powered) {
         return SoundEvents.BLOCK_BONE_BLOCK_BREAK;
-    }
-
-    public RedButtonBlock(Settings settings) {
-        super(BlockSetType.STONE, 30, settings);
-        setDefaultState(getDefaultState().with(FACING, Direction.NORTH).with(POWERED, false).with(FACE, BlockFace.WALL));
     }
 }

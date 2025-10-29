@@ -100,6 +100,6 @@ public class SafeBlock extends BlockWithEntity {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING).add(WATERLOGGED).add(OPEN);
+        builder.add(FACING, WATERLOGGED, OPEN);
     }
 }

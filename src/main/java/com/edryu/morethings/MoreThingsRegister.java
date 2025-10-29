@@ -21,8 +21,10 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.LeavesBlock;
+import net.minecraft.block.TrapdoorBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
@@ -42,34 +44,40 @@ import net.minecraft.util.Identifier;
 
 public class MoreThingsRegister {
 
-    // BLOCKS
-    public static final Block DAUB = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub");
-    public static final Block DAUB_BRACE = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_brace");
-    public static final Block DAUB_BRACE_FLIPPED = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_brace_flipped");
-    public static final Block DAUB_CROSS_BRACE = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_cross_brace");
-    public static final Block DAUB_FRAME = registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)),"daub_frame");
+    // SETTINGS
+    public static final AbstractBlock.Settings BOOK_PILE_SETTINGS = AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).strength(0.5F).nonOpaque();
 
-    public static final Block BOOK_PILE_HORIZONTAL = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).mapColor(DyeColor.BROWN).strength(0.5F).nonOpaque()),"book_pile_horizontal");
-    public static final Block BOOK_PILE_VERTICAL = registerBlock(new BookPileBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).mapColor(DyeColor.BROWN).strength(0.5F).nonOpaque()),"book_pile_vertical");
+    // BLOCKS
+    public static final Block BOOK_PILE_HORIZONTAL = registerBlock(new BookPileBlock(BOOK_PILE_SETTINGS),"book_pile_horizontal");
+    public static final Block BOOK_PILE_VERTICAL = registerBlock(new BookPileBlock(BOOK_PILE_SETTINGS),"book_pile_vertical");
+    public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
+    public static final Block PEDESTAL = registerBlock(new PedestalBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"pedestal");
+    public static final Block STONE_PILLAR = registerBlock(new StonePillarBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"stone_pillar");
+    public static final Block BAR_PANEL = registerBlock(new TrapdoorBlock(BlockSetType.OAK, AbstractBlock.Settings.copy(Blocks.IRON_TRAPDOOR)),"bar_panel");
+    public static final Block LATTICE = registerBlock(new TrapdoorBlock(BlockSetType.OAK, AbstractBlock.Settings.copy(Blocks.OAK_TRAPDOOR)),"lattice");
+    public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.ROPE).strength(0.25f).nonOpaque()),"rope");
+    public static final Block BIG_CHAIN = registerBlock(new BigChainBlock(AbstractBlock.Settings.create().solid().sounds(BlockSoundGroup.CHAIN).strength(5.0F, 6.0F).nonOpaque()),"big_chain");
+
+    // DAUB
+    public static final Block DAUB = registerDaubBlock("daub");
+    public static final Block DAUB_BRACE = registerDaubBlock("daub_brace");
+    public static final Block DAUB_BRACE_FLIPPED = registerDaubBlock("daub_brace_flipped");
+    public static final Block DAUB_CROSS_BRACE = registerDaubBlock("daub_cross_brace");
+    public static final Block DAUB_FRAME = registerDaubBlock("daub_frame");
     
+    // LEAVES
     public static final Block BUSHY_LEAVES = registerBlock(new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)),"bushy_leaves");
     public static final Block BUSHY_LEAVES_GREEN = registerBlock(new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)),"bushy_leaves_green");
     public static final Block BUSHY_LEAVES_RED = registerBlock(new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)),"bushy_leaves_red");
     public static final Block BUSHY_LEAVES_YELLOW = registerBlock(new LeavesBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES)),"bushy_leaves_yellow");
 
-    public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.ROPE).mapColor(DyeColor.BROWN).strength(0.25f)),"rope");
-    public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
-    public static final Block PEDESTAL = registerBlock(new PedestalBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"pedestal");
-    public static final Block STONE_PILLAR = registerBlock(new StonePillarBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"stone_pillar");
-    public static final Block BIG_CHAIN = registerBlock(new BigChainBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.CHAIN).mapColor(DyeColor.GRAY).strength(5.0F, 6.0F).nonOpaque()),"big_chain");
-
     // BUTTONS
     public static final Block RED_BUTTON = registerBlock(new RedButtonBlock(AbstractBlock.Settings.create().noCollision().strength(0.5F).pistonBehavior(PistonBehavior.DESTROY)),"red_button");
-    public static final Block RED_SAFE_BUTTON = registerBlock(new RedSafeButtonBlock(AbstractBlock.Settings.create().noCollision().nonOpaque().strength(0.5F).pistonBehavior(PistonBehavior.DESTROY)),"red_safe_button");
+    public static final Block RED_SAFE_BUTTON = registerBlock(new RedSafeButtonBlock(AbstractBlock.Settings.create().noCollision().strength(0.5F).pistonBehavior(PistonBehavior.DESTROY).nonOpaque()),"red_safe_button");
 
     // BLOCKS WITH ENTITIES
-    public static final Block ITEM_DISPLAY_BLOCK = registerBlock(new ItemDisplayBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).mapColor(DyeColor.GRAY).strength(0.2F)),"item_display");
-    public static final Block SACK_BLOCK = registerBlock(new SackBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.SACK).mapColor(DyeColor.BROWN).strength(0.8f)),"sack");
+    public static final Block ITEM_DISPLAY_BLOCK = registerBlock(new ItemDisplayBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).strength(0.2F)),"item_display");
+    public static final Block SACK_BLOCK = registerBlock(new SackBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.SACK).strength(0.8f)),"sack");
     public static final Block SAFE_BLOCK = registerBlock(new SafeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)),"safe");
 
     // ENTITIES
@@ -88,12 +96,11 @@ public class MoreThingsRegister {
     public static final Item CRYSTAL_PURPLE = registerItem(new Item(new Item.Settings().maxCount(16)), "crystal_purple");
     public static final Item CRYSTAL_RED = registerItem(new Item(new Item.Settings().maxCount(16)), "crystal_red");
 
-
     // ITEM GROUP
     public static final RegistryKey<ItemGroup> MORE_BLOCKS_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MoreThingsMain.MOD_ID, "more_blocks"));
     public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(SACK_BLOCK)).displayName(Text.translatable("itemGroup.more_blocks")).build();
 
-
+    // METHODS
 	public static Block registerBlock(Block block, String name) {
 		Identifier blockID = Identifier.of(MoreThingsMain.MOD_ID, name);
         BlockItem blockItem = new BlockItem(block, new Item.Settings());
@@ -111,6 +118,10 @@ public class MoreThingsRegister {
         return Registry.register(Registries.BLOCK_ENTITY_TYPE, entityID, BlockEntityType.Builder.<T>create(entityFactory, blocks).build());
     }
 
+	public static Block registerDaubBlock(String name) {
+        return registerBlock(new Block(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)), name);
+	}
+
     public static void initialize() {
         // Register the group.
         Registry.register(Registries.ITEM_GROUP, MORE_BLOCKS_GROUP_KEY, MORE_BLOCKS_GROUP);
@@ -124,22 +135,28 @@ public class MoreThingsRegister {
             itemGroup.add(DAUB_BRACE_FLIPPED.asItem());
             itemGroup.add(DAUB_CROSS_BRACE.asItem());
             itemGroup.add(DAUB_FRAME.asItem());
+
+            itemGroup.add(BOOK_PILE_HORIZONTAL.asItem());
+            itemGroup.add(BOOK_PILE_VERTICAL.asItem());
+
             itemGroup.add(SACK_BLOCK.asItem());
             itemGroup.add(SAFE_BLOCK.asItem());
             itemGroup.add(ROPE.asItem());
             itemGroup.add(JAR_BOAT.asItem());
-            itemGroup.add(BOOK_PILE_HORIZONTAL.asItem());
-            itemGroup.add(BOOK_PILE_VERTICAL.asItem());
             itemGroup.add(PEDESTAL.asItem());
             itemGroup.add(ITEM_DISPLAY_BLOCK.asItem());
+            itemGroup.add(STONE_PILLAR.asItem());
+            itemGroup.add(BIG_CHAIN.asItem());
+            itemGroup.add(BAR_PANEL.asItem());
+            itemGroup.add(LATTICE.asItem());
+
             itemGroup.add(BUSHY_LEAVES.asItem());
             itemGroup.add(BUSHY_LEAVES_GREEN.asItem());
             itemGroup.add(BUSHY_LEAVES_RED.asItem());
             itemGroup.add(BUSHY_LEAVES_YELLOW.asItem());
+
             itemGroup.add(RED_BUTTON.asItem());
             itemGroup.add(RED_SAFE_BUTTON.asItem());
-            itemGroup.add(STONE_PILLAR.asItem());
-            itemGroup.add(BIG_CHAIN.asItem());
 
             // ITEMS
             itemGroup.add(ORB);

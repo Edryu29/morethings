@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "0": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    " 0 ",
+    "0 0",
+    " 0 "
+  ],
+  "result": {
+    "count": 4,
+    "id": "morethings:lattice"
+  }
+}
