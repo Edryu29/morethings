@@ -1,0 +1,22 @@
+{
+	"parent": "block/block",
+	"textures": {
+		"particle": "morethings:block/stone_pillar_side",
+		"side": "morethings:block/stone_pillar_side",
+		"end": "morethings:block/stone_pillar_end"
+	},
+	"elements": [
+		{
+			"from": [2, 0, 2],
+			"to": [14, 16, 14],
+			"faces": {
+				"north": {"uv": [2, 0, 14, 16], "texture": "#side"},
+				"east": {"uv": [2, 0, 14, 16], "texture": "#side"},
+				"south": {"uv": [2, 0, 14, 16], "texture": "#side"},
+				"west": {"uv": [2, 0, 14, 16], "texture": "#side"},
+				"up": {"uv": [2, 2, 14, 14], "texture": "#end", "cullface": "up"},
+				"down": {"uv": [2, 2, 14, 14], "texture": "#end", "cullface": "down"}
+			}
+		}
+	]
+}

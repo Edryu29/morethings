@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "axis=x": { "model": "morethings:block/big_chain", "x": 90, "y": 90 },
+    "axis=y": { "model": "morethings:block/big_chain" },
+    "axis=z": { "model": "morethings:block/big_chain", "x": 90 }
+  }
+}

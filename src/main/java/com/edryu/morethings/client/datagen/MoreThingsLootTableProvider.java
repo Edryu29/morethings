@@ -38,6 +38,8 @@ public class MoreThingsLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(MoreThingsRegister.BUSHY_LEAVES_YELLOW);
                 addDrop(MoreThingsRegister.RED_BUTTON);
                 addDrop(MoreThingsRegister.RED_SAFE_BUTTON);
+                addDrop(MoreThingsRegister.STONE_PILLAR);
+                addDrop(MoreThingsRegister.BIG_CHAIN);
 
                 addDrop(MoreThingsRegister.BOOK_PILE_HORIZONTAL, LootTable.builder().pool(addSurvivesExplosionCondition(Items.BOOK, LootPool.builder()
                         .rolls(new ConstantLootNumberProvider(4)).with(ItemEntry.builder(Items.BOOK)))));

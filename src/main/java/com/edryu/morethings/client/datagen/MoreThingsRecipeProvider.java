@@ -10,7 +10,9 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.StonecuttingRecipeJsonBuilder;
 import net.minecraft.item.Items;
+import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
@@ -227,6 +229,19 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .input('1', MoreThingsRegister.RED_BUTTON)
             .input('2', Items.GLASS_PANE)
             .criterion(FabricRecipeProvider.hasItem(MoreThingsRegister.RED_BUTTON), FabricRecipeProvider.conditionsFromItem(MoreThingsRegister.RED_BUTTON))
+            .offerTo(recipeExporter);
+
+        StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.STONE), RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.STONE_PILLAR)
+            .criterion(FabricRecipeProvider.hasItem(Items.STONE), FabricRecipeProvider.conditionsFromItem(Items.STONE))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.BIG_CHAIN, 4)
+            .pattern("11 ")
+            .pattern("00 ")
+            .pattern("11 ")
+            .input('0', Items.IRON_INGOT)
+            .input('1', Items.IRON_NUGGET)
+            .criterion(FabricRecipeProvider.hasItem(Items.IRON_INGOT), FabricRecipeProvider.conditionsFromItem(Items.IRON_INGOT))
             .offerTo(recipeExporter);
 
 	}

@@ -11,11 +11,10 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
-import net.minecraft.state.property.Property;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction.Axis;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 public class RopeBlock extends ChainBlock {
@@ -31,7 +30,7 @@ public class RopeBlock extends ChainBlock {
 
     public RopeBlock(Settings settings) {
         super(settings);
-        setDefaultState((BlockState)((BlockState)((BlockState)this.stateManager.getDefaultState()).with(WATERLOGGED, false)).with(AXIS, Axis.Y)
+        setDefaultState(getDefaultState().with(WATERLOGGED, false).with(AXIS, Direction.Axis.Y)
             .with(KNOT_STATE, 0).with(KNOT, false)
             .with(UP, true).with(DOWN, true)
             .with(NORTH, false).with(SOUTH, false).with(WEST, false).with(EAST, false));
@@ -95,9 +94,8 @@ public class RopeBlock extends ChainBlock {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(new Property[]{WATERLOGGED}).add(new Property[]{AXIS});
+        builder.add(WATERLOGGED).add(AXIS);
         builder.add(KNOT_STATE).add(KNOT).add(UP).add(DOWN);
         builder.add(NORTH).add(SOUTH).add(WEST).add(EAST);
     }
-
 }

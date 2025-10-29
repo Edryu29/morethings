@@ -1,5 +1,6 @@
 package com.edryu.morethings;
 
+import com.edryu.morethings.block.BigChainBlock;
 import com.edryu.morethings.block.BookPileBlock;
 import com.edryu.morethings.block.ItemDisplayBlock;
 import com.edryu.morethings.block.JarBoatBlock;
@@ -9,6 +10,7 @@ import com.edryu.morethings.block.RedSafeButtonBlock;
 import com.edryu.morethings.block.RopeBlock;
 import com.edryu.morethings.block.SackBlock;
 import com.edryu.morethings.block.SafeBlock;
+import com.edryu.morethings.block.StonePillarBlock;
 import com.edryu.morethings.entity.ItemDisplayBlockEntity;
 import com.edryu.morethings.entity.SackBlockEntity;
 import com.edryu.morethings.entity.SafeBlockEntity;
@@ -58,6 +60,8 @@ public class MoreThingsRegister {
     public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.ROPE).mapColor(DyeColor.BROWN).strength(0.25f)),"rope");
     public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
     public static final Block PEDESTAL = registerBlock(new PedestalBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"pedestal");
+    public static final Block STONE_PILLAR = registerBlock(new StonePillarBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"stone_pillar");
+    public static final Block BIG_CHAIN = registerBlock(new BigChainBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.CHAIN).mapColor(DyeColor.GRAY).strength(5.0F, 6.0F).nonOpaque()),"big_chain");
 
     // BUTTONS
     public static final Block RED_BUTTON = registerBlock(new RedButtonBlock(AbstractBlock.Settings.create().noCollision().strength(0.5F).pistonBehavior(PistonBehavior.DESTROY)),"red_button");
@@ -134,6 +138,8 @@ public class MoreThingsRegister {
             itemGroup.add(BUSHY_LEAVES_YELLOW.asItem());
             itemGroup.add(RED_BUTTON.asItem());
             itemGroup.add(RED_SAFE_BUTTON.asItem());
+            itemGroup.add(STONE_PILLAR.asItem());
+            itemGroup.add(BIG_CHAIN.asItem());
 
             // ITEMS
             itemGroup.add(ORB);
