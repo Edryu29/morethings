@@ -1,6 +1,7 @@
-package com.edryu.morethings.entity;
+package com.edryu.morethings.client.entity;
 
 import com.edryu.morethings.block.ItemDisplayBlock;
+import com.edryu.morethings.entity.ItemDisplayBlockEntity;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;

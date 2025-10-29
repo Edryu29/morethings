@@ -3,7 +3,7 @@
 	"id": "morethings",
 	"version": "${version}",
 	"name": "More Things",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Personal Mashup",
 	"authors": [
 		"Me!"
 	],
@@ -19,10 +19,10 @@
 			"com.edryu.morethings.MoreThingsMain"
 		],
 		"client": [
-			"com.edryu.morethings.MoreThingsClient"
+			"com.edryu.morethings.client.MoreThingsClient"
 		],
 		"fabric-datagen": [
-			"com.edryu.morethings.MoreThingsDataGenerator"
+			"com.edryu.morethings.client.datagen.MoreThingsDataGenerator"
 		]
 	},
 	"mixins": [

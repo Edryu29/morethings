@@ -96,12 +96,12 @@
       "model": "morethings:block/red_button/red_safe_button_pressed",
       "x": 180
     },
-    "open=true,powered=false,face=ceiling,facing=east": {
+    "open=true,powered=false,face=ceiling,facing=west": {
       "model": "morethings:block/red_button/red_safe_button_open",
       "x": 180,
       "y": 90
     },
-    "open=true,powered=true,face=ceiling,facing=east": {
+    "open=true,powered=true,face=ceiling,facing=west": {
       "model": "morethings:block/red_button/red_safe_button_pressed",
       "x": 180,
       "y": 90
@@ -116,12 +116,12 @@
       "x": 180,
       "y": 180
     },
-    "open=true,powered=false,face=ceiling,facing=west": {
+    "open=true,powered=false,face=ceiling,facing=east": {
       "model": "morethings:block/red_button/red_safe_button_open",
       "x": 180,
       "y": 270
     },
-    "open=true,powered=true,face=ceiling,facing=west": {
+    "open=true,powered=true,face=ceiling,facing=east": {
       "model": "morethings:block/red_button/red_safe_button_pressed",
       "x": 180,
       "y": 270

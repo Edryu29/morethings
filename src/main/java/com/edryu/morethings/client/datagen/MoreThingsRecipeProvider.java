@@ -1,6 +1,8 @@
-package com.edryu.morethings;
+package com.edryu.morethings.client.datagen;
 
 import java.util.concurrent.CompletableFuture;
+
+import com.edryu.morethings.MoreThingsRegister;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
