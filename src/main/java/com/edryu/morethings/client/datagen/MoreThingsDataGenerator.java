@@ -8,7 +8,6 @@ public class MoreThingsDataGenerator implements DataGeneratorEntrypoint {
 	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
 		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
 
-		pack.addProvider(MoreThingsModelProvider::new);
 		pack.addProvider(MoreThingsRecipeProvider::new);
 		pack.addProvider(MoreThingsLootTableProvider::new);
 	}

@@ -10,7 +10,6 @@ import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.StonecuttingRecipeJsonBuilder;
-import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
@@ -30,42 +29,6 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .input('1', Items.CLAY_BALL)
             .input('2', Items.WHEAT)
             .criterion(FabricRecipeProvider.hasItem(Items.WHEAT), FabricRecipeProvider.conditionsFromItem(Items.WHEAT))
-            .offerTo(recipeExporter);
-
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.DAUB_BRACE, 1)
-            .pattern("  1")
-            .pattern("121")
-            .pattern("1  ")
-            .input('1', Items.STICK)
-            .input('2', MoreThingsRegister.DAUB)
-            .criterion(FabricRecipeProvider.hasItem(MoreThingsRegister.DAUB), FabricRecipeProvider.conditionsFromItem(MoreThingsRegister.DAUB))
-            .offerTo(recipeExporter);
-
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.DAUB_BRACE_FLIPPED, 1)
-            .pattern("1  ")
-            .pattern("121")
-            .pattern("  1")
-            .input('1', Items.STICK)
-            .input('2', MoreThingsRegister.DAUB)
-            .criterion(FabricRecipeProvider.hasItem(MoreThingsRegister.DAUB), FabricRecipeProvider.conditionsFromItem(MoreThingsRegister.DAUB))
-            .offerTo(recipeExporter);
-
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.DAUB_CROSS_BRACE, 1)
-            .pattern("1 1")
-            .pattern(" 2 ")
-            .pattern("1 1")
-            .input('1', Items.STICK)
-            .input('2', MoreThingsRegister.DAUB)
-            .criterion(FabricRecipeProvider.hasItem(MoreThingsRegister.DAUB), FabricRecipeProvider.conditionsFromItem(MoreThingsRegister.DAUB))
-            .offerTo(recipeExporter);
-
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.DAUB_FRAME, 1)
-            .pattern(" 1 ")
-            .pattern("121")
-            .pattern(" 1 ")
-            .input('1', Items.STICK)
-            .input('2', MoreThingsRegister.DAUB)
-            .criterion(FabricRecipeProvider.hasItem(MoreThingsRegister.DAUB), FabricRecipeProvider.conditionsFromItem(MoreThingsRegister.DAUB))
             .offerTo(recipeExporter);
 
         ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.SACK_BLOCK, 1)
@@ -181,14 +144,6 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, MoreThingsRegister.BUSHY_LEAVES, 4)
-            .pattern(" 1 ")
-            .pattern("1 1")
-            .pattern(" 1 ")
-            .input('1', ItemTags.LEAVES)
-            .criterion(FabricRecipeProvider.hasItem(Items.OAK_LEAVES), FabricRecipeProvider.conditionsFromItem(Items.OAK_LEAVES))
-            .offerTo(recipeExporter);
-
         ShapelessRecipeJsonBuilder.create(RecipeCategory.REDSTONE, MoreThingsRegister.RED_BUTTON)
                 .input(Items.STONE_BUTTON)
                 .input(Items.RED_DYE)
@@ -231,21 +186,6 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .pattern(" 0 ")
             .input('0', ItemTags.PLANKS)
             .criterion(FabricRecipeProvider.hasItem(Items.OAK_PLANKS), FabricRecipeProvider.conditionsFromItem(Items.OAK_PLANKS))
-            .offerTo(recipeExporter);
-
-        bushyLeavesColorRecipeBuilder(MoreThingsRegister.BUSHY_LEAVES_GREEN, Items.GREEN_DYE, recipeExporter);
-        bushyLeavesColorRecipeBuilder(MoreThingsRegister.BUSHY_LEAVES_RED, Items.RED_DYE, recipeExporter);
-        bushyLeavesColorRecipeBuilder(MoreThingsRegister.BUSHY_LEAVES_YELLOW, Items.YELLOW_DYE, recipeExporter);
-    }
-
-    public static void bushyLeavesColorRecipeBuilder(ItemConvertible output, ItemConvertible itemProvider, RecipeExporter recipeExporter) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, output, 4)
-            .pattern(" 1 ")
-            .pattern("121")
-            .pattern(" 1 ")
-            .input('1', ItemTags.LEAVES)
-            .input('2', itemProvider)
-            .criterion(FabricRecipeProvider.hasItem(itemProvider), FabricRecipeProvider.conditionsFromItem(itemProvider))
             .offerTo(recipeExporter);
     }
 }

@@ -58,7 +58,7 @@ public class ItemDisplayBlock extends Block implements BlockEntityProvider {
         ItemStack playerHeldItem = player.getStackInHand(Hand.MAIN_HAND);
 
         // Wax display
-        if (player != null && player.getAbilities().allowModifyWorld && player.isHolding(Items.HONEYCOMB) && state.get(ROTATE)) {
+        if (player != null && player.isHolding(Items.HONEYCOMB) && state.get(ROTATE)) {
             world.setBlockState(pos, state.with(ROTATE, false));
             world.playSound(player, pos, SoundEvents.ITEM_HONEYCOMB_WAX_ON, SoundCategory.BLOCKS, 1.0f, 1.0f);
             playerHeldItem.decrementUnlessCreative(1, player);
@@ -66,7 +66,7 @@ public class ItemDisplayBlock extends Block implements BlockEntityProvider {
             return ActionResult.SUCCESS;
 
         // Hide holder
-        } else if (player != null && player.getAbilities().allowModifyWorld && player.isHolding(MoreThingsRegister.ORB)) {
+        } else if (player != null && player.isHolding(MoreThingsRegister.ORB)) {
             boolean is_visible = state.get(VISIBLE);
             world.setBlockState(pos, state.with(VISIBLE, !is_visible));
             world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);

@@ -11,10 +11,10 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:book"
+          "name": "morethings:book_pile_horizontal"
         }
       ],
-      "rolls": 4.0
+      "rolls": 1.0
     }
   ]
 }
