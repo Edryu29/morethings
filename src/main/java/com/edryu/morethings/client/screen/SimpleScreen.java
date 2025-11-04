@@ -12,7 +12,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class SimpleScreen extends HandledScreen<SimpleScreenHandler> {
-
     private static final Identifier TEXTURE = Identifier.of(MoreThingsMain.MOD_ID, "textures/gui/container/simple.png");
     
     public SimpleScreen(SimpleScreenHandler handler, PlayerInventory inventory, Text title) {

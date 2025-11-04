@@ -44,7 +44,6 @@ import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 
 public class MoreThingsRegister {
-
     // SETTINGS
     public static final AbstractBlock.Settings BOOK_PILE_SETTINGS = AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).strength(0.5F).nonOpaque();
 

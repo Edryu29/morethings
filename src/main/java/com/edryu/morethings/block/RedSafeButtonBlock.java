@@ -26,7 +26,6 @@ import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class RedSafeButtonBlock extends ButtonBlock {
-
     public static final BooleanProperty OPEN = BooleanProperty.of("open");
 
     private static final VoxelShape STONE_DOWN = Block.createCuboidShape(3, 0, 3, 13, 1, 13);

@@ -14,7 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class DaubBlock extends Block {
-
 	public static final IntProperty TYPE = IntProperty.of("type", 0, 4);
 
     public DaubBlock(Settings settings) {

@@ -31,6 +31,7 @@ import net.minecraft.world.WorldAccess;
 
 public class SafeBlock extends BlockWithEntity {
     public static final MapCodec<SafeBlock> CODEC = Block.createCodec(SafeBlock::new);
+    
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 	public static final BooleanProperty OPEN = BooleanProperty.of("open");

@@ -21,6 +21,7 @@ import net.minecraft.world.World;
 
 public class BookPileBlock extends HorizontalFacingBlock {
     public static final MapCodec<BookPileBlock> CODEC = Block.createCodec(BookPileBlock::new);
+    
 	public static final IntProperty BOOKS = IntProperty.of("books", 0, 3);
 
     public BookPileBlock(Settings settings) {

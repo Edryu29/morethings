@@ -18,7 +18,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 public class RopeBlock extends ChainBlock {
-
 	public static final IntProperty KNOT_STATE = IntProperty.of("knot_state", 0, 7);
 	public static final BooleanProperty KNOT = BooleanProperty.of("knot");
 	public static final BooleanProperty UP = BooleanProperty.of("up");

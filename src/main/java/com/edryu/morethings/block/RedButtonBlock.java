@@ -20,7 +20,6 @@ import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 
 public class RedButtonBlock extends ButtonBlock {
-
     private static final VoxelShape STONE_DOWN  = Block.createCuboidShape(4, 0, 4, 12, 1, 12);
     private static final VoxelShape STONE_UP    = Block.createCuboidShape(4, 15, 4, 12, 16, 12);
     private static final VoxelShape STONE_NORTH = Block.createCuboidShape(4, 4, 15, 12, 12, 16);

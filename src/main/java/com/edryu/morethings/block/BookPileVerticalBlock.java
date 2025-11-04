@@ -8,10 +8,9 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 
 public class BookPileVerticalBlock extends BookPileBlock {
-
     protected static final VoxelShape BOOKS_SHAPE_Z1 = Block.createCuboidShape(4, 0, 3, 12, 4, 13);
     protected static final VoxelShape BOOKS_SHAPE_X1 = Block.createCuboidShape(3, 0, 4, 13, 4, 12);
-
+    
     protected static final VoxelShape BOOKS_SHAPE_N2 = Block.createCuboidShape(1, 0, 1, 15, 8, 15);
     protected static final VoxelShape BOOKS_SHAPE_N3 = Block.createCuboidShape(1, 0, 1, 15, 12, 15);
     protected static final VoxelShape BOOKS_SHAPE_N4 = Block.createCuboidShape(1, 0, 1, 15, 16, 15);

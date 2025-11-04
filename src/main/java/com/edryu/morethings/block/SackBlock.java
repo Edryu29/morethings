@@ -31,6 +31,7 @@ import net.minecraft.world.WorldAccess;
 
 public class SackBlock extends BlockWithEntity implements Waterloggable {
     public static final MapCodec<SackBlock> CODEC = createCodec(SackBlock::new);
+    
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 	public static final BooleanProperty OPEN = BooleanProperty.of("open");
 

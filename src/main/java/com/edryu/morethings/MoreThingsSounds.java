@@ -8,7 +8,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 
 public class MoreThingsSounds {
-
     public static final SoundEvent SACK_BREAK = registerSound("block.sack.break");
     public static final SoundEvent SACK_PLACE = registerSound("block.sack.place");
     public static final SoundEvent SACK_OPEN = registerSound("block.sack.open");

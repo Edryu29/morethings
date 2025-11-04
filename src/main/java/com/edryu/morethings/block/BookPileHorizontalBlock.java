@@ -8,12 +8,11 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 
 public class BookPileHorizontalBlock extends BookPileBlock {
-
     protected static final VoxelShape BOOKS_SHAPE_Z1 = Block.createCuboidShape(6, 0, 4, 10, 10, 12);
     protected static final VoxelShape BOOKS_SHAPE_Z2 = Block.createCuboidShape(1, 0, 3, 13, 10, 12);
     protected static final VoxelShape BOOKS_SHAPE_Z3 = Block.createCuboidShape(0, 0, 4, 15, 10, 13);
     protected static final VoxelShape BOOKS_SHAPE_Z4 = Block.createCuboidShape(0, 0, 4, 16, 10, 13);
-
+    
     protected static final VoxelShape BOOKS_SHAPE_X1 = Block.createCuboidShape(4, 0, 6, 12, 10, 10);
     protected static final VoxelShape BOOKS_SHAPE_X2 = Block.createCuboidShape(3, 0, 3, 12, 10, 15);
     protected static final VoxelShape BOOKS_SHAPE_X3 = Block.createCuboidShape(4, 0, 1, 13, 10, 16);

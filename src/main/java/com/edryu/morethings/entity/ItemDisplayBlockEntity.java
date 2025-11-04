@@ -18,7 +18,6 @@ import org.jetbrains.annotations.Nullable;
 	
 
 public class ItemDisplayBlockEntity extends BlockEntity implements SimpleInventory {
-
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
 	public ItemDisplayBlockEntity(BlockPos pos, BlockState state) {

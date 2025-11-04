@@ -2,7 +2,6 @@ package com.edryu.morethings.client.entity;
 
 import org.joml.Quaternionf;
 
-import com.edryu.morethings.MoreThingsMain;
 import com.edryu.morethings.block.ItemDisplayBlock;
 import com.edryu.morethings.entity.ItemDisplayBlockEntity;
 
@@ -11,15 +10,15 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.util.math.Direction;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
 
 public class ItemDisplayBlockEntityRenderer implements BlockEntityRenderer<ItemDisplayBlockEntity>{
-
+    
     public ItemDisplayBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {}
 
     @Override
