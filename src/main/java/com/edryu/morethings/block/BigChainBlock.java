@@ -12,9 +12,9 @@ import net.minecraft.world.BlockView;
 
 public class BigChainBlock extends ChainBlock {
 
+    protected static final VoxelShape X_SHAPE = Block.createCuboidShape(0, 4, 4, 16, 12, 12);
     protected static final VoxelShape Y_SHAPE = Block.createCuboidShape(4, 0, 4, 12, 16, 12);
     protected static final VoxelShape Z_SHAPE = Block.createCuboidShape(4, 4, 0, 12, 12, 16);
-    protected static final VoxelShape X_SHAPE = Block.createCuboidShape(0, 4, 4, 16, 12, 12);
 
     public BigChainBlock(Settings settings) {
         super(settings);
@@ -27,10 +27,10 @@ public class BigChainBlock extends ChainBlock {
 			case X:
 			default:
 				return X_SHAPE;
-			case Z:
-				return Z_SHAPE;
 			case Y:
 				return Y_SHAPE;
+			case Z:
+				return Z_SHAPE;
 		}
 	}
 

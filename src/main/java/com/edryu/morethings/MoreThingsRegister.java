@@ -1,7 +1,8 @@
 package com.edryu.morethings;
 
 import com.edryu.morethings.block.BigChainBlock;
-import com.edryu.morethings.block.BookPileBlock;
+import com.edryu.morethings.block.BookPileHorizontalBlock;
+import com.edryu.morethings.block.BookPileVerticalBlock;
 import com.edryu.morethings.block.DaubBlock;
 import com.edryu.morethings.block.ItemDisplayBlock;
 import com.edryu.morethings.block.JarBoatBlock;
@@ -49,8 +50,8 @@ public class MoreThingsRegister {
 
     // BLOCKS
     public static final Block DAUB = registerBlock(new DaubBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)), "daub");
-    public static final Block BOOK_PILE_HORIZONTAL = registerBlock(new BookPileBlock(BOOK_PILE_SETTINGS),"book_pile_horizontal");
-    public static final Block BOOK_PILE_VERTICAL = registerBlock(new BookPileBlock(BOOK_PILE_SETTINGS),"book_pile_vertical");
+    public static final Block BOOK_PILE_HORIZONTAL = registerBlock(new BookPileHorizontalBlock(BOOK_PILE_SETTINGS),"book_pile_horizontal");
+    public static final Block BOOK_PILE_VERTICAL = registerBlock(new BookPileVerticalBlock(BOOK_PILE_SETTINGS),"book_pile_vertical");
     public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.ROPE).strength(0.25f).nonOpaque()),"rope");
     public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
     public static final Block PEDESTAL = registerBlock(new PedestalBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"pedestal");
