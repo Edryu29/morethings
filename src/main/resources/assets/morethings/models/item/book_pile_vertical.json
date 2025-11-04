@@ -1,3 +1,12 @@
 {
-  "parent": "morethings:block/book_pile/book_pile_v1"
+  "parent": "morethings:block/book_pile/book_pile_v3",
+	"display": {
+		"gui": {
+			"rotation": [15, 0, 0],
+			"translation": [0, 2, 0]
+		},
+		"fixed": {
+			"translation": [0, 2, 0]
+		}
+	}
 }

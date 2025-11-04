@@ -10,14 +10,11 @@ import net.minecraft.world.BlockView;
 public class BookPileVerticalBlock extends BookPileBlock {
 
     protected static final VoxelShape BOOKS_SHAPE_Z1 = Block.createCuboidShape(4, 0, 3, 12, 4, 13);
-    protected static final VoxelShape BOOKS_SHAPE_Z2 = Block.createCuboidShape(4, 0, 4, 12, 16, 12);
-    protected static final VoxelShape BOOKS_SHAPE_Z3 = Block.createCuboidShape(4, 0, 4, 12, 16, 12);
-    protected static final VoxelShape BOOKS_SHAPE_Z4 = Block.createCuboidShape(4, 0, 4, 12, 16, 12);
-
     protected static final VoxelShape BOOKS_SHAPE_X1 = Block.createCuboidShape(3, 0, 4, 13, 4, 12);
-    protected static final VoxelShape BOOKS_SHAPE_X2 = Block.createCuboidShape(4, 0, 4, 12, 16, 12);
-    protected static final VoxelShape BOOKS_SHAPE_X3 = Block.createCuboidShape(4, 0, 4, 12, 16, 12);
-    protected static final VoxelShape BOOKS_SHAPE_X4 = Block.createCuboidShape(4, 0, 4, 12, 16, 12);
+
+    protected static final VoxelShape BOOKS_SHAPE_N2 = Block.createCuboidShape(1, 0, 1, 15, 8, 15);
+    protected static final VoxelShape BOOKS_SHAPE_N3 = Block.createCuboidShape(1, 0, 1, 15, 12, 15);
+    protected static final VoxelShape BOOKS_SHAPE_N4 = Block.createCuboidShape(1, 0, 1, 15, 16, 15);
 
     public BookPileVerticalBlock(Settings settings) {
         super(settings);
@@ -34,11 +31,11 @@ public class BookPileVerticalBlock extends BookPileBlock {
                     default:
                         return BOOKS_SHAPE_Z1;
                     case 1:
-                        return BOOKS_SHAPE_Z2;
+                        return BOOKS_SHAPE_N2;
                     case 2:
-                        return BOOKS_SHAPE_Z3;
+                        return BOOKS_SHAPE_N3;
                     case 3:
-                        return BOOKS_SHAPE_Z4;
+                        return BOOKS_SHAPE_N4;
                 }
             case WEST:
             case EAST:
@@ -47,11 +44,11 @@ public class BookPileVerticalBlock extends BookPileBlock {
                     default:
                         return BOOKS_SHAPE_X1;
                     case 1:
-                        return BOOKS_SHAPE_X2;
+                        return BOOKS_SHAPE_N2;
                     case 2:
-                        return BOOKS_SHAPE_X3;
+                        return BOOKS_SHAPE_N3;
                     case 3:
-                        return BOOKS_SHAPE_X4;
+                        return BOOKS_SHAPE_N4;
                 }
         }
 	}
