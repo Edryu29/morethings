@@ -27,5 +27,6 @@ public class MoreThingsMain implements ModInitializer {
 
 		MoreThingsRegister.initialize();
 		MoreThingsSounds.initialize();
+		LOGGER.info("More Things!");
 	}
 }

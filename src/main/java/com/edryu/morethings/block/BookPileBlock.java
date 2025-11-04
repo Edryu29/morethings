@@ -25,7 +25,7 @@ public class BookPileBlock extends HorizontalFacingBlock {
 
     public BookPileBlock(Settings settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(BOOKS, 0).with(Properties.HORIZONTAL_FACING, Direction.NORTH));
+        setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(BOOKS, 0));
     }
 
 	@Override

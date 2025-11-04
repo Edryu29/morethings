@@ -1,5 +1,8 @@
 package com.edryu.morethings.client.entity;
 
+import org.joml.Quaternionf;
+
+import com.edryu.morethings.MoreThingsMain;
 import com.edryu.morethings.block.ItemDisplayBlock;
 import com.edryu.morethings.entity.ItemDisplayBlockEntity;
 
@@ -8,6 +11,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.util.math.Direction;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
@@ -20,22 +24,49 @@ public class ItemDisplayBlockEntityRenderer implements BlockEntityRenderer<ItemD
 
     @Override
     public void render(ItemDisplayBlockEntity blockEntity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        int rotate = (Boolean)blockEntity.getCachedState().get(ItemDisplayBlock.ROTATE) ? 1 : 0;
+        boolean rotate = blockEntity.getCachedState().get(ItemDisplayBlock.ROTATE);
+        Direction facing = blockEntity.getCachedState().get(ItemDisplayBlock.FACING);
         ItemStack storedItem = blockEntity.getStack(0);
+
+        if (facing == Direction.NORTH || facing == Direction.SOUTH) facing = facing.getOpposite();
 
         if (!storedItem.isEmpty()) {
             matrices.push();
 
             if (storedItem.isIn(ItemTags.SWORDS)) {
-                matrices.translate(0.3, 0.5, 0.5);
+
+                // facing == Direction.NORTH
+                Quaternionf angle = RotationAxis.POSITIVE_Z.rotationDegrees(230);
+                double translateX = 0.65;
+                double translateZ = 0.5;
+
+                if (facing == Direction.EAST) {
+                    angle = RotationAxis.POSITIVE_Z.rotationDegrees(230);
+                    translateX = 0.5;
+                    translateZ = 0.35;
+
+                } else if (facing == Direction.SOUTH) {
+                    angle = RotationAxis.NEGATIVE_Z.rotationDegrees(130);
+                    translateX = 0.35;
+                    translateZ = 0.5;
+
+                } else if (facing == Direction.WEST) {
+                    angle = RotationAxis.NEGATIVE_Z.rotationDegrees(130);
+                    translateX = 0.5;
+                    translateZ = 0.65;
+                }
+
+                matrices.translate(translateX, 0.5, translateZ);
                 matrices.scale(1.5f, 1.5f, 1.5f);
-                matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(235));
+                matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(facing.asRotation()));
+                matrices.multiply(angle);
 
             } else {
-                double yOffset = 0.3 + 0.05 * Math.sin((blockEntity.getWorld().getTime() + tickDelta) / 8.0);
+                double yOffset = 0.3 + 0.05 * Math.sin((blockEntity.getWorld().getTime() + tickDelta) / 8.0) / 4.0;
                 float rotation = (System.currentTimeMillis() / 20) % 360;
+                if (!rotate) rotation = facing.asRotation();
                 matrices.translate(0.5, yOffset, 0.5);
-                matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotation * rotate));
+                matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotation));
                 matrices.scale(1.2f, 1.2f, 1.2f);
             }
 

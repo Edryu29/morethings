@@ -1,7 +1,19 @@
 {
   "variants": {
-    "visible=true": {
+    "visible=true,facing=north": {
       "model": "morethings:block/item_display"
+    },
+    "visible=true,facing=east": {
+      "model": "morethings:block/item_display",
+      "y": 90
+    },
+    "visible=true,facing=south": {
+      "model": "morethings:block/item_display",
+      "y": 180
+    },
+    "visible=true,facing=west": {
+      "model": "morethings:block/item_display",
+      "y": 270
     },
     "visible=false": {
       "model": "morethings:block/invisible"

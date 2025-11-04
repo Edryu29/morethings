@@ -9,37 +9,41 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
 
-public class ItemDisplayBlock extends Block implements BlockEntityProvider {
+public class ItemDisplayBlock extends HorizontalFacingBlock implements BlockEntityProvider {
     public static final BooleanProperty ROTATE = BooleanProperty.of("rotate");
     public static final BooleanProperty VISIBLE = BooleanProperty.of("visible");
 
     public ItemDisplayBlock(Settings settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(ROTATE, true).with(VISIBLE, true));
+        setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(ROTATE, true).with(VISIBLE, true));
     }
 
     @Override
-    protected MapCodec<? extends BlockWithEntity> getCodec() {
+    protected MapCodec<? extends ItemDisplayBlock> getCodec() {
         return null;
     }
 
@@ -52,6 +56,11 @@ public class ItemDisplayBlock extends Block implements BlockEntityProvider {
     protected VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
         return VoxelShapes.cuboid(0.1875f, 0f, 0.1875f, 0.8125f, 0.0625f, 0.8125f);
     }
+
+    @Override
+	public BlockState getPlacementState(ItemPlacementContext ctx) {
+		return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+	}
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
@@ -88,13 +97,11 @@ public class ItemDisplayBlock extends Block implements BlockEntityProvider {
             }
             return ActionResult.SUCCESS;
         }
-
         return ActionResult.PASS;
     }
 
     @Override
     public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-
         if (world.getBlockEntity(pos) instanceof ItemDisplayBlockEntity ItemDisplayBlockEntity) {
             ItemStack storedItem = ItemDisplayBlockEntity.getStack(0);
 
@@ -104,13 +111,12 @@ public class ItemDisplayBlock extends Block implements BlockEntityProvider {
                 ItemDisplayBlockEntity.removeStack(0);
             }
         }
-
         return super.onBreak(world, pos, state, player);
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(ROTATE, VISIBLE);
+        builder.add(Properties.HORIZONTAL_FACING, ROTATE, VISIBLE);
     }
 
 }
