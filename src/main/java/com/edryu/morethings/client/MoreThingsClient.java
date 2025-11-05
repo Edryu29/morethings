@@ -23,7 +23,9 @@ public class MoreThingsClient implements ClientModInitializer {
 		HandledScreens.register(MoreThingsRegister.SAFE_SCREEN_HANDLER, SimpleScreen::new);
 		
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.JAR_BOAT, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.RED_BUTTON, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.RED_SAFE_BUTTON, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.CONSOLE_LEVER, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.BOOK_PILE_HORIZONTAL, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.BOOK_PILE_VERTICAL, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.BAR_PANEL, RenderLayer.getCutoutMipped());

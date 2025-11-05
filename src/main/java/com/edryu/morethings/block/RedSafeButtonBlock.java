@@ -66,60 +66,23 @@ public class RedSafeButtonBlock extends ButtonBlock {
         boolean is_open = state.get(OPEN);
         
         switch (state.get(FACE)) {
-            case FLOOR -> {
-                if (is_powered) {
-                    return FLOOR_PRESSED_SHAPE;
-                } else {
-                    return is_open ? FLOOR_OPEN_SHAPE : FLOOR_CLOSED_SHAPE;
-                }
-            }
-            case CEILING -> {
-                if (is_powered) {
-                    return CEILING_PRESSED_SHAPE;
-                } else {
-                    return is_open ? CEILING_OPEN_SHAPE : CEILING_CLOSED_SHAPE;
-                }
-            }
-            case WALL -> {
+            case FLOOR:
+                return is_powered ? FLOOR_PRESSED_SHAPE : (is_open ? FLOOR_OPEN_SHAPE : FLOOR_CLOSED_SHAPE);
+            case WALL:
                 switch (direction) {
-                    case NORTH -> {
-                        if (is_powered) {
-                            return NORTH_PRESSED_SHAPE;
-                        } else {
-                            return is_open ? NORTH_OPEN_SHAPE : NORTH_CLOSED_SHAPE;
-                        }
-                    }
-                    case EAST -> {
-                        if (is_powered) {
-                            return EAST_PRESSED_SHAPE;
-                        } else {
-                            return is_open ? EAST_OPEN_SHAPE : EAST_CLOSED_SHAPE;
-                        }
-                    }
-                    case SOUTH -> {
-                        if (is_powered) {
-                            return SOUTH_PRESSED_SHAPE;
-                        } else {
-                            return is_open ? SOUTH_OPEN_SHAPE : SOUTH_CLOSED_SHAPE;
-                        }
-                    }
-                    case WEST -> {
-                        if (is_powered) {
-                            return WEST_PRESSED_SHAPE;
-                        } else {
-                            return is_open ? WEST_OPEN_SHAPE : WEST_CLOSED_SHAPE;
-                        }
-                    }
-                    case UP -> {
-                        return FLOOR_OPEN_SHAPE;
-                    }
-                    case DOWN -> {
-                        return CEILING_OPEN_SHAPE;
-                    }
+                    case NORTH:
+					default:
+                        return is_powered ? NORTH_PRESSED_SHAPE : (is_open ? NORTH_OPEN_SHAPE : NORTH_CLOSED_SHAPE);
+                    case EAST:
+                        return is_powered ? EAST_PRESSED_SHAPE : (is_open ? EAST_OPEN_SHAPE : EAST_CLOSED_SHAPE);
+                    case SOUTH:
+                        return is_powered ? SOUTH_PRESSED_SHAPE : (is_open ? SOUTH_OPEN_SHAPE : SOUTH_CLOSED_SHAPE);
+                    case WEST:
+                        return is_powered ? WEST_PRESSED_SHAPE : (is_open ? WEST_OPEN_SHAPE : WEST_CLOSED_SHAPE);
                 }
-            }
+			default:
+                return is_powered ? CEILING_PRESSED_SHAPE : (is_open ? CEILING_OPEN_SHAPE : CEILING_CLOSED_SHAPE);
         }
-        return null;
     }
 
     @Override

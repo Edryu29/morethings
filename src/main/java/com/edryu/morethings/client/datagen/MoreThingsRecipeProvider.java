@@ -160,6 +160,16 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(MoreThingsRegister.RED_BUTTON), FabricRecipeProvider.conditionsFromItem(MoreThingsRegister.RED_BUTTON))
             .offerTo(recipeExporter);
 
+        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, MoreThingsRegister.CONSOLE_LEVER, 1)
+            .pattern("101")
+            .pattern("121")
+            .pattern("111")
+            .input('0', Items.GLASS_PANE)
+            .input('1', Items.IRON_NUGGET)
+            .input('2', Items.REDSTONE)
+            .criterion(FabricRecipeProvider.hasItem(Items.REDSTONE), FabricRecipeProvider.conditionsFromItem(Items.REDSTONE))
+            .offerTo(recipeExporter);
+
         StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.STONE), RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.STONE_PILLAR)
             .criterion(FabricRecipeProvider.hasItem(Items.STONE), FabricRecipeProvider.conditionsFromItem(Items.STONE))
             .offerTo(recipeExporter);

@@ -1,0 +1,110 @@
+{
+  "variants": {
+    "powered=false,face=floor,facing=north": {
+      "model": "morethings:block/console_lever_button"
+    },
+    "powered=true,face=floor,facing=north": {
+      "model": "morethings:block/console_lever_pressed"
+    },
+    "powered=false,face=floor,facing=east": {
+      "model": "morethings:block/console_lever_button",
+      "y": 90
+    },
+    "powered=true,face=floor,facing=east": {
+      "model": "morethings:block/console_lever_pressed",
+      "y": 90
+    },
+    "powered=false,face=floor,facing=west": {
+      "model": "morethings:block/console_lever_button",
+      "y": 270
+    },
+    "powered=true,face=floor,facing=west": {
+      "model": "morethings:block/console_lever_pressed",
+      "y": 270
+    },
+    "powered=false,face=floor,facing=south": {
+      "model": "morethings:block/console_lever_button",
+      "y": 180
+    },
+    "powered=true,face=floor,facing=south": {
+      "model": "morethings:block/console_lever_pressed",
+      "y": 180
+    },
+    "powered=false,face=ceiling,facing=north": {
+      "model": "morethings:block/console_lever_button",
+      "x": 180
+    },
+    "powered=true,face=ceiling,facing=north": {
+      "model": "morethings:block/console_lever_pressed",
+      "x": 180
+    },
+    "powered=false,face=ceiling,facing=east": {
+      "model": "morethings:block/console_lever_button",
+      "x": 180,
+      "y": 90
+    },
+    "powered=true,face=ceiling,facing=east": {
+      "model": "morethings:block/console_lever_pressed",
+      "x": 180,
+      "y": 90
+    },
+    "powered=false,face=ceiling,facing=south": {
+      "model": "morethings:block/console_lever_button",
+      "x": 180,
+      "y": 180
+    },
+    "powered=true,face=ceiling,facing=south": {
+      "model": "morethings:block/console_lever_pressed",
+      "x": 180,
+      "y": 180
+    },
+    "powered=false,face=ceiling,facing=west": {
+      "model": "morethings:block/console_lever_button",
+      "x": 180,
+      "y": 270
+    },
+    "powered=true,face=ceiling,facing=west": {
+      "model": "morethings:block/console_lever_pressed",
+      "x": 180,
+      "y": 270
+    },
+    "powered=false,face=wall,facing=north": {
+      "model": "morethings:block/console_lever_button",
+      "x": -90,
+      "y": 180
+    },
+    "powered=true,face=wall,facing=north": {
+      "model": "morethings:block/console_lever_pressed",
+      "x": -90,
+      "y": 180
+    },
+    "powered=false,face=wall,facing=east": {
+      "model": "morethings:block/console_lever_button",
+      "x": -90,
+      "y": 270
+    },
+    "powered=true,face=wall,facing=east": {
+      "model": "morethings:block/console_lever_pressed",
+      "x": -90,
+      "y": 270
+    },
+    "powered=false,face=wall,facing=west": {
+      "model": "morethings:block/console_lever_button",
+      "x": -90,
+      "y": 90
+    },
+    "powered=true,face=wall,facing=west": {
+      "model": "morethings:block/console_lever_pressed",
+      "x": -90,
+      "y": 90
+    },
+    "powered=false,face=wall,facing=south": {
+      "model": "morethings:block/console_lever_button",
+      "x": -90
+    },
+    "powered=true,face=wall,facing=south": {
+      "model": "morethings:block/console_lever_pressed",
+      "x": -90
+    }
+  }
+}

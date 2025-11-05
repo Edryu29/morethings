@@ -51,36 +51,23 @@ public class RedButtonBlock extends ButtonBlock {
         boolean is_powered = state.get(POWERED);
         
         switch (state.get(FACE)) {
-            case FLOOR -> {
+            case FLOOR:
                 return is_powered ? FLOOR_PRESSED_SHAPE : FLOOR_SHAPE;
-            }
-            case CEILING -> {
-                return is_powered ? CEILING_PRESSED_SHAPE : CEILING_SHAPE;
-            }
-            case WALL -> {
+            case WALL:
                 switch (direction) {
-                    case NORTH -> {
+                    case NORTH:
+                    default:
                         return is_powered ? NORTH_PRESSED_SHAPE : NORTH_SHAPE;
-                    }
-                    case EAST -> {
+                    case EAST:
                         return is_powered ? EAST_PRESSED_SHAPE : EAST_SHAPE;
-                    }
-                    case SOUTH -> {
+                    case SOUTH:
                         return is_powered ? SOUTH_PRESSED_SHAPE : SOUTH_SHAPE;
-                    }
-                    case WEST -> {
+                    case WEST:
                         return is_powered ? WEST_PRESSED_SHAPE : WEST_SHAPE;
-                    }
-                    case UP -> {
-                        return is_powered ? FLOOR_PRESSED_SHAPE : FLOOR_SHAPE;
-                    }
-                    case DOWN -> {
-                        return is_powered ? CEILING_PRESSED_SHAPE : CEILING_SHAPE;
-                    }
                 }
-            }
+            default:
+                return is_powered ? CEILING_PRESSED_SHAPE : CEILING_SHAPE;
         }
-        return null;
     }
 
     @Override

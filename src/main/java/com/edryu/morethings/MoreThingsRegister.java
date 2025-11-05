@@ -3,6 +3,7 @@ package com.edryu.morethings;
 import com.edryu.morethings.block.BigChainBlock;
 import com.edryu.morethings.block.BookPileHorizontalBlock;
 import com.edryu.morethings.block.BookPileVerticalBlock;
+import com.edryu.morethings.block.ConsoleLeverBlock;
 import com.edryu.morethings.block.DaubBlock;
 import com.edryu.morethings.block.ItemDisplayBlock;
 import com.edryu.morethings.block.JarBoatBlock;
@@ -20,12 +21,12 @@ import com.edryu.morethings.screen.SimpleScreenHandler;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.HayBlock;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.block.TrapdoorBlock;
@@ -47,17 +48,14 @@ import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 
 public class MoreThingsRegister {
-    // SETTINGS
-    public static final AbstractBlock.Settings BOOK_PILE_SETTINGS = AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).strength(0.3f).nonOpaque();
-
     // BLOCKS
     public static final Block DAUB = registerBlock(new DaubBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)), "daub");
-    public static final Block BOOK_PILE_HORIZONTAL = registerBlock(new BookPileHorizontalBlock(BOOK_PILE_SETTINGS),"book_pile_horizontal");
-    public static final Block BOOK_PILE_VERTICAL = registerBlock(new BookPileVerticalBlock(BOOK_PILE_SETTINGS),"book_pile_vertical");
+    public static final Block BOOK_PILE_HORIZONTAL = registerBlock(new BookPileHorizontalBlock(bookPileSettings()),"book_pile_horizontal");
+    public static final Block BOOK_PILE_VERTICAL = registerBlock(new BookPileVerticalBlock(bookPileSettings()),"book_pile_vertical");
     public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.ROPE).strength(0.25f).nonOpaque()),"rope");
     public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
     public static final Block PEDESTAL = registerBlock(new PedestalBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"pedestal");
-    public static final Block BIG_CHAIN = registerBlock(new BigChainBlock(AbstractBlock.Settings.create().solid().sounds(BlockSoundGroup.CHAIN).strength(5f, 6f).nonOpaque()),"big_chain");
+    public static final Block BIG_CHAIN = registerBlock(new BigChainBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.CHAIN).mapColor(MapColor.IRON_GRAY).strength(5f, 6f).solid().nonOpaque()),"big_chain");
     public static final Block STONE_PILLAR = registerBlock(new StonePillarBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"stone_pillar");
     public static final Block BAR_PANEL = registerBlock(new TrapdoorBlock(BlockSetType.OAK, AbstractBlock.Settings.copy(Blocks.IRON_TRAPDOOR)),"bar_panel");
     public static final Block LATTICE = registerBlock(new TrapdoorBlock(BlockSetType.OAK, AbstractBlock.Settings.copy(Blocks.OAK_TRAPDOOR)),"lattice");
@@ -65,9 +63,10 @@ public class MoreThingsRegister {
     public static final Block THATCH_SLAB = registerBlock(new SlabBlock(AbstractBlock.Settings.copy(Blocks.HAY_BLOCK)),"thatch_slab");
     public static final Block THATCH_STAIRS = registerBlock(new StairsBlock(THATCH.getDefaultState(), AbstractBlock.Settings.copy(THATCH)),"thatch_stairs");
 
-    // BUTTONS
-    public static final Block RED_BUTTON = registerBlock(new RedButtonBlock(AbstractBlock.Settings.create().noCollision().strength(0.5f).pistonBehavior(PistonBehavior.DESTROY)),"red_button");
-    public static final Block RED_SAFE_BUTTON = registerBlock(new RedSafeButtonBlock(AbstractBlock.Settings.create().noCollision().strength(0.5f).pistonBehavior(PistonBehavior.DESTROY).nonOpaque()),"red_safe_button");
+    // BUTTONS & LEVERS
+    public static final Block RED_BUTTON = registerBlock(new RedButtonBlock(buttonSettings()),"red_button");
+    public static final Block RED_SAFE_BUTTON = registerBlock(new RedSafeButtonBlock(buttonSettings()),"red_safe_button");
+    public static final Block CONSOLE_LEVER = registerBlock(new ConsoleLeverBlock(buttonSettings()),"console_lever");
 
     // BLOCKS WITH ENTITIES
     public static final Block ITEM_DISPLAY_BLOCK = registerBlock(new ItemDisplayBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).strength(0.2f)),"item_display");
@@ -94,7 +93,17 @@ public class MoreThingsRegister {
     public static final RegistryKey<ItemGroup> MORE_BLOCKS_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MoreThingsMain.MOD_ID, "more_blocks"));
     public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(SACK_BLOCK)).displayName(Text.translatable("itemGroup.more_blocks")).build();
 
+
+
     // METHODS
+    public static AbstractBlock.Settings bookPileSettings() {
+        return AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).strength(0.3f).nonOpaque();
+    }
+
+    public static AbstractBlock.Settings buttonSettings() {
+        return AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).strength(0.5f).pistonBehavior(PistonBehavior.DESTROY).noCollision().nonOpaque();
+    }
+
 	public static Block registerBlock(Block block, String name) {
 		Identifier blockID = Identifier.of(MoreThingsMain.MOD_ID, name);
         BlockItem blockItem = new BlockItem(block, new Item.Settings());
@@ -107,7 +116,7 @@ public class MoreThingsRegister {
 		return Registry.register(Registries.ITEM, itemID, item);
 	}
 
-    private static <T extends BlockEntity> BlockEntityType<T> registerEntity(String name, BlockEntityType.BlockEntityFactory<? extends T> entityFactory, Block... blocks) {
+    public static <T extends BlockEntity> BlockEntityType<T> registerEntity(String name, BlockEntityType.BlockEntityFactory<? extends T> entityFactory, Block... blocks) {
         Identifier entityID = Identifier.of(MoreThingsMain.MOD_ID, name);
         return Registry.register(Registries.BLOCK_ENTITY_TYPE, entityID, BlockEntityType.Builder.<T>create(entityFactory, blocks).build());
     }
@@ -118,7 +127,6 @@ public class MoreThingsRegister {
 
         // Register items to the custom item group.
         ItemGroupEvents.modifyEntriesEvent(MORE_BLOCKS_GROUP_KEY).register(itemGroup -> {
-
             // BLOCKS
             itemGroup.add(DAUB.asItem());
 
@@ -141,6 +149,7 @@ public class MoreThingsRegister {
 
             itemGroup.add(RED_BUTTON.asItem());
             itemGroup.add(RED_SAFE_BUTTON.asItem());
+            itemGroup.add(CONSOLE_LEVER.asItem());
 
             // ITEMS
             itemGroup.add(ORB);
