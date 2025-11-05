@@ -25,6 +25,9 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.HayBlock;
+import net.minecraft.block.StairsBlock;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.block.TrapdoorBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -45,7 +48,7 @@ import net.minecraft.util.Identifier;
 
 public class MoreThingsRegister {
     // SETTINGS
-    public static final AbstractBlock.Settings BOOK_PILE_SETTINGS = AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).strength(0.5F).nonOpaque();
+    public static final AbstractBlock.Settings BOOK_PILE_SETTINGS = AbstractBlock.Settings.create().sounds(MoreThingsSounds.BOOKS).strength(0.3f).nonOpaque();
 
     // BLOCKS
     public static final Block DAUB = registerBlock(new DaubBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)), "daub");
@@ -54,17 +57,20 @@ public class MoreThingsRegister {
     public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.ROPE).strength(0.25f).nonOpaque()),"rope");
     public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
     public static final Block PEDESTAL = registerBlock(new PedestalBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"pedestal");
-    public static final Block BIG_CHAIN = registerBlock(new BigChainBlock(AbstractBlock.Settings.create().solid().sounds(BlockSoundGroup.CHAIN).strength(5.0F, 6.0F).nonOpaque()),"big_chain");
+    public static final Block BIG_CHAIN = registerBlock(new BigChainBlock(AbstractBlock.Settings.create().solid().sounds(BlockSoundGroup.CHAIN).strength(5f, 6f).nonOpaque()),"big_chain");
     public static final Block STONE_PILLAR = registerBlock(new StonePillarBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"stone_pillar");
     public static final Block BAR_PANEL = registerBlock(new TrapdoorBlock(BlockSetType.OAK, AbstractBlock.Settings.copy(Blocks.IRON_TRAPDOOR)),"bar_panel");
     public static final Block LATTICE = registerBlock(new TrapdoorBlock(BlockSetType.OAK, AbstractBlock.Settings.copy(Blocks.OAK_TRAPDOOR)),"lattice");
+    public static final Block THATCH = registerBlock(new HayBlock(AbstractBlock.Settings.copy(Blocks.HAY_BLOCK)),"thatch");
+    public static final Block THATCH_SLAB = registerBlock(new SlabBlock(AbstractBlock.Settings.copy(Blocks.HAY_BLOCK)),"thatch_slab");
+    public static final Block THATCH_STAIRS = registerBlock(new StairsBlock(THATCH.getDefaultState(), AbstractBlock.Settings.copy(THATCH)),"thatch_stairs");
 
     // BUTTONS
-    public static final Block RED_BUTTON = registerBlock(new RedButtonBlock(AbstractBlock.Settings.create().noCollision().strength(0.5F).pistonBehavior(PistonBehavior.DESTROY)),"red_button");
-    public static final Block RED_SAFE_BUTTON = registerBlock(new RedSafeButtonBlock(AbstractBlock.Settings.create().noCollision().strength(0.5F).pistonBehavior(PistonBehavior.DESTROY).nonOpaque()),"red_safe_button");
+    public static final Block RED_BUTTON = registerBlock(new RedButtonBlock(AbstractBlock.Settings.create().noCollision().strength(0.5f).pistonBehavior(PistonBehavior.DESTROY)),"red_button");
+    public static final Block RED_SAFE_BUTTON = registerBlock(new RedSafeButtonBlock(AbstractBlock.Settings.create().noCollision().strength(0.5f).pistonBehavior(PistonBehavior.DESTROY).nonOpaque()),"red_safe_button");
 
     // BLOCKS WITH ENTITIES
-    public static final Block ITEM_DISPLAY_BLOCK = registerBlock(new ItemDisplayBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).strength(0.2F)),"item_display");
+    public static final Block ITEM_DISPLAY_BLOCK = registerBlock(new ItemDisplayBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).strength(0.2f)),"item_display");
     public static final Block SACK_BLOCK = registerBlock(new SackBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.SACK).strength(0.8f)),"sack");
     public static final Block SAFE_BLOCK = registerBlock(new SafeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)),"safe");
 
@@ -129,6 +135,9 @@ public class MoreThingsRegister {
             itemGroup.add(BIG_CHAIN.asItem());
             itemGroup.add(BAR_PANEL.asItem());
             itemGroup.add(LATTICE.asItem());
+            itemGroup.add(THATCH.asItem());
+            itemGroup.add(THATCH_SLAB.asItem());
+            itemGroup.add(THATCH_STAIRS.asItem());
 
             itemGroup.add(RED_BUTTON.asItem());
             itemGroup.add(RED_SAFE_BUTTON.asItem());

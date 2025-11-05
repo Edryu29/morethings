@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "0": {
+      "item": "morethings:thatch"
+    }
+  },
+  "pattern": [
+    "0  ",
+    "00 ",
+    "000"
+  ],
+  "result": {
+    "count": 4,
+    "id": "morethings:thatch_stairs"
+  }
+}

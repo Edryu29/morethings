@@ -10,6 +10,7 @@ import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.StonecuttingRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
@@ -186,6 +187,26 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .pattern(" 0 ")
             .input('0', ItemTags.PLANKS)
             .criterion(FabricRecipeProvider.hasItem(Items.OAK_PLANKS), FabricRecipeProvider.conditionsFromItem(Items.OAK_PLANKS))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.THATCH_SLAB, 6)
+            .pattern("000")
+            .pattern("   ")
+            .pattern("   ")
+            .input('0', MoreThingsRegister.THATCH)
+            .criterion(FabricRecipeProvider.hasItem(MoreThingsRegister.THATCH), FabricRecipeProvider.conditionsFromItem(MoreThingsRegister.THATCH))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.THATCH_STAIRS, 4)
+            .pattern("0  ")
+            .pattern("00 ")
+            .pattern("000")
+            .input('0', MoreThingsRegister.THATCH)
+            .criterion(FabricRecipeProvider.hasItem(MoreThingsRegister.THATCH), FabricRecipeProvider.conditionsFromItem(MoreThingsRegister.THATCH))
+            .offerTo(recipeExporter);
+
+        CookingRecipeJsonBuilder.createSmoking(Ingredient.ofItems(Items.HAY_BLOCK), RecipeCategory.BUILDING_BLOCKS, MoreThingsRegister.THATCH, 0.1f, 300)
+            .criterion(FabricRecipeProvider.hasItem(Items.HAY_BLOCK), FabricRecipeProvider.conditionsFromItem(Items.HAY_BLOCK))
             .offerTo(recipeExporter);
     }
 }

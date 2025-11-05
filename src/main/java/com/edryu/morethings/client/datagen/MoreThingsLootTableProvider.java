@@ -31,5 +31,8 @@ public class MoreThingsLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(MoreThingsRegister.BIG_CHAIN);
                 addDrop(MoreThingsRegister.BAR_PANEL);
                 addDrop(MoreThingsRegister.LATTICE);
+                addDrop(MoreThingsRegister.THATCH);
+                addDrop(MoreThingsRegister.THATCH_SLAB);
+                addDrop(MoreThingsRegister.THATCH_STAIRS);
 	}
 }
