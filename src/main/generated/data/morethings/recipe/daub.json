@@ -2,16 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "1": {
+    "0": {
       "item": "minecraft:clay_ball"
     },
-    "2": {
+    "1": {
       "item": "minecraft:wheat"
     }
   },
   "pattern": [
-    "21",
-    "12"
+    "10",
+    "01"
   ],
   "result": {
     "count": 2,

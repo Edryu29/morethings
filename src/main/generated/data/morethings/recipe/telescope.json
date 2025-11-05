@@ -3,19 +3,19 @@
   "category": "misc",
   "key": {
     "0": {
-      "item": "minecraft:green_stained_glass_pane"
+      "item": "minecraft:spyglass"
     },
     "1": {
-      "item": "minecraft:amethyst_shard"
+      "item": "minecraft:stick"
     }
   },
   "pattern": [
     " 0 ",
-    "010",
-    " 0 "
+    " 1 ",
+    "1 1"
   ],
   "result": {
     "count": 1,
-    "id": "morethings:crystal_green"
+    "id": "morethings:telescope"
   }
 }

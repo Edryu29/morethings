@@ -22,7 +22,8 @@ public class MoreThingsClient implements ClientModInitializer {
 		HandledScreens.register(MoreThingsRegister.SACK_SCREEN_HANDLER, SimpleScreen::new);
 		HandledScreens.register(MoreThingsRegister.SAFE_SCREEN_HANDLER, SimpleScreen::new);
 		
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.JAR_BOAT, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.BOAT_IN_A_JAR, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.TERRARIUM, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.RED_BUTTON, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.RED_SAFE_BUTTON, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.CONSOLE_LEVER, RenderLayer.getCutout());
@@ -34,6 +35,6 @@ public class MoreThingsClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.THATCH_SLAB, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.THATCH_STAIRS, RenderLayer.getCutout());
 
-		ColorProviderRegistry.BLOCK.register((state, level, pos, tintIndex) -> level != null && pos != null ? BiomeColors.getWaterColor(level, pos) : 0x3F76E4, MoreThingsRegister.JAR_BOAT);
+		ColorProviderRegistry.BLOCK.register((state, level, pos, tintIndex) -> level != null && pos != null ? BiomeColors.getWaterColor(level, pos) : 0x3F76E4, MoreThingsRegister.BOAT_IN_A_JAR);
 	}
 }

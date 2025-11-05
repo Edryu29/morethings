@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "morethings:block/terrarium",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "morethings:block/terrarium"
+    },
+    "facing=south": {
+      "model": "morethings:block/terrarium",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "morethings:block/terrarium",
+      "y": 270
+    }
+  }
+}

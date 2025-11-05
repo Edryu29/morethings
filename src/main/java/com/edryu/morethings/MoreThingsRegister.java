@@ -1,12 +1,12 @@
 package com.edryu.morethings;
 
 import com.edryu.morethings.block.BigChainBlock;
+import com.edryu.morethings.block.BoatInAJarBlock;
 import com.edryu.morethings.block.BookPileHorizontalBlock;
 import com.edryu.morethings.block.BookPileVerticalBlock;
 import com.edryu.morethings.block.ConsoleLeverBlock;
 import com.edryu.morethings.block.DaubBlock;
 import com.edryu.morethings.block.ItemDisplayBlock;
-import com.edryu.morethings.block.JarBoatBlock;
 import com.edryu.morethings.block.PedestalBlock;
 import com.edryu.morethings.block.RedButtonBlock;
 import com.edryu.morethings.block.RedSafeButtonBlock;
@@ -14,6 +14,8 @@ import com.edryu.morethings.block.RopeBlock;
 import com.edryu.morethings.block.SackBlock;
 import com.edryu.morethings.block.SafeBlock;
 import com.edryu.morethings.block.StonePillarBlock;
+import com.edryu.morethings.block.TelescopeBlock;
+import com.edryu.morethings.block.TerrariumBlock;
 import com.edryu.morethings.entity.ItemDisplayBlockEntity;
 import com.edryu.morethings.entity.SackBlockEntity;
 import com.edryu.morethings.entity.SafeBlockEntity;
@@ -53,7 +55,6 @@ public class MoreThingsRegister {
     public static final Block BOOK_PILE_HORIZONTAL = registerBlock(new BookPileHorizontalBlock(bookPileSettings()),"book_pile_horizontal");
     public static final Block BOOK_PILE_VERTICAL = registerBlock(new BookPileVerticalBlock(bookPileSettings()),"book_pile_vertical");
     public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.ROPE).strength(0.25f).nonOpaque()),"rope");
-    public static final Block JAR_BOAT = registerBlock(new JarBoatBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"jar_boat");
     public static final Block PEDESTAL = registerBlock(new PedestalBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"pedestal");
     public static final Block BIG_CHAIN = registerBlock(new BigChainBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.CHAIN).mapColor(MapColor.IRON_GRAY).strength(5f, 6f).solid().nonOpaque()),"big_chain");
     public static final Block STONE_PILLAR = registerBlock(new StonePillarBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"stone_pillar");
@@ -62,6 +63,9 @@ public class MoreThingsRegister {
     public static final Block THATCH = registerBlock(new HayBlock(AbstractBlock.Settings.copy(Blocks.HAY_BLOCK)),"thatch");
     public static final Block THATCH_SLAB = registerBlock(new SlabBlock(AbstractBlock.Settings.copy(Blocks.HAY_BLOCK)),"thatch_slab");
     public static final Block THATCH_STAIRS = registerBlock(new StairsBlock(THATCH.getDefaultState(), AbstractBlock.Settings.copy(THATCH)),"thatch_stairs");
+    public static final Block BOAT_IN_A_JAR = registerBlock(new BoatInAJarBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"boat_in_a_jar");
+    public static final Block TERRARIUM = registerBlock(new TerrariumBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"terrarium");
+    public static final Block TELESCOPE = registerBlock(new TelescopeBlock(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)),"telescope");
 
     // BUTTONS & LEVERS
     public static final Block RED_BUTTON = registerBlock(new RedButtonBlock(buttonSettings()),"red_button");
@@ -136,16 +140,20 @@ public class MoreThingsRegister {
             itemGroup.add(SACK_BLOCK.asItem());
             itemGroup.add(SAFE_BLOCK.asItem());
             itemGroup.add(ROPE.asItem());
-            itemGroup.add(JAR_BOAT.asItem());
             itemGroup.add(PEDESTAL.asItem());
             itemGroup.add(ITEM_DISPLAY_BLOCK.asItem());
             itemGroup.add(STONE_PILLAR.asItem());
             itemGroup.add(BIG_CHAIN.asItem());
             itemGroup.add(BAR_PANEL.asItem());
             itemGroup.add(LATTICE.asItem());
+
             itemGroup.add(THATCH.asItem());
             itemGroup.add(THATCH_SLAB.asItem());
             itemGroup.add(THATCH_STAIRS.asItem());
+
+            itemGroup.add(BOAT_IN_A_JAR.asItem());
+            itemGroup.add(TERRARIUM.asItem());
+            itemGroup.add(TELESCOPE.asItem());
 
             itemGroup.add(RED_BUTTON.asItem());
             itemGroup.add(RED_SAFE_BUTTON.asItem());

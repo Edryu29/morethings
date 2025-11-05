@@ -14,19 +14,19 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 
-public class JarBoatBlock extends HorizontalFacingBlock {
-    public static final MapCodec<JarBoatBlock> CODEC = Block.createCodec(JarBoatBlock::new);
+public class BoatInAJarBlock extends HorizontalFacingBlock {
+    public static final MapCodec<BoatInAJarBlock> CODEC = Block.createCodec(BoatInAJarBlock::new);
 	
     protected static final VoxelShape SHAPE_Z = Block.createCuboidShape(0, 0, 3, 16, 12, 14);
     protected static final VoxelShape SHAPE_X = Block.createCuboidShape(3, 0, 0, 14, 12, 16);
 
-    public JarBoatBlock(Settings settings) {
+    public BoatInAJarBlock(Settings settings) {
         super(settings);
         setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
 	@Override
-	protected MapCodec<? extends JarBoatBlock> getCodec() {
+	protected MapCodec<? extends BoatInAJarBlock> getCodec() {
 		return CODEC;
 	}
 

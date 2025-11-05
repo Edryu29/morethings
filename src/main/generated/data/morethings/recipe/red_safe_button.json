@@ -2,17 +2,17 @@
   "type": "minecraft:crafting_shaped",
   "category": "redstone",
   "key": {
-    "1": {
+    "0": {
       "item": "morethings:red_button"
     },
-    "2": {
+    "1": {
       "item": "minecraft:glass_pane"
     }
   },
   "pattern": [
     "   ",
-    "222",
-    "212"
+    "111",
+    "101"
   ],
   "result": {
     "count": 1,

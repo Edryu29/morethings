@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_glass_pane": {
+    "has_spyglass": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:glass_pane"
+            "items": "minecraft:spyglass"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "morethings:jar_boat"
+        "recipe": "morethings:telescope"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_glass_pane"
+      "has_spyglass"
     ]
   ],
   "rewards": {
     "recipes": [
-      "morethings:jar_boat"
+      "morethings:telescope"
     ]
   }
 }

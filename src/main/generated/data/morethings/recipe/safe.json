@@ -2,14 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "1": {
+    "0": {
       "item": "minecraft:iron_ingot"
     }
   },
   "pattern": [
-    "111",
-    "1 1",
-    "111"
+    "000",
+    "0 0",
+    "000"
   ],
   "result": {
     "count": 1,

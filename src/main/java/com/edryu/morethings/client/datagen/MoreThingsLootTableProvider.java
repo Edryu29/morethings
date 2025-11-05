@@ -20,7 +20,9 @@ public class MoreThingsLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(MoreThingsRegister.SACK_BLOCK);
                 addDrop(MoreThingsRegister.SAFE_BLOCK);
                 addDrop(MoreThingsRegister.ROPE);
-                addDrop(MoreThingsRegister.JAR_BOAT);
+                addDrop(MoreThingsRegister.BOAT_IN_A_JAR);
+                addDrop(MoreThingsRegister.TERRARIUM);
+                addDrop(MoreThingsRegister.TELESCOPE);
                 addDrop(MoreThingsRegister.PEDESTAL);
                 addDrop(MoreThingsRegister.ITEM_DISPLAY_BLOCK);
                 addDrop(MoreThingsRegister.BOOK_PILE_HORIZONTAL);

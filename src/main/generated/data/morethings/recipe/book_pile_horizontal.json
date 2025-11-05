@@ -2,14 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "1": {
+    "0": {
       "item": "minecraft:book"
     }
   },
   "pattern": [
     "   ",
-    " 1 ",
-    "111"
+    " 0 ",
+    "000"
   ],
   "result": {
     "count": 1,

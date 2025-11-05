@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "0": {
+      "tag": "minecraft:saplings"
+    },
+    "1": {
+      "item": "minecraft:dirt"
+    },
+    "2": {
+      "item": "minecraft:glass_pane"
+    },
+    "3": {
+      "item": "minecraft:short_grass"
+    },
+    "4": {
+      "item": "minecraft:stone"
+    }
+  },
+  "pattern": [
+    "222",
+    "304",
+    "111"
+  ],
+  "result": {
+    "count": 1,
+    "id": "morethings:terrarium"
+  }
+}

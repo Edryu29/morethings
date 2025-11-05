@@ -8,8 +8,8 @@
 		"2": "morethings:block/jar_cork",
 		"3": "morethings:block/jar_bottom",
 		"4": "block/water_still",
-		"5": "morethings:block/jar_boat",
-		"9": "morethings:block/jar_boat_base",
+		"5": "morethings:block/boat_in_a_jar",
+		"9": "morethings:block/boat_in_a_jar_base",
 		"particle": "morethings:block/jar_side"
 	},
 	"elements": [
