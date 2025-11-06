@@ -101,35 +101,8 @@ public class TelescopeBlock extends HorizontalFacingBlock {
 
     // Copied from TallPlantBlock class
 	@Override
-	public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-		if (!world.isClient) {
-			if (player.isCreative()) {
-				onBreakInCreative(world, pos, state, player);
-			} else {
-				dropStacks(state, world, pos, null, player, player.getMainHandStack());
-			}
-		}
-		return super.onBreak(world, pos, state, player);
-	}
-
-    // Copied from TallPlantBlock class
-	@Override
 	public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack tool) {
 		super.afterBreak(world, player, pos, Blocks.AIR.getDefaultState(), blockEntity, tool);
-	}
-
-    // Copied from TallPlantBlock class
-	protected static void onBreakInCreative(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-		DoubleBlockHalf doubleBlockHalf = state.get(HALF);
-		if (doubleBlockHalf == DoubleBlockHalf.UPPER) {
-			BlockPos blockPos = pos.down();
-			BlockState blockState = world.getBlockState(blockPos);
-			if (blockState.isOf(state.getBlock()) && blockState.get(HALF) == DoubleBlockHalf.LOWER) {
-				BlockState blockState2 = blockState.getFluidState().isOf(Fluids.WATER) ? Blocks.WATER.getDefaultState() : Blocks.AIR.getDefaultState();
-				world.setBlockState(blockPos, blockState2, Block.NOTIFY_ALL | Block.SKIP_DROPS);
-				world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, blockPos, Block.getRawIdFromState(blockState));
-			}
-		}
 	}
 
     @Override
