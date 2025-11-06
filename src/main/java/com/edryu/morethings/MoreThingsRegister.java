@@ -80,7 +80,7 @@ public class MoreThingsRegister {
 
     // ITEM GROUP
     public static final RegistryKey<ItemGroup> MORE_BLOCKS_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MoreThingsMain.MOD_ID, "more_blocks"));
-    public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(SACK_BLOCK)).displayName(Text.translatable("itemGroup.more_blocks")).build();
+    public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(CRYSTAL_BLUE)).displayName(Text.translatable("itemGroup.more_blocks")).build();
 
 
 
