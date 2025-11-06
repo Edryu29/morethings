@@ -1,0 +1,9 @@
+{
+	"parent": "morethings:block/book_pile/template_book_pile_h4",
+	"textures": {
+		"0": "morethings:block/books/book_yellow",
+		"1": "morethings:block/books/book_purple",
+		"2": "morethings:block/books/book_black",
+		"3": "morethings:block/books/book_green"
+	}
+}
