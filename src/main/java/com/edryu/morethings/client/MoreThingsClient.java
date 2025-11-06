@@ -1,7 +1,8 @@
 package com.edryu.morethings.client;
 
 import com.edryu.morethings.MoreThingsRegister;
-import com.edryu.morethings.client.entity.ItemDisplayBlockEntityRenderer;
+import com.edryu.morethings.client.entity.DisplayBlockEntityRenderer;
+import com.edryu.morethings.client.entity.SmallPedestalBlockEntityRenderer;
 import com.edryu.morethings.client.screen.SimpleScreen;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -17,7 +18,8 @@ public class MoreThingsClient implements ClientModInitializer {
 	
 	@Override
 	public void onInitializeClient() {
-		BlockEntityRendererFactories.register(MoreThingsRegister.ITEM_DISPLAY_BLOCK_ENTITY, ItemDisplayBlockEntityRenderer::new);
+		BlockEntityRendererFactories.register(MoreThingsRegister.SMALL_PEDESTAL_BLOCK_ENTITY, SmallPedestalBlockEntityRenderer::new);
+		BlockEntityRendererFactories.register(MoreThingsRegister.DISPLAY_BLOCK_ENTITY, DisplayBlockEntityRenderer::new);
 
 		HandledScreens.register(MoreThingsRegister.SACK_SCREEN_HANDLER, SimpleScreen::new);
 		HandledScreens.register(MoreThingsRegister.SAFE_SCREEN_HANDLER, SimpleScreen::new);
@@ -34,6 +36,7 @@ public class MoreThingsClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.THATCH, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.THATCH_SLAB, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.THATCH_STAIRS, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.DISPLAY_BLOCK, RenderLayer.getCutout());
 
 		ColorProviderRegistry.BLOCK.register((state, level, pos, tintIndex) -> level != null && pos != null ? BiomeColors.getWaterColor(level, pos) : 0x3F76E4, MoreThingsRegister.BOAT_IN_A_JAR);
 	}

@@ -17,8 +17,8 @@ import net.minecraft.world.BlockView;
 public class BoatInAJarBlock extends HorizontalFacingBlock {
     public static final MapCodec<BoatInAJarBlock> CODEC = Block.createCodec(BoatInAJarBlock::new);
 	
-    protected static final VoxelShape SHAPE_Z = Block.createCuboidShape(0, 0, 3, 16, 12, 14);
-    protected static final VoxelShape SHAPE_X = Block.createCuboidShape(3, 0, 0, 14, 12, 16);
+    protected static final VoxelShape SHAPE_Z = Block.createCuboidShape(0, 0, 3, 16, 12, 13);
+    protected static final VoxelShape SHAPE_X = Block.createCuboidShape(3, 0, 0, 13, 12, 16);
 
     public BoatInAJarBlock(Settings settings) {
         super(settings);

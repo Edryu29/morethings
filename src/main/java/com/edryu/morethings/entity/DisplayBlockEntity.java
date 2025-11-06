@@ -2,6 +2,8 @@ package com.edryu.morethings.entity;
 
 import com.edryu.morethings.MoreThingsRegister;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventories;
@@ -13,15 +15,13 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-
-import org.jetbrains.annotations.Nullable;
 	
 
-public class ItemDisplayBlockEntity extends BlockEntity implements SimpleInventory {
+public class DisplayBlockEntity extends BlockEntity implements SimpleInventory {
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
-	public ItemDisplayBlockEntity(BlockPos pos, BlockState state) {
-		super(MoreThingsRegister.ITEM_DISPLAY_BLOCK_ENTITY, pos, state);
+	public DisplayBlockEntity(BlockPos pos, BlockState state) {
+		super(MoreThingsRegister.DISPLAY_BLOCK_ENTITY, pos, state);
 	}
 
     @Override

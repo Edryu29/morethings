@@ -1,7 +1,6 @@
 package com.edryu.morethings.block;
 
-import com.edryu.morethings.MoreThingsRegister;
-import com.edryu.morethings.entity.ItemDisplayBlockEntity;
+import com.edryu.morethings.entity.DisplayBlockEntity;
 
 import com.mojang.serialization.MapCodec;
 
@@ -15,11 +14,9 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -30,30 +27,30 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldEvents;
 
-public class ItemDisplayBlock extends HorizontalFacingBlock implements BlockEntityProvider {
-    public static final BooleanProperty ROTATE = BooleanProperty.of("rotate");
-    public static final BooleanProperty VISIBLE = BooleanProperty.of("visible");
+public class DisplayBlock extends HorizontalFacingBlock implements BlockEntityProvider {
 
-    public ItemDisplayBlock(Settings settings) {
+    public DisplayBlock(Settings settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(ROTATE, true).with(VISIBLE, true));
+        setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
     @Override
-    protected MapCodec<? extends ItemDisplayBlock> getCodec() {
+    protected MapCodec<? extends DisplayBlock> getCodec() {
         return null;
     }
 
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new ItemDisplayBlockEntity(pos, state);
+        return new DisplayBlockEntity(pos, state);
     }
 
     @Override
     protected VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.cuboid(0.1875f, 0f, 0.1875f, 0.8125f, 0.0625f, 0.8125f);
+        return VoxelShapes.union(
+            Block.createCuboidShape(1, 0, 1, 15, 7, 15),
+            Block.createCuboidShape(2, 7, 2, 14, 16, 14)
+        );
     }
 
     @Override
@@ -65,34 +62,19 @@ public class ItemDisplayBlock extends HorizontalFacingBlock implements BlockEnti
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         ItemStack playerHeldItem = player.getStackInHand(Hand.MAIN_HAND);
 
-        // Wax display
-        if (player != null && player.isHolding(Items.HONEYCOMB) && state.get(ROTATE)) {
-            world.setBlockState(pos, state.with(ROTATE, false));
-            world.playSound(player, pos, SoundEvents.ITEM_HONEYCOMB_WAX_ON, SoundCategory.BLOCKS, 1.0f, 1.0f);
-            playerHeldItem.decrementUnlessCreative(1, player);
-            player.getWorld().syncWorldEvent(null, WorldEvents.BLOCK_WAXED, pos, 0);
-            return ActionResult.SUCCESS;
-
-        // Hide holder
-        } else if (player != null && player.isHolding(MoreThingsRegister.ORB)) {
-            boolean is_visible = state.get(VISIBLE);
-            world.setBlockState(pos, state.with(VISIBLE, !is_visible));
-            world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            return ActionResult.SUCCESS;
-
-        } else if (world.getBlockEntity(pos) instanceof ItemDisplayBlockEntity ItemDisplayBlockEntity) {
-            ItemStack storedItem = ItemDisplayBlockEntity.getStack(0);
+        if (world.getBlockEntity(pos) instanceof DisplayBlockEntity DisplayBlockEntity) {
+            ItemStack storedItem = DisplayBlockEntity.getStack(0);
             ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), storedItem);
 
             if (storedItem.isEmpty() ) {
-                ItemDisplayBlockEntity.setStack(0, playerHeldItem.split(1));
+                DisplayBlockEntity.setStack(0, playerHeldItem.split(1));
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                ItemDisplayBlockEntity.markDirty();
+                DisplayBlockEntity.markDirty();
             } else {
                 world.spawnEntity(itemEntity);
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                ItemDisplayBlockEntity.removeStack(0);
-                ItemDisplayBlockEntity.markDirty();
+                DisplayBlockEntity.removeStack(0);
+                DisplayBlockEntity.markDirty();
             }
             return ActionResult.SUCCESS;
         }
@@ -101,13 +83,13 @@ public class ItemDisplayBlock extends HorizontalFacingBlock implements BlockEnti
 
     @Override
     public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (world.getBlockEntity(pos) instanceof ItemDisplayBlockEntity ItemDisplayBlockEntity) {
-            ItemStack storedItem = ItemDisplayBlockEntity.getStack(0);
+        if (world.getBlockEntity(pos) instanceof DisplayBlockEntity DisplayBlockEntity) {
+            ItemStack storedItem = DisplayBlockEntity.getStack(0);
 
             if (!storedItem.isEmpty()) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), storedItem);
                 world.spawnEntity(itemEntity);
-                ItemDisplayBlockEntity.removeStack(0);
+                DisplayBlockEntity.removeStack(0);
             }
         }
         return super.onBreak(world, pos, state, player);
@@ -115,7 +97,7 @@ public class ItemDisplayBlock extends HorizontalFacingBlock implements BlockEnti
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(Properties.HORIZONTAL_FACING, ROTATE, VISIBLE);
+        builder.add(Properties.HORIZONTAL_FACING);
     }
 
 }

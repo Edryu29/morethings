@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "morethings:item_display"
+          "name": "morethings:display"
         }
       ],
       "rolls": 1.0

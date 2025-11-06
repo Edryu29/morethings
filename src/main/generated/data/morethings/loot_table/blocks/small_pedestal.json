@@ -11,16 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "conditions": [
-            {
-              "block": "morethings:telescope",
-              "condition": "minecraft:block_state_property",
-              "properties": {
-                "half": "lower"
-              }
-            }
-          ],
-          "name": "morethings:telescope"
+          "name": "morethings:small_pedestal"
         }
       ],
       "rolls": 1.0

@@ -1,9 +1,9 @@
 package com.edryu.morethings.client.entity;
 
-import org.joml.Quaternionf;
+import com.edryu.morethings.block.SmallPedestalBlock;
+import com.edryu.morethings.entity.SmallPedestalBlockEntity;
 
-import com.edryu.morethings.block.ItemDisplayBlock;
-import com.edryu.morethings.entity.ItemDisplayBlockEntity;
+import org.joml.Quaternionf;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -17,14 +17,14 @@ import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
 
-public class ItemDisplayBlockEntityRenderer implements BlockEntityRenderer<ItemDisplayBlockEntity>{
+public class SmallPedestalBlockEntityRenderer implements BlockEntityRenderer<SmallPedestalBlockEntity>{
     
-    public ItemDisplayBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {}
+    public SmallPedestalBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {}
 
     @Override
-    public void render(ItemDisplayBlockEntity blockEntity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        boolean rotate = blockEntity.getCachedState().get(ItemDisplayBlock.ROTATE);
-        Direction facing = blockEntity.getCachedState().get(ItemDisplayBlock.FACING);
+    public void render(SmallPedestalBlockEntity blockEntity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+        boolean rotate = blockEntity.getCachedState().get(SmallPedestalBlock.ROTATE);
+        Direction facing = blockEntity.getCachedState().get(SmallPedestalBlock.FACING);
         ItemStack storedItem = blockEntity.getStack(0);
 
         if (facing == Direction.NORTH || facing == Direction.SOUTH) facing = facing.getOpposite();

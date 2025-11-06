@@ -1,25 +1,8 @@
 package com.edryu.morethings;
 
-import com.edryu.morethings.block.BigChainBlock;
-import com.edryu.morethings.block.BoatInAJarBlock;
-import com.edryu.morethings.block.BookPileHorizontalBlock;
-import com.edryu.morethings.block.BookPileVerticalBlock;
-import com.edryu.morethings.block.ConsoleLeverBlock;
-import com.edryu.morethings.block.DaubBlock;
-import com.edryu.morethings.block.ItemDisplayBlock;
-import com.edryu.morethings.block.PedestalBlock;
-import com.edryu.morethings.block.RedButtonBlock;
-import com.edryu.morethings.block.RedSafeButtonBlock;
-import com.edryu.morethings.block.RopeBlock;
-import com.edryu.morethings.block.SackBlock;
-import com.edryu.morethings.block.SafeBlock;
-import com.edryu.morethings.block.StonePillarBlock;
-import com.edryu.morethings.block.TelescopeBlock;
-import com.edryu.morethings.block.TerrariumBlock;
-import com.edryu.morethings.entity.ItemDisplayBlockEntity;
-import com.edryu.morethings.entity.SackBlockEntity;
-import com.edryu.morethings.entity.SafeBlockEntity;
-import com.edryu.morethings.screen.SimpleScreenHandler;
+import com.edryu.morethings.block.*;
+import com.edryu.morethings.entity.*;
+import com.edryu.morethings.screen.*;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -29,8 +12,8 @@ import net.minecraft.block.BlockSetType;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.HayBlock;
 import net.minecraft.block.MapColor;
-import net.minecraft.block.StairsBlock;
 import net.minecraft.block.SlabBlock;
+import net.minecraft.block.StairsBlock;
 import net.minecraft.block.TrapdoorBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -73,12 +56,14 @@ public class MoreThingsRegister {
     public static final Block CONSOLE_LEVER = registerBlock(new ConsoleLeverBlock(buttonSettings()),"console_lever");
 
     // BLOCKS WITH ENTITIES
-    public static final Block ITEM_DISPLAY_BLOCK = registerBlock(new ItemDisplayBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).strength(0.2f)),"item_display");
+    public static final Block SMALL_PEDESTAL_BLOCK = registerBlock(new SmallPedestalBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).strength(0.2f)),"small_pedestal");
+    public static final Block DISPLAY_BLOCK = registerBlock(new DisplayBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"display");
     public static final Block SACK_BLOCK = registerBlock(new SackBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.SACK).strength(0.8f)),"sack");
     public static final Block SAFE_BLOCK = registerBlock(new SafeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)),"safe");
 
     // ENTITIES
-    public static final BlockEntityType<ItemDisplayBlockEntity> ITEM_DISPLAY_BLOCK_ENTITY = registerEntity("item_display", ItemDisplayBlockEntity::new, MoreThingsRegister.ITEM_DISPLAY_BLOCK);
+    public static final BlockEntityType<SmallPedestalBlockEntity> SMALL_PEDESTAL_BLOCK_ENTITY = registerEntity("small_pedestal", SmallPedestalBlockEntity::new, MoreThingsRegister.SMALL_PEDESTAL_BLOCK);
+    public static final BlockEntityType<DisplayBlockEntity> DISPLAY_BLOCK_ENTITY = registerEntity("display", DisplayBlockEntity::new, MoreThingsRegister.DISPLAY_BLOCK);
     public static final BlockEntityType<SackBlockEntity> SACK_BLOCK_ENTITY = registerEntity("sack", SackBlockEntity::new, MoreThingsRegister.SACK_BLOCK);
     public static final BlockEntityType<SafeBlockEntity> SAFE_BLOCK_ENTITY = registerEntity("safe", SafeBlockEntity::new, MoreThingsRegister.SAFE_BLOCK);
 
@@ -141,7 +126,8 @@ public class MoreThingsRegister {
             itemGroup.add(SAFE_BLOCK.asItem());
             itemGroup.add(ROPE.asItem());
             itemGroup.add(PEDESTAL.asItem());
-            itemGroup.add(ITEM_DISPLAY_BLOCK.asItem());
+            itemGroup.add(SMALL_PEDESTAL_BLOCK.asItem());
+            itemGroup.add(DISPLAY_BLOCK.asItem());
             itemGroup.add(STONE_PILLAR.asItem());
             itemGroup.add(BIG_CHAIN.asItem());
             itemGroup.add(BAR_PANEL.asItem());

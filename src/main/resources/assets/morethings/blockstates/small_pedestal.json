@@ -1,18 +1,18 @@
 {
   "variants": {
     "visible=true,facing=north": {
-      "model": "morethings:block/item_display"
+      "model": "morethings:block/small_pedestal"
     },
     "visible=true,facing=east": {
-      "model": "morethings:block/item_display",
+      "model": "morethings:block/small_pedestal",
       "y": 90
     },
     "visible=true,facing=south": {
-      "model": "morethings:block/item_display",
+      "model": "morethings:block/small_pedestal",
       "y": 180
     },
     "visible=true,facing=west": {
-      "model": "morethings:block/item_display",
+      "model": "morethings:block/small_pedestal",
       "y": 270
     },
     "visible=false": {

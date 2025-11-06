@@ -1,5 +1,5 @@
 {
-  	"parent": "morethings:block/item_display",
+  	"parent": "morethings:block/small_pedestal",
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [75, 45, 0],
