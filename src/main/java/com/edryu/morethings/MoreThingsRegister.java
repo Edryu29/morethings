@@ -2,7 +2,7 @@ package com.edryu.morethings;
 
 import com.edryu.morethings.block.*;
 import com.edryu.morethings.entity.*;
-import com.edryu.morethings.screen.*;
+import com.edryu.morethings.util.*;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;

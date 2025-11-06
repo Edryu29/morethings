@@ -1,4 +1,4 @@
-package com.edryu.morethings.entity;
+package com.edryu.morethings.util;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;

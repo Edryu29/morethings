@@ -1,4 +1,4 @@
-package com.edryu.morethings.screen;
+package com.edryu.morethings.util;
 
 import com.edryu.morethings.MoreThingsRegister;
 

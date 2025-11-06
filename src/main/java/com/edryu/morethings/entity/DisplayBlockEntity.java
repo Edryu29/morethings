@@ -1,6 +1,7 @@
 package com.edryu.morethings.entity;
 
 import com.edryu.morethings.MoreThingsRegister;
+import com.edryu.morethings.util.SimpleInventory;
 
 import org.jetbrains.annotations.Nullable;
 

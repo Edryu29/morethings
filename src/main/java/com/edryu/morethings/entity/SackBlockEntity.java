@@ -3,7 +3,8 @@ package com.edryu.morethings.entity;
 import com.edryu.morethings.MoreThingsRegister;
 import com.edryu.morethings.MoreThingsSounds;
 import com.edryu.morethings.block.SackBlock;
-import com.edryu.morethings.screen.SimpleScreenHandler;
+import com.edryu.morethings.util.SimpleInventory;
+import com.edryu.morethings.util.SimpleScreenHandler;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;

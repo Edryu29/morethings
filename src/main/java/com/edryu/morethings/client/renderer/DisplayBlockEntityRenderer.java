@@ -1,4 +1,4 @@
-package com.edryu.morethings.client.entity;
+package com.edryu.morethings.client.renderer;
 
 import com.edryu.morethings.block.DisplayBlock;
 import com.edryu.morethings.entity.DisplayBlockEntity;

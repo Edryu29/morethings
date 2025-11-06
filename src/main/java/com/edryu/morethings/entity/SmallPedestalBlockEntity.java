@@ -1,6 +1,7 @@
 package com.edryu.morethings.entity;
 
 import com.edryu.morethings.MoreThingsRegister;
+import com.edryu.morethings.util.SimpleInventory;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
