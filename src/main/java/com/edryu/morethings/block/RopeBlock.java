@@ -6,36 +6,24 @@ import java.util.Set;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.edryu.morethings.MoreThingsSounds;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ChainBlock;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.SideShapeType;
 import net.minecraft.block.Waterloggable;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.ai.pathing.NavigationType;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 public class RopeBlock extends Block implements Waterloggable {
@@ -82,19 +70,19 @@ public class RopeBlock extends Block implements Waterloggable {
         WorldAccess world = ctx.getWorld();
         BlockPos pos = ctx.getBlockPos();
 
-        boolean north = canConnectTo(world, pos.north(), Direction.SOUTH);
-        boolean south = canConnectTo(world, pos.south(), Direction.NORTH);
-        boolean east  = canConnectTo(world, pos.east(),  Direction.WEST);
-        boolean west  = canConnectTo(world, pos.west(),  Direction.EAST);
-        boolean up    = canConnectTo(world, pos.up(),    Direction.DOWN);
-        boolean down  = canConnectTo(world, pos.down(),  Direction.UP);
+        boolean north = canConnectTo(world, pos.north(), Direction.SOUTH, pos);
+        boolean south = canConnectTo(world, pos.south(), Direction.NORTH, pos);
+        boolean east  = canConnectTo(world, pos.east(),  Direction.WEST, pos);
+        boolean west  = canConnectTo(world, pos.west(),  Direction.EAST, pos);
+        boolean up    = canConnectTo(world, pos.up(),    Direction.DOWN, pos);
+        boolean down  = canConnectTo(world, pos.down(),  Direction.UP, pos);
 
-        boolean hasAxisY      = up || down;
-        boolean hasAxisZ      = north || south;
-        boolean hasAxisX      = east || west;
+        boolean hasVertical   = up || down;
+        boolean hasHorizontal = north || south || east || west;
+        boolean noConnections = !hasHorizontal && !hasVertical;
         boolean isCorner      = (north || south) && (east || west);
         boolean singleAxis    = (north ^ south) || (east ^ west) || (up ^ down);
-        boolean ropeKnot      = ((hasAxisZ || hasAxisX) && (isCorner || hasAxisY)) || (!(hasAxisZ || hasAxisX) && !hasAxisY) || singleAxis;
+        boolean ropeKnot      = (hasHorizontal && (isCorner || hasVertical)) || noConnections || singleAxis;
 
 		FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
 		boolean bl = fluidState.getFluid() == Fluids.WATER;
@@ -109,6 +97,7 @@ public class RopeBlock extends Block implements Waterloggable {
             .with(UP, up)
             .with(DOWN, down);
 
+        if (hasNoConnection(state) || !hasFixedAnchor(world, pos)) return null;
         return state;
 	}
 
@@ -117,19 +106,19 @@ public class RopeBlock extends Block implements Waterloggable {
         boolean wl = state.get(WATERLOGGED);
 		if (wl) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 
-        boolean north = canConnectTo(world, pos.north(), Direction.SOUTH);
-        boolean south = canConnectTo(world, pos.south(), Direction.NORTH);
-        boolean east  = canConnectTo(world, pos.east(),  Direction.WEST);
-        boolean west  = canConnectTo(world, pos.west(),  Direction.EAST);
-        boolean up    = canConnectTo(world, pos.up(),    Direction.DOWN);
-        boolean down  = canConnectTo(world, pos.down(),  Direction.UP);
+        boolean north = canConnectTo(world, pos.north(), Direction.SOUTH, pos);
+        boolean south = canConnectTo(world, pos.south(), Direction.NORTH, pos);
+        boolean east  = canConnectTo(world, pos.east(),  Direction.WEST, pos);
+        boolean west  = canConnectTo(world, pos.west(),  Direction.EAST, pos);
+        boolean up    = canConnectTo(world, pos.up(),    Direction.DOWN, pos);
+        boolean down  = canConnectTo(world, pos.down(),  Direction.UP, pos);
 
-        boolean hasAxisY      = up || down;
-        boolean hasAxisZ      = north || south;
-        boolean hasAxisX      = east || west;
+        boolean hasVertical   = up || down;
+        boolean hasHorizontal = north || south || east || west;
+        boolean noConnections = !hasHorizontal && !hasVertical;
         boolean isCorner      = (north || south) && (east || west);
         boolean singleAxis    = (north ^ south) || (east ^ west) || (up ^ down);
-        boolean ropeKnot      = ((hasAxisZ || hasAxisX) && (isCorner || hasAxisY)) || (!(hasAxisZ || hasAxisX) && !hasAxisY) || singleAxis;
+        boolean ropeKnot      = (hasHorizontal && (isCorner || hasVertical)) || noConnections || singleAxis;
 
         state = getDefaultState()
                 .with(WATERLOGGED, wl)
@@ -140,15 +129,46 @@ public class RopeBlock extends Block implements Waterloggable {
                 .with(WEST, west)
                 .with(UP, up)
                 .with(DOWN, down);
-        
+
+        if (hasNoConnection(state) || !hasFixedAnchor(world, pos)) return Blocks.AIR.getDefaultState();
 		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
 	}
 
-    private boolean canConnectTo(WorldAccess world, BlockPos neighborPos, Direction dirTowardNeighbor) {
+    private boolean canConnectTo(WorldAccess world, BlockPos neighborPos, Direction dirTowardNeighbor, BlockPos pos) {
         BlockState neighborState = world.getBlockState(neighborPos);
         if (neighborState.getBlock() instanceof RopeBlock) return true;
-        // if (dirTowardNeighbor == Direction.UP) return neighborState.isSideSolid(world, neighborPos, Direction.DOWN, SideShapeType.CENTER);
+        if (dirTowardNeighbor == Direction.UP) return neighborState.isSideSolid(world, neighborPos, Direction.DOWN, SideShapeType.CENTER);
         return neighborState.isSideSolid(world, neighborPos, dirTowardNeighbor, SideShapeType.CENTER);
+    }
+
+    private boolean hasNoConnection(BlockState state) {
+        return !(state.get(NORTH) || state.get(SOUTH) || state.get(EAST) || state.get(WEST) || state.get(UP) || state.get(DOWN));
+    }
+
+    private boolean hasFixedAnchor(WorldAccess world, BlockPos start) {
+        ArrayDeque<BlockPos> queue = new ArrayDeque<>();
+        Set<BlockPos> seen = new HashSet<>();
+        queue.add(start);
+        int steps = 0;
+        while (!queue.isEmpty() && steps < 256) {
+            BlockPos p = queue.poll();
+            if (!seen.add(p)) continue;
+            for (Direction d : Direction.values()) {
+                BlockPos n = p.offset(d);
+                BlockState s = world.getBlockState(n);
+                if (s.getBlock() instanceof RopeBlock) {
+                    if (!seen.contains(n)) queue.add(n);
+                    continue;
+                }
+                if (d == Direction.UP) {
+                    if (s.isSideSolid(world, n, Direction.DOWN, SideShapeType.CENTER)) return true;
+                } else if (d != Direction.DOWN) {
+                    if (s.isSideSolid(world, n, d.getOpposite(), SideShapeType.CENTER)) return true;
+                }
+            }
+            steps++;
+        }
+        return false;
     }
 
 	@Override

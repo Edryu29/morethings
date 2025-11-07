@@ -69,13 +69,13 @@ public class DisplayBlock extends HorizontalFacingBlock implements BlockEntityPr
             if (storedItem.isEmpty() ) {
                 DisplayBlockEntity.setStack(0, playerHeldItem.split(1));
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                DisplayBlockEntity.markDirty();
             } else {
                 world.spawnEntity(itemEntity);
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 DisplayBlockEntity.removeStack(0);
-                DisplayBlockEntity.markDirty();
             }
+
+            DisplayBlockEntity.markDirty();
             return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;
@@ -85,7 +85,7 @@ public class DisplayBlock extends HorizontalFacingBlock implements BlockEntityPr
     public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if (world.getBlockEntity(pos) instanceof DisplayBlockEntity DisplayBlockEntity) {
             ItemStack storedItem = DisplayBlockEntity.getStack(0);
-
+            
             if (!storedItem.isEmpty()) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), storedItem);
                 world.spawnEntity(itemEntity);
