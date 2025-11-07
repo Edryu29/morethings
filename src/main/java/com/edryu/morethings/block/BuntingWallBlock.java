@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.block.TripwireBlock;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -68,6 +69,7 @@ public class BuntingWallBlock extends BuntingBlock {
 		Direction facing = state.get(FACING);
 		BlockPos blockPos = pos.offset(facing.getOpposite());
 		BlockState blockState = world.getBlockState(blockPos);
+		if (blockState.getBlock() instanceof TripwireBlock) return true;
 		return blockState.isSideSolidFullSquare(world, blockPos, facing);
 	}
 }

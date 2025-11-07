@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.SideShapeType;
+import net.minecraft.block.TripwireBlock;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
@@ -39,6 +40,8 @@ public class BuntingCeilingBlock extends BuntingBlock {
 
 	@Override
 	protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+		BlockState neighborState = world.getBlockState(pos.up());
+		if (neighborState.getBlock() instanceof TripwireBlock) return true;
 		return world.getBlockState(pos.up()).isSideSolid(world, pos.up(), Direction.DOWN, SideShapeType.CENTER);
 	}
 

@@ -50,9 +50,10 @@ public class MoreThingsRegister {
     public static final Block BOAT_IN_A_JAR = registerBlock(new BoatInAJarBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"boat_in_a_jar");
     public static final Block TERRARIUM = registerBlock(new TerrariumBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"terrarium");
     public static final Block TELESCOPE = registerBlock(new TelescopeBlock(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)),"telescope");
+    
     public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.ROPE).strength(0.25f).nonOpaque()),"rope");
-    public static final Block BUNTING_CEILING = registerBlock(new BuntingCeilingBlock(AbstractBlock.Settings.copy(ROPE)),"bunting_ceiling");
-    public static final Block BUNTING_WALL = registerBlock(new BuntingWallBlock(AbstractBlock.Settings.copy(ROPE)),"bunting_wall");
+    public static final Block BUNTING_CEILING = registerBlock(new BuntingCeilingBlock(AbstractBlock.Settings.copy(ROPE).noCollision()),"bunting_ceiling");
+    public static final Block BUNTING_WALL = registerBlock(new BuntingWallBlock(AbstractBlock.Settings.copy(ROPE).noCollision()),"bunting_wall");
 
     // BUTTONS & LEVERS
     public static final Block RED_BUTTON = registerBlock(new RedButtonBlock(buttonSettings()),"red_button");
@@ -85,7 +86,7 @@ public class MoreThingsRegister {
 
     // ITEM GROUP
     public static final RegistryKey<ItemGroup> MORE_BLOCKS_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MoreThingsMain.MOD_ID, "more_blocks"));
-    public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(TERRARIUM)).displayName(Text.translatable("itemGroup.more_blocks")).build();
+    public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(TELESCOPE)).displayName(Text.translatable("itemGroup.more_blocks")).build();
 
 
     // METHODS
@@ -160,6 +161,7 @@ public class MoreThingsRegister {
             itemGroup.add(CRYSTAL_GREEN);
             itemGroup.add(CRYSTAL_PURPLE);
             itemGroup.add(CRYSTAL_RED);
+            itemGroup.add(BUNTING);
         });
     }
 }
