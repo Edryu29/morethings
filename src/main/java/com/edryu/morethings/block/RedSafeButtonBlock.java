@@ -99,9 +99,10 @@ public class RedSafeButtonBlock extends ButtonBlock {
 
         } else {
             if ((Boolean)state.get(POWERED)) {
-                return ActionResult.CONSUME;} else {
-                    this.powerOn(state, world, pos, player);
-                    return ActionResult.success(world.isClient);
+                return ActionResult.CONSUME;
+            } else {
+                this.powerOn(state, world, pos, player);
+                return ActionResult.success(world.isClient);
             }
         }
     }

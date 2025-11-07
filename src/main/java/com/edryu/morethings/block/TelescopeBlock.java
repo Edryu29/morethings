@@ -20,6 +20,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 
 public class TelescopeBlock extends TallPlantBlock {
 	public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
@@ -49,6 +50,15 @@ public class TelescopeBlock extends TallPlantBlock {
 	public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
 		BlockPos blockPos = pos.up();
 		world.setBlockState(blockPos, withWaterloggedState(world, blockPos, this.getDefaultState().with(HALF, DoubleBlockHalf.UPPER).with(Properties.HORIZONTAL_FACING, state.get(FACING))), Block.NOTIFY_ALL);
+	}
+
+	@Override
+	protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
+		if (state.get(HALF) == DoubleBlockHalf.UPPER) {
+			BlockState blockState = world.getBlockState(pos.down());
+			return blockState.isOf(this) && blockState.get(HALF) == DoubleBlockHalf.LOWER;
+		}
+		return true;
 	}
 
 	@Override
