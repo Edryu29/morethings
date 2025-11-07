@@ -37,6 +37,8 @@ public class MoreThingsClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.THATCH_SLAB, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.THATCH_STAIRS, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.DISPLAY_BLOCK, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.BUNTING_CEILING, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.BUNTING_WALL, RenderLayer.getCutout());
 
 		ColorProviderRegistry.BLOCK.register((state, level, pos, tintIndex) -> level != null && pos != null ? BiomeColors.getWaterColor(level, pos) : 0x3F76E4, MoreThingsRegister.BOAT_IN_A_JAR);
 	}

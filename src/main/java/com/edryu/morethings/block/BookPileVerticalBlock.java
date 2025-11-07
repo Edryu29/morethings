@@ -36,8 +36,8 @@ public class BookPileVerticalBlock extends BookPileBlock {
                     case 3:
                         return BOOKS_SHAPE_N4;
                 }
-            case WEST:
             case EAST:
+            case WEST:
                 switch (state.get(BOOKS)) {
                     case 0:
                     default:

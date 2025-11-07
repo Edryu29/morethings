@@ -69,7 +69,6 @@ public class SmallPedestalBlock extends HorizontalFacingBlock implements BlockEn
         if (player != null && player.isHolding(Items.HONEYCOMB) && state.get(ROTATE)) {
             world.setBlockState(pos, state.with(ROTATE, false));
             world.playSound(player, pos, SoundEvents.ITEM_HONEYCOMB_WAX_ON, SoundCategory.BLOCKS, 1.0f, 1.0f);
-            playerHeldItem.decrementUnlessCreative(1, player);
             player.getWorld().syncWorldEvent(null, WorldEvents.BLOCK_WAXED, pos, 0);
             return ActionResult.SUCCESS;
 
@@ -78,6 +77,7 @@ public class SmallPedestalBlock extends HorizontalFacingBlock implements BlockEn
             boolean is_visible = state.get(VISIBLE);
             world.setBlockState(pos, state.with(VISIBLE, !is_visible));
             world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            player.getWorld().syncWorldEvent(null, WorldEvents.BONE_MEAL_USED, pos, 0);
             return ActionResult.SUCCESS;
 
         } else if (world.getBlockEntity(pos) instanceof SmallPedestalBlockEntity SmallPedestalBlockEntity) {

@@ -44,6 +44,8 @@ public class MoreThingsLootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(MoreThingsRegister.THATCH);
                 addDrop(MoreThingsRegister.THATCH_SLAB);
                 addDrop(MoreThingsRegister.THATCH_STAIRS);
+                addDrop(MoreThingsRegister.BUNTING_CEILING);
+                addDrop(MoreThingsRegister.BUNTING_WALL);
 
                 addDrop(MoreThingsRegister.TELESCOPE, LootTable.builder().pool(addSurvivesExplosionCondition(MoreThingsRegister.TELESCOPE, LootPool.builder()
                     .rolls(new ConstantLootNumberProvider(1))

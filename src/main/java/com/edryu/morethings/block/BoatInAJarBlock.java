@@ -37,8 +37,8 @@ public class BoatInAJarBlock extends HorizontalFacingBlock {
 			case SOUTH:
 			default:
 				return SHAPE_Z;
-			case WEST:
 			case EAST:
+			case WEST:
 				return SHAPE_X;
 		}
 	}

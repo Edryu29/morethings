@@ -22,6 +22,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.VerticallyAttachableBlockItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -31,13 +32,13 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Direction;
 
 public class MoreThingsRegister {
     // BLOCKS
     public static final Block DAUB = registerBlock(new DaubBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)), "daub");
     public static final Block BOOK_PILE_HORIZONTAL = registerBlock(new BookPileHorizontalBlock(bookPileSettings()),"book_pile_horizontal");
     public static final Block BOOK_PILE_VERTICAL = registerBlock(new BookPileVerticalBlock(bookPileSettings()),"book_pile_vertical");
-    public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.ROPE).strength(0.25f).nonOpaque()),"rope");
     public static final Block PEDESTAL = registerBlock(new PedestalBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"pedestal");
     public static final Block BIG_CHAIN = registerBlock(new BigChainBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.CHAIN).mapColor(MapColor.IRON_GRAY).strength(5f, 6f).solid().nonOpaque()),"big_chain");
     public static final Block STONE_PILLAR = registerBlock(new StonePillarBlock(AbstractBlock.Settings.copy(Blocks.STONE_BRICKS)),"stone_pillar");
@@ -49,6 +50,9 @@ public class MoreThingsRegister {
     public static final Block BOAT_IN_A_JAR = registerBlock(new BoatInAJarBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"boat_in_a_jar");
     public static final Block TERRARIUM = registerBlock(new TerrariumBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"terrarium");
     public static final Block TELESCOPE = registerBlock(new TelescopeBlock(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)),"telescope");
+    public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(MoreThingsSounds.ROPE).strength(0.25f).nonOpaque()),"rope");
+    public static final Block BUNTING_CEILING = registerBlock(new BuntingCeilingBlock(AbstractBlock.Settings.copy(ROPE)),"bunting_ceiling");
+    public static final Block BUNTING_WALL = registerBlock(new BuntingWallBlock(AbstractBlock.Settings.copy(ROPE)),"bunting_wall");
 
     // BUTTONS & LEVERS
     public static final Block RED_BUTTON = registerBlock(new RedButtonBlock(buttonSettings()),"red_button");
@@ -77,11 +81,11 @@ public class MoreThingsRegister {
     public static final Item CRYSTAL_GREEN = registerItem(new Item(new Item.Settings().maxCount(16)), "crystal_green");
     public static final Item CRYSTAL_PURPLE = registerItem(new Item(new Item.Settings().maxCount(16)), "crystal_purple");
     public static final Item CRYSTAL_RED = registerItem(new Item(new Item.Settings().maxCount(16)), "crystal_red");
+    public static final Item BUNTING = registerVerticallyAttachableItem(new VerticallyAttachableBlockItem(BUNTING_CEILING, BUNTING_WALL, new Item.Settings(), Direction.UP), "bunting");
 
     // ITEM GROUP
     public static final RegistryKey<ItemGroup> MORE_BLOCKS_GROUP_KEY = RegistryKey.of(Registries.ITEM_GROUP.getKey(), Identifier.of(MoreThingsMain.MOD_ID, "more_blocks"));
     public static final ItemGroup MORE_BLOCKS_GROUP = FabricItemGroup.builder().icon(() -> new ItemStack(TERRARIUM)).displayName(Text.translatable("itemGroup.more_blocks")).build();
-
 
 
     // METHODS
@@ -105,6 +109,11 @@ public class MoreThingsRegister {
 		return Registry.register(Registries.ITEM, itemID, item);
 	}
 
+	public static Item registerVerticallyAttachableItem(VerticallyAttachableBlockItem item, String name) {
+		Identifier itemID = Identifier.of(MoreThingsMain.MOD_ID, name);
+		return Registry.register(Registries.ITEM, itemID, item);
+	}
+
     public static <T extends BlockEntity> BlockEntityType<T> registerEntity(String name, BlockEntityType.BlockEntityFactory<? extends T> entityFactory, Block... blocks) {
         Identifier entityID = Identifier.of(MoreThingsMain.MOD_ID, name);
         return Registry.register(Registries.BLOCK_ENTITY_TYPE, entityID, BlockEntityType.Builder.<T>create(entityFactory, blocks).build());
@@ -124,7 +133,6 @@ public class MoreThingsRegister {
 
             itemGroup.add(SACK_BLOCK.asItem());
             itemGroup.add(SAFE_BLOCK.asItem());
-            itemGroup.add(ROPE.asItem());
             itemGroup.add(PEDESTAL.asItem());
             itemGroup.add(SMALL_PEDESTAL_BLOCK.asItem());
             itemGroup.add(DISPLAY_BLOCK.asItem());
@@ -132,6 +140,7 @@ public class MoreThingsRegister {
             itemGroup.add(BIG_CHAIN.asItem());
             itemGroup.add(BAR_PANEL.asItem());
             itemGroup.add(LATTICE.asItem());
+            itemGroup.add(ROPE.asItem());
 
             itemGroup.add(THATCH.asItem());
             itemGroup.add(THATCH_SLAB.asItem());

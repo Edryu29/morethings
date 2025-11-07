@@ -31,8 +31,8 @@ public class RedSafeButtonBlock extends ButtonBlock {
     private static final VoxelShape STONE_DOWN = Block.createCuboidShape(3, 0, 3, 13, 1, 13);
     private static final VoxelShape STONE_UP = Block.createCuboidShape(3, 15, 3, 13, 16, 13);
     private static final VoxelShape STONE_NORTH = Block.createCuboidShape(3, 3, 15, 13, 13, 16);
-    private static final VoxelShape STONE_EAST = Block.createCuboidShape(0, 3, 3, 1, 13, 13);
     private static final VoxelShape STONE_SOUTH = Block.createCuboidShape(3, 3, 0, 13, 13, 1);
+    private static final VoxelShape STONE_EAST = Block.createCuboidShape(0, 3, 3, 1, 13, 13);
     private static final VoxelShape STONE_WEST = Block.createCuboidShape(15, 3, 3, 16, 13, 13);
 
     private static final VoxelShape FLOOR_CLOSED_SHAPE = VoxelShapes.union(Block.createCuboidShape(4, 1, 4, 12, 8, 12), STONE_DOWN);
@@ -44,12 +44,12 @@ public class RedSafeButtonBlock extends ButtonBlock {
     private static final VoxelShape NORTH_CLOSED_SHAPE = VoxelShapes.union(Block.createCuboidShape(4, 4, 8, 12, 12, 15), STONE_NORTH);
     private static final VoxelShape NORTH_OPEN_SHAPE = VoxelShapes.union(Block.createCuboidShape(5, 5, 11, 11, 11, 15), STONE_NORTH);
     private static final VoxelShape NORTH_PRESSED_SHAPE = VoxelShapes.union(Block.createCuboidShape(5, 5, 13, 11, 11, 15), STONE_NORTH);
-    private static final VoxelShape EAST_CLOSED_SHAPE = VoxelShapes.union(Block.createCuboidShape(1, 4, 4, 8, 12, 12), STONE_EAST);
-    private static final VoxelShape EAST_OPEN_SHAPE = VoxelShapes.union(Block.createCuboidShape(1, 5, 5, 5, 11, 11), STONE_EAST);
-    private static final VoxelShape EAST_PRESSED_SHAPE = VoxelShapes.union(Block.createCuboidShape(1, 5, 5, 3, 11, 11), STONE_EAST);
     private static final VoxelShape SOUTH_CLOSED_SHAPE = VoxelShapes.union(Block.createCuboidShape(4, 4, 1, 12, 12, 8), STONE_SOUTH);
     private static final VoxelShape SOUTH_OPEN_SHAPE = VoxelShapes.union(Block.createCuboidShape(5, 5, 1, 11, 11, 5), STONE_SOUTH);
     private static final VoxelShape SOUTH_PRESSED_SHAPE = VoxelShapes.union(Block.createCuboidShape(5, 5, 1, 11, 11, 3), STONE_SOUTH);
+    private static final VoxelShape EAST_CLOSED_SHAPE = VoxelShapes.union(Block.createCuboidShape(1, 4, 4, 8, 12, 12), STONE_EAST);
+    private static final VoxelShape EAST_OPEN_SHAPE = VoxelShapes.union(Block.createCuboidShape(1, 5, 5, 5, 11, 11), STONE_EAST);
+    private static final VoxelShape EAST_PRESSED_SHAPE = VoxelShapes.union(Block.createCuboidShape(1, 5, 5, 3, 11, 11), STONE_EAST);
     private static final VoxelShape WEST_CLOSED_SHAPE = VoxelShapes.union(Block.createCuboidShape(8, 4, 4, 15, 12, 12), STONE_WEST);
     private static final VoxelShape WEST_OPEN_SHAPE = VoxelShapes.union(Block.createCuboidShape(11, 5, 5, 15, 11, 11), STONE_WEST);
     private static final VoxelShape WEST_PRESSED_SHAPE = VoxelShapes.union(Block.createCuboidShape(13, 5, 5, 15, 11, 11), STONE_WEST);

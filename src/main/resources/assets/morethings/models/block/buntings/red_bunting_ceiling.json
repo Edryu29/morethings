@@ -1,0 +1,7 @@
+{
+  "parent": "morethings:block/buntings/template_bunting_ceiling",
+  "textures": {
+    "0": "morethings:block/buntings/wall_bunting_red",
+    "particle": "morethings:block/buntings/wall_bunting_red"
+  }
+}

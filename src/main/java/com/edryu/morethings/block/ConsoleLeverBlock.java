@@ -21,8 +21,8 @@ public class ConsoleLeverBlock extends LeverBlock {
     protected static final VoxelShape FLOOR_Z_SHAPE = Block.createCuboidShape(4, 0, 3, 12, 2, 13);
     protected static final VoxelShape NORTH_SHAPE = Block.createCuboidShape(4, 3, 14, 12, 13, 16);
     protected static final VoxelShape SOUTH_SHAPE = Block.createCuboidShape(4, 3, 0, 12, 13, 2);
-    protected static final VoxelShape WEST_SHAPE = Block.createCuboidShape(14, 3, 4, 16, 13, 12);
     protected static final VoxelShape EAST_SHAPE = Block.createCuboidShape(0, 3, 4, 2, 13, 12);
+    protected static final VoxelShape WEST_SHAPE = Block.createCuboidShape(14, 3, 4, 16, 13, 12);
 
     public ConsoleLeverBlock(Settings settings) {
         super(settings);
@@ -41,10 +41,10 @@ public class ConsoleLeverBlock extends LeverBlock {
                         return NORTH_SHAPE;
                     case EAST:
                         return EAST_SHAPE;
-                    case WEST:
-                        return WEST_SHAPE;
                     case SOUTH:
                         return SOUTH_SHAPE;
+                    case WEST:
+                        return WEST_SHAPE;
                 }
             default:
                 return direction.getAxis() == Direction.Axis.X ? CEILING_X_SHAPE : CEILING_Z_SHAPE;

@@ -57,6 +57,15 @@ public class MoreThingsRecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.STRING), FabricRecipeProvider.conditionsFromItem(Items.STRING))
             .offerTo(recipeExporter);
 
+        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, MoreThingsRegister.BUNTING, 6)
+            .pattern("000")
+            .pattern("111")
+            .pattern(" 1 ")
+            .input('0', Items.STRING)
+            .input('1', ItemTags.WOOL)
+            .criterion(FabricRecipeProvider.hasItem(Items.STRING), FabricRecipeProvider.conditionsFromItem(Items.STRING))
+            .offerTo(recipeExporter);
+
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, MoreThingsRegister.BOAT_IN_A_JAR, 1)
             .pattern("111")
             .pattern("121")
