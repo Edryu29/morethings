@@ -41,6 +41,8 @@ public class BlockRegistry {
     public static final Block BOAT_IN_A_JAR = registerBlock(new BoatInAJarBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"boat_in_a_jar");
     public static final Block TERRARIUM = registerBlock(new TerrariumBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"terrarium");
     public static final Block TELESCOPE = registerBlock(new TelescopeBlock(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)),"telescope");
+    public static final Block GLOBE = registerBlock(new GlobeBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).strength(2f, 4).nonOpaque()),"globe");
+    public static final Block GLOBE_SEPIA = registerBlock(new GlobeBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).strength(2f, 4).nonOpaque()),"globe_sepia");
     
     public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(SoundRegistry.ROPE).strength(0.25f).nonOpaque()),"rope");
     public static final Block BUNTING_CEILING = registerBlock(new BuntingCeilingBlock(AbstractBlock.Settings.copy(ROPE).noCollision()),"bunting_ceiling");

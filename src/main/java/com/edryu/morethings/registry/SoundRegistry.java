@@ -20,6 +20,8 @@ public class SoundRegistry {
     public static final SoundEvent ROPE_HIT = registerSound("block.rope.hit");
     public static final SoundEvent ROPE_FALL = registerSound("block.rope.fall");
 
+    public static final SoundEvent GLOBE_SPIN = registerSound("block.globe.spin");
+
     public static final BlockSoundGroup BOOKS = new BlockSoundGroup(1.0F, 1.0F, SoundEvents.BLOCK_CHISELED_BOOKSHELF_PICKUP, SoundEvents.ITEM_BOOK_PUT, SoundEvents.BLOCK_CHISELED_BOOKSHELF_PLACE, SoundEvents.ITEM_BOOK_PUT, SoundEvents.ITEM_BOOK_PUT);
     public static final BlockSoundGroup SACK = new BlockSoundGroup(1.0F, 1.0F, SACK_BREAK, SoundEvents.BLOCK_WOOL_STEP, SACK_PLACE, SoundEvents.BLOCK_WOOL_HIT, SoundEvents.BLOCK_WOOL_FALL);
     public static final BlockSoundGroup ROPE = new BlockSoundGroup(1.0F, 1.0F, ROPE_BREAK, ROPE_STEP, ROPE_PLACE, ROPE_HIT, ROPE_FALL);

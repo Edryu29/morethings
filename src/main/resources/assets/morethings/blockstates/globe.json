@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=north,type=0": [
+      { "model": "morethings:block/globes/globe_world" },
+      { "model": "morethings:block/globes/globe_earth" }
+    ],
+    "facing=east,type=0":  [
+      { "model": "morethings:block/globes/globe_world", "y": 90 },
+      { "model": "morethings:block/globes/globe_earth", "y": 90 }
+    ],
+    "facing=south,type=0": [
+      { "model": "morethings:block/globes/globe_world", "y": 180 },
+      { "model": "morethings:block/globes/globe_earth", "y": 180 }
+    ],
+    "facing=west,type=0":  [
+      { "model": "morethings:block/globes/globe_world", "y": 270 },
+      { "model": "morethings:block/globes/globe_earth", "y": 270 }
+    ],
+
+    "facing=north,type=1": { "model": "morethings:block/globes/globe_flat" },
+    "facing=east,type=1":  { "model": "morethings:block/globes/globe_flat", "y": 90 },
+    "facing=south,type=1": { "model": "morethings:block/globes/globe_flat", "y": 180 },
+    "facing=west,type=1":  { "model": "morethings:block/globes/globe_flat", "y": 270 },
+
+    "facing=north,type=2": { "model": "morethings:block/globes/globe_moon" },
+    "facing=east,type=2":  { "model": "morethings:block/globes/globe_moon", "y": 90 },
+    "facing=south,type=2": { "model": "morethings:block/globes/globe_moon", "y": 180 },
+    "facing=west,type=2":  { "model": "morethings:block/globes/globe_moon", "y": 270 }
+  }
+}

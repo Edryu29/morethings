@@ -3,8 +3,7 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"textures": {
-		"0": "morethings:block/buntings/wall_bunting_white",
-		"particle": "morethings:block/buntings/wall_bunting_white"
+		"0": "morethings:block/buntings/wall_bunting_white"
 	},
 	"elements": [
 		{

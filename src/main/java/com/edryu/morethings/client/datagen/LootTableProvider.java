@@ -28,6 +28,8 @@ public class LootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(BlockRegistry.ROPE);
                 addDrop(BlockRegistry.BOAT_IN_A_JAR);
                 addDrop(BlockRegistry.TERRARIUM);
+                addDrop(BlockRegistry.GLOBE);
+                addDrop(BlockRegistry.GLOBE_SEPIA);
                 addDrop(BlockRegistry.PEDESTAL);
                 addDrop(BlockRegistry.SMALL_PEDESTAL);
                 addDrop(BlockRegistry.DISPLAY);

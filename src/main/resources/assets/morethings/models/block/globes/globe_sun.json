@@ -1,0 +1,7 @@
+{
+  "parent": "morethings:block/globes/template_globe",
+  "textures": {
+    "0": "morethings:block/globes/globe_sun",
+		"1": "morethings:block/globes/globe_stand"
+  }
+}

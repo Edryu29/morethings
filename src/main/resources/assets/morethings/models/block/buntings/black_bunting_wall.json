@@ -1,7 +1,6 @@
 {
   "parent": "morethings:block/buntings/template_bunting_wall",
   "textures": {
-    "0": "morethings:block/buntings/wall_bunting_black",
-    "particle": "morethings:block/buntings/wall_bunting_black"
+    "0": "morethings:block/buntings/wall_bunting_black"
   }
 }

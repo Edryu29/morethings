@@ -96,6 +96,26 @@ public class RecipeProvider extends FabricRecipeProvider {
             .input('1', Items.STICK)
             .criterion(FabricRecipeProvider.hasItem(Items.SPYGLASS), FabricRecipeProvider.conditionsFromItem(Items.SPYGLASS))
             .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.GLOBE, 1)
+            .pattern(" 0 ")
+            .pattern("12 ")
+            .pattern(" 1 ")
+            .input('0', Items.MAP)
+            .input('1', Items.GOLD_INGOT)
+            .input('2', Items.BLUE_WOOL)
+            .criterion(FabricRecipeProvider.hasItem(Items.MAP), FabricRecipeProvider.conditionsFromItem(Items.MAP))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.GLOBE_SEPIA, 1)
+            .pattern(" 0 ")
+            .pattern("12 ")
+            .pattern(" 1 ")
+            .input('0', Items.MAP)
+            .input('1', Items.GOLD_INGOT)
+            .input('2', Items.GRAY_WOOL)
+            .criterion(FabricRecipeProvider.hasItem(Items.MAP), FabricRecipeProvider.conditionsFromItem(Items.MAP))
+            .offerTo(recipeExporter);
             
         ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.BOOK_PILE_HORIZONTAL, 1)
             .pattern("   ")

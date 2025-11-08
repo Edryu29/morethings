@@ -67,5 +67,11 @@
       "morethings:block/rope_step_3"
     ],
     "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.globe.spin": {
+    "subtitle": "subtitles.block.generic.place",
+    "sounds": [
+      "morethings:block/globe_spin"
+    ]
   }
 }
