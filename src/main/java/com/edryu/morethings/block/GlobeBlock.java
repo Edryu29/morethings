@@ -1,6 +1,5 @@
 package com.edryu.morethings.block;
 
-import com.edryu.morethings.registry.SoundRegistry;
 import com.mojang.serialization.MapCodec;
 
 import net.minecraft.block.Block;
@@ -11,6 +10,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
@@ -53,7 +53,7 @@ public class GlobeBlock extends HorizontalFacingBlock {
             return ActionResult.PASS;
         } else {
             world.setBlockState(pos, state.with(TYPE, (state.get(TYPE) + 1) % 3));
-            world.playSound(player, pos, SoundRegistry.GLOBE_SPIN, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
             return ActionResult.SUCCESS;
         }
     }
