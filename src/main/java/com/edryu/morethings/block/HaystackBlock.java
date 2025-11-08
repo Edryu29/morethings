@@ -1,0 +1,51 @@
+package com.edryu.morethings.block;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.pathing.NavigationType;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
+
+public class HaystackBlock extends Block {
+
+    public HaystackBlock(Settings settings) {
+        super(settings);
+    }
+
+    @Override
+	protected boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+		return true;
+	}
+
+    @Override
+    protected void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        super.onEntityCollision(state, world, pos, entity);
+        entity.slowMovement(state, new Vec3d(0.85D, 1.0D, 0.85D));
+    }
+
+    @Override
+    protected boolean canPathfindThrough(BlockState state, NavigationType type) {
+        return false;
+    }
+
+    @Override
+    protected float getMaxHorizontalModelOffset() {
+        return 0.1f;
+    }
+
+    @Override
+    protected float getVerticalModelOffsetMultiplier() {
+        return 0.5f;
+    }
+
+    @Override
+	protected VoxelShape getCameraCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+		return VoxelShapes.empty();
+	}
+}

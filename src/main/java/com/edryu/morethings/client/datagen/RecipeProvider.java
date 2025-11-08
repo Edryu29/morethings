@@ -206,6 +206,14 @@ public class RecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(BlockRegistry.THATCH), FabricRecipeProvider.conditionsFromItem(BlockRegistry.THATCH))
             .offerTo(recipeExporter);
 
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.HAYSTACK, 4)
+            .pattern("00 ")
+            .pattern("00 ")
+            .pattern("   ")
+            .input('0', Items.HAY_BLOCK)
+            .criterion(FabricRecipeProvider.hasItem(Items.HAY_BLOCK), FabricRecipeProvider.conditionsFromItem(Items.HAY_BLOCK))
+            .offerTo(recipeExporter);
+
         ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ItemRegistry.ORB, 1)
             .pattern(" 0 ")
             .pattern("010")

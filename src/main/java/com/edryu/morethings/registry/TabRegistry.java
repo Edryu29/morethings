@@ -31,6 +31,7 @@ public class TabRegistry {
             itemGroup.add(BlockRegistry.THATCH.asItem());
             itemGroup.add(BlockRegistry.THATCH_SLAB.asItem());
             itemGroup.add(BlockRegistry.THATCH_STAIRS.asItem());
+            itemGroup.add(BlockRegistry.HAYSTACK.asItem());
 
             itemGroup.add(BlockRegistry.BOOK_PILE_HORIZONTAL.asItem());
             itemGroup.add(BlockRegistry.BOOK_PILE_VERTICAL.asItem());

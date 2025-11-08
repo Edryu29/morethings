@@ -33,6 +33,7 @@ public class BlockRegistry {
     public static final Block THATCH = registerBlock(new HayBlock(AbstractBlock.Settings.copy(Blocks.HAY_BLOCK)),"thatch");
     public static final Block THATCH_SLAB = registerBlock(new SlabBlock(AbstractBlock.Settings.copy(Blocks.HAY_BLOCK)),"thatch_slab");
     public static final Block THATCH_STAIRS = registerBlock(new StairsBlock(THATCH.getDefaultState(), AbstractBlock.Settings.copy(THATCH)),"thatch_stairs");
+    public static final Block HAYSTACK = registerBlock(new HaystackBlock(AbstractBlock.Settings.copy(Blocks.OAK_LEAVES).mapColor(MapColor.YELLOW).strength(0.2F).noCollision()),"haystack");
 
     public static final Block BOOK_PILE_HORIZONTAL = registerBlock(new BookPileHorizontalBlock(bookPileSettings()),"book_pile_horizontal");
     public static final Block BOOK_PILE_VERTICAL = registerBlock(new BookPileVerticalBlock(bookPileSettings()),"book_pile_vertical");

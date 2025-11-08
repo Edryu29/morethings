@@ -43,6 +43,7 @@ public class LootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(BlockRegistry.THATCH);
                 addDrop(BlockRegistry.THATCH_SLAB);
                 addDrop(BlockRegistry.THATCH_STAIRS);
+                addDrop(BlockRegistry.HAYSTACK);
                 addDrop(BlockRegistry.BUNTING_CEILING);
                 addDrop(BlockRegistry.BUNTING_WALL);
 

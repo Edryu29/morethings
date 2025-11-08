@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "": [
+      { "model": "morethings:block/haystack" },
+      { "model": "morethings:block/haystack", "y": 90 },
+      { "model": "morethings:block/haystack", "y": 180 },
+      { "model": "morethings:block/haystack", "y": 270 }
+    ]
+  }
+}
