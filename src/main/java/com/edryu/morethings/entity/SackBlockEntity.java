@@ -1,8 +1,8 @@
 package com.edryu.morethings.entity;
 
-import com.edryu.morethings.MoreThingsRegister;
-import com.edryu.morethings.MoreThingsSounds;
 import com.edryu.morethings.block.SackBlock;
+import com.edryu.morethings.registry.EntityRegistry;
+import com.edryu.morethings.registry.SoundRegistry;
 import com.edryu.morethings.util.SimpleInventory;
 import com.edryu.morethings.util.SimpleScreenHandler;
 
@@ -26,7 +26,7 @@ public class SackBlockEntity extends BlockEntity implements NamedScreenHandlerFa
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(9, ItemStack.EMPTY);
     
     public SackBlockEntity(BlockPos pos, BlockState state) {
-        super(MoreThingsRegister.SACK_BLOCK_ENTITY, pos, state);
+        super(EntityRegistry.SACK_BLOCK_ENTITY, pos, state);
     }
     
     @Override
@@ -60,7 +60,7 @@ public class SackBlockEntity extends BlockEntity implements NamedScreenHandlerFa
         double d = (double)this.pos.getX() + 0.5;
         double e = (double)this.pos.getY() + 1;
         double f = (double)this.pos.getZ() + 0.5;
-        this.world.playSound((PlayerEntity)null, d, e, f, MoreThingsSounds.SACK_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
+        this.world.playSound((PlayerEntity)null, d, e, f, SoundRegistry.SACK_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
    }
 
    public void onOpen(PlayerEntity player) {

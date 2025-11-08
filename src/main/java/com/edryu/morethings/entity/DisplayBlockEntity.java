@@ -1,6 +1,6 @@
 package com.edryu.morethings.entity;
 
-import com.edryu.morethings.MoreThingsRegister;
+import com.edryu.morethings.registry.EntityRegistry;
 import com.edryu.morethings.util.SimpleInventory;
 
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +22,7 @@ public class DisplayBlockEntity extends BlockEntity implements SimpleInventory {
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
 	public DisplayBlockEntity(BlockPos pos, BlockState state) {
-		super(MoreThingsRegister.DISPLAY_BLOCK_ENTITY, pos, state);
+		super(EntityRegistry.DISPLAY_ENTITY, pos, state);
 	}
 
     @Override

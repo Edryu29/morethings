@@ -1,5 +1,12 @@
 package com.edryu.morethings;
 
+import com.edryu.morethings.registry.BlockRegistry;
+import com.edryu.morethings.registry.EntityRegistry;
+import com.edryu.morethings.registry.ItemRegistry;
+import com.edryu.morethings.registry.ScreenRegistry;
+import com.edryu.morethings.registry.SoundRegistry;
+import com.edryu.morethings.registry.TabRegistry;
+
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.EnchantmentEvents;
 import net.fabricmc.fabric.api.util.TriState;
@@ -25,8 +32,12 @@ public class MoreThingsMain implements ModInitializer {
 			return TriState.DEFAULT;
 		});
 
-		MoreThingsRegister.initialize();
-		MoreThingsSounds.initialize();
-		LOGGER.info("More Things!");
+		SoundRegistry.initialize();
+		ScreenRegistry.initialize();
+		BlockRegistry.initialize();
+		EntityRegistry.initialize();
+		ItemRegistry.initialize();
+		TabRegistry.initialize();
+		LOGGER.info("More Things initialized!");
 	}
 }

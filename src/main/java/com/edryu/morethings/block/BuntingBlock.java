@@ -2,8 +2,8 @@ package com.edryu.morethings.block;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.edryu.morethings.MoreThingsRegister;
-import com.edryu.morethings.MoreThingsSounds;
+import com.edryu.morethings.registry.ItemRegistry;
+import com.edryu.morethings.registry.SoundRegistry;
 import com.mojang.serialization.MapCodec;
 
 import net.minecraft.block.Block;
@@ -61,14 +61,14 @@ public class BuntingBlock extends HorizontalFacingBlock {
             for (int i = 0; i < BUNTING_COLORS.length; i++) {
                 if (player.isHolding(BUNTING_COLORS[i])){
                     world.setBlockState(pos, state.with(VARIANT, i));
-                    world.playSound(player, pos, MoreThingsSounds.ROPE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    world.playSound(player, pos, SoundRegistry.ROPE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
                     return ActionResult.SUCCESS;
                 }
             }
 
-            if (player.isHolding(MoreThingsRegister.ORB)){
+            if (player.isHolding(ItemRegistry.ORB)){
                 world.setBlockState(pos, state.with(VARIANT, getRandomVariant()));
-                world.playSound(player, pos, MoreThingsSounds.ROPE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.playSound(player, pos, SoundRegistry.ROPE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 return ActionResult.SUCCESS;
             }
         }

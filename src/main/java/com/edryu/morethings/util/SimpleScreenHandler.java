@@ -1,6 +1,6 @@
 package com.edryu.morethings.util;
 
-import com.edryu.morethings.MoreThingsRegister;
+import com.edryu.morethings.registry.ScreenRegistry;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -19,7 +19,7 @@ public class SimpleScreenHandler extends ScreenHandler {
     }
     
     public SimpleScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
-        super(MoreThingsRegister.SACK_SCREEN_HANDLER, syncId);
+        super(ScreenRegistry.SACK_SCREEN_HANDLER, syncId);
         checkSize(inventory, 9);
         this.inventory = inventory;
 

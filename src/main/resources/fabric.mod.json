@@ -22,7 +22,7 @@
 			"com.edryu.morethings.client.MoreThingsClient"
 		],
 		"fabric-datagen": [
-			"com.edryu.morethings.client.datagen.MoreThingsDataGenerator"
+			"com.edryu.morethings.client.datagen.DataGenerator"
 		]
 	},
 	"mixins": [

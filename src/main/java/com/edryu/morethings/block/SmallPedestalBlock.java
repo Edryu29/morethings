@@ -1,8 +1,7 @@
 package com.edryu.morethings.block;
 
-import com.edryu.morethings.MoreThingsRegister;
 import com.edryu.morethings.entity.SmallPedestalBlockEntity;
-
+import com.edryu.morethings.registry.ItemRegistry;
 import com.mojang.serialization.MapCodec;
 
 import net.minecraft.block.Block;
@@ -73,7 +72,7 @@ public class SmallPedestalBlock extends HorizontalFacingBlock implements BlockEn
             return ActionResult.SUCCESS;
 
         // Hide holder
-        } else if (player != null && player.isHolding(MoreThingsRegister.ORB)) {
+        } else if (player != null && player.isHolding(ItemRegistry.ORB)) {
             boolean is_visible = state.get(VISIBLE);
             world.setBlockState(pos, state.with(VISIBLE, !is_visible));
             world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);

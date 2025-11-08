@@ -1,6 +1,8 @@
 package com.edryu.morethings.entity;
 
-import com.edryu.morethings.MoreThingsRegister;
+import org.jetbrains.annotations.Nullable;
+
+import com.edryu.morethings.registry.EntityRegistry;
 import com.edryu.morethings.util.SimpleInventory;
 
 import net.minecraft.block.BlockState;
@@ -14,15 +16,13 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-
-import org.jetbrains.annotations.Nullable;
 	
 
 public class SmallPedestalBlockEntity extends BlockEntity implements SimpleInventory {
     private final DefaultedList<ItemStack> items = DefaultedList.ofSize(1, ItemStack.EMPTY);
 
 	public SmallPedestalBlockEntity(BlockPos pos, BlockState state) {
-		super(MoreThingsRegister.SMALL_PEDESTAL_BLOCK_ENTITY, pos, state);
+		super(EntityRegistry.SMALL_PEDESTAL_ENTITY, pos, state);
 	}
 
     @Override

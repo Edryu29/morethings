@@ -4,11 +4,14 @@
   "key": {
     "0": {
       "item": "minecraft:stone_brick_slab"
+    },
+    "1": {
+      "item": "minecraft:item_frame"
     }
   },
   "pattern": [
     " 0 ",
-    "0 0",
+    "010",
     " 0 "
   ],
   "result": {

@@ -1,6 +1,8 @@
 package com.edryu.morethings.client;
 
-import com.edryu.morethings.MoreThingsRegister;
+import com.edryu.morethings.registry.BlockRegistry;
+import com.edryu.morethings.registry.EntityRegistry;
+import com.edryu.morethings.registry.ScreenRegistry;
 import com.edryu.morethings.client.renderer.DisplayBlockEntityRenderer;
 import com.edryu.morethings.client.renderer.SmallPedestalBlockEntityRenderer;
 import com.edryu.morethings.client.screen.SimpleScreen;
@@ -18,28 +20,28 @@ public class MoreThingsClient implements ClientModInitializer {
 	
 	@Override
 	public void onInitializeClient() {
-		BlockEntityRendererFactories.register(MoreThingsRegister.SMALL_PEDESTAL_BLOCK_ENTITY, SmallPedestalBlockEntityRenderer::new);
-		BlockEntityRendererFactories.register(MoreThingsRegister.DISPLAY_BLOCK_ENTITY, DisplayBlockEntityRenderer::new);
+		BlockEntityRendererFactories.register(EntityRegistry.SMALL_PEDESTAL_ENTITY, SmallPedestalBlockEntityRenderer::new);
+		BlockEntityRendererFactories.register(EntityRegistry.DISPLAY_ENTITY, DisplayBlockEntityRenderer::new);
 
-		HandledScreens.register(MoreThingsRegister.SACK_SCREEN_HANDLER, SimpleScreen::new);
-		HandledScreens.register(MoreThingsRegister.SAFE_SCREEN_HANDLER, SimpleScreen::new);
+		HandledScreens.register(ScreenRegistry.SACK_SCREEN_HANDLER, SimpleScreen::new);
+		HandledScreens.register(ScreenRegistry.SAFE_SCREEN_HANDLER, SimpleScreen::new);
 		
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.BOAT_IN_A_JAR, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.TERRARIUM, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.RED_BUTTON, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.RED_SAFE_BUTTON, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.CONSOLE_LEVER, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.BOOK_PILE_HORIZONTAL, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.BOOK_PILE_VERTICAL, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.BAR_PANEL, RenderLayer.getCutoutMipped());
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.LATTICE, RenderLayer.getCutoutMipped());
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.THATCH, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.THATCH_SLAB, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.THATCH_STAIRS, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.DISPLAY_BLOCK, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.BUNTING_CEILING, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(MoreThingsRegister.BUNTING_WALL, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BOAT_IN_A_JAR, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.TERRARIUM, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.RED_BUTTON, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.RED_SAFE_BUTTON, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.CONSOLE_LEVER, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BOOK_PILE_HORIZONTAL, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BOOK_PILE_VERTICAL, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BAR_PANEL, RenderLayer.getCutoutMipped());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.LATTICE, RenderLayer.getCutoutMipped());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.THATCH, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.THATCH_SLAB, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.THATCH_STAIRS, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.DISPLAY, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BUNTING_CEILING, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BUNTING_WALL, RenderLayer.getCutout());
 
-		ColorProviderRegistry.BLOCK.register((state, level, pos, tintIndex) -> level != null && pos != null ? BiomeColors.getWaterColor(level, pos) : 0x3F76E4, MoreThingsRegister.BOAT_IN_A_JAR);
+		ColorProviderRegistry.BLOCK.register((state, level, pos, tintIndex) -> level != null && pos != null ? BiomeColors.getWaterColor(level, pos) : 0x3F76E4, BlockRegistry.BOAT_IN_A_JAR);
 	}
 }

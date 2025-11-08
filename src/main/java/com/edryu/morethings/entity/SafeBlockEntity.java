@@ -1,7 +1,7 @@
 package com.edryu.morethings.entity;
 
-import com.edryu.morethings.MoreThingsRegister;
 import com.edryu.morethings.block.SafeBlock;
+import com.edryu.morethings.registry.EntityRegistry;
 import com.edryu.morethings.util.SimpleInventory;
 import com.edryu.morethings.util.SimpleScreenHandler;
 
@@ -28,7 +28,7 @@ public class SafeBlockEntity extends BlockEntity implements NamedScreenHandlerFa
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(9, ItemStack.EMPTY);
     
     public SafeBlockEntity(BlockPos pos, BlockState state) {
-        super(MoreThingsRegister.SAFE_BLOCK_ENTITY, pos, state);
+        super(EntityRegistry.SAFE_BLOCK_ENTITY, pos, state);
     }
     
     @Override
