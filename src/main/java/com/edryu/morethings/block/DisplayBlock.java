@@ -74,7 +74,7 @@ public class DisplayBlock extends HorizontalFacingBlock implements BlockEntityPr
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 DisplayBlockEntity.removeStack(0);
             }
-
+            
             DisplayBlockEntity.markDirty();
             return ActionResult.SUCCESS;
         }

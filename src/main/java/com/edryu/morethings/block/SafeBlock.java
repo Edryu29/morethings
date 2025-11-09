@@ -1,16 +1,18 @@
 package com.edryu.morethings.block;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.edryu.morethings.entity.SafeBlockEntity;
+
 import com.mojang.serialization.MapCodec;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -27,18 +29,16 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 
-public class SafeBlock extends BlockWithEntity {
+public class SafeBlock extends WaterloggableBlock implements BlockEntityProvider {
     public static final MapCodec<SafeBlock> CODEC = Block.createCodec(SafeBlock::new);
     
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
-    public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 	public static final BooleanProperty OPEN = BooleanProperty.of("open");
 
     public SafeBlock(Settings settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(FACING, Direction.NORTH).with(OPEN, false));
+        setDefaultState(getDefaultState().with(WATERLOGGED, false).with(FACING, Direction.NORTH).with(OPEN, false));
     }
 
 	@Override
@@ -86,15 +86,18 @@ public class SafeBlock extends BlockWithEntity {
         return super.onBreak(world, pos, state, player);
     }
 
-    @Override
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if (state.get(WATERLOGGED)) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
-    }
-
 	@Override
-	protected FluidState getFluidState(BlockState state) {
-		return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+	protected boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
+		super.onSyncedBlockEvent(state, world, pos, type, data);
+		BlockEntity blockEntity = world.getBlockEntity(pos);
+		return blockEntity == null ? false : blockEntity.onSyncedBlockEvent(type, data);
+	}
+
+	@Nullable
+	@Override
+	protected NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
+		BlockEntity blockEntity = world.getBlockEntity(pos);
+		return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory)blockEntity : null;
 	}
 
     @Override

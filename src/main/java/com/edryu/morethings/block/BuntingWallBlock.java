@@ -21,7 +21,6 @@ public class BuntingWallBlock extends BuntingBlock {
     protected static final VoxelShape SHAPE_EAST = Block.createCuboidShape(0, 0, 0, 1, 16, 16);
     protected static final VoxelShape SHAPE_WEST = Block.createCuboidShape(15, 0, 0, 16, 16, 16);
 
-
     public BuntingWallBlock(Settings settings) {
         super(settings);
     }

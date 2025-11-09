@@ -70,15 +70,13 @@ public class SmallPedestalBlock extends HorizontalFacingBlock implements BlockEn
             world.playSound(player, pos, SoundEvents.ITEM_HONEYCOMB_WAX_ON, SoundCategory.BLOCKS, 1.0f, 1.0f);
             player.getWorld().syncWorldEvent(null, WorldEvents.BLOCK_WAXED, pos, 0);
             return ActionResult.SUCCESS;
-
         // Hide holder
         } else if (player != null && player.isHolding(ItemRegistry.ORB)) {
             boolean is_visible = state.get(VISIBLE);
             world.setBlockState(pos, state.with(VISIBLE, !is_visible));
             world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            player.getWorld().syncWorldEvent(null, WorldEvents.BONE_MEAL_USED, pos, 0);
             return ActionResult.SUCCESS;
-
+        // Manage stored item
         } else if (world.getBlockEntity(pos) instanceof SmallPedestalBlockEntity SmallPedestalBlockEntity) {
             ItemStack storedItem = SmallPedestalBlockEntity.getStack(0);
             ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), storedItem);
@@ -86,13 +84,13 @@ public class SmallPedestalBlock extends HorizontalFacingBlock implements BlockEn
             if (storedItem.isEmpty() ) {
                 SmallPedestalBlockEntity.setStack(0, playerHeldItem.split(1));
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                SmallPedestalBlockEntity.markDirty();
             } else {
                 world.spawnEntity(itemEntity);
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 SmallPedestalBlockEntity.removeStack(0);
-                SmallPedestalBlockEntity.markDirty();
             }
+
+            SmallPedestalBlockEntity.markDirty();
             return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;
@@ -102,7 +100,6 @@ public class SmallPedestalBlock extends HorizontalFacingBlock implements BlockEn
     public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if (world.getBlockEntity(pos) instanceof SmallPedestalBlockEntity SmallPedestalBlockEntity) {
             ItemStack storedItem = SmallPedestalBlockEntity.getStack(0);
-
             if (!storedItem.isEmpty()) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), storedItem);
                 world.spawnEntity(itemEntity);

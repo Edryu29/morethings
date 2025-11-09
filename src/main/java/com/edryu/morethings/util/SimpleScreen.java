@@ -1,7 +1,6 @@
-package com.edryu.morethings.client.screen;
+package com.edryu.morethings.util;
 
 import com.edryu.morethings.MoreThingsMain;
-import com.edryu.morethings.util.SimpleScreenHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.DrawContext;

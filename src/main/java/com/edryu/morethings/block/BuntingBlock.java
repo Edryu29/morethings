@@ -52,11 +52,15 @@ public class BuntingBlock extends HorizontalFacingBlock {
         setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(VARIANT, 0));
     }
 
+	@Override
+	protected MapCodec<? extends BuntingBlock> getCodec() {
+		return CODEC;
+	}
+
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!player.getAbilities().allowModifyWorld || player == null) {
             return ActionResult.PASS;
-
         } else {
             for (int i = 0; i < BUNTING_COLORS.length; i++) {
                 if (player.isHolding(BUNTING_COLORS[i])){
@@ -65,7 +69,6 @@ public class BuntingBlock extends HorizontalFacingBlock {
                     return ActionResult.SUCCESS;
                 }
             }
-
             if (player.isHolding(ItemRegistry.ORB)){
                 world.setBlockState(pos, state.with(VARIANT, getRandomVariant()));
                 world.playSound(player, pos, SoundRegistry.ROPE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
@@ -75,21 +78,17 @@ public class BuntingBlock extends HorizontalFacingBlock {
         return ActionResult.PASS;
     }
 
-	@Override
-	protected MapCodec<? extends BuntingBlock> getCodec() {
-		return CODEC;
-	}
-
+    @Override
 	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
         world.setBlockState(pos, state.with(VARIANT, getRandomVariant()));
 	}
 
+    protected int getRandomVariant() {
+        return (int)(Math.random() * 16);
+    }
+
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(Properties.HORIZONTAL_FACING, VARIANT);
-    }
-
-    protected int getRandomVariant() {
-        return (int)(Math.random() * 16);
     }
 }

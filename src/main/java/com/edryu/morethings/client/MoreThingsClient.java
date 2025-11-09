@@ -1,11 +1,11 @@
 package com.edryu.morethings.client;
 
+import com.edryu.morethings.client.renderer.DisplayBlockEntityRenderer;
+import com.edryu.morethings.client.renderer.SmallPedestalBlockEntityRenderer;
 import com.edryu.morethings.registry.BlockRegistry;
 import com.edryu.morethings.registry.EntityRegistry;
 import com.edryu.morethings.registry.ScreenRegistry;
-import com.edryu.morethings.client.renderer.DisplayBlockEntityRenderer;
-import com.edryu.morethings.client.renderer.SmallPedestalBlockEntityRenderer;
-import com.edryu.morethings.client.screen.SimpleScreen;
+import com.edryu.morethings.util.SimpleScreen;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;

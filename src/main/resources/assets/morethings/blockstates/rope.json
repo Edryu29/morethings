@@ -20,6 +20,9 @@
     },
     {   "when": { "west": "true" },
         "apply": { "model": "morethings:block/rope/rope_west"}
+    },
+    {   "when": { "bell": "true" },
+        "apply": { "model": "morethings:block/rope/rope_bell"}
     }
   ]
 }

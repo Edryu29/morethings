@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.block.SideShapeType;
 import net.minecraft.block.TallPlantBlock;
 import net.minecraft.block.enums.DoubleBlockHalf;
 import net.minecraft.entity.LivingEntity;
@@ -54,11 +55,9 @@ public class TelescopeBlock extends TallPlantBlock {
 
 	@Override
 	protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-		if (state.get(HALF) == DoubleBlockHalf.UPPER) {
-			BlockState blockState = world.getBlockState(pos.down());
-			return blockState.isOf(this) && blockState.get(HALF) == DoubleBlockHalf.LOWER;
-		}
-		return true;
+		BlockState blockState = world.getBlockState(pos.down());
+		if (state.get(HALF) == DoubleBlockHalf.UPPER) return blockState.isOf(this) && blockState.get(HALF) == DoubleBlockHalf.LOWER;
+		return blockState.isSideSolid(world, pos.down(), Direction.UP, SideShapeType.CENTER);
 	}
 
 	@Override

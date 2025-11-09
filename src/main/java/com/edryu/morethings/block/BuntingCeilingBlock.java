@@ -40,10 +40,8 @@ public class BuntingCeilingBlock extends BuntingBlock {
 
 	@Override
 	protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-		BlockState neighborState = world.getBlockState(pos.up());
-		if (neighborState.getBlock() instanceof TripwireBlock) return true;
-		return world.getBlockState(pos.up()).isSideSolid(world, pos.up(), Direction.DOWN, SideShapeType.CENTER);
+		BlockState neighborUpState = world.getBlockState(pos.up());
+		if (neighborUpState.getBlock() instanceof TripwireBlock) return true;
+		return neighborUpState.isSideSolid(world, pos.up(), Direction.DOWN, SideShapeType.CENTER);
 	}
-
-
 }
