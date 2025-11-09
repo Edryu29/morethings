@@ -10,6 +10,7 @@ import net.minecraft.block.BellBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.FenceBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.SideShapeType;
 import net.minecraft.block.Waterloggable;
@@ -76,7 +77,7 @@ public class RopeBlock extends Block implements Waterloggable {
         if (player == null) return ActionResult.PASS;
 
         BlockPos.Mutable bellAbovePos = pos.mutableCopy().move(Direction.UP);
-        for (int i = 0; i < 24; i++) {
+        for (int i = 0; i < 32; i++) {
             BlockState bellAboveState = world.getBlockState(bellAbovePos);
             Block bellAboveBlock = bellAboveState.getBlock();
             if (bellAboveBlock == Blocks.BELL) {
@@ -164,7 +165,13 @@ public class RopeBlock extends Block implements Waterloggable {
     private boolean canConnectTo(WorldAccess world, BlockPos neighborPos, Direction dirTowardNeighbor, BlockPos pos) {
         BlockState neighborState = world.getBlockState(neighborPos);
         if (neighborState.getBlock() instanceof RopeBlock) return true;
+        if (neighborState.getBlock() instanceof FenceBlock) return true;
         if (dirTowardNeighbor == Direction.DOWN && neighborState.getBlock() instanceof BellBlock) return true;
+        if (dirTowardNeighbor == Direction.UP) {
+            if (neighborState.getBlock() instanceof SackBlock) return true;
+            if (neighborState.getBlock() instanceof BellBlock) return true;
+            return neighborState.isSideSolid(world, neighborPos, Direction.DOWN, SideShapeType.CENTER);
+        }
         return neighborState.isSideSolid(world, neighborPos, dirTowardNeighbor, SideShapeType.CENTER);
     }
 
@@ -187,6 +194,7 @@ public class RopeBlock extends Block implements Waterloggable {
                     if (!seen.contains(n)) queue.add(n);
                     continue;
                 }
+                if (s.getBlock() instanceof FenceBlock) return true;
                 if (d == Direction.UP) {
                     if (s.getBlock() instanceof BellBlock) return true;
                     if (s.isSideSolid(world, n, Direction.DOWN, SideShapeType.CENTER)) return true;
