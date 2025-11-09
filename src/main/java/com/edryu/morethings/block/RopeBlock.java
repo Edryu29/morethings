@@ -6,24 +6,30 @@ import java.util.Set;
 
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.block.BellBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.SideShapeType;
 import net.minecraft.block.Waterloggable;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.ai.pathing.NavigationType;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 public class RopeBlock extends Block implements Waterloggable {
@@ -37,12 +43,13 @@ public class RopeBlock extends Block implements Waterloggable {
     public static final BooleanProperty EAST = BooleanProperty.of("east");
 
     private static final VoxelShape ROPE_KNOT = Block.createCuboidShape(6, 6, 6, 10, 10, 10);
-    private static final VoxelShape ROPE_UP = Block.createCuboidShape(7, 9, 7, 9, 16, 9);
-    private static final VoxelShape ROPE_DOWN = Block.createCuboidShape(7, 0, 7, 9, 9, 9);
-    private static final VoxelShape ROPE_NORTH = Block.createCuboidShape(7, 7, 0, 9, 9, 9);
-    private static final VoxelShape ROPE_SOUTH = Block.createCuboidShape(7, 7, 9, 9, 9, 16);
-    private static final VoxelShape ROPE_WEST = Block.createCuboidShape(0, 7, 7, 9, 9, 9);
-    private static final VoxelShape ROPE_EAST = Block.createCuboidShape(9, 7, 7, 16, 9, 9);
+    private static final VoxelShape ROPE_UP = Block.createCuboidShape(6, 9, 6, 10, 16, 10);
+    private static final VoxelShape ROPE_DOWN = Block.createCuboidShape(6, 0, 6, 10, 9, 10);
+    private static final VoxelShape ROPE_NORTH = Block.createCuboidShape(6, 6, 0, 10, 10, 9);
+    private static final VoxelShape ROPE_SOUTH = Block.createCuboidShape(6, 6, 9, 10, 10, 16);
+    private static final VoxelShape ROPE_WEST = Block.createCuboidShape(0, 6, 6, 9, 10, 10);
+    private static final VoxelShape ROPE_EAST = Block.createCuboidShape(9, 6, 6, 16, 10, 10);
+    private static final VoxelShape COLLISION_SHAPE = Block.createCuboidShape(0, 0, 0, 16, 6, 16);
 
     public RopeBlock(Settings settings) {
         super(settings);
@@ -62,6 +69,26 @@ public class RopeBlock extends Block implements Waterloggable {
             state.get(UP) ? ROPE_UP : VoxelShapes.empty(),
             state.get(DOWN) ? ROPE_DOWN : VoxelShapes.empty()
         );
+    }
+
+    @Override
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+        if (player == null) return ActionResult.PASS;
+
+        BlockPos.Mutable bellAbovePos = pos.mutableCopy().move(Direction.UP);
+        for (int i = 0; i < 24; i++) {
+            BlockState bellAboveState = world.getBlockState(bellAbovePos);
+            Block bellAboveBlock = bellAboveState.getBlock();
+            if (bellAboveBlock == Blocks.BELL) {
+                ((BellBlock) bellAboveBlock).ring(world, bellAbovePos, player.getHorizontalFacing().rotateYClockwise());
+                return ActionResult.SUCCESS;
+            } else if (bellAboveState.getBlock() instanceof RopeBlock) {
+                bellAbovePos.move(Direction.UP);
+            } else {
+                return ActionResult.PASS;
+            }
+        }
+        return ActionResult.PASS;
     }
 
 	@Nullable
@@ -137,7 +164,7 @@ public class RopeBlock extends Block implements Waterloggable {
     private boolean canConnectTo(WorldAccess world, BlockPos neighborPos, Direction dirTowardNeighbor, BlockPos pos) {
         BlockState neighborState = world.getBlockState(neighborPos);
         if (neighborState.getBlock() instanceof RopeBlock) return true;
-        if (dirTowardNeighbor == Direction.UP) return neighborState.isSideSolid(world, neighborPos, Direction.DOWN, SideShapeType.CENTER);
+        if (dirTowardNeighbor == Direction.DOWN && neighborState.getBlock() instanceof BellBlock) return true;
         return neighborState.isSideSolid(world, neighborPos, dirTowardNeighbor, SideShapeType.CENTER);
     }
 
@@ -161,6 +188,7 @@ public class RopeBlock extends Block implements Waterloggable {
                     continue;
                 }
                 if (d == Direction.UP) {
+                    if (s.getBlock() instanceof BellBlock) return true;
                     if (s.isSideSolid(world, n, Direction.DOWN, SideShapeType.CENTER)) return true;
                 } else if (d != Direction.DOWN) {
                     if (s.isSideSolid(world, n, d.getOpposite(), SideShapeType.CENTER)) return true;
@@ -170,6 +198,11 @@ public class RopeBlock extends Block implements Waterloggable {
         }
         return false;
     }
+
+    @Override
+	protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+        return !state.get(UP) && (!state.get(DOWN) || (context.isAbove(COLLISION_SHAPE, pos, true) && !Screen.hasShiftDown())) ? state.getOutlineShape(world, pos) : VoxelShapes.empty();
+	}
 
 	@Override
 	protected FluidState getFluidState(BlockState state) {
