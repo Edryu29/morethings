@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "0": {
+      "item": "minecraft:stripped_dark_oak_log"
+    }
+  },
+  "pattern": [
+    "00 ",
+    "   ",
+    "   "
+  ],
+  "result": {
+    "count": 6,
+    "id": "morethings:dark_oak_palisade"
+  }
+}

@@ -62,6 +62,7 @@ public class TabRegistry {
             itemGroup.add(BlockRegistry.JUNGLE_PALISADE.asItem());
             itemGroup.add(BlockRegistry.MANGROVE_PALISADE.asItem());
             itemGroup.add(BlockRegistry.OAK_PALISADE.asItem());
+            itemGroup.add(BlockRegistry.PALE_OAK_PALISADE.asItem());
             itemGroup.add(BlockRegistry.SPRUCE_PALISADE.asItem());
             itemGroup.add(BlockRegistry.WARPED_PALISADE.asItem());
 

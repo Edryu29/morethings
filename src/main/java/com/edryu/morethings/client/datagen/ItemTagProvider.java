@@ -33,6 +33,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
                 .add(BlockRegistry.JUNGLE_PALISADE.asItem())
                 .add(BlockRegistry.MANGROVE_PALISADE.asItem())
                 .add(BlockRegistry.OAK_PALISADE.asItem())
+                .add(BlockRegistry.PALE_OAK_PALISADE.asItem())
                 .add(BlockRegistry.SPRUCE_PALISADE.asItem())
                 .add(BlockRegistry.WARPED_PALISADE.asItem());
     }

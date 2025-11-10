@@ -1,6 +1,7 @@
 {
   "values": [
     "morethings:lattice",
-    "morethings:telescope"
+    "morethings:telescope",
+    "#morethings:palisades"
   ]
 }

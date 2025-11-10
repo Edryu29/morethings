@@ -66,6 +66,7 @@ public class BlockRegistry {
     public static final Block JUNGLE_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.JUNGLE_FENCE)),"jungle_palisade");
     public static final Block MANGROVE_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.MANGROVE_FENCE)),"mangrove_palisade");
     public static final Block OAK_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.OAK_FENCE)),"oak_palisade");
+    public static final Block PALE_OAK_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.BIRCH_FENCE)),"pale_oak_palisade");
     public static final Block SPRUCE_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.SPRUCE_FENCE)),"spruce_palisade");
     public static final Block WARPED_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.WARPED_FENCE)),"warped_palisade");
 

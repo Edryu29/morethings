@@ -1,0 +1,8 @@
+{
+  "parent": "morethings:block/palisade/template_palisade_side",
+  "textures": {
+    "end": "morethings:block/palisade/pale_oak_palisade_end",
+    "particle": "morethings:block/palisade/pale_oak_palisade_side",
+    "side": "morethings:block/palisade/pale_oak_palisade_side"
+  }
+}

@@ -1,6 +1,7 @@
 package com.edryu.morethings.client.datagen;
 
 import java.util.concurrent.CompletableFuture;
+
 import com.edryu.morethings.registry.BlockRegistry;
 import com.edryu.morethings.registry.ItemRegistry;
 
@@ -11,6 +12,7 @@ import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.StonecuttingRecipeJsonBuilder;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
@@ -291,5 +293,28 @@ public class RecipeProvider extends FabricRecipeProvider {
         StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.TOPAZ)
             .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
             .offerTo(recipeExporter);
+
+        createPalisadeRecipe(BlockRegistry.ACACIA_PALISADE, Items.STRIPPED_ACACIA_LOG, recipeExporter);
+        createPalisadeRecipe(BlockRegistry.BAMBOO_PALISADE, Items.STRIPPED_BAMBOO_BLOCK, recipeExporter);
+        createPalisadeRecipe(BlockRegistry.BIRCH_PALISADE, Items.STRIPPED_BIRCH_LOG, recipeExporter);
+        createPalisadeRecipe(BlockRegistry.CHERRY_PALISADE, Items.STRIPPED_CHERRY_LOG, recipeExporter);
+        createPalisadeRecipe(BlockRegistry.CRIMSON_PALISADE, Items.STRIPPED_CRIMSON_STEM, recipeExporter);
+        createPalisadeRecipe(BlockRegistry.DARK_OAK_PALISADE, Items.STRIPPED_DARK_OAK_LOG, recipeExporter);
+        createPalisadeRecipe(BlockRegistry.JUNGLE_PALISADE, Items.STRIPPED_JUNGLE_LOG, recipeExporter);
+        createPalisadeRecipe(BlockRegistry.MANGROVE_PALISADE, Items.STRIPPED_MANGROVE_LOG, recipeExporter);
+        createPalisadeRecipe(BlockRegistry.OAK_PALISADE, Items.STRIPPED_OAK_LOG, recipeExporter);
+        // createPalisadeRecipe(BlockRegistry.PALE_OAK_PALISADE, Items.BIRCH_LOG, recipeExporter);
+        createPalisadeRecipe(BlockRegistry.SPRUCE_PALISADE, Items.STRIPPED_SPRUCE_LOG, recipeExporter);
+        createPalisadeRecipe(BlockRegistry.WARPED_PALISADE, Items.STRIPPED_WARPED_STEM, recipeExporter);
     }
+
+    public static void createPalisadeRecipe(ItemConvertible output, ItemConvertible ingredient, RecipeExporter recipeExporter) {
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, output, 6)
+            .pattern("00 ")
+            .pattern("   ")
+            .pattern("   ")
+            .input('0', ingredient)
+            .criterion(FabricRecipeProvider.hasItem(ingredient), FabricRecipeProvider.conditionsFromItem(ingredient))
+            .offerTo(recipeExporter);
+	}
 }

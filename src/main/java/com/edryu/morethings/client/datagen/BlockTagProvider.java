@@ -33,6 +33,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(BlockRegistry.JUNGLE_PALISADE)
                 .add(BlockRegistry.MANGROVE_PALISADE)
                 .add(BlockRegistry.OAK_PALISADE)
+                .add(BlockRegistry.PALE_OAK_PALISADE)
                 .add(BlockRegistry.SPRUCE_PALISADE)
                 .add(BlockRegistry.WARPED_PALISADE);
     }
