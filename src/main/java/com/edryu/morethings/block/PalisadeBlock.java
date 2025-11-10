@@ -4,7 +4,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
+import net.minecraft.block.PaneBlock;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -23,7 +25,7 @@ public class PalisadeBlock extends FenceBlock {
 	@Override
 	public boolean canConnect(BlockState state, boolean neighborIsFullSquare, Direction dir) {
 		Block block = state.getBlock();
-		boolean bl = block instanceof PalisadeBlock;
+		boolean bl = block instanceof PalisadeBlock || block instanceof PaneBlock || state.isIn(BlockTags.WALLS);
 		boolean bl2 = block instanceof FenceGateBlock && FenceGateBlock.canWallConnect(state, dir);
 		return !cannotConnect(state) && neighborIsFullSquare || bl || bl2;
 	}
