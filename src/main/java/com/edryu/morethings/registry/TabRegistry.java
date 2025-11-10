@@ -53,6 +53,17 @@ public class TabRegistry {
             itemGroup.add(BlockRegistry.SMALL_PEDESTAL.asItem());
             itemGroup.add(BlockRegistry.DISPLAY.asItem());
 
+            itemGroup.add(BlockRegistry.ACACIA_PALISADE.asItem());
+            itemGroup.add(BlockRegistry.BAMBOO_PALISADE.asItem());
+            itemGroup.add(BlockRegistry.BIRCH_PALISADE.asItem());
+            itemGroup.add(BlockRegistry.CHERRY_PALISADE.asItem());
+            itemGroup.add(BlockRegistry.CRIMSON_PALISADE.asItem());
+            itemGroup.add(BlockRegistry.DARK_OAK_PALISADE.asItem());
+            itemGroup.add(BlockRegistry.JUNGLE_PALISADE.asItem());
+            itemGroup.add(BlockRegistry.MANGROVE_PALISADE.asItem());
+            itemGroup.add(BlockRegistry.OAK_PALISADE.asItem());
+            itemGroup.add(BlockRegistry.SPRUCE_PALISADE.asItem());
+            itemGroup.add(BlockRegistry.WARPED_PALISADE.asItem());
 
             itemGroup.add(ItemRegistry.ORB);
 

@@ -10,6 +10,7 @@ import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
 
 public class ModelProvider extends FabricModelProvider {
+    
     public ModelProvider(FabricDataOutput output) {
         super(output);
     }

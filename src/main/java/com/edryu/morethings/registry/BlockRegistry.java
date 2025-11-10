@@ -57,6 +57,18 @@ public class BlockRegistry {
     public static final Block SMALL_PEDESTAL = registerBlock(new SmallPedestalBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).strength(0.2f)),"small_pedestal");
     public static final Block DISPLAY = registerBlock(new DisplayBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"display");
 
+    public static final Block ACACIA_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.ACACIA_FENCE)),"acacia_palisade");
+    public static final Block BAMBOO_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.BAMBOO_FENCE)),"bamboo_palisade");
+    public static final Block BIRCH_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.BIRCH_FENCE)),"birch_palisade");
+    public static final Block CHERRY_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.CHERRY_FENCE)),"cherry_palisade");
+    public static final Block CRIMSON_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.CRIMSON_FENCE)),"crimson_palisade");
+    public static final Block DARK_OAK_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.DARK_OAK_FENCE)),"dark_oak_palisade");
+    public static final Block JUNGLE_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.JUNGLE_FENCE)),"jungle_palisade");
+    public static final Block MANGROVE_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.MANGROVE_FENCE)),"mangrove_palisade");
+    public static final Block OAK_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.OAK_FENCE)),"oak_palisade");
+    public static final Block SPRUCE_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.SPRUCE_FENCE)),"spruce_palisade");
+    public static final Block WARPED_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.WARPED_FENCE)),"warped_palisade");
+
 
     public static AbstractBlock.Settings bookPileSettings() {
         return AbstractBlock.Settings.create().sounds(SoundRegistry.BOOKS).strength(0.3f).nonOpaque();
