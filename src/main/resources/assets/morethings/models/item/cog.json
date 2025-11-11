@@ -1,0 +1,28 @@
+{
+	"parent": "minecraft:block/cube_all",
+  
+
+	"textures": {
+		"particle": "morethings:block/cog_on",
+		"all": "morethings:block/cog_on"
+	},
+  "display": {
+    "thirdperson": {
+      "rotation": [
+        10,
+        -45,
+        170
+      ],
+      "translation": [
+        0,
+        1.5,
+        -2.75
+      ],
+      "scale": [
+        0.375,
+        0.375,
+        0.375
+      ]
+    }
+  }
+}

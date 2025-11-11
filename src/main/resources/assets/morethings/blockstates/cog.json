@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "power=0": { "model": "morethings:block/cog_off" },
+    "power=1": { "model": "morethings:block/cog_semi_on" },
+	  "power=2": { "model": "morethings:block/cog_on" },
+    "power=3": { "model": "morethings:block/cog_on" },
+    "power=4": { "model": "morethings:block/cog_on" },
+    "power=5": { "model": "morethings:block/cog_on" },
+    "power=6": { "model": "morethings:block/cog_on" },
+    "power=7": { "model": "morethings:block/cog_on" },
+    "power=8": { "model": "morethings:block/cog_on" },
+    "power=9": { "model": "morethings:block/cog_on" },
+    "power=10": { "model": "morethings:block/cog_on" },
+    "power=11": { "model": "morethings:block/cog_on" },
+    "power=12": { "model": "morethings:block/cog_on" },
+    "power=13": { "model": "morethings:block/cog_on" },
+    "power=14": { "model": "morethings:block/cog_on" },
+    "power=15": { "model": "morethings:block/cog_on" }
+  }
+}

@@ -186,6 +186,15 @@ public class RecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(BlockRegistry.RED_BUTTON), FabricRecipeProvider.conditionsFromItem(BlockRegistry.RED_BUTTON))
             .offerTo(recipeExporter);
 
+        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BlockRegistry.COG, 1)
+            .pattern("000")
+            .pattern("010")
+            .pattern("000")
+            .input('0', Items.COPPER_INGOT)
+            .input('1', Items.REDSTONE_BLOCK)
+            .criterion(FabricRecipeProvider.hasItem(Items.REDSTONE_BLOCK), FabricRecipeProvider.conditionsFromItem(Items.REDSTONE_BLOCK))
+            .offerTo(recipeExporter);
+
         ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BlockRegistry.CONSOLE_LEVER, 1)
             .pattern("101")
             .pattern("121")

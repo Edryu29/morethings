@@ -95,12 +95,12 @@ public class RopeBlock extends WaterloggableBlock {
         WorldAccess world = ctx.getWorld();
         BlockPos pos = ctx.getBlockPos();
 
-        boolean north = canConnectTo(world, pos.north(), Direction.SOUTH, pos);
-        boolean south = canConnectTo(world, pos.south(), Direction.NORTH, pos);
-        boolean east  = canConnectTo(world, pos.east(),  Direction.WEST, pos);
-        boolean west  = canConnectTo(world, pos.west(),  Direction.EAST, pos);
-        boolean up    = canConnectTo(world, pos.up(),    Direction.DOWN, pos);
-        boolean down  = canConnectTo(world, pos.down(),  Direction.UP, pos);
+        boolean north = canConnectTo(world, pos.north(), Direction.SOUTH);
+        boolean south = canConnectTo(world, pos.south(), Direction.NORTH);
+        boolean east  = canConnectTo(world, pos.east(),  Direction.WEST);
+        boolean west  = canConnectTo(world, pos.west(),  Direction.EAST);
+        boolean up    = canConnectTo(world, pos.up(),    Direction.DOWN);
+        boolean down  = canConnectTo(world, pos.down(),  Direction.UP);
         boolean bell  = canConnectToBell(world, pos, up);
 
         boolean hasVertical   = up || down;
@@ -110,7 +110,7 @@ public class RopeBlock extends WaterloggableBlock {
         boolean singleAxis    = (north ^ south) || (east ^ west) || (up ^ down);
         boolean ropeKnot      = (hasHorizontal && (isCorner || hasVertical)) || noConnections || singleAxis;
 
-		FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
+		FluidState fluidState = world.getFluidState(pos);
 		boolean wl = fluidState.getFluid() == Fluids.WATER;
 
 		BlockState state = super.getPlacementState(ctx)
@@ -133,12 +133,12 @@ public class RopeBlock extends WaterloggableBlock {
         boolean wl = state.get(WATERLOGGED);
 		if (wl) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 
-        boolean north = canConnectTo(world, pos.north(), Direction.SOUTH, pos);
-        boolean south = canConnectTo(world, pos.south(), Direction.NORTH, pos);
-        boolean east  = canConnectTo(world, pos.east(),  Direction.WEST, pos);
-        boolean west  = canConnectTo(world, pos.west(),  Direction.EAST, pos);
-        boolean up    = canConnectTo(world, pos.up(),    Direction.DOWN, pos);
-        boolean down  = canConnectTo(world, pos.down(),  Direction.UP, pos);
+        boolean north = canConnectTo(world, pos.north(), Direction.SOUTH);
+        boolean south = canConnectTo(world, pos.south(), Direction.NORTH);
+        boolean east  = canConnectTo(world, pos.east(),  Direction.WEST);
+        boolean west  = canConnectTo(world, pos.west(),  Direction.EAST);
+        boolean up    = canConnectTo(world, pos.up(),    Direction.DOWN);
+        boolean down  = canConnectTo(world, pos.down(),  Direction.UP);
         boolean bell  = canConnectToBell(world, pos, up);
 
         boolean hasVertical   = up || down;
@@ -163,7 +163,7 @@ public class RopeBlock extends WaterloggableBlock {
 		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
 	}
 
-    private boolean canConnectTo(WorldAccess world, BlockPos neighborPos, Direction dirTowardNeighbor, BlockPos pos) {
+    private boolean canConnectTo(WorldAccess world, BlockPos neighborPos, Direction dirTowardNeighbor) {
         BlockState neighborState = world.getBlockState(neighborPos);
         if (neighborState.getBlock() instanceof RopeBlock) return true;
         if (dirTowardNeighbor == Direction.DOWN && neighborState.getBlock() instanceof BellBlock) return true;

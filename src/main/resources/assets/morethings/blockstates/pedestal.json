@@ -1,7 +1,16 @@
 {
   "variants": {
-    "": {
+    "up=false,down=false": {
       "model": "morethings:block/pedestal"
+    },
+    "up=true,down=false": {
+      "model": "morethings:block/pedestal_up"
+    },
+    "up=false,down=true": {
+      "model": "morethings:block/pedestal_down"
+    },
+    "up=true,down=true": {
+      "model": "morethings:block/pedestal_middle"
     }
   }
 }

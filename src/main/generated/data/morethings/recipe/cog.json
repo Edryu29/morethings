@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "0": {
+      "item": "minecraft:copper_ingot"
+    },
+    "1": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "pattern": [
+    "000",
+    "010",
+    "000"
+  ],
+  "result": {
+    "count": 1,
+    "id": "morethings:cog"
+  }
+}
