@@ -6,6 +6,7 @@ import com.edryu.morethings.registry.BlockRegistry;
 import com.edryu.morethings.registry.EntityRegistry;
 import com.edryu.morethings.registry.ScreenRegistry;
 import com.edryu.morethings.util.SimpleScreen;
+import com.edryu.morethings.client.renderer.CogBlockColor;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -14,7 +15,6 @@ import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
-
 
 public class MoreThingsClient implements ClientModInitializer {
 	
@@ -35,6 +35,7 @@ public class MoreThingsClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.CONSOLE_LEVER, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BOOK_PILE_HORIZONTAL, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BOOK_PILE_VERTICAL, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.COG, RenderLayer.getCutoutMipped());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BAR_PANEL, RenderLayer.getCutoutMipped());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.LATTICE, RenderLayer.getCutoutMipped());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.THATCH, RenderLayer.getCutout());
@@ -45,7 +46,7 @@ public class MoreThingsClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BUNTING_CEILING, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BUNTING_WALL, RenderLayer.getCutout());
 
+		ColorProviderRegistry.BLOCK.register(new CogBlockColor(), BlockRegistry.COG);
 		ColorProviderRegistry.BLOCK.register((state, level, pos, tintIndex) -> level != null && pos != null ? BiomeColors.getWaterColor(level, pos) : 0x3F76E4, BlockRegistry.BOAT_IN_A_JAR);
-		// ColorProviderRegistry.BLOCK.register((state, level, pos, tintIndex) -> level != null && pos != null ? BiomeColors.getWaterColor(level, pos) : 0x3F76E4, BlockRegistry.COG);
 	}
 }

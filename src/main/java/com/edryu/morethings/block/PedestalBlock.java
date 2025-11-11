@@ -38,20 +38,10 @@ public class PedestalBlock extends WaterloggableBlock {
 
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
-        boolean up = state.get(UP);
-        boolean down = state.get(DOWN);
-        if (!up) {
-            if (!down) {
-                return SHAPE;
-            } else {
-                return SHAPE_DOWN;
-            }
+        if (!state.get(UP)) {
+            return !state.get(DOWN) ? SHAPE : SHAPE_DOWN;
         } else {
-            if (!down) {
-                return SHAPE_UP;
-            } else {
-                return SHAPE_UP_DOWN;
-            }
+            return !state.get(DOWN) ? SHAPE_UP : SHAPE_UP_DOWN;
         }
     }
 
@@ -65,7 +55,7 @@ public class PedestalBlock extends WaterloggableBlock {
 
 		FluidState fluidState = world.getFluidState(pos);
 		boolean wl = fluidState.getFluid() == Fluids.WATER;
-
+        
         return super.getPlacementState(ctx).with(WATERLOGGED, wl).with(UP, up).with(DOWN, down);
 	}
 

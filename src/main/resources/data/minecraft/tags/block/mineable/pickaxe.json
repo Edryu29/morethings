@@ -3,9 +3,14 @@
     "morethings:bar_panel",
     "morethings:big_chain",
     "morethings:daub",
+    "morethings:daub_slab",
     "morethings:small_pedestal",
     "morethings:pedestal",
     "morethings:safe",
-    "morethings:stone_pillar"
+    "morethings:stone_pillar",
+    "morethings:red_button",
+    "morethings:red_safe_button",
+    "morethings:console_lever",
+    "morethings:cog"
   ]
 }

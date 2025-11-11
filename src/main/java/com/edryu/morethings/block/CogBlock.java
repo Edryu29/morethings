@@ -9,8 +9,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 
 public class CogBlock extends Block {
 	public static final IntProperty POWER = Properties.POWER;
@@ -22,13 +21,13 @@ public class CogBlock extends Block {
 
     @Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-        int pow = MathHelper.clamp(ctx.getWorld().getReceivedStrongRedstonePower(ctx.getBlockPos()), 0, 15);
-		return this.getDefaultState().with(POWER, pow);
+		return this.getDefaultState().with(POWER, ctx.getWorld().getReceivedRedstonePower(ctx.getBlockPos()));
 	}
 
-	protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        int pow = MathHelper.clamp(world.getReceivedStrongRedstonePower(pos), 0, 15);
-		return super.getStateForNeighborUpdate(getDefaultState().with(POWER, pow), direction, neighborState, world, pos, neighborPos);
+	@Override
+	protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
+		world.setBlockState(pos, state.with(POWER, world.getReceivedRedstonePower(pos)), Block.NOTIFY_ALL);
 	}
 
 	@Override
