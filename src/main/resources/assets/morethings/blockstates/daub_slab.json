@@ -1,0 +1,52 @@
+
+{
+  "variants": {
+    "type=bottom,variant=0": {
+      "model": "morethings:block/daub/daub_slab"
+    },
+    "type=bottom,variant=1": {
+      "model": "morethings:block/daub/daub_frame_slab"
+    },
+    "type=bottom,variant=2": {
+      "model": "morethings:block/daub/daub_brace_slab"
+    },
+    "type=bottom,variant=3": {
+      "model": "morethings:block/daub/daub_brace_flipped_slab"
+    },
+    "type=bottom,variant=4": {
+      "model": "morethings:block/daub/daub_cross_brace_slab"
+    },
+
+    "type=double,variant=0": {
+      "model": "morethings:block/daub/daub"
+    },
+    "type=double,variant=1": {
+      "model": "morethings:block/daub/daub_frame_slab_double"
+    },
+    "type=double,variant=2": {
+      "model": "morethings:block/daub/daub_brace_slab_double"
+    },
+    "type=double,variant=3": {
+      "model": "morethings:block/daub/daub_brace_flipped_slab_double"
+    },
+    "type=double,variant=4": {
+      "model": "morethings:block/daub/daub_cross_brace_slab_double"
+    },
+
+    "type=top,variant=0": {
+      "model": "morethings:block/daub/daub_slab_top"
+    },
+    "type=top,variant=1": {
+      "model": "morethings:block/daub/daub_frame_slab_top"
+    },
+    "type=top,variant=2": {
+      "model": "morethings:block/daub/daub_brace_slab_top"
+    },
+    "type=top,variant=3": {
+      "model": "morethings:block/daub/daub_brace_flipped_slab_top"
+    },
+    "type=top,variant=4": {
+      "model": "morethings:block/daub/daub_cross_brace_slab_top"
+    }
+  }
+}

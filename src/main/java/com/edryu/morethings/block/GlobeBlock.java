@@ -25,11 +25,11 @@ import net.minecraft.world.World;
 public class GlobeBlock extends HorizontalFacingBlock {
     public static final MapCodec<GlobeBlock> CODEC = Block.createCodec(GlobeBlock::new);
 
-	public static final IntProperty TYPE = IntProperty.of("type", 0, 2);
+	public static final IntProperty VARIANT = IntProperty.of("variant", 0, 2);
 
     public GlobeBlock(Settings settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(TYPE, 0));
+        setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(VARIANT, 0));
     }
 
 	@Override
@@ -49,17 +49,14 @@ public class GlobeBlock extends HorizontalFacingBlock {
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!Screen.hasShiftDown()) {
-            return ActionResult.PASS;
-        } else {
-            world.setBlockState(pos, state.with(TYPE, (state.get(TYPE) + 1) % 3));
-            world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            return ActionResult.SUCCESS;
-        }
+        if (!Screen.hasShiftDown()) return ActionResult.PASS;
+        world.setBlockState(pos, state.with(VARIANT, (state.get(VARIANT) + 1) % 3));
+        world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        return ActionResult.SUCCESS;
     }
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(Properties.HORIZONTAL_FACING, TYPE);
+        builder.add(Properties.HORIZONTAL_FACING, VARIANT);
     }
 }

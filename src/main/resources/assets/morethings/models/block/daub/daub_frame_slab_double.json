@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/cube_column",
+	"textures": {
+		"end": "morethings:block/daub/daub_frame",
+		"side": "morethings:block/daub/daub_frame_slab"
+	}
+}

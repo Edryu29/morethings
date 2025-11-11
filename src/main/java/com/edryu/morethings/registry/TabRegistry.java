@@ -20,21 +20,21 @@ public class TabRegistry {
         Registry.register(Registries.ITEM_GROUP, MORE_BLOCKS_GROUP_KEY, MORE_BLOCKS_GROUP);
 
         ItemGroupEvents.modifyEntriesEvent(MORE_BLOCKS_GROUP_KEY).register(itemGroup -> {
-            itemGroup.add(BlockRegistry.DAUB.asItem());
             itemGroup.add(BlockRegistry.BIG_CHAIN.asItem());
-            itemGroup.add(BlockRegistry.PEDESTAL.asItem());
-            itemGroup.add(BlockRegistry.STONE_PILLAR.asItem());
-
+            itemGroup.add(BlockRegistry.BOOK_PILE_HORIZONTAL.asItem());
+            itemGroup.add(BlockRegistry.BOOK_PILE_VERTICAL.asItem());
             itemGroup.add(BlockRegistry.BAR_PANEL.asItem());
             itemGroup.add(BlockRegistry.LATTICE.asItem());
+
+            itemGroup.add(BlockRegistry.DAUB.asItem());
+            itemGroup.add(BlockRegistry.DAUB_SLAB.asItem());
+            itemGroup.add(BlockRegistry.PEDESTAL.asItem());
+            itemGroup.add(BlockRegistry.STONE_PILLAR.asItem());
 
             itemGroup.add(BlockRegistry.THATCH.asItem());
             itemGroup.add(BlockRegistry.THATCH_SLAB.asItem());
             itemGroup.add(BlockRegistry.THATCH_STAIRS.asItem());
             itemGroup.add(BlockRegistry.HAYSTACK.asItem());
-
-            itemGroup.add(BlockRegistry.BOOK_PILE_HORIZONTAL.asItem());
-            itemGroup.add(BlockRegistry.BOOK_PILE_VERTICAL.asItem());
 
             itemGroup.add(BlockRegistry.BOAT_IN_A_JAR.asItem());
             itemGroup.add(BlockRegistry.TERRARIUM.asItem());

@@ -1,30 +1,30 @@
 {
   "variants": {
-    "facing=north,type=0": [
+    "facing=north,variant=0": [
       { "model": "morethings:block/globes/globe_world_sepia" },
       { "model": "morethings:block/globes/globe_earth_sepia" }
     ],
-    "facing=east,type=0":  [
+    "facing=east,variant=0":  [
       { "model": "morethings:block/globes/globe_world_sepia", "y": 90 },
       { "model": "morethings:block/globes/globe_earth_sepia", "y": 90 }
     ],
-    "facing=south,type=0": [
+    "facing=south,variant=0": [
       { "model": "morethings:block/globes/globe_world_sepia", "y": 180 },
       { "model": "morethings:block/globes/globe_earth_sepia", "y": 180 }
     ],
-    "facing=west,type=0":  [
+    "facing=west,variant=0":  [
       { "model": "morethings:block/globes/globe_world_sepia", "y": 270 },
       { "model": "morethings:block/globes/globe_earth_sepia", "y": 270 }
     ],
 
-    "facing=north,type=1": { "model": "morethings:block/globes/globe_flat_sepia" },
-    "facing=east,type=1":  { "model": "morethings:block/globes/globe_flat_sepia", "y": 90 },
-    "facing=south,type=1": { "model": "morethings:block/globes/globe_flat_sepia", "y": 180 },
-    "facing=west,type=1":  { "model": "morethings:block/globes/globe_flat_sepia", "y": 270 },
+    "facing=north,variant=1": { "model": "morethings:block/globes/globe_flat_sepia" },
+    "facing=east,variant=1":  { "model": "morethings:block/globes/globe_flat_sepia", "y": 90 },
+    "facing=south,variant=1": { "model": "morethings:block/globes/globe_flat_sepia", "y": 180 },
+    "facing=west,variant=1":  { "model": "morethings:block/globes/globe_flat_sepia", "y": 270 },
 
-    "facing=north,type=2": { "model": "morethings:block/globes/globe_sun" },
-    "facing=east,type=2":  { "model": "morethings:block/globes/globe_sun", "y": 90 },
-    "facing=south,type=2": { "model": "morethings:block/globes/globe_sun", "y": 180 },
-    "facing=west,type=2":  { "model": "morethings:block/globes/globe_sun", "y": 270 }
+    "facing=north,variant=2": { "model": "morethings:block/globes/globe_sun" },
+    "facing=east,variant=2":  { "model": "morethings:block/globes/globe_sun", "y": 90 },
+    "facing=south,variant=2": { "model": "morethings:block/globes/globe_sun", "y": 180 },
+    "facing=west,variant=2":  { "model": "morethings:block/globes/globe_sun", "y": 270 }
   }
 }

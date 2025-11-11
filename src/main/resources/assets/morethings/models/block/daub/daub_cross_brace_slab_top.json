@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/slab_top",
+	"textures": {
+		"bottom": "morethings:block/daub/daub_cross_brace",
+		"top": "morethings:block/daub/daub_cross_brace",
+		"side": "morethings:block/daub/daub_cross_brace_slab"
+	}
+}

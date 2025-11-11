@@ -35,6 +35,14 @@ public class RecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.WHEAT), FabricRecipeProvider.conditionsFromItem(Items.WHEAT))
             .offerTo(recipeExporter);
 
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DAUB_SLAB, 6)
+            .pattern("000")
+            .pattern("   ")
+            .pattern("   ")
+            .input('0', BlockRegistry.DAUB)
+            .criterion(FabricRecipeProvider.hasItem(BlockRegistry.DAUB), FabricRecipeProvider.conditionsFromItem(BlockRegistry.DAUB))
+            .offerTo(recipeExporter);
+
         ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SACK_BLOCK, 1)
             .pattern("101")
             .pattern("1 1")
@@ -253,6 +261,10 @@ public class RecipeProvider extends FabricRecipeProvider {
         StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.STONE), RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_PILLAR)
             .criterion(FabricRecipeProvider.hasItem(Items.STONE), FabricRecipeProvider.conditionsFromItem(Items.STONE))
             .offerTo(recipeExporter);
+
+        // StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.STONE), RecipeCategory.BUILDING_BLOCKS, BlockRegistry.PEDESTAL)
+        //     .criterion(FabricRecipeProvider.hasItem(Items.STONE_BRICKS), FabricRecipeProvider.conditionsFromItem(Items.STONE_BRICKS))
+        //     .offerTo(recipeExporter);
 
         StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.BLUE_CRYSTAL)
             .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))

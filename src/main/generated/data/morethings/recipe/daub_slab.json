@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "0": {
+      "item": "morethings:daub"
+    }
+  },
+  "pattern": [
+    "000",
+    "   ",
+    "   "
+  ],
+  "result": {
+    "count": 6,
+    "id": "morethings:daub_slab"
+  }
+}

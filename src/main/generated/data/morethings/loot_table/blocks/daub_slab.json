@@ -11,7 +11,7 @@
               "add": false,
               "conditions": [
                 {
-                  "block": "morethings:thatch_slab",
+                  "block": "morethings:daub_slab",
                   "condition": "minecraft:block_state_property",
                   "properties": {
                     "type": "double"
@@ -25,7 +25,7 @@
               "function": "minecraft:explosion_decay"
             }
           ],
-          "name": "morethings:thatch_slab"
+          "name": "morethings:daub_slab"
         }
       ],
       "rolls": 1.0

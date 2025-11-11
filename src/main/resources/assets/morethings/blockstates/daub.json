@@ -1,18 +1,18 @@
 {
   "variants": {
-    "type=0": {
+    "variant=0": {
       "model": "morethings:block/daub/daub"
     },
-    "type=1": {
+    "variant=1": {
       "model": "morethings:block/daub/daub_frame"
     },
-    "type=2": {
+    "variant=2": {
       "model": "morethings:block/daub/daub_brace"
     },
-    "type=3": {
+    "variant=3": {
       "model": "morethings:block/daub/daub_brace_flipped"
     },
-    "type=4": {
+    "variant=4": {
       "model": "morethings:block/daub/daub_cross_brace"
     }
   }

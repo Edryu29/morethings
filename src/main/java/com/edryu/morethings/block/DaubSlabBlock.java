@@ -2,6 +2,8 @@ package com.edryu.morethings.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SlabBlock;
+import net.minecraft.block.enums.SlabType;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
@@ -13,12 +15,12 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class DaubBlock extends Block {
+public class DaubSlabBlock extends SlabBlock {
 	public static final IntProperty VARIANT = IntProperty.of("variant", 0, 4);
 
-    public DaubBlock(Settings settings) {
+    public DaubSlabBlock(Settings settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(VARIANT, 0));
+        setDefaultState(getDefaultState().with(TYPE, SlabType.BOTTOM).with(WATERLOGGED, false).with(VARIANT, 0));
     }
 
     @Override
@@ -31,6 +33,6 @@ public class DaubBlock extends Block {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(VARIANT);
+        builder.add(TYPE, WATERLOGGED, VARIANT);
     }
 }

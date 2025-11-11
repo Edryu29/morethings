@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/slab_top",
+	"textures": {
+		"bottom": "morethings:block/daub/daub",
+		"top": "morethings:block/daub/daub",
+		"side": "morethings:block/daub/daub"
+	}
+}

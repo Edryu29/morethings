@@ -1,0 +1,8 @@
+{
+	"parent": "minecraft:block/slab_top",
+	"textures": {
+		"bottom": "morethings:block/daub/daub_brace_flipped",
+		"top": "morethings:block/daub/daub_brace_flipped",
+		"side": "morethings:block/daub/daub_brace_flipped_slab"
+	}
+}
