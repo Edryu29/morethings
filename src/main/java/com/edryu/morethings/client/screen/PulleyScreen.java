@@ -1,6 +1,7 @@
-package com.edryu.morethings.util;
+package com.edryu.morethings.client.screen;
 
 import com.edryu.morethings.MoreThingsMain;
+import com.edryu.morethings.screen.PulleyScreenHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.DrawContext;
@@ -10,10 +11,10 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class SimpleScreen extends HandledScreen<SimpleScreenHandler> {
-    private static final Identifier TEXTURE = Identifier.of(MoreThingsMain.MOD_ID, "textures/gui/container/simple.png");
+public class PulleyScreen extends HandledScreen<PulleyScreenHandler> {
+    private static final Identifier TEXTURE = Identifier.of(MoreThingsMain.MOD_ID, "textures/gui/container/pulley.png");
     
-    public SimpleScreen(SimpleScreenHandler handler, PlayerInventory inventory, Text title) {
+    public PulleyScreen(PulleyScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
     

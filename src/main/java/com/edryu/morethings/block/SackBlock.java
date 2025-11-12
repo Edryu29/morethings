@@ -8,7 +8,6 @@ import com.mojang.serialization.MapCodec;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FallingBlock;
 import net.minecraft.block.ShapeContext;
@@ -50,11 +49,6 @@ public class SackBlock extends FallingBlock implements BlockEntityProvider, Wate
     protected MapCodec<? extends SackBlock> getCodec() {
         return createCodec(SackBlock::new);
     }
-
-    @Override
-    public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
-    }
  
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
@@ -86,18 +80,14 @@ public class SackBlock extends FallingBlock implements BlockEntityProvider, Wate
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
             NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
-            if (screenHandlerFactory != null) {
-                player.openHandledScreen(screenHandlerFactory);
-            }
+            if (screenHandlerFactory != null) player.openHandledScreen(screenHandlerFactory);
         }
         return ActionResult.SUCCESS;
     }
  
     @Override
     public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (world.getBlockEntity(pos) instanceof SackBlockEntity SackBlockEntity) {
-            ItemScatterer.spawn(world, pos, SackBlockEntity);
-        }
+        if (world.getBlockEntity(pos) instanceof SackBlockEntity SackBlockEntity) ItemScatterer.spawn(world, pos, SackBlockEntity);
         return super.onBreak(world, pos, state, player);
     }
 

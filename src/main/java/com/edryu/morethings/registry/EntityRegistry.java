@@ -11,8 +11,9 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class EntityRegistry {
-    public static final BlockEntityType<SackBlockEntity> SACK_BLOCK_ENTITY = registerEntity("sack", SackBlockEntity::new, BlockRegistry.SACK_BLOCK);
-    public static final BlockEntityType<SafeBlockEntity> SAFE_BLOCK_ENTITY = registerEntity("safe", SafeBlockEntity::new, BlockRegistry.SAFE_BLOCK);
+    public static final BlockEntityType<SackBlockEntity> SACK_ENTITY = registerEntity("sack", SackBlockEntity::new, BlockRegistry.SACK);
+    public static final BlockEntityType<SafeBlockEntity> SAFE_ENTITY = registerEntity("safe", SafeBlockEntity::new, BlockRegistry.SAFE);
+    public static final BlockEntityType<PulleyBlockEntity> PULLEY_ENTITY = registerEntity("pulley", PulleyBlockEntity::new, BlockRegistry.PULLEY);
     public static final BlockEntityType<SmallPedestalBlockEntity> SMALL_PEDESTAL_ENTITY = registerEntity("small_pedestal", SmallPedestalBlockEntity::new, BlockRegistry.SMALL_PEDESTAL);
     public static final BlockEntityType<DisplayBlockEntity> DISPLAY_ENTITY = registerEntity("display", DisplayBlockEntity::new, BlockRegistry.DISPLAY);
 

@@ -49,8 +49,8 @@ public class TabRegistry {
             itemGroup.add(BlockRegistry.COG.asItem());
             itemGroup.add(BlockRegistry.PULLEY.asItem());
 
-            itemGroup.add(BlockRegistry.SACK_BLOCK.asItem());
-            itemGroup.add(BlockRegistry.SAFE_BLOCK.asItem());
+            itemGroup.add(BlockRegistry.SACK.asItem());
+            itemGroup.add(BlockRegistry.SAFE.asItem());
             itemGroup.add(BlockRegistry.SMALL_PEDESTAL.asItem());
             itemGroup.add(BlockRegistry.DISPLAY.asItem());
 

@@ -3,7 +3,6 @@ package com.edryu.morethings.entity;
 import com.edryu.morethings.block.SafeBlock;
 import com.edryu.morethings.registry.EntityRegistry;
 import com.edryu.morethings.util.SimpleInventory;
-import com.edryu.morethings.util.SimpleScreenHandler;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -13,6 +12,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundCategory;
@@ -25,10 +25,10 @@ import net.minecraft.util.math.Vec3i;
 	
 
 public class SafeBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, SimpleInventory {
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(9, ItemStack.EMPTY);
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
     
     public SafeBlockEntity(BlockPos pos, BlockState state) {
-        super(EntityRegistry.SAFE_BLOCK_ENTITY, pos, state);
+        super(EntityRegistry.SAFE_ENTITY, pos, state);
     }
     
     @Override
@@ -50,7 +50,7 @@ public class SafeBlockEntity extends BlockEntity implements NamedScreenHandlerFa
     
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new SimpleScreenHandler(syncId, playerInventory, this);
+        return GenericContainerScreenHandler.createGeneric9x3(syncId, playerInventory, this);
     }
     
     @Override
@@ -60,18 +60,18 @@ public class SafeBlockEntity extends BlockEntity implements NamedScreenHandlerFa
 
    void playOpenSound(BlockState state) {
         Vec3i vec3i = ((Direction)state.get(SafeBlock.FACING)).getVector();
-        double d = (double)this.pos.getX() + 0.5 + (double)vec3i.getX() / 2.0;
-        double e = (double)this.pos.getY() + 0.5 + (double)vec3i.getY() / 2.0;
-        double f = (double)this.pos.getZ() + 0.5 + (double)vec3i.getZ() / 2.0;
-        this.world.playSound((PlayerEntity)null, d, e, f, SoundEvents.BLOCK_IRON_DOOR_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
+        double d = this.pos.getX() + 0.5 + vec3i.getX() / 2.0;
+        double e = this.pos.getY() + 0.5 + vec3i.getY() / 2.0;
+        double f = this.pos.getZ() + 0.5 + vec3i.getZ() / 2.0;
+        this.world.playSound(null, d, e, f, SoundEvents.BLOCK_IRON_DOOR_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
    }
 
    void playCloseSound(BlockState state) {
         Vec3i vec3i = ((Direction)state.get(SafeBlock.FACING)).getVector();
-        double d = (double)this.pos.getX() + 0.5 + (double)vec3i.getX() / 2.0;
-        double e = (double)this.pos.getY() + 0.5 + (double)vec3i.getY() / 2.0;
-        double f = (double)this.pos.getZ() + 0.5 + (double)vec3i.getZ() / 2.0;
-        this.world.playSound((PlayerEntity)null, d, e, f, SoundEvents.BLOCK_IRON_DOOR_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
+		double d = this.pos.getX() + 0.5 + vec3i.getX() / 2.0;
+		double e = this.pos.getY() + 0.5 + vec3i.getY() / 2.0;
+		double f = this.pos.getZ() + 0.5 + vec3i.getZ() / 2.0;
+        this.world.playSound(null, d, e, f, SoundEvents.BLOCK_IRON_DOOR_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
    }
 
    public void onOpen(PlayerEntity player) {

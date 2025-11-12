@@ -43,7 +43,7 @@ public class RecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(BlockRegistry.DAUB), FabricRecipeProvider.conditionsFromItem(BlockRegistry.DAUB))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SACK_BLOCK, 1)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SACK, 1)
             .pattern("101")
             .pattern("1 1")
             .pattern("111")
@@ -52,7 +52,7 @@ public class RecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.WHEAT), FabricRecipeProvider.conditionsFromItem(Items.WHEAT))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SAFE_BLOCK, 1)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SAFE, 1)
             .pattern("000")
             .pattern("0 0")
             .pattern("000")

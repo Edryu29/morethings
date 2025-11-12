@@ -54,8 +54,8 @@ public class BlockRegistry {
     public static final Block COG = registerBlock(new CogBlock(AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK)),"cog");
     public static final Block PULLEY = registerBlock(new PulleyBlock(AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK)),"pulley");
 
-    public static final Block SACK_BLOCK = registerBlock(new SackBlock(AbstractBlock.Settings.create().sounds(SoundRegistry.SACK).strength(0.8f)),"sack");
-    public static final Block SAFE_BLOCK = registerBlock(new SafeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)),"safe");
+    public static final Block SACK = registerBlock(new SackBlock(AbstractBlock.Settings.create().sounds(SoundRegistry.SACK).strength(0.8f)),"sack");
+    public static final Block SAFE = registerBlock(new SafeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)),"safe");
     public static final Block SMALL_PEDESTAL = registerBlock(new SmallPedestalBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.STONE).strength(0.2f)),"small_pedestal");
     public static final Block DISPLAY = registerBlock(new DisplayBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"display");
 
@@ -71,7 +71,6 @@ public class BlockRegistry {
     public static final Block PALE_OAK_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.BIRCH_FENCE)),"pale_oak_palisade");
     public static final Block SPRUCE_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.SPRUCE_FENCE)),"spruce_palisade");
     public static final Block WARPED_PALISADE = registerBlock(new PalisadeBlock(AbstractBlock.Settings.copy(Blocks.WARPED_FENCE)),"warped_palisade");
-
 
     public static AbstractBlock.Settings bookPileSettings() {
         return AbstractBlock.Settings.create().sounds(SoundRegistry.BOOKS).strength(0.3f).nonOpaque();

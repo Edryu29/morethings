@@ -4,7 +4,6 @@ import com.edryu.morethings.block.SackBlock;
 import com.edryu.morethings.registry.EntityRegistry;
 import com.edryu.morethings.registry.SoundRegistry;
 import com.edryu.morethings.util.SimpleInventory;
-import com.edryu.morethings.util.SimpleScreenHandler;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -14,6 +13,7 @@ import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.screen.Generic3x3ContainerScreenHandler;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundCategory;
@@ -26,7 +26,7 @@ public class SackBlockEntity extends BlockEntity implements NamedScreenHandlerFa
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(9, ItemStack.EMPTY);
     
     public SackBlockEntity(BlockPos pos, BlockState state) {
-        super(EntityRegistry.SACK_BLOCK_ENTITY, pos, state);
+        super(EntityRegistry.SACK_ENTITY, pos, state);
     }
     
     @Override
@@ -48,7 +48,7 @@ public class SackBlockEntity extends BlockEntity implements NamedScreenHandlerFa
     
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new SimpleScreenHandler(syncId, playerInventory, this);
+        return new Generic3x3ContainerScreenHandler(syncId, playerInventory, this);
     }
     
     @Override
@@ -56,11 +56,11 @@ public class SackBlockEntity extends BlockEntity implements NamedScreenHandlerFa
         return Text.translatable(getCachedState().getBlock().getTranslationKey());
     }
 
-   void playSound() {
+   public void playSound() {
         double d = (double)this.pos.getX() + 0.5;
         double e = (double)this.pos.getY() + 1;
         double f = (double)this.pos.getZ() + 0.5;
-        this.world.playSound((PlayerEntity)null, d, e, f, SoundRegistry.SACK_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
+        this.world.playSound(null, d, e, f, SoundRegistry.SACK_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
    }
 
    public void onOpen(PlayerEntity player) {

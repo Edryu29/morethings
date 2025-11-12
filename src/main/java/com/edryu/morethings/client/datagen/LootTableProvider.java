@@ -16,8 +16,8 @@ public class LootTableProvider extends FabricBlockLootTableProvider {
 
 	@Override
 	public void generate() {
-                addDrop(BlockRegistry.SACK_BLOCK);
-                addDrop(BlockRegistry.SAFE_BLOCK);
+                addDrop(BlockRegistry.SACK);
+                addDrop(BlockRegistry.SAFE);
                 addDrop(BlockRegistry.PEDESTAL);
                 addDrop(BlockRegistry.SMALL_PEDESTAL);
                 addDrop(BlockRegistry.DISPLAY);

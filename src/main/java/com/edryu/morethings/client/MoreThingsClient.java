@@ -2,10 +2,10 @@ package com.edryu.morethings.client;
 
 import com.edryu.morethings.client.renderer.DisplayBlockEntityRenderer;
 import com.edryu.morethings.client.renderer.SmallPedestalBlockEntityRenderer;
+import com.edryu.morethings.client.screen.PulleyScreen;
 import com.edryu.morethings.registry.BlockRegistry;
 import com.edryu.morethings.registry.EntityRegistry;
 import com.edryu.morethings.registry.ScreenRegistry;
-import com.edryu.morethings.util.SimpleScreen;
 import com.edryu.morethings.client.renderer.CogBlockColor;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -23,8 +23,7 @@ public class MoreThingsClient implements ClientModInitializer {
 		BlockEntityRendererFactories.register(EntityRegistry.SMALL_PEDESTAL_ENTITY, SmallPedestalBlockEntityRenderer::new);
 		BlockEntityRendererFactories.register(EntityRegistry.DISPLAY_ENTITY, DisplayBlockEntityRenderer::new);
 
-		HandledScreens.register(ScreenRegistry.SACK_SCREEN_HANDLER, SimpleScreen::new);
-		HandledScreens.register(ScreenRegistry.SAFE_SCREEN_HANDLER, SimpleScreen::new);
+        HandledScreens.register(ScreenRegistry.PULLEY_SCREEN_HANDLER, PulleyScreen::new);
 		
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BOAT_IN_A_JAR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.TERRARIUM, RenderLayer.getCutout());

@@ -1,25 +1,29 @@
 package com.edryu.morethings.block;
 
+import org.jetbrains.annotations.Nullable;
+
+import com.edryu.morethings.entity.PulleyBlockEntity;
 import com.edryu.morethings.util.BlockProperties;
 import com.edryu.morethings.util.BlockProperties.Winding;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PillarBlock;
-import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-public class PulleyBlock extends PillarBlock {
+public class PulleyBlock extends PillarBlock implements BlockEntityProvider {
     public static final BooleanProperty FLIPPED = BooleanProperty.of("flipped");
     public static final EnumProperty<Winding> WINDING = BlockProperties.WINDING;
 
@@ -29,13 +33,39 @@ public class PulleyBlock extends PillarBlock {
     }
 
     @Override
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new PulleyBlockEntity(pos, state);
+    }
+
+    @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!Screen.hasShiftDown()) return ActionResult.PASS;
-        world.setBlockState(pos, state.with(FLIPPED, !state.get(FLIPPED)));
-        world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        if (!world.isClient) {
+            NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
+            if (screenHandlerFactory != null) player.openHandledScreen(screenHandlerFactory);
+        }
         return ActionResult.SUCCESS;
     }
     
+    @Override
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        if (world.getBlockEntity(pos) instanceof PulleyBlockEntity PulleyBlockEntity) ItemScatterer.spawn(world, pos, PulleyBlockEntity);
+        return super.onBreak(world, pos, state, player);
+    }
+
+	@Override
+	protected boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
+		super.onSyncedBlockEvent(state, world, pos, type, data);
+		BlockEntity blockEntity = world.getBlockEntity(pos);
+		return blockEntity == null ? false : blockEntity.onSyncedBlockEvent(type, data);
+	}
+
+	@Nullable
+	@Override
+	protected NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
+		BlockEntity blockEntity = world.getBlockEntity(pos);
+		return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory)blockEntity : null;
+	}
+
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(AXIS, FLIPPED, WINDING);

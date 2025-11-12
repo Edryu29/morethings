@@ -4,11 +4,8 @@ import org.jetbrains.annotations.Nullable;
 
 import com.edryu.morethings.entity.SafeBlockEntity;
 
-import com.mojang.serialization.MapCodec;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
@@ -31,24 +28,12 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public class SafeBlock extends WaterloggableBlock implements BlockEntityProvider {
-    public static final MapCodec<SafeBlock> CODEC = Block.createCodec(SafeBlock::new);
-    
     public static final DirectionProperty FACING = Properties.HORIZONTAL_FACING;
 	public static final BooleanProperty OPEN = BooleanProperty.of("open");
 
     public SafeBlock(Settings settings) {
         super(settings);
         setDefaultState(getDefaultState().with(WATERLOGGED, false).with(FACING, Direction.NORTH).with(OPEN, false));
-    }
-
-	@Override
-	protected MapCodec<? extends SafeBlock> getCodec() {
-		return CODEC;
-	}
-
-    @Override
-    public BlockRenderType getRenderType(BlockState state) {
-        return BlockRenderType.MODEL;
     }
  
     @Override
@@ -71,18 +56,14 @@ public class SafeBlock extends WaterloggableBlock implements BlockEntityProvider
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
             NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
-            if (screenHandlerFactory != null) {
-                player.openHandledScreen(screenHandlerFactory);
-            }
+            if (screenHandlerFactory != null) player.openHandledScreen(screenHandlerFactory);
         }
         return ActionResult.SUCCESS;
     }
  
     @Override
     public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (world.getBlockEntity(pos) instanceof SafeBlockEntity SafeBlockEntity) {
-            ItemScatterer.spawn(world, pos, SafeBlockEntity);
-        }
+        if (world.getBlockEntity(pos) instanceof SafeBlockEntity SafeBlockEntity) ItemScatterer.spawn(world, pos, SafeBlockEntity);
         return super.onBreak(world, pos, state, player);
     }
 
