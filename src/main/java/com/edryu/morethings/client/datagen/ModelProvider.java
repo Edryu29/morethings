@@ -40,6 +40,7 @@ public class ModelProvider extends FabricModelProvider {
         itemModelGenerator.register(BlockRegistry.TERRARIUM.asItem(), Models.GENERATED);
         itemModelGenerator.register(BlockRegistry.GLOBE.asItem(), Models.GENERATED);
         itemModelGenerator.register(BlockRegistry.GLOBE_SEPIA.asItem(), Models.GENERATED);
+        itemModelGenerator.register(BlockRegistry.CRANK.asItem(), Models.GENERATED);
     }
 
   @Override

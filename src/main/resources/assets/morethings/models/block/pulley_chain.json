@@ -1,7 +1,7 @@
 {
 	"parent": "minecraft:block/cube_column",
 	"textures": {
-		"end": "supplementaries:block/pulley_top",
-		"side": "supplementaries:block/pulley_side_chain"
+		"end": "morethings:block/pulley_top",
+		"side": "morethings:block/pulley_side_chain"
 	}
 }

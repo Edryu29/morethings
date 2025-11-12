@@ -45,9 +45,11 @@ public class TabRegistry {
             itemGroup.add(BlockRegistry.RED_BUTTON.asItem());
             itemGroup.add(BlockRegistry.RED_SAFE_BUTTON.asItem());
             itemGroup.add(BlockRegistry.CONSOLE_LEVER.asItem());
+            itemGroup.add(BlockRegistry.CRANK.asItem());
             itemGroup.add(BlockRegistry.ROPE.asItem());
             itemGroup.add(BlockRegistry.COG.asItem());
             itemGroup.add(BlockRegistry.PULLEY.asItem());
+            itemGroup.add(BlockRegistry.TURN_TABLE.asItem());
 
             itemGroup.add(BlockRegistry.SACK.asItem());
             itemGroup.add(BlockRegistry.SAFE.asItem());

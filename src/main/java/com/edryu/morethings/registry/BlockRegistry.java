@@ -51,8 +51,10 @@ public class BlockRegistry {
     public static final Block RED_BUTTON = registerBlock(new RedButtonBlock(buttonSettings()),"red_button");
     public static final Block RED_SAFE_BUTTON = registerBlock(new RedSafeButtonBlock(buttonSettings()),"red_safe_button");
     public static final Block CONSOLE_LEVER = registerBlock(new ConsoleLeverBlock(buttonSettings()),"console_lever");
+    public static final Block CRANK = registerBlock(new CrankBlock(AbstractBlock.Settings.copy(Blocks.LEVER)),"crank");
     public static final Block COG = registerBlock(new CogBlock(AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK)),"cog");
-    public static final Block PULLEY = registerBlock(new PulleyBlock(AbstractBlock.Settings.copy(Blocks.COPPER_BLOCK)),"pulley");
+    public static final Block PULLEY = registerBlock(new PulleyBlock(AbstractBlock.Settings.copy(Blocks.BARREL)),"pulley");
+    public static final Block TURN_TABLE = registerBlock(new TurnTableBlock(AbstractBlock.Settings.copy(Blocks.DISPENSER)),"turn_table");
 
     public static final Block SACK = registerBlock(new SackBlock(AbstractBlock.Settings.create().sounds(SoundRegistry.SACK).strength(0.8f)),"sack");
     public static final Block SAFE = registerBlock(new SafeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK)),"safe");
