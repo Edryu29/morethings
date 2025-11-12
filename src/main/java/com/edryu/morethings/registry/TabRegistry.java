@@ -42,12 +42,12 @@ public class TabRegistry {
             itemGroup.add(BlockRegistry.GLOBE.asItem());
             itemGroup.add(BlockRegistry.GLOBE_SEPIA.asItem());
 
-            itemGroup.add(BlockRegistry.ROPE.asItem());
-
             itemGroup.add(BlockRegistry.RED_BUTTON.asItem());
             itemGroup.add(BlockRegistry.RED_SAFE_BUTTON.asItem());
             itemGroup.add(BlockRegistry.CONSOLE_LEVER.asItem());
+            itemGroup.add(BlockRegistry.ROPE.asItem());
             itemGroup.add(BlockRegistry.COG.asItem());
+            itemGroup.add(BlockRegistry.PULLEY.asItem());
 
             itemGroup.add(BlockRegistry.SACK_BLOCK.asItem());
             itemGroup.add(BlockRegistry.SAFE_BLOCK.asItem());
