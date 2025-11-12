@@ -6,6 +6,8 @@ import java.util.Set;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.edryu.morethings.registry.ItemRegistry;
+
 import net.minecraft.block.BellBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -18,6 +20,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
@@ -73,19 +76,35 @@ public class RopeBlock extends WaterloggableBlock {
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (player == null) return ActionResult.PASS;
 
-        BlockPos.Mutable blockUpPos = pos.mutableCopy().move(Direction.UP);
-        for (int i = 0; i < 32; i++) {
-            BlockState blockUpState = world.getBlockState(blockUpPos);
-            Block blockUp = blockUpState.getBlock();
-            if (blockUp instanceof BellBlock) {
-                ((BellBlock) blockUp).ring(world, blockUpPos, player.getHorizontalFacing().rotateYClockwise());
-                return ActionResult.SUCCESS;
-            } else if (blockUp instanceof RopeBlock) {
-                blockUpPos.move(Direction.UP);
-            } else {
-                return ActionResult.PASS;
+        if (Screen.hasShiftDown() && !player.isHolding(ItemRegistry.ROPE)) {
+            if (!(world.getBlockState(pos.down()).getBlock() instanceof RopeBlock)) return ActionResult.PASS;
+            BlockPos.Mutable reelingPos = pos.mutableCopy().move(Direction.DOWN);
+            while (reelingPos.getY() >= world.getBottomY()) {
+                Block blockBelow  = world.getBlockState(reelingPos).getBlock();
+                if (blockBelow instanceof RopeBlock) {
+                    reelingPos.move(Direction.DOWN);
+                } else {
+                    reelingPos.move(Direction.UP);
+                    world.breakBlock(reelingPos, false, player);
+                    if (!player.isInCreativeMode()) player.giveItemStack(new ItemStack(ItemRegistry.ROPE, 1));
+                    return ActionResult.SUCCESS;
+                }
+            }
+        } else {
+            BlockPos.Mutable bellAdovePos = pos.mutableCopy().move(Direction.UP);
+            for (int i = 0; i < 32; i++) {
+                Block blockAdove = world.getBlockState(bellAdovePos).getBlock();
+                if (blockAdove instanceof BellBlock) {
+                    ((BellBlock) blockAdove).ring(world, bellAdovePos, player.getHorizontalFacing().rotateYClockwise());
+                    return ActionResult.SUCCESS;
+                } else if (blockAdove instanceof RopeBlock) {
+                    bellAdovePos.move(Direction.UP);
+                } else {
+                    return ActionResult.PASS;
+                }
             }
         }
+
         return ActionResult.PASS;
     }
 
