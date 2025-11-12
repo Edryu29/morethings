@@ -1,94 +1,94 @@
 {
   "variants": {
-    "facing=north,inverted=false,rotating=false": {
+    "facing=north,inverted=false,powered=false": {
       "model": "morethings:block/turn_table_left"
     },
-    "facing=north,inverted=true,rotating=false": {
+    "facing=north,inverted=true,powered=false": {
       "model": "morethings:block/turn_table_right"
     },
-    "facing=east,inverted=false,rotating=false": {
+    "facing=east,inverted=false,powered=false": {
       "model": "morethings:block/turn_table_left",
       "y": 90
     },
-    "facing=east,inverted=true,rotating=false": {
+    "facing=east,inverted=true,powered=false": {
       "model": "morethings:block/turn_table_right",
       "y": 90
     },
-    "facing=south,inverted=false,rotating=false": {
+    "facing=south,inverted=false,powered=false": {
       "model": "morethings:block/turn_table_left",
       "y": 180
     },
-    "facing=south,inverted=true,rotating=false": {
+    "facing=south,inverted=true,powered=false": {
       "model": "morethings:block/turn_table_right",
       "y": 180
     },
-    "facing=west,inverted=false,rotating=false": {
+    "facing=west,inverted=false,powered=false": {
       "model": "morethings:block/turn_table_left",
       "y": 270
     },
-    "facing=west,inverted=true,rotating=false": {
+    "facing=west,inverted=true,powered=false": {
       "model": "morethings:block/turn_table_right",
       "y": 270
     },
-    "facing=up,inverted=false,rotating=false": {
+    "facing=up,inverted=false,powered=false": {
       "model": "morethings:block/turn_table_left",
       "x": 270
     },
-    "facing=up,inverted=true,rotating=false": {
+    "facing=up,inverted=true,powered=false": {
       "model": "morethings:block/turn_table_right",
       "x": 270
     },
-    "facing=down,inverted=false,rotating=false": {
+    "facing=down,inverted=false,powered=false": {
       "model": "morethings:block/turn_table_left",
       "x": 90
     },
-    "facing=down,inverted=true,rotating=false": {
+    "facing=down,inverted=true,powered=false": {
       "model": "morethings:block/turn_table_right",
       "x": 90
     },
-    "facing=north,inverted=false,rotating=true": {
+    "facing=north,inverted=false,powered=true": {
       "model": "morethings:block/turn_table_left_on"
     },
-    "facing=north,inverted=true,rotating=true": {
+    "facing=north,inverted=true,powered=true": {
       "model": "morethings:block/turn_table_right_on"
     },
-    "facing=east,inverted=false,rotating=true": {
+    "facing=east,inverted=false,powered=true": {
       "model": "morethings:block/turn_table_left_on",
       "y": 90
     },
-    "facing=east,inverted=true,rotating=true": {
+    "facing=east,inverted=true,powered=true": {
       "model": "morethings:block/turn_table_right_on",
       "y": 90
     },
-    "facing=south,inverted=false,rotating=true": {
+    "facing=south,inverted=false,powered=true": {
       "model": "morethings:block/turn_table_left_on",
       "y": 180
     },
-    "facing=south,inverted=true,rotating=true": {
+    "facing=south,inverted=true,powered=true": {
       "model": "morethings:block/turn_table_right_on",
       "y": 180
     },
-    "facing=west,inverted=false,rotating=true": {
+    "facing=west,inverted=false,powered=true": {
       "model": "morethings:block/turn_table_left_on",
       "y": 270
     },
-    "facing=west,inverted=true,rotating=true": {
+    "facing=west,inverted=true,powered=true": {
       "model": "morethings:block/turn_table_right_on",
       "y": 270
     },
-    "facing=up,inverted=false,rotating=true": {
+    "facing=up,inverted=false,powered=true": {
       "model": "morethings:block/turn_table_left_on",
       "x": 270
     },
-    "facing=up,inverted=true,rotating=true": {
+    "facing=up,inverted=true,powered=true": {
       "model": "morethings:block/turn_table_right_on",
       "x": 270
     },
-    "facing=down,inverted=false,rotating=true": {
+    "facing=down,inverted=false,powered=true": {
       "model": "morethings:block/turn_table_left_on",
       "x": 90
     },
-    "facing=down,inverted=true,rotating=true": {
+    "facing=down,inverted=true,powered=true": {
       "model": "morethings:block/turn_table_right_on",
       "x": 90
     }
