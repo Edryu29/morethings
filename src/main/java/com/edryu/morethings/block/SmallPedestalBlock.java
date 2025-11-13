@@ -41,6 +41,11 @@ public class SmallPedestalBlock extends HorizontalFacingBlock implements BlockEn
     }
 
     @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(Properties.HORIZONTAL_FACING, ROTATE, VISIBLE);
+    }
+
+    @Override
     protected MapCodec<? extends SmallPedestalBlock> getCodec() {
         return null;
     }
@@ -108,10 +113,4 @@ public class SmallPedestalBlock extends HorizontalFacingBlock implements BlockEn
         }
         return super.onBreak(world, pos, state, player);
     }
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(Properties.HORIZONTAL_FACING, ROTATE, VISIBLE);
-    }
-
 }

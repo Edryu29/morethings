@@ -20,6 +20,11 @@ public class BigChainBlock extends ChainBlock {
         setDefaultState(getDefaultState().with(WATERLOGGED, false).with(AXIS, Direction.Axis.Y));
     }
 
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(WATERLOGGED, AXIS);
+    }
+
 	@Override
 	protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		switch ((Direction.Axis)state.get(AXIS)) {
@@ -32,9 +37,4 @@ public class BigChainBlock extends ChainBlock {
 				return Z_SHAPE;
 		}
 	}
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(WATERLOGGED, AXIS);
-    }
 }

@@ -34,6 +34,11 @@ public class TelescopeBlock extends TallPlantBlock {
         setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(HALF, DoubleBlockHalf.LOWER));
     }
 
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(Properties.HORIZONTAL_FACING, HALF);
+    }
+
 	@Override
 	protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return state.get(HALF) == DoubleBlockHalf.UPPER ? SHAPE_TOP : SHAPE_BOTTOM;
@@ -69,9 +74,4 @@ public class TelescopeBlock extends TallPlantBlock {
 	protected BlockState mirror(BlockState state, BlockMirror mirror) {
 		return state.rotate(mirror.getRotation(state.get(FACING)));
 	}
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(Properties.HORIZONTAL_FACING, HALF);
-    }
 }

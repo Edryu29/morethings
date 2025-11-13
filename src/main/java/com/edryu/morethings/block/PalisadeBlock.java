@@ -39,5 +39,4 @@ public class PalisadeBlock extends FenceBlock {
 	protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
 		return this.collisionShapes[this.getShapeIndex(state)];
 	}
-
 }

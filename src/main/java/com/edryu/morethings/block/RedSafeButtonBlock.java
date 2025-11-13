@@ -60,6 +60,11 @@ public class RedSafeButtonBlock extends ButtonBlock {
     }
 
     @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(FACING, POWERED, FACE, OPEN);
+    }
+
+    @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
         Direction direction = state.get(FACING);
         boolean is_powered = state.get(POWERED);
@@ -115,10 +120,5 @@ public class RedSafeButtonBlock extends ButtonBlock {
     @Override
     protected SoundEvent getClickSound(boolean powered) {
         return SoundEvents.BLOCK_BONE_BLOCK_BREAK;
-    }
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING, POWERED, FACE, OPEN);
     }
 }

@@ -37,6 +37,11 @@ public class PedestalBlock extends WaterloggableBlock {
     }
 
     @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(WATERLOGGED, UP, DOWN);
+    }
+
+    @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
         if (!state.get(UP)) {
             return !state.get(DOWN) ? SHAPE : SHAPE_DOWN;
@@ -73,10 +78,5 @@ public class PedestalBlock extends WaterloggableBlock {
 
     private boolean canConnectTo(WorldAccess world, BlockPos pos) {
         return world.getBlockState(pos).getBlock() instanceof PedestalBlock ? true : false;
-    }
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(WATERLOGGED, UP, DOWN);
     }
 }

@@ -35,6 +35,11 @@ public class SafeBlock extends WaterloggableBlock implements BlockEntityProvider
         super(settings);
         setDefaultState(getDefaultState().with(WATERLOGGED, false).with(FACING, Direction.NORTH).with(OPEN, false));
     }
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(FACING, WATERLOGGED, OPEN);
+    }
  
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
@@ -80,9 +85,4 @@ public class SafeBlock extends WaterloggableBlock implements BlockEntityProvider
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory)blockEntity : null;
 	}
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(FACING, WATERLOGGED, OPEN);
-    }
 }

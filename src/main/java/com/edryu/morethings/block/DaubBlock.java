@@ -22,15 +22,15 @@ public class DaubBlock extends Block {
     }
 
     @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(VARIANT);
+    }
+
+    @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!Screen.hasShiftDown()) return ActionResult.PASS;
         world.setBlockState(pos, state.with(VARIANT, (state.get(VARIANT) + 1) % 5));
         world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
         return ActionResult.SUCCESS;
-    }
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(VARIANT);
     }
 }

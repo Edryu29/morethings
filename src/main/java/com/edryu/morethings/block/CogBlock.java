@@ -24,6 +24,11 @@ public class CogBlock extends Block {
 		return this.getDefaultState().with(POWER, ctx.getWorld().getReceivedRedstonePower(ctx.getBlockPos()));
 	}
 
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(POWER);
+    }
+
 	@Override
 	protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
 		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
@@ -39,9 +44,4 @@ public class CogBlock extends Block {
 	protected int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
 		return Math.max(0, state.get(POWER) - 1);
 	}
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(POWER);
-    }
 }

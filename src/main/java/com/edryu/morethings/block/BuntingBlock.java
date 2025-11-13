@@ -4,6 +4,9 @@ import org.jetbrains.annotations.Nullable;
 
 import com.edryu.morethings.registry.ItemRegistry;
 import com.edryu.morethings.registry.SoundRegistry;
+import com.edryu.morethings.util.BlockProperties.Color;
+import com.edryu.morethings.util.BlockProperties;
+
 import com.mojang.serialization.MapCodec;
 
 import net.minecraft.block.Block;
@@ -16,9 +19,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.IntProperty;
+import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -27,29 +31,16 @@ import net.minecraft.world.World;
 public class BuntingBlock extends HorizontalFacingBlock {
     public static final MapCodec<BuntingBlock> CODEC = Block.createCodec(BuntingBlock::new);
 
-	public static final IntProperty VARIANT = IntProperty.of("variant", 0, 15);
-	public static final Item[] BUNTING_COLORS = {
-        Items.BLACK_DYE,        //0     
-        Items.BLUE_DYE,         //1  
-        Items.BROWN_DYE,        //2      
-        Items.CYAN_DYE,         //3  
-        Items.GRAY_DYE,         //4  
-        Items.GREEN_DYE,        //5      
-        Items.LIGHT_BLUE_DYE,   //6          
-        Items.LIGHT_GRAY_DYE,   //7        
-        Items.LIME_DYE,         //8         
-        Items.MAGENTA_DYE,      //9  
-        Items.ORANGE_DYE,       //10      
-        Items.PINK_DYE,         //11     
-        Items.PURPLE_DYE,       //12      
-        Items.RED_DYE,          //13 
-        Items.WHITE_DYE,        //14     
-        Items.YELLOW_DYE        //15
-    };         
+    public static final EnumProperty<Color> COLOR = BlockProperties.COLOR;       
 
     public BuntingBlock(Settings settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(VARIANT, 0));
+        setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(COLOR, Color.WHITE));
+    }
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(Properties.HORIZONTAL_FACING, COLOR);
     }
 
 	@Override
@@ -62,15 +53,13 @@ public class BuntingBlock extends HorizontalFacingBlock {
         if (!player.getAbilities().allowModifyWorld || player == null) {
             return ActionResult.PASS;
         } else {
-            for (int i = 0; i < BUNTING_COLORS.length; i++) {
-                if (player.isHolding(BUNTING_COLORS[i])){
-                    world.setBlockState(pos, state.with(VARIANT, i));
-                    world.playSound(player, pos, SoundRegistry.ROPE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    return ActionResult.SUCCESS;
-                }
-            }
-            if (player.isHolding(ItemRegistry.ORB)){
-                world.setBlockState(pos, state.with(VARIANT, getRandomVariant()));
+            Item itemInHand = player.getStackInHand(Hand.MAIN_HAND).getItem();
+            if (getColorFromDye(itemInHand) != null) {
+                world.setBlockState(pos, state.with(COLOR, getColorFromDye(itemInHand)));
+                world.playSound(player, pos, SoundRegistry.ROPE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                return ActionResult.SUCCESS;
+            } else if (itemInHand.equals(ItemRegistry.ORB)) {
+                world.setBlockState(pos, state.with(COLOR, getRandomColor()));
                 world.playSound(player, pos, SoundRegistry.ROPE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 return ActionResult.SUCCESS;
             }
@@ -80,15 +69,31 @@ public class BuntingBlock extends HorizontalFacingBlock {
 
     @Override
 	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-        world.setBlockState(pos, state.with(VARIANT, getRandomVariant()));
+        world.setBlockState(pos, state.with(COLOR, getRandomColor()));
 	}
 
-    protected int getRandomVariant() {
-        return (int)(Math.random() * 16);
+    protected Color getRandomColor() {
+        Color[] vals = Color.values();
+        return vals[(int)(Math.random() * vals.length)];
     }
 
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(Properties.HORIZONTAL_FACING, VARIANT);
+    public static Color getColorFromDye(Item dye) {
+        if (dye.equals(Items.BLACK_DYE)) return Color.BLACK;
+        if (dye.equals(Items.BLUE_DYE)) return Color.BLUE;
+        if (dye.equals(Items.BROWN_DYE)) return Color.BROWN;
+        if (dye.equals(Items.CYAN_DYE)) return Color.CYAN;
+        if (dye.equals(Items.GRAY_DYE)) return Color.GRAY;
+        if (dye.equals(Items.GREEN_DYE)) return Color.GREEN;
+        if (dye.equals(Items.LIGHT_BLUE_DYE)) return Color.LIGHT_BLUE;
+        if (dye.equals(Items.LIGHT_GRAY_DYE)) return Color.LIGHT_GRAY;
+        if (dye.equals(Items.LIME_DYE)) return Color.LIME;
+        if (dye.equals(Items.MAGENTA_DYE)) return Color.MAGENTA;
+        if (dye.equals(Items.ORANGE_DYE)) return Color.ORANGE;
+        if (dye.equals(Items.PINK_DYE)) return Color.PINK;
+        if (dye.equals(Items.PURPLE_DYE)) return Color.PURPLE;
+        if (dye.equals(Items.RED_DYE)) return Color.RED;
+        if (dye.equals(Items.WHITE_DYE)) return Color.WHITE;
+        if (dye.equals(Items.YELLOW_DYE)) return Color.YELLOW;
+        return null;
     }
 }

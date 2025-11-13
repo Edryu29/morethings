@@ -29,6 +29,11 @@ public class BookPileBlock extends HorizontalFacingBlock {
         setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(BOOKS, 0));
     }
 
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(Properties.HORIZONTAL_FACING, BOOKS);
+    }
+
 	@Override
 	protected MapCodec<? extends BookPileBlock> getCodec() {
 		return CODEC;
@@ -45,10 +50,5 @@ public class BookPileBlock extends HorizontalFacingBlock {
         world.setBlockState(pos, state.with(BOOKS, (state.get(BOOKS) + 1) % 4));
         world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
         return ActionResult.SUCCESS;
-    }
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(Properties.HORIZONTAL_FACING, BOOKS);
     }
 }

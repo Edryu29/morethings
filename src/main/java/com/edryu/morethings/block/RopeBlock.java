@@ -60,6 +60,11 @@ public class RopeBlock extends WaterloggableBlock {
     }
 
     @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(WATERLOGGED, KNOT, BELL, UP, DOWN, NORTH, SOUTH, WEST, EAST);
+    }
+
+    @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
         return VoxelShapes.union(
             state.get(KNOT) ? ROPE_KNOT : VoxelShapes.empty(),
@@ -70,42 +75,6 @@ public class RopeBlock extends WaterloggableBlock {
             state.get(UP) ? ROPE_UP : VoxelShapes.empty(),
             state.get(DOWN) ? ROPE_DOWN : VoxelShapes.empty()
         );
-    }
-
-    @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (player == null) return ActionResult.PASS;
-
-        if (Screen.hasShiftDown() && !player.isHolding(ItemRegistry.ROPE)) {
-            if (!(world.getBlockState(pos.down()).getBlock() instanceof RopeBlock)) return ActionResult.PASS;
-            BlockPos.Mutable reelingPos = pos.mutableCopy().move(Direction.DOWN);
-            while (reelingPos.getY() >= world.getBottomY()) {
-                Block blockBelow  = world.getBlockState(reelingPos).getBlock();
-                if (blockBelow instanceof RopeBlock) {
-                    reelingPos.move(Direction.DOWN);
-                } else {
-                    reelingPos.move(Direction.UP);
-                    world.breakBlock(reelingPos, false, player);
-                    if (!player.isInCreativeMode()) player.giveItemStack(new ItemStack(ItemRegistry.ROPE, 1));
-                    return ActionResult.SUCCESS;
-                }
-            }
-        } else {
-            BlockPos.Mutable bellAdovePos = pos.mutableCopy().move(Direction.UP);
-            for (int i = 0; i < 32; i++) {
-                Block blockAdove = world.getBlockState(bellAdovePos).getBlock();
-                if (blockAdove instanceof BellBlock) {
-                    ((BellBlock) blockAdove).ring(world, bellAdovePos, player.getHorizontalFacing().rotateYClockwise());
-                    return ActionResult.SUCCESS;
-                } else if (blockAdove instanceof RopeBlock) {
-                    bellAdovePos.move(Direction.UP);
-                } else {
-                    return ActionResult.PASS;
-                }
-            }
-        }
-
-        return ActionResult.PASS;
     }
 
 	@Nullable
@@ -182,6 +151,42 @@ public class RopeBlock extends WaterloggableBlock {
 		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
 	}
 
+    @Override
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+        if (player == null) return ActionResult.PASS;
+
+        if (Screen.hasShiftDown() && !player.isHolding(ItemRegistry.ROPE)) {
+            if (!(world.getBlockState(pos.down()).getBlock() instanceof RopeBlock)) return ActionResult.PASS;
+            BlockPos.Mutable reelingPos = pos.mutableCopy().move(Direction.DOWN);
+            while (reelingPos.getY() >= world.getBottomY()) {
+                Block blockBelow  = world.getBlockState(reelingPos).getBlock();
+                if (blockBelow instanceof RopeBlock) {
+                    reelingPos.move(Direction.DOWN);
+                } else {
+                    reelingPos.move(Direction.UP);
+                    world.breakBlock(reelingPos, false, player);
+                    if (!player.isInCreativeMode()) player.giveItemStack(new ItemStack(ItemRegistry.ROPE, 1));
+                    return ActionResult.SUCCESS;
+                }
+            }
+        } else {
+            BlockPos.Mutable bellAdovePos = pos.mutableCopy().move(Direction.UP);
+            for (int i = 0; i < 32; i++) {
+                Block blockAdove = world.getBlockState(bellAdovePos).getBlock();
+                if (blockAdove instanceof BellBlock) {
+                    ((BellBlock) blockAdove).ring(world, bellAdovePos, player.getHorizontalFacing().rotateYClockwise());
+                    return ActionResult.SUCCESS;
+                } else if (blockAdove instanceof RopeBlock) {
+                    bellAdovePos.move(Direction.UP);
+                } else {
+                    return ActionResult.PASS;
+                }
+            }
+        }
+
+        return ActionResult.PASS;
+    }
+
     private boolean canConnectTo(WorldAccess world, BlockPos neighborPos, Direction dirTowardNeighbor) {
         BlockState neighborState = world.getBlockState(neighborPos);
         if (neighborState.getBlock() instanceof RopeBlock) return true;
@@ -234,9 +239,4 @@ public class RopeBlock extends WaterloggableBlock {
 	protected boolean canPathfindThrough(BlockState state, NavigationType type) {
 		return false;
 	}
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(WATERLOGGED, KNOT, BELL, UP, DOWN, NORTH, SOUTH, WEST, EAST);
-    }
 }

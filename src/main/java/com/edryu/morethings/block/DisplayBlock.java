@@ -36,6 +36,11 @@ public class DisplayBlock extends HorizontalFacingBlock implements BlockEntityPr
     }
 
     @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(Properties.HORIZONTAL_FACING);
+    }
+
+    @Override
     protected MapCodec<? extends DisplayBlock> getCodec() {
         return null;
     }
@@ -94,10 +99,4 @@ public class DisplayBlock extends HorizontalFacingBlock implements BlockEntityPr
         }
         return super.onBreak(world, pos, state, player);
     }
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(Properties.HORIZONTAL_FACING);
-    }
-
 }

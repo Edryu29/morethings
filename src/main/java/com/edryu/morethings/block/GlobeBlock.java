@@ -32,6 +32,11 @@ public class GlobeBlock extends HorizontalFacingBlock {
         setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(VARIANT, 0));
     }
 
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(Properties.HORIZONTAL_FACING, VARIANT);
+    }
+
 	@Override
 	protected MapCodec<? extends GlobeBlock> getCodec() {
 		return CODEC;
@@ -53,10 +58,5 @@ public class GlobeBlock extends HorizontalFacingBlock {
         world.setBlockState(pos, state.with(VARIANT, (state.get(VARIANT) + 1) % 3));
         world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
         return ActionResult.SUCCESS;
-    }
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(Properties.HORIZONTAL_FACING, VARIANT);
     }
 }

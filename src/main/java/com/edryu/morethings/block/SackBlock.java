@@ -46,6 +46,11 @@ public class SackBlock extends FallingBlock implements BlockEntityProvider, Wate
     }
 
     @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(WATERLOGGED, OPEN);
+    }
+
+    @Override
     protected MapCodec<? extends SackBlock> getCodec() {
         return createCodec(SackBlock::new);
     }
@@ -127,9 +132,4 @@ public class SackBlock extends FallingBlock implements BlockEntityProvider, Wate
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory)blockEntity : null;
 	}
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(WATERLOGGED, OPEN);
-    }
 }
