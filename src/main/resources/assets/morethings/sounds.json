@@ -77,5 +77,25 @@
     "sounds": [
       "morethings:block/rope_slide"
     ]
+  },
+  "block.rotate": {
+    "sounds": [
+      {
+        "name": "minecraft:entity/itemframe/rotate_item1",
+        "pitch": 0.6
+      },
+      {
+        "name": "minecraft:entity/itemframe/rotate_item2",
+        "pitch": 0.6
+      },
+      {
+        "name": "minecraft:entity/itemframe/rotate_item3",
+        "pitch": 0.6
+      },
+      {
+        "name": "minecraft:entity/itemframe/rotate_item4",
+        "pitch": 0.6
+      }
+    ]
   }
 }

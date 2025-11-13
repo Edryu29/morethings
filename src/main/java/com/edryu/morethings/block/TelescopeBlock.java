@@ -50,7 +50,7 @@ public class TelescopeBlock extends TallPlantBlock {
 	@Override
 	public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
 		BlockPos blockPos = pos.up();
-		world.setBlockState(blockPos, withWaterloggedState(world, blockPos, this.getDefaultState().with(HALF, DoubleBlockHalf.UPPER).with(Properties.HORIZONTAL_FACING, state.get(FACING))), Block.NOTIFY_ALL);
+		world.setBlockState(blockPos, withWaterloggedState(world, blockPos, this.getDefaultState().with(HALF, DoubleBlockHalf.UPPER).with(Properties.HORIZONTAL_FACING, state.get(FACING))));
 	}
 
 	@Override

@@ -27,7 +27,7 @@ public class CogBlock extends Block {
 	@Override
 	protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
 		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
-		world.setBlockState(pos, state.with(POWER, world.getReceivedRedstonePower(pos)), Block.NOTIFY_ALL);
+		world.setBlockState(pos, state.with(POWER, world.getReceivedRedstonePower(pos)));
 	}
 
 	@Override

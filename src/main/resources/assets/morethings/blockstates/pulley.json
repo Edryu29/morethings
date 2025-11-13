@@ -5,9 +5,6 @@
       "x": 90,
       "y": 90
     },
-    "axis=y,flipped=false,winding=none": {
-      "model": "morethings:block/pulley"
-    },
     "axis=z,flipped=false,winding=none": {
       "model": "morethings:block/pulley",
       "x": 90
@@ -16,9 +13,6 @@
       "model": "morethings:block/pulley_f",
       "x": 90,
       "y": 90
-    },
-    "axis=y,flipped=true,winding=none": {
-      "model": "morethings:block/pulley_f"
     },
     "axis=z,flipped=true,winding=none": {
       "model": "morethings:block/pulley_f",
@@ -29,9 +23,6 @@
       "x": 90,
       "y": 90
     },
-    "axis=y,flipped=false,winding=rope": {
-      "model": "morethings:block/pulley_rope"
-    },
     "axis=z,flipped=false,winding=rope": {
       "model": "morethings:block/pulley_rope",
       "x": 90
@@ -40,9 +31,6 @@
       "model": "morethings:block/pulley_rope_f",
       "x": 90,
       "y": 90
-    },
-    "axis=y,flipped=true,winding=rope": {
-      "model": "morethings:block/pulley_rope_f"
     },
     "axis=z,flipped=true,winding=rope": {
       "model": "morethings:block/pulley_rope_f",
@@ -53,9 +41,6 @@
       "x": 90,
       "y": 90
     },
-    "axis=y,flipped=false,winding=chain": {
-      "model": "morethings:block/pulley_chain"
-    },
     "axis=z,flipped=false,winding=chain": {
       "model": "morethings:block/pulley_chain",
       "x": 90
@@ -64,9 +49,6 @@
       "model": "morethings:block/pulley_chain_f",
       "x": 90,
       "y": 90
-    },
-    "axis=y,flipped=true,winding=chain": {
-      "model": "morethings:block/pulley_chain_f"
     },
     "axis=z,flipped=true,winding=chain": {
       "model": "morethings:block/pulley_chain_f",

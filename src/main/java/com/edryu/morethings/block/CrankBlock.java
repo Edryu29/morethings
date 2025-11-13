@@ -2,13 +2,16 @@ package com.edryu.morethings.block;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.edryu.morethings.registry.BlockRegistry;
 import com.edryu.morethings.registry.SoundRegistry;
 
+import net.minecraft.block.BellBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.data.client.VariantSettings.Rotation;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
@@ -51,6 +54,11 @@ public class CrankBlock extends WaterloggableBlock {
     }
 
     @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(WATERLOGGED, FACING, POWER);
+    }
+
+    @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
         return switch (state.get(FACING)) {
             case NORTH -> SHAPE_NORTH;
@@ -67,12 +75,18 @@ public class CrankBlock extends WaterloggableBlock {
         boolean ccw = Screen.hasShiftDown();
         spawnParticles(state, world, pos, ParticleTypes.SMOKE);
         this.turnPower(state, world, pos, ccw, player);
+
+		Direction direction = state.get(FACING).getOpposite();
+		BlockPos behindPos = pos.offset(direction);
+		BlockState behindState = world.getBlockState(behindPos);
+		Block behindBlock = behindState.getBlock();
+		if (behindBlock instanceof PulleyBlock && direction.getAxis() == behindState.get(PulleyBlock.AXIS)) ((PulleyBlock)behindBlock).windPulley(behindState, world, behindPos, ccw);
         return ActionResult.SUCCESS;
     }
 
     public void turnPower(BlockState state, World world, BlockPos pos, boolean ccw, @Nullable PlayerEntity player) {
         int newPower = (16 + state.get(POWER) + (ccw ? -1 : 1)) % 16;
-        world.setBlockState(pos, state.with(POWER, newPower), Block.NOTIFY_ALL);
+        world.setBlockState(pos, state.with(POWER, newPower));
         this.updateNeighbors(state, world, pos);
         world.playSound(player, pos, SoundRegistry.CRANK, SoundCategory.BLOCKS, 1.0F, 0.55f + state.get(POWER) * 0.04f);
 		world.emitGameEvent(player, state.get(POWER) > 0 ? GameEvent.BLOCK_ACTIVATE : GameEvent.BLOCK_DEACTIVATE, pos);
@@ -152,9 +166,4 @@ public class CrankBlock extends WaterloggableBlock {
 	protected BlockState mirror(BlockState state, BlockMirror mirror) {
 		return state.rotate(mirror.getRotation(state.get(FACING)));
 	}
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(WATERLOGGED, FACING, POWER);
-    }
 }

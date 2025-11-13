@@ -3,6 +3,7 @@ package com.edryu.morethings.block;
 import org.jetbrains.annotations.Nullable;
 
 import com.edryu.morethings.entity.PulleyBlockEntity;
+import com.edryu.morethings.entity.SmallPedestalBlockEntity;
 import com.edryu.morethings.util.BlockProperties;
 import com.edryu.morethings.util.BlockProperties.Winding;
 
@@ -11,31 +12,49 @@ import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.data.client.VariantSettings.Rotation;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
-public class PulleyBlock extends PillarBlock implements BlockEntityProvider {
+import java.util.Optional;
+
+public class PulleyBlock extends Block implements BlockEntityProvider {
+	public static final EnumProperty<Direction.Axis> AXIS = Properties.HORIZONTAL_AXIS;
     public static final BooleanProperty FLIPPED = BooleanProperty.of("flipped");
     public static final EnumProperty<Winding> WINDING = BlockProperties.WINDING;
 
     public PulleyBlock(Settings settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(AXIS, Direction.Axis.Y).with(FLIPPED, false).with(WINDING, Winding.NONE));
+        setDefaultState(getDefaultState().with(AXIS, Direction.Axis.X).with(FLIPPED, false).with(WINDING, Winding.NONE));
+    }
+
+    @Override
+    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+        builder.add(AXIS, FLIPPED, WINDING);
     }
 
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new PulleyBlockEntity(pos, state);
     }
+
+	@Override
+	public BlockState getPlacementState(ItemPlacementContext ctx) {
+		return this.getDefaultState().with(AXIS, ctx.getHorizontalPlayerFacing().getOpposite().getAxis());
+	}
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
@@ -66,8 +85,24 @@ public class PulleyBlock extends PillarBlock implements BlockEntityProvider {
 		return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory)blockEntity : null;
 	}
 
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(AXIS, FLIPPED, WINDING);
+    public void windPulley(BlockState state, World world, BlockPos pos, boolean retract) {
+        if (world.getBlockEntity(pos) instanceof PulleyBlockEntity pulleyEntity) pulleyEntity.pullWinding(retract);
     }
+
+	public static BlockState changeRotation(BlockState state, BlockRotation rotation) {
+		switch (rotation) {
+			case COUNTERCLOCKWISE_90:
+			case CLOCKWISE_90:
+				switch ((Direction.Axis)state.get(AXIS)) {
+					case X:
+						return state.with(AXIS, Direction.Axis.Z);
+					case Z:
+						return state.with(AXIS, Direction.Axis.X);
+					default:
+						return state;
+				}
+			default:
+				return state;
+		}
+	}
 }
