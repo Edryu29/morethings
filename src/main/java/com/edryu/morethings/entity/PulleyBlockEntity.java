@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import com.edryu.morethings.block.PulleyBlock;
 import com.edryu.morethings.block.RopeBlock;
 import com.edryu.morethings.registry.EntityRegistry;
-import com.edryu.morethings.registry.ItemRegistry;
 import com.edryu.morethings.registry.SoundRegistry;
 import com.edryu.morethings.screen.PulleyScreenHandler;
 import com.edryu.morethings.util.BlockProperties.Winding;
@@ -18,8 +17,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChainBlock;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.data.client.VariantSettings.Rotation;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.fluid.FluidState;
@@ -29,7 +26,6 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.NamedScreenHandlerFactory;
@@ -41,9 +37,10 @@ import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.util.math.Vec3d;
 	
 
 public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, SimpleInventory {
@@ -106,7 +103,7 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
     public void onContentChanged() {
         Winding type = getContentType(this.getItems().getFirst().getItem());
         BlockState state = this.getCachedState();
-        if (state.get(PulleyBlock.WINDING) != type) this.world.setBlockState(this.pos, state.with(PulleyBlock.WINDING, type), 3);
+        if (state.get(PulleyBlock.WINDING) != type) this.world.setBlockState(this.pos, state.with(PulleyBlock.WINDING, type));
     }
 
     public boolean pullWinding(boolean retract) {
@@ -115,7 +112,9 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
 
     public boolean pullRope() {
         ItemStack stack = this.getStack(0);
-        if (stack.getCount() < 1 || !(stack.getItem() instanceof BlockItem bi)) return false;
+        int stackCount = stack.getCount();
+        if (stackCount < 1 || !(stack.getItem() instanceof BlockItem bi) || stackCount >= stack.getItem().getMaxCount()) return false;
+
         Block windingBlock = bi.getBlock();
 		World world = this.getWorld();
 		BlockState blockState;
@@ -128,39 +127,41 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
                 reelingPos.move(Direction.DOWN);
             } else {
                 reelingPos.move(Direction.UP);
-                world.breakBlock(reelingPos, false, null);
+                world.removeBlock(reelingPos, false);
+                world.playSound(null, pos, SoundRegistry.ROPE_SLIDE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.setBlockState(this.pos, this.getCachedState().cycle(PulleyBlock.FLIPPED));
+                stack.setCount(stackCount + 1);
                 return true;
             }
         }
-        
         return false;
     }
 
     public boolean releaseRope() {
         ItemStack stack = this.getStack(0);
         if (stack.getCount() < 1 || !(stack.getItem() instanceof BlockItem bi)) return false;
+
         Block windingBlock = bi.getBlock();
 		World world = this.getWorld();
 		BlockState blockState;
 
-        Direction direction = Direction.DOWN;
-        BlockPos.Mutable mutablePos = this.getPos().mutableCopy().move(direction);
-        for (int i = 0; i < 256; i++) {
-            blockState = world.getBlockState(mutablePos);
-
-
+        BlockPos.Mutable windingPos = this.getPos().mutableCopy().move(Direction.DOWN);
+        while (windingPos.getY() >= world.getBottomY()) {
+            blockState = world.getBlockState(windingPos);
             if (!blockState.isOf(windingBlock)) {
                 FluidState fluid = blockState.getFluidState();
                 if (!fluid.isOf(Fluids.WATER) && !fluid.isEmpty()) return false;
-
                 if (blockState.isReplaceable()){
-                    world.setBlockState(mutablePos, Blocks.CHAIN.getDefaultState());
+                    BlockHitResult hitResult = new BlockHitResult(Vec3d.ofBottomCenter(windingPos), Direction.UP, windingPos, false);
+                    ItemPlacementContext context = new ItemPlacementContext(world, null, Hand.MAIN_HAND, stack, hitResult);
+                    world.playSound(null, pos, SoundRegistry.ROPE_SLIDE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    world.setBlockState(this.pos, this.getCachedState().cycle(PulleyBlock.FLIPPED));
+                    bi.place(context);
                 }
                 break;
             }
-            mutablePos.move(direction);
+            windingPos.move(Direction.DOWN);
         }
-        
         return false;
     }
 

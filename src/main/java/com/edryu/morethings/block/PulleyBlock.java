@@ -3,19 +3,15 @@ package com.edryu.morethings.block;
 import org.jetbrains.annotations.Nullable;
 
 import com.edryu.morethings.entity.PulleyBlockEntity;
-import com.edryu.morethings.entity.SmallPedestalBlockEntity;
 import com.edryu.morethings.util.BlockProperties;
 import com.edryu.morethings.util.BlockProperties.Winding;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.PillarBlock;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.data.client.VariantSettings.Rotation;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
@@ -28,8 +24,6 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-
-import java.util.Optional;
 
 public class PulleyBlock extends Block implements BlockEntityProvider {
 	public static final EnumProperty<Direction.Axis> AXIS = Properties.HORIZONTAL_AXIS;
