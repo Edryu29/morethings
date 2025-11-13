@@ -1,4 +1,9 @@
 {
+  "block.crank": {
+    "sounds": [
+      "morethings:block/crank"
+    ]
+  },
   "block.sack.break": {
     "sounds": [
       "morethings:block/sack_break_0",
@@ -67,5 +72,10 @@
       "morethings:block/rope_step_3"
     ],
     "subtitle": "subtitles.block.generic.hit"
+  },
+  "block.rope.slide": {
+    "sounds": [
+      "morethings:block/rope_slide"
+    ]
   }
 }
