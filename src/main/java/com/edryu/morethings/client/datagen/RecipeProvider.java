@@ -10,7 +10,6 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
-import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.StonecuttingRecipeJsonBuilder;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
@@ -171,21 +170,6 @@ public class RecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.GLASS_PANE), FabricRecipeProvider.conditionsFromItem(Items.GLASS_PANE))
             .offerTo(recipeExporter);
 
-        ShapelessRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BlockRegistry.RED_BUTTON)
-                .input(Items.STONE_BUTTON)
-                .input(Items.RED_DYE)
-                .criterion(FabricRecipeProvider.hasItem(Items.STONE_BUTTON), FabricRecipeProvider.conditionsFromItem(Items.STONE_BUTTON))
-                .offerTo(recipeExporter);
-
-        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BlockRegistry.RED_SAFE_BUTTON, 1)
-            .pattern("   ")
-            .pattern("111")
-            .pattern("101")
-            .input('0', BlockRegistry.RED_BUTTON)
-            .input('1', Items.GLASS_PANE)
-            .criterion(FabricRecipeProvider.hasItem(BlockRegistry.RED_BUTTON), FabricRecipeProvider.conditionsFromItem(BlockRegistry.RED_BUTTON))
-            .offerTo(recipeExporter);
-
         ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BlockRegistry.COG, 1)
             .pattern("000")
             .pattern("010")
@@ -205,7 +189,27 @@ public class RecipeProvider extends FabricRecipeProvider {
             .criterion(FabricRecipeProvider.hasItem(Items.IRON_INGOT), FabricRecipeProvider.conditionsFromItem(Items.IRON_INGOT))
             .offerTo(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BlockRegistry.CONSOLE_LEVER, 1)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BlockRegistry.TURN_TABLE, 1)
+            .pattern("000")
+            .pattern("121")
+            .pattern("131")
+            .input('0', ItemTags.PLANKS)
+            .input('1', Items.COBBLESTONE)
+            .input('2', Items.COPPER_INGOT)
+            .input('3', Items.REDSTONE)
+            .criterion(FabricRecipeProvider.hasItem(Items.REDSTONE), FabricRecipeProvider.conditionsFromItem(Items.REDSTONE))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BlockRegistry.CRANK, 1)
+            .pattern("   ")
+            .pattern(" 1 ")
+            .pattern("000")
+            .input('0', Items.SMOOTH_STONE_SLAB)
+            .input('1', ItemTags.PLANKS)
+            .criterion(FabricRecipeProvider.hasItem(Items.SMOOTH_STONE_SLAB), FabricRecipeProvider.conditionsFromItem(Items.SMOOTH_STONE_SLAB))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BlockRegistry.CONSOLE, 1)
             .pattern("101")
             .pattern("121")
             .pattern("111")
@@ -213,6 +217,16 @@ public class RecipeProvider extends FabricRecipeProvider {
             .input('1', Items.IRON_NUGGET)
             .input('2', Items.REDSTONE)
             .criterion(FabricRecipeProvider.hasItem(Items.REDSTONE), FabricRecipeProvider.conditionsFromItem(Items.REDSTONE))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BlockRegistry.RED_BUTTON, 1)
+            .pattern(" 2 ")
+            .pattern("111")
+            .pattern("101")
+            .input('0', Items.STONE_BUTTON)
+            .input('1', Items.GLASS_PANE)
+            .input('2', Items.RED_DYE)
+            .criterion(FabricRecipeProvider.hasItem(Items.STONE_BUTTON), FabricRecipeProvider.conditionsFromItem(Items.STONE_BUTTON))
             .offerTo(recipeExporter);
 
         ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BIG_CHAIN, 4)

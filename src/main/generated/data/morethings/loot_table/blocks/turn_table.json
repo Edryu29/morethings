@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "morethings:console_lever"
+          "name": "morethings:turn_table"
         }
       ],
       "rolls": 1.0

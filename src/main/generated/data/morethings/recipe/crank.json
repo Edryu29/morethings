@@ -3,19 +3,19 @@
   "category": "redstone",
   "key": {
     "0": {
-      "item": "morethings:red_button"
+      "item": "minecraft:smooth_stone_slab"
     },
     "1": {
-      "item": "minecraft:glass_pane"
+      "tag": "minecraft:planks"
     }
   },
   "pattern": [
     "   ",
-    "111",
-    "101"
+    " 1 ",
+    "000"
   ],
   "result": {
     "count": 1,
-    "id": "morethings:red_safe_button"
+    "id": "morethings:crank"
   }
 }

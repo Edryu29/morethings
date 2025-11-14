@@ -1,115 +1,173 @@
 {
   "variants": {
-    "powered=false,face=floor,facing=north": {
-      "model": "morethings:block/red_button/red_button"
+    "open=false,face=floor,facing=north": {
+      "model": "morethings:block/red_button_closed"
     },
-    "powered=true,face=floor,facing=north": {
-      "model": "morethings:block/red_button/red_button_pressed"
-    },
-    "powered=false,face=floor,facing=east": {
-      "model": "morethings:block/red_button/red_button",
+    "open=false,face=floor,facing=east": {
+      "model": "morethings:block/red_button_closed",
       "y": 90
     },
-    "powered=true,face=floor,facing=east": {
-      "model": "morethings:block/red_button/red_button_pressed",
-      "y": 90
-    },
-    "powered=false,face=floor,facing=west": {
-      "model": "morethings:block/red_button/red_button",
+    "open=false,face=floor,facing=west": {
+      "model": "morethings:block/red_button_closed",
       "y": 270
     },
-    "powered=true,face=floor,facing=west": {
-      "model": "morethings:block/red_button/red_button_pressed",
-      "y": 270
-    },
-    "powered=false,face=floor,facing=south": {
-      "model": "morethings:block/red_button/red_button",
+    "open=false,face=floor,facing=south": {
+      "model": "morethings:block/red_button_closed",
       "y": 180
     },
-    "powered=true,face=floor,facing=south": {
-      "model": "morethings:block/red_button/red_button_pressed",
-      "y": 180
-    },
-    "powered=false,face=ceiling,facing=north": {
-      "model": "morethings:block/red_button/red_button",
+    "open=false,face=ceiling,facing=north": {
+      "model": "morethings:block/red_button_closed",
       "x": 180
     },
-    "powered=true,face=ceiling,facing=north": {
-      "model": "morethings:block/red_button/red_button_pressed",
-      "x": 180
-    },
-    "powered=false,face=ceiling,facing=east": {
-      "model": "morethings:block/red_button/red_button",
+    "open=false,face=ceiling,facing=east": {
+      "model": "morethings:block/red_button_closed",
       "x": 180,
       "y": 90
     },
-    "powered=true,face=ceiling,facing=east": {
-      "model": "morethings:block/red_button/red_button_pressed",
-      "x": 180,
-      "y": 90
-    },
-    "powered=false,face=ceiling,facing=south": {
-      "model": "morethings:block/red_button/red_button",
+    "open=false,face=ceiling,facing=south": {
+      "model": "morethings:block/red_button_closed",
       "x": 180,
       "y": 180
     },
-    "powered=true,face=ceiling,facing=south": {
-      "model": "morethings:block/red_button/red_button_pressed",
-      "x": 180,
-      "y": 180
-    },
-    "powered=false,face=ceiling,facing=west": {
-      "model": "morethings:block/red_button/red_button",
+    "open=false,face=ceiling,facing=west": {
+      "model": "morethings:block/red_button_closed",
       "x": 180,
       "y": 270
     },
-    "powered=true,face=ceiling,facing=west": {
-      "model": "morethings:block/red_button/red_button_pressed",
-      "x": 180,
-      "y": 270
-    },
-    "powered=false,face=wall,facing=north": {
-      "model": "morethings:block/red_button/red_button",
+    "open=false,face=wall,facing=north": {
+      "model": "morethings:block/red_button_closed",
       "uvlock": false,
       "x": 90
     },
-    "powered=true,face=wall,facing=north": {
-      "model": "morethings:block/red_button/red_button_pressed",
-      "uvlock": false,
-      "x": 90
-    },
-    "powered=false,face=wall,facing=east": {
-      "model": "morethings:block/red_button/red_button",
+    "open=false,face=wall,facing=east": {
+      "model": "morethings:block/red_button_closed",
       "uvlock": false,
       "x": 90,
       "y": 90
     },
-    "powered=true,face=wall,facing=east": {
-      "model": "morethings:block/red_button/red_button_pressed",
-      "uvlock": false,
-      "x": 90,
-      "y": 90
-    },
-    "powered=false,face=wall,facing=west": {
-      "model": "morethings:block/red_button/red_button",
+    "open=false,face=wall,facing=west": {
+      "model": "morethings:block/red_button_closed",
       "uvlock": false,
       "x": 90,
       "y": 270
     },
-    "powered=true,face=wall,facing=west": {
-      "model": "morethings:block/red_button/red_button_pressed",
-      "uvlock": false,
-      "x": 90,
-      "y": 270
-    },
-    "powered=false,face=wall,facing=south": {
-      "model": "morethings:block/red_button/red_button",
+    "open=false,face=wall,facing=south": {
+      "model": "morethings:block/red_button_closed",
       "uvlock": false,
       "x": 90,
       "y": 180
     },
-    "powered=true,face=wall,facing=south": {
-      "model": "morethings:block/red_button/red_button_pressed",
+
+    "open=true,powered=false,face=floor,facing=north": {
+      "model": "morethings:block/red_button_open"
+    },
+    "open=true,powered=true,face=floor,facing=north": {
+      "model": "morethings:block/red_button_pressed"
+    },
+    "open=true,powered=false,face=floor,facing=east": {
+      "model": "morethings:block/red_button_open",
+      "y": 90
+    },
+    "open=true,powered=true,face=floor,facing=east": {
+      "model": "morethings:block/red_button_pressed",
+      "y": 90
+    },
+    "open=true,powered=false,face=floor,facing=west": {
+      "model": "morethings:block/red_button_open",
+      "y": 270
+    },
+    "open=true,powered=true,face=floor,facing=west": {
+      "model": "morethings:block/red_button_pressed",
+      "y": 270
+    },
+    "open=true,powered=false,face=floor,facing=south": {
+      "model": "morethings:block/red_button_open",
+      "y": 180
+    },
+    "open=true,powered=true,face=floor,facing=south": {
+      "model": "morethings:block/red_button_pressed",
+      "y": 180
+    },
+    "open=true,powered=false,face=ceiling,facing=north": {
+      "model": "morethings:block/red_button_open",
+      "x": 180
+    },
+    "open=true,powered=true,face=ceiling,facing=north": {
+      "model": "morethings:block/red_button_pressed",
+      "x": 180
+    },
+    "open=true,powered=false,face=ceiling,facing=west": {
+      "model": "morethings:block/red_button_open",
+      "x": 180,
+      "y": 90
+    },
+    "open=true,powered=true,face=ceiling,facing=west": {
+      "model": "morethings:block/red_button_pressed",
+      "x": 180,
+      "y": 90
+    },
+    "open=true,powered=false,face=ceiling,facing=south": {
+      "model": "morethings:block/red_button_open",
+      "x": 180,
+      "y": 180
+    },
+    "open=true,powered=true,face=ceiling,facing=south": {
+      "model": "morethings:block/red_button_pressed",
+      "x": 180,
+      "y": 180
+    },
+    "open=true,powered=false,face=ceiling,facing=east": {
+      "model": "morethings:block/red_button_open",
+      "x": 180,
+      "y": 270
+    },
+    "open=true,powered=true,face=ceiling,facing=east": {
+      "model": "morethings:block/red_button_pressed",
+      "x": 180,
+      "y": 270
+    },
+    "open=true,powered=false,face=wall,facing=north": {
+      "model": "morethings:block/red_button_wall_open",
+      "uvlock": false,
+      "x": 90
+    },
+    "open=true,powered=true,face=wall,facing=north": {
+      "model": "morethings:block/red_button_wall_pressed",
+      "uvlock": false,
+      "x": 90
+    },
+    "open=true,powered=false,face=wall,facing=east": {
+      "model": "morethings:block/red_button_wall_open",
+      "uvlock": false,
+      "x": 90,
+      "y": 90
+    },
+    "open=true,powered=true,face=wall,facing=east": {
+      "model": "morethings:block/red_button_wall_pressed",
+      "uvlock": false,
+      "x": 90,
+      "y": 90
+    },
+    "open=true,powered=false,face=wall,facing=west": {
+      "model": "morethings:block/red_button_wall_open",
+      "uvlock": false,
+      "x": 90,
+      "y": 270
+    },
+    "open=true,powered=true,face=wall,facing=west": {
+      "model": "morethings:block/red_button_wall_pressed",
+      "uvlock": false,
+      "x": 90,
+      "y": 270
+    },
+    "open=true,powered=false,face=wall,facing=south": {
+      "model": "morethings:block/red_button_wall_open",
+      "uvlock": false,
+      "x": 90,
+      "y": 180
+    },
+    "open=true,powered=true,face=wall,facing=south": {
+      "model": "morethings:block/red_button_wall_pressed",
       "uvlock": false,
       "x": 90,
       "y": 180

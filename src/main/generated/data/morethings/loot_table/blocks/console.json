@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "morethings:red_safe_button"
+          "name": "morethings:console"
         }
       ],
       "rolls": 1.0

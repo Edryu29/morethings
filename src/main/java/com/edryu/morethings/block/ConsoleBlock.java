@@ -14,7 +14,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class ConsoleLeverBlock extends LeverBlock {
+public class ConsoleBlock extends LeverBlock {
     protected static final VoxelShape CEILING_X_SHAPE = Block.createCuboidShape(3, 14, 4, 13, 16, 12);
     protected static final VoxelShape CEILING_Z_SHAPE = Block.createCuboidShape(4, 14, 3, 12, 16, 13);
     protected static final VoxelShape FLOOR_X_SHAPE = Block.createCuboidShape(3, 0, 4, 13, 2, 12);
@@ -24,7 +24,7 @@ public class ConsoleLeverBlock extends LeverBlock {
     protected static final VoxelShape EAST_SHAPE = Block.createCuboidShape(0, 3, 4, 2, 13, 12);
     protected static final VoxelShape WEST_SHAPE = Block.createCuboidShape(14, 3, 4, 16, 13, 12);
 
-    public ConsoleLeverBlock(Settings settings) {
+    public ConsoleBlock(Settings settings) {
         super(settings);
     }
 

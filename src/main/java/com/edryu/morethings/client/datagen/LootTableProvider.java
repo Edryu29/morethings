@@ -28,11 +28,12 @@ public class LootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(BlockRegistry.STONE_PILLAR);
                 addDrop(BlockRegistry.BIG_CHAIN);
 
-                addDrop(BlockRegistry.RED_BUTTON);
-                addDrop(BlockRegistry.RED_SAFE_BUTTON);
-                addDrop(BlockRegistry.CONSOLE_LEVER);
                 addDrop(BlockRegistry.COG);
                 addDrop(BlockRegistry.PULLEY);
+                addDrop(BlockRegistry.TURN_TABLE);
+                addDrop(BlockRegistry.CRANK);
+                addDrop(BlockRegistry.CONSOLE);
+                addDrop(BlockRegistry.RED_BUTTON);
 
                 addDrop(BlockRegistry.ROPE);
                 addDrop(BlockRegistry.BUNTING_CEILING);

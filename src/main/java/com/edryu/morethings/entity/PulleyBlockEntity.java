@@ -99,7 +99,7 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
     public void onContentChanged() {
         Winding type = getContentType(this.getItems().getFirst().getItem());
         BlockState state = this.getCachedState();
-        if (state.get(PulleyBlock.WINDING) != type) this.world.setBlockState(this.pos, state.with(PulleyBlock.WINDING, type));
+        if (state.get(PulleyBlock.WINDING) != type) this.world.setBlockState(this.pos, state.with(PulleyBlock.WINDING, type), Block.NOTIFY_LISTENERS);
     }
 
     public boolean pullWinding(boolean retract) {
@@ -132,7 +132,7 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
                 }
                 BlockSoundGroup soundGroup = windingBlock.getDefaultState().getSoundGroup();
                 world.playSound(null, pos, soundGroup.getBreakSound(), SoundCategory.BLOCKS, (soundGroup.getVolume() + 1.0F) / 2.0F, soundGroup.getPitch() * 0.8F);
-                world.setBlockState(this.pos, this.getCachedState().cycle(PulleyBlock.FLIPPED));
+                world.setBlockState(this.pos, this.getCachedState().cycle(PulleyBlock.FLIPPED), Block.NOTIFY_LISTENERS);
                 stack.setCount(stackCount + 1);
                 return true;
             }
@@ -181,7 +181,7 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
         world.setBlockState(pos, windingState);
         BlockSoundGroup soundGroup = state.getSoundGroup();
         world.playSound(null, pos, soundGroup.getPlaceSound(), SoundCategory.BLOCKS, (soundGroup.getVolume() + 1.0F) / 2.0F, soundGroup.getPitch() * 0.8F);
-        world.setBlockState(this.pos, this.getCachedState().cycle(PulleyBlock.FLIPPED));
+        world.setBlockState(this.pos, this.getCachedState().cycle(PulleyBlock.FLIPPED), Block.NOTIFY_LISTENERS);
     }
 
     public boolean isPushable(BlockState state, World world, BlockPos pos, Direction dir) {
