@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:ceiling_hanging_signs",
+    "#minecraft:lanterns",
+    "#minecraft:leaves",
+    "minecraft:lantern",
+    "minecraft:soul_lantern",
+    "#c:lanterns",
+    "morethings:sack",
+    "morethings:rope"
+  ]
+}

@@ -16,6 +16,10 @@ import net.minecraft.util.Identifier;
 public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
     public static final TagKey<Block> PALISADES = registerTag("palisades");
+    public static final TagKey<Block> HANG_FROM_ROPES = registerTag("hang_from_ropes");
+    public static final TagKey<Block> ROPE_SUPPORT = registerTag("rope_support");
+    public static final TagKey<Block> UNMOVEABLE_BY_PULLEY = registerTag("unmoveable_by_pulley");
+    public static final TagKey<Block> MOVEABLE_BY_PULLEY = registerTag("moveable_by_pulley");
 
 	public BlockTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
 		super(output, registriesFuture);

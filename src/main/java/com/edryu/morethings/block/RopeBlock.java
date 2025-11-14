@@ -7,6 +7,7 @@ import java.util.Set;
 import org.jetbrains.annotations.Nullable;
 
 import com.edryu.morethings.registry.ItemRegistry;
+import com.edryu.morethings.registry.SoundRegistry;
 
 import net.minecraft.block.BellBlock;
 import net.minecraft.block.Block;
@@ -21,6 +22,7 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
@@ -156,7 +158,7 @@ public class RopeBlock extends WaterloggableBlock {
         if (player == null) return ActionResult.PASS;
 
         if (Screen.hasShiftDown() && !player.isHolding(ItemRegistry.ROPE)) {
-            if (!(world.getBlockState(pos.down()).getBlock() instanceof RopeBlock)) return ActionResult.PASS;
+            if (!(world.getBlockState(pos.down()).getBlock() instanceof RopeBlock)) return ActionResult.PASS;  // Block below rope on crosshair is not a rope, so nothing to pull
             BlockPos.Mutable reelingPos = pos.mutableCopy().move(Direction.DOWN);
             while (reelingPos.getY() >= world.getBottomY()) {
                 Block blockBelow  = world.getBlockState(reelingPos).getBlock();
@@ -164,7 +166,8 @@ public class RopeBlock extends WaterloggableBlock {
                     reelingPos.move(Direction.DOWN);
                 } else {
                     reelingPos.move(Direction.UP);
-                    world.breakBlock(reelingPos, false, player);
+                    world.removeBlock(reelingPos, false);
+                    world.playSound(player, pos, SoundRegistry.ROPE_SLIDE, SoundCategory.BLOCKS, 1.0F, 1.0F);
                     if (!player.isInCreativeMode()) player.giveItemStack(new ItemStack(ItemRegistry.ROPE, 1));
                     return ActionResult.SUCCESS;
                 }
