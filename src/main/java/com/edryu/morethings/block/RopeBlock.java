@@ -48,14 +48,14 @@ public class RopeBlock extends WaterloggableBlock {
     public static final BooleanProperty EAST = BooleanProperty.of("east");
     public static final BooleanProperty BELL = BooleanProperty.of("bell");
 
-    private static final VoxelShape ROPE_KNOT = Block.createCuboidShape(6, 6, 6, 10, 10, 10);
+    private static final VoxelShape ROPE_KNOT = Block.createCuboidShape(6, 9, 6, 10, 13, 10);
     private static final VoxelShape ROPE_UP = Block.createCuboidShape(6, 9, 6, 10, 16, 10);
     private static final VoxelShape ROPE_DOWN = Block.createCuboidShape(6, 0, 6, 10, 9, 10);
-    private static final VoxelShape ROPE_NORTH = Block.createCuboidShape(6, 6, 0, 10, 10, 9);
-    private static final VoxelShape ROPE_SOUTH = Block.createCuboidShape(6, 6, 9, 10, 10, 16);
-    private static final VoxelShape ROPE_WEST = Block.createCuboidShape(0, 6, 6, 9, 10, 10);
-    private static final VoxelShape ROPE_EAST = Block.createCuboidShape(9, 6, 6, 16, 10, 10);
-    private static final VoxelShape COLLISION_SHAPE = Block.createCuboidShape(0, 0, 0, 16, 6, 16);
+    private static final VoxelShape ROPE_NORTH = Block.createCuboidShape(6, 9, 0, 10, 13, 9);
+    private static final VoxelShape ROPE_SOUTH = Block.createCuboidShape(6, 9, 9, 10, 13, 16);
+    private static final VoxelShape ROPE_WEST = Block.createCuboidShape(0, 9, 6, 9, 13, 10);
+    private static final VoxelShape ROPE_EAST = Block.createCuboidShape(9, 9, 6, 16, 13, 10);
+    private static final VoxelShape COLLISION_SHAPE = Block.createCuboidShape(0, 0, 0, 16, 13, 16);
 
     public RopeBlock(Settings settings) {
         super(settings);
@@ -117,7 +117,7 @@ public class RopeBlock extends WaterloggableBlock {
             .with(UP, up)
             .with(DOWN, down);
 
-        // if (hasNoConnection(state) || !hasFixedAnchor(world, pos)) return null;
+        if (hasNoConnection(state) || !hasFixedAnchor(world, pos)) return null;
         return state;
 	}
 
@@ -154,7 +154,7 @@ public class RopeBlock extends WaterloggableBlock {
                 .with(UP, up)
                 .with(DOWN, down);
 
-        // if (hasNoConnection(state) || !hasFixedAnchor(world, pos)) return Blocks.AIR.getDefaultState();
+        if (hasNoConnection(state) || !hasFixedAnchor(world, pos)) return Blocks.AIR.getDefaultState();
 		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
 	}
 
@@ -232,6 +232,7 @@ public class RopeBlock extends WaterloggableBlock {
             for (Direction d : Direction.values()) {
                 BlockPos n = p.offset(d);
                 BlockState s = world.getBlockState(n);
+                if (s.getBlock() instanceof RopeKnotBlock) return true;
                 if (s.getBlock() instanceof RopeBlock) {
                     if (!seen.contains(n)) queue.add(n);
                     continue;
@@ -241,8 +242,6 @@ public class RopeBlock extends WaterloggableBlock {
                     if (s.isSideSolid(world, n, Direction.DOWN, SideShapeType.CENTER)) return true;
                 } else if (d != Direction.DOWN) {
                     if (s.isSideSolid(world, n, d.getOpposite(), SideShapeType.CENTER)) return true;
-                } else if (d.getAxis().isHorizontal()) {
-                    if (s.getBlock() instanceof RopeKnotBlock) return true;
                 }
             }
             steps++;

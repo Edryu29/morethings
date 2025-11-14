@@ -3,6 +3,7 @@ package com.edryu.morethings.client.datagen;
 import java.util.concurrent.CompletableFuture;
 
 import com.edryu.morethings.registry.BlockRegistry;
+import com.edryu.morethings.registry.ItemRegistry;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
@@ -36,6 +37,7 @@ public class LootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(BlockRegistry.RED_BUTTON);
 
                 addDrop(BlockRegistry.ROPE);
+                addDrop(BlockRegistry.ROPE_KNOT, ItemRegistry.ROPE);
                 addDrop(BlockRegistry.BUNTING_CEILING);
                 addDrop(BlockRegistry.BUNTING_WALL);
 

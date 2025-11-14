@@ -1,11 +1,9 @@
 package com.edryu.morethings.block;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import java.util.List;
 
 import com.edryu.morethings.entity.RopeKnotBlockEntity;
 import com.edryu.morethings.registry.BlockRegistry;
-import com.edryu.morethings.registry.SoundRegistry;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
@@ -13,18 +11,17 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShearsItem;
+import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemActionResult;
 import net.minecraft.util.hit.BlockHitResult;
@@ -42,12 +39,12 @@ public class RopeKnotBlock extends WaterloggableBlock implements BlockEntityProv
     public static final BooleanProperty WEST = BooleanProperty.of("west");
     public static final BooleanProperty EAST = BooleanProperty.of("east");
 
-    private static final VoxelShape ROPE_KNOT = Block.createCuboidShape(6, 6, 6, 10, 10, 10);
-    private static final VoxelShape ROPE_NORTH = Block.createCuboidShape(6, 6, 0, 10, 10, 9);
-    private static final VoxelShape ROPE_SOUTH = Block.createCuboidShape(6, 6, 9, 10, 10, 16);
-    private static final VoxelShape ROPE_WEST = Block.createCuboidShape(0, 6, 6, 9, 10, 10);
-    private static final VoxelShape ROPE_EAST = Block.createCuboidShape(9, 6, 6, 16, 10, 10);
-    private static final VoxelShape POST = Block.createCuboidShape(5, 7, 5, 11, 15, 11);
+    private static final VoxelShape ROPE_KNOT = Block.createCuboidShape(5, 8, 5, 11, 14, 11);
+    private static final VoxelShape ROPE_NORTH = Block.createCuboidShape(6, 9, 0, 10, 13, 9);
+    private static final VoxelShape ROPE_SOUTH = Block.createCuboidShape(6, 9, 9, 10, 13, 16);
+    private static final VoxelShape ROPE_WEST = Block.createCuboidShape(0, 9, 6, 9, 13, 10);
+    private static final VoxelShape ROPE_EAST = Block.createCuboidShape(9, 9, 6, 16, 13, 10);
+    private static final VoxelShape POST = Block.createCuboidShape(6, 0, 6, 10, 16, 10);
     private static final VoxelShape SHAPE = VoxelShapes.union(POST, ROPE_KNOT);
 
     public RopeKnotBlock(Settings settings) {
@@ -116,16 +113,29 @@ public class RopeKnotBlock extends WaterloggableBlock implements BlockEntityProv
                 } else {
                     world.removeBlock(pos, false);
                 }
-                world.playSound(player, pos, SoundRegistry.ROPE_BREAK, SoundCategory.BLOCKS, 0.5F, 0.8F);
-
                 if (stack.getItem() instanceof ShearsItem) {
+                    world.playSound(null, pos, SoundEvents.ENTITY_SNOW_GOLEM_SHEAR, SoundCategory.BLOCKS, 0.8F, 1.3F);
                     stack.damage(1, player, null);
+                } else {
+                    world.playSound(null, pos, SoundEvents.ENTITY_LEASH_KNOT_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 }
                 updateNeighbors(world, pos);
             }
             return world.isClient() ? ItemActionResult.CONSUME : ItemActionResult.SUCCESS;
         }
         return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+
+    @Override
+    protected List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
+        List<ItemStack> drops = super.getDroppedStacks(state, builder);
+        if (builder.getOptional(LootContextParameters.BLOCK_ENTITY) instanceof RopeKnotBlockEntity be) {
+            BlockState held = be.getHeldBlock();
+            if (held != null && !held.isAir()) {
+                drops.add(new ItemStack(held.getBlock().asItem()));
+            }
+        }
+        return drops;
     }
 
     private boolean canConnectTo(BlockState neighbor, Direction dirTowardNeighbor) {
@@ -143,7 +153,6 @@ public class RopeKnotBlock extends WaterloggableBlock implements BlockEntityProv
             world.updateNeighbors(n, world.getBlockState(n).getBlock());
         }
     }
-
 
     private BooleanProperty getDirState(Direction direction) {
         return switch (direction) {
@@ -178,37 +187,4 @@ public class RopeKnotBlock extends WaterloggableBlock implements BlockEntityProv
 	protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHAPE;
 	}
-
-    // @Override
-    // public @NotNull List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-    //     List<ItemStack> drops = super.getDrops(state, builder);
-    //     if (builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof RopeKnotBlockEntity be) {
-    //         BlockState held = be.getHeldBlock();
-    //         if (held != null && !held.isAir()) {
-    //             drops.add(new ItemStack(held.getBlock().asItem()));
-    //         }
-    //     }
-    //     return drops;
-    // }
-
-    // @Override
-    // public boolean useShapeForLightOcclusion(BlockState state) {
-    //     return true;
-    // }
-
-    // @Override
-    // public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean moved) {
-    //     if (!level.isClientSide && !state.is(oldState.getBlock())) {
-    //         updateNeighbors(level, pos);
-    //     }
-    //     super.onPlace(state, level, pos, oldState, moved);
-    // }
-
-    // @Override
-    // public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
-    //     if (!level.isClientSide && !state.is(newState.getBlock())) {
-    //         updateNeighbors(level, pos);
-    //     }
-    //     super.onRemove(state, level, pos, newState, moved);
-    // }
 }

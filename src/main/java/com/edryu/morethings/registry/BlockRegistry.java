@@ -45,7 +45,7 @@ public class BlockRegistry {
     public static final Block GLOBE_SEPIA = registerBlock(new GlobeBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).strength(2f, 4).nonOpaque()),"globe_sepia", true);
     
     public static final Block ROPE = registerBlock(new RopeBlock(AbstractBlock.Settings.create().sounds(SoundRegistry.ROPE).strength(0.25f).nonOpaque()),"rope", true);
-    public static final Block ROPE_KNOT = registerBlock(new RopeKnotBlock(AbstractBlock.Settings.copy(ROPE)),"rope_knot", false);
+    public static final Block ROPE_KNOT = registerBlock(new RopeKnotBlock(AbstractBlock.Settings.copy(Blocks.OAK_FENCE)),"rope_knot", false);
     public static final Block BUNTING_CEILING = registerBlock(new BuntingCeilingBlock(AbstractBlock.Settings.copy(ROPE).noCollision()),"bunting_ceiling", false);
     public static final Block BUNTING_WALL = registerBlock(new BuntingWallBlock(AbstractBlock.Settings.copy(ROPE).noCollision()),"bunting_wall", false);
 

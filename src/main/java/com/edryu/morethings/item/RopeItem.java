@@ -10,7 +10,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItem;
@@ -18,7 +17,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -41,10 +39,7 @@ public class RopeItem extends BlockItem {
                 BlockState knot = BlockRegistry.ROPE_KNOT.getDefaultState();
 				world.setBlockState(blockPos, knot);
 				world.playSound(null, blockPos, SoundRegistry.ROPE_PLACE, SoundCategory.BLOCKS, 0.5F, 0.8F);
-				if (world.getBlockEntity(blockPos) instanceof RopeKnotBlockEntity be) {
-                    be.setHeldBlock(blockState);
-                    be.markDirty();
-                } 
+				if (world.getBlockEntity(blockPos) instanceof RopeKnotBlockEntity be) be.setHeldBlock(blockState);
 				context.getStack().decrementUnlessCreative(1, context.getPlayer());
             }
             return ActionResult.SUCCESS;
