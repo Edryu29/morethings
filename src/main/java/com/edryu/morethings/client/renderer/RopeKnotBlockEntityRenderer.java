@@ -18,11 +18,11 @@ public class RopeKnotBlockEntityRenderer implements BlockEntityRenderer<RopeKnot
     @Override
     public void render(RopeKnotBlockEntity blockEntity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         if (blockEntity.getWorld() == null) return;
-        BlockState held = blockEntity.getHeldBlock();
-        if (held == null || held.isAir()) return;
+        BlockState heldBlock = blockEntity.getHeldBlock();
+        if (heldBlock == null || heldBlock.isAir()) return;
 
         matrices.push();
-        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(held, blockEntity.getPos(), blockEntity.getWorld(), matrices, vertexConsumers.getBuffer(RenderLayer.getCutout()), false, Random.create());
+        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(heldBlock, blockEntity.getPos(), blockEntity.getWorld(), matrices, vertexConsumers.getBuffer(RenderLayer.getCutout()), false, Random.create());
         matrices.pop();
     }
 }

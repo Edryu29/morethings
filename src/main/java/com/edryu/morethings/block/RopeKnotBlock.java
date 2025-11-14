@@ -92,9 +92,9 @@ public class RopeKnotBlock extends WaterloggableBlock implements BlockEntityProv
         }
 
         if (world.getBlockEntity(pos) instanceof RopeKnotBlockEntity be) {
-            BlockState held = be.getHeldBlock();
-            if (held != null) {
-                BlockState updated = held.getStateForNeighborUpdate(direction, neighborState, world, pos, neighborPos);
+            BlockState heldBlock = be.getHeldBlock();
+            if (heldBlock != null) {
+                BlockState updated = heldBlock.getStateForNeighborUpdate(direction, neighborState, world, pos, neighborPos);
                 be.setHeldBlock(updated);
             }
         }
@@ -107,9 +107,9 @@ public class RopeKnotBlock extends WaterloggableBlock implements BlockEntityProv
             if (!world.isClient() && world.getBlockEntity(pos) instanceof RopeKnotBlockEntity be) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(BlockRegistry.ROPE));
                 world.spawnEntity(itemEntity);
-                BlockState held = be.getHeldBlock();
-                if (held != null && !held.isAir()) {
-                    world.setBlockState(pos, held, Block.NOTIFY_ALL_AND_REDRAW);
+                BlockState heldBlock = be.getHeldBlock();
+                if (heldBlock != null && !heldBlock.isAir()) {
+                    world.setBlockState(pos, heldBlock, Block.NOTIFY_ALL_AND_REDRAW);
                 } else {
                     world.removeBlock(pos, false);
                 }
@@ -130,9 +130,9 @@ public class RopeKnotBlock extends WaterloggableBlock implements BlockEntityProv
     protected List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
         List<ItemStack> drops = super.getDroppedStacks(state, builder);
         if (builder.getOptional(LootContextParameters.BLOCK_ENTITY) instanceof RopeKnotBlockEntity be) {
-            BlockState held = be.getHeldBlock();
-            if (held != null && !held.isAir()) {
-                drops.add(new ItemStack(held.getBlock().asItem()));
+            BlockState heldBlock = be.getHeldBlock();
+            if (heldBlock != null && !heldBlock.isAir()) {
+                drops.add(new ItemStack(heldBlock.getBlock().asItem()));
             }
         }
         return drops;

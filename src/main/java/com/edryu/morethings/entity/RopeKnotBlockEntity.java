@@ -16,31 +16,31 @@ import net.minecraft.util.math.BlockPos;
 	
 
 public class RopeKnotBlockEntity extends BlockEntity {
-    private BlockState held;
+    private BlockState heldBlock;
 
 	public RopeKnotBlockEntity(BlockPos pos, BlockState state) {
 		super(EntityRegistry.ROPE_KNOT_ENTITY, pos, state);
 	}
 
     public BlockState getHeldBlock() {
-        return held;
+        return heldBlock;
     }
 
     public void setHeldBlock(BlockState state) {
-        this.held = state;
+        this.heldBlock = state;
         this.markDirty();
     }
 
     @Override
     public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.writeNbt(nbt, registries);
-        if (this.held != null) BlockState.CODEC.encodeStart(NbtOps.INSTANCE, held).result().ifPresent(nbtElement -> nbt.put("held", nbtElement));
+        if (this.heldBlock != null) BlockState.CODEC.encodeStart(NbtOps.INSTANCE, heldBlock).result().ifPresent(nbtElement -> nbt.put("heldBlock", nbtElement));
     }
 
     @Override
     public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.readNbt(nbt, registries);
-        if (nbt.contains("held")) BlockState.CODEC.parse(NbtOps.INSTANCE, nbt.get("held")).result().ifPresent(blockState -> this.held = blockState);
+        if (nbt.contains("heldBlock")) BlockState.CODEC.parse(NbtOps.INSTANCE, nbt.get("heldBlock")).result().ifPresent(blockState -> this.heldBlock = blockState);
     }
 
     @Nullable
