@@ -1,4 +1,4 @@
-package com.edryu.morethings.client.renderer;
+package com.edryu.morethings.util;
 
 import com.edryu.morethings.block.CogBlock;
 
@@ -8,7 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
 import net.minecraft.util.math.MathHelper;
 
-public class CogBlockColor implements BlockColorProvider{
+public class CogColor implements BlockColorProvider {
 
     private static final int[] COLORS = new int[16];
 

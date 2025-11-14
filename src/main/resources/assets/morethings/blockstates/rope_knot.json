@@ -1,13 +1,7 @@
 {
   "multipart": [
-    {   "when": { "knot": "true" },
-        "apply": { "model": "morethings:block/rope/rope_center"}
-    },
-    {   "when": { "up": "true" },
-        "apply": { "model": "morethings:block/rope/rope_up"}
-    },
-    {   "when": { "down": "true" },
-        "apply": { "model": "morethings:block/rope/rope_down"}
+    {
+        "apply": { "model": "morethings:block/rope/rope_knot"}
     },
     {   "when": { "north": "true" },
         "apply": { "model": "morethings:block/rope/rope_north"}
@@ -20,9 +14,6 @@
     },
     {   "when": { "west": "true" },
         "apply": { "model": "morethings:block/rope/rope_west"}
-    },
-    {   "when": { "bell": "true" },
-        "apply": { "model": "morethings:block/rope/rope_bell"}
     }
   ]
 }

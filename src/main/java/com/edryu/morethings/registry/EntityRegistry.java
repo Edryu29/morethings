@@ -16,6 +16,7 @@ public class EntityRegistry {
     public static final BlockEntityType<SmallPedestalBlockEntity> SMALL_PEDESTAL_ENTITY = registerEntity("small_pedestal", SmallPedestalBlockEntity::new, BlockRegistry.SMALL_PEDESTAL);
     public static final BlockEntityType<DisplayBlockEntity> DISPLAY_ENTITY = registerEntity("display", DisplayBlockEntity::new, BlockRegistry.DISPLAY);
     public static final BlockEntityType<PulleyBlockEntity> PULLEY_ENTITY = registerEntity("pulley", PulleyBlockEntity::new, BlockRegistry.PULLEY);
+    public static final BlockEntityType<RopeKnotBlockEntity> ROPE_KNOT_ENTITY = registerEntity("rope_knot", RopeKnotBlockEntity::new, BlockRegistry.ROPE_KNOT);
 
     public static <T extends BlockEntity> BlockEntityType<T> registerEntity(String name, BlockEntityType.BlockEntityFactory<? extends T> entityFactory, Block... blocks) {
         Identifier entityID = Identifier.of(MoreThingsMain.MOD_ID, name);

@@ -1,9 +1,6 @@
 {
   "replace": false,
   "values": [
-    "minecraft:bell",
-    "minecraft:grindstone",
-    "#c:ropes",
     "morethings:rope_knot"
   ]
 }

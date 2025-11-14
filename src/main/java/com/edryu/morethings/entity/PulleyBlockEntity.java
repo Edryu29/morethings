@@ -133,7 +133,7 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
                 BlockSoundGroup soundGroup = windingBlock.getDefaultState().getSoundGroup();
                 world.playSound(null, pos, soundGroup.getBreakSound(), SoundCategory.BLOCKS, (soundGroup.getVolume() + 1.0F) / 2.0F, soundGroup.getPitch() * 0.8F);
                 world.setBlockState(this.pos, this.getCachedState().cycle(PulleyBlock.FLIPPED), Block.NOTIFY_LISTENERS);
-                stack.setCount(stackCount + 1);
+                stack.increment(1);
                 return true;
             }
         }
@@ -158,7 +158,7 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
 
                 if (blockState.isReplaceable()){
                     this.placeWindingBlock(windingBlock.getDefaultState(), windingPos);
-                    stack.setCount(stackCount - 1);
+                    stack.decrement(1);
                     return true;
                 } else if (this.isPushable(blockState, world, windingPos, Direction.DOWN)){ // Block is not replaceable and can be pushed 
                     BlockState belowMovingState = world.getBlockState(windingPos.down()); // Check block below pushable block
@@ -166,7 +166,7 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
                     if (!belowMovingState.getFluidState().isOf(Fluids.WATER) && !fluid.isEmpty()) return false;
                     world.setBlockState(windingPos.down(), blockState); // Replace block below pushable block with pushable block
                     this.placeWindingBlock(windingBlock.getDefaultState(), windingPos); // Replace old pushable block with winding block
-                    stack.setCount(stackCount - 1);
+                    stack.decrement(1);
                     return true;
                 }
                 break;

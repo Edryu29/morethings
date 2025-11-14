@@ -2,11 +2,12 @@ package com.edryu.morethings.client;
 
 import com.edryu.morethings.client.renderer.DisplayBlockEntityRenderer;
 import com.edryu.morethings.client.renderer.SmallPedestalBlockEntityRenderer;
+import com.edryu.morethings.client.renderer.RopeKnotBlockEntityRenderer;
 import com.edryu.morethings.client.screen.PulleyScreen;
 import com.edryu.morethings.registry.BlockRegistry;
 import com.edryu.morethings.registry.EntityRegistry;
 import com.edryu.morethings.registry.ScreenRegistry;
-import com.edryu.morethings.client.renderer.CogBlockColor;
+import com.edryu.morethings.util.CogColor;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -22,6 +23,7 @@ public class MoreThingsClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		BlockEntityRendererFactories.register(EntityRegistry.SMALL_PEDESTAL_ENTITY, SmallPedestalBlockEntityRenderer::new);
 		BlockEntityRendererFactories.register(EntityRegistry.DISPLAY_ENTITY, DisplayBlockEntityRenderer::new);
+		BlockEntityRendererFactories.register(EntityRegistry.ROPE_KNOT_ENTITY,RopeKnotBlockEntityRenderer::new);
 
         HandledScreens.register(ScreenRegistry.PULLEY_SCREEN_HANDLER, PulleyScreen::new);
 		
@@ -45,7 +47,7 @@ public class MoreThingsClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BUNTING_CEILING, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BUNTING_WALL, RenderLayer.getCutout());
 
-		ColorProviderRegistry.BLOCK.register(new CogBlockColor(), BlockRegistry.COG);
+		ColorProviderRegistry.BLOCK.register(new CogColor(), BlockRegistry.COG);
 		ColorProviderRegistry.BLOCK.register((state, level, pos, tintIndex) -> level != null && pos != null ? BiomeColors.getWaterColor(level, pos) : 0x3F76E4, BlockRegistry.BOAT_IN_A_JAR);
 	}
 }

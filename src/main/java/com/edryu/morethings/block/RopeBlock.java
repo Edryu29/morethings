@@ -117,7 +117,7 @@ public class RopeBlock extends WaterloggableBlock {
             .with(UP, up)
             .with(DOWN, down);
 
-        if (hasNoConnection(state) || !hasFixedAnchor(world, pos)) return null;
+        // if (hasNoConnection(state) || !hasFixedAnchor(world, pos)) return null;
         return state;
 	}
 
@@ -154,7 +154,7 @@ public class RopeBlock extends WaterloggableBlock {
                 .with(UP, up)
                 .with(DOWN, down);
 
-        if (hasNoConnection(state) || !hasFixedAnchor(world, pos)) return Blocks.AIR.getDefaultState();
+        // if (hasNoConnection(state) || !hasFixedAnchor(world, pos)) return Blocks.AIR.getDefaultState();
 		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
 	}
 
@@ -197,6 +197,7 @@ public class RopeBlock extends WaterloggableBlock {
     private boolean canConnectTo(WorldAccess world, BlockPos neighborPos, Direction dirTowardRope) {
         BlockState neighborState = world.getBlockState(neighborPos);
         if (neighborState.getBlock() instanceof RopeBlock) return true;
+        if (neighborState.getBlock() instanceof RopeKnotBlock) return true;
 
         if (dirTowardRope == Direction.DOWN) { // Bottom side of block above rope
             if (neighborState.getBlock() instanceof BellBlock) return true;
@@ -236,9 +237,12 @@ public class RopeBlock extends WaterloggableBlock {
                     continue;
                 }
                 if (d == Direction.UP) {
-                    if (s.isSideSolid(world, n, Direction.DOWN, SideShapeType.CENTER) || s.getBlock() instanceof BellBlock) return true;
+                    if (s.isIn(BlockTagProvider.ROPE_SUPPORT) || s.getBlock() instanceof BellBlock) return true;
+                    if (s.isSideSolid(world, n, Direction.DOWN, SideShapeType.CENTER)) return true;
                 } else if (d != Direction.DOWN) {
                     if (s.isSideSolid(world, n, d.getOpposite(), SideShapeType.CENTER)) return true;
+                } else if (d.getAxis().isHorizontal()) {
+                    if (s.getBlock() instanceof RopeKnotBlock) return true;
                 }
             }
             steps++;
