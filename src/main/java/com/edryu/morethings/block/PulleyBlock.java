@@ -18,7 +18,6 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.BlockRotation;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -82,21 +81,4 @@ public class PulleyBlock extends Block implements BlockEntityProvider {
     public void windPulley(BlockState state, World world, BlockPos pos, boolean retract) {
         if (world.getBlockEntity(pos) instanceof PulleyBlockEntity pulleyEntity) pulleyEntity.pullWinding(retract);
     }
-
-	public static BlockState changeRotation(BlockState state, BlockRotation rotation) {
-		switch (rotation) {
-			case COUNTERCLOCKWISE_90:
-			case CLOCKWISE_90:
-				switch ((Direction.Axis)state.get(AXIS)) {
-					case X:
-						return state.with(AXIS, Direction.Axis.Z);
-					case Z:
-						return state.with(AXIS, Direction.Axis.X);
-					default:
-						return state;
-				}
-			default:
-				return state;
-		}
-	}
 }

@@ -16,6 +16,7 @@ import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
@@ -58,30 +59,21 @@ public class SafeBlockEntity extends BlockEntity implements NamedScreenHandlerFa
         return Text.translatable(getCachedState().getBlock().getTranslationKey());
     }
 
-   void playOpenSound(BlockState state) {
+   void playSound(BlockState state, SoundEvent soundEvent) {
         Vec3i vec3i = ((Direction)state.get(SafeBlock.FACING)).getVector();
         double d = this.pos.getX() + 0.5 + vec3i.getX() / 2.0;
         double e = this.pos.getY() + 0.5 + vec3i.getY() / 2.0;
         double f = this.pos.getZ() + 0.5 + vec3i.getZ() / 2.0;
         this.world.playSound(null, d, e, f, SoundEvents.BLOCK_IRON_DOOR_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
    }
-
-   void playCloseSound(BlockState state) {
-        Vec3i vec3i = ((Direction)state.get(SafeBlock.FACING)).getVector();
-		double d = this.pos.getX() + 0.5 + vec3i.getX() / 2.0;
-		double e = this.pos.getY() + 0.5 + vec3i.getY() / 2.0;
-		double f = this.pos.getZ() + 0.5 + vec3i.getZ() / 2.0;
-        this.world.playSound(null, d, e, f, SoundEvents.BLOCK_IRON_DOOR_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
-   }
-
+   
    public void onOpen(PlayerEntity player) {
-        this.playOpenSound(this.getCachedState());
+        this.playSound(this.getCachedState(), SoundEvents.BLOCK_IRON_DOOR_OPEN);
         this.world.setBlockState(this.getPos(), (BlockState)this.getCachedState().with(SafeBlock.OPEN, true), 3);
    }
 
    public void onClose(PlayerEntity player) {
-        this.playCloseSound(this.getCachedState());
+        this.playSound(this.getCachedState(), SoundEvents.BLOCK_IRON_DOOR_CLOSE);
         this.world.setBlockState(this.getPos(), (BlockState)this.getCachedState().with(SafeBlock.OPEN, false), 3);
    }
-
 }

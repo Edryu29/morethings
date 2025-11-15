@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.edryu.morethings.block.PulleyBlock;
 import com.edryu.morethings.block.RopeBlock;
 import com.edryu.morethings.registry.EntityRegistry;
+import com.edryu.morethings.registry.SoundRegistry;
 import com.edryu.morethings.screen.PulleyScreenHandler;
 import com.edryu.morethings.util.BlockProperties.Winding;
 import com.edryu.morethings.util.SimpleInventory;
@@ -16,6 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChainBlock;
+import net.minecraft.block.PistonBlock;
 import net.minecraft.block.SideShapeType;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,6 +27,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.RegistryWrapper;
@@ -33,10 +36,14 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
+import net.minecraft.util.Hand;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.sound.BlockSoundGroup;
 	
 public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, SimpleInventory {
@@ -97,16 +104,16 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
 	}
 
     public void onContentChanged() {
-        Winding type = getContentType(this.getItems().getFirst().getItem());
         BlockState state = this.getCachedState();
+        Winding type = getContentType(this.getItems().getFirst().getItem());
         if (state.get(PulleyBlock.WINDING) != type) this.world.setBlockState(this.pos, state.with(PulleyBlock.WINDING, type), Block.NOTIFY_LISTENERS);
     }
 
     public boolean pullWinding(boolean retract) {
-        return retract ? this.pullRope() : this.releaseRope();
+        return retract ? this.pullRope(Direction.UP) : this.releaseRope(Direction.DOWN);
     }
 
-    public boolean pullRope() {
+    public boolean pullRope(Direction dir) {
         ItemStack stack = this.getStack(0);
         int stackCount = stack.getCount();
         if (stackCount < 1 || !(stack.getItem() instanceof BlockItem bi) || stackCount >= stack.getItem().getMaxCount()) return false;
@@ -116,31 +123,33 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
 		BlockState blockState;
         if (!(world.getBlockState(pos.down()).isOf(windingBlock))) return false; // Block below pulley is not a chain/rope, so nothing to pull
 
-        BlockPos.Mutable windingPos = pos.mutableCopy().move(Direction.DOWN);
+        BlockPos.Mutable windingPos = pos.mutableCopy().move(dir.getOpposite()); // Go opposite the pulling direction
         while (windingPos.getY() >= world.getBottomY()) {
             blockState = world.getBlockState(windingPos);
-            if (blockState.isOf(windingBlock)) { // Block is chain/rope, go down
-                windingPos.move(Direction.DOWN);
-            } else {
-                if (!(blockState.isReplaceable()) && this.isPushable(blockState, world, windingPos, Direction.UP)){ // Block can be pushed
+
+            if (!blockState.isOf(windingBlock)) {  // Block is not a chain/rope
+
+                if (!(blockState.isReplaceable()) && this.isMovable(blockState, world, windingPos, dir)){ // Block can be pulled
                     world.removeBlock(windingPos, false); // Remove block from old position
-                    windingPos.move(Direction.UP);
+                    windingPos.move(dir); // Move towards pulling direction
                     world.setBlockState(windingPos, blockState); // Put block at new position replacing chain/rope
                 } else {
-                    windingPos.move(Direction.UP);
+                    windingPos.move(dir);// Move towards pulling direction
                     world.removeBlock(windingPos, false); // Remove chain/rope adove block
                 }
+
                 BlockSoundGroup soundGroup = windingBlock.getDefaultState().getSoundGroup();
                 world.playSound(null, pos, soundGroup.getBreakSound(), SoundCategory.BLOCKS, (soundGroup.getVolume() + 1.0F) / 2.0F, soundGroup.getPitch() * 0.8F);
                 world.setBlockState(this.pos, this.getCachedState().cycle(PulleyBlock.FLIPPED), Block.NOTIFY_LISTENERS);
                 stack.increment(1);
                 return true;
             }
+            windingPos.move(dir.getOpposite()); // Block is chain/rope, continue opposite the pulling direction
         }
         return false;
     }
 
-    public boolean releaseRope() {
+    public boolean releaseRope(Direction dir) {
         ItemStack stack = this.getStack(0);
         int stackCount = stack.getCount();
         if (stackCount < 1 || !(stack.getItem() instanceof BlockItem bi)) return false;
@@ -149,51 +158,58 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
 		World world = this.getWorld();
 		BlockState blockState;
 
-        BlockPos.Mutable windingPos = this.getPos().mutableCopy().move(Direction.DOWN);
-        while (windingPos.getY() >= world.getBottomY()) {
+        BlockPos.Mutable windingPos = this.getPos().mutableCopy().move(dir); // Go towards the release direction
+        while (windingPos.getY() > world.getBottomY()) {
             blockState = world.getBlockState(windingPos);
+
             if (!blockState.isOf(windingBlock)) {  // Block is not a chain/rope
+                
                 FluidState fluid = blockState.getFluidState();
                 if (!fluid.isOf(Fluids.WATER) && !fluid.isEmpty()) return false; // Block is a fluid that is not water
 
-                if (blockState.isReplaceable()){
-                    this.placeWindingBlock(windingBlock.getDefaultState(), windingPos);
-                    stack.decrement(1);
-                    return true;
-                } else if (this.isPushable(blockState, world, windingPos, Direction.DOWN)){ // Block is not replaceable and can be pushed 
-                    BlockState belowMovingState = world.getBlockState(windingPos.down()); // Check block below pushable block
+                if (blockState.isReplaceable()) return this.placeWindingBlock(windingPos, stack, dir);
+
+                if (this.isMovable(blockState, world, windingPos, dir.getOpposite())){ // Block is not replaceable and can be pushed 
+                    BlockState belowMovingState = world.getBlockState(windingPos.offset(dir)); // Get block after pushable block
                     if (!belowMovingState.isReplaceable()) return false;
                     if (!belowMovingState.getFluidState().isOf(Fluids.WATER) && !fluid.isEmpty()) return false;
-                    world.setBlockState(windingPos.down(), blockState); // Replace block below pushable block with pushable block
-                    this.placeWindingBlock(windingBlock.getDefaultState(), windingPos); // Replace old pushable block with winding block
-                    stack.decrement(1);
-                    return true;
+
+                    world.removeBlock(windingPos, false); // Remove pushable block from old position
+                    world.setBlockState(windingPos.offset(dir), blockState); // Replace block after pushable block with pushable block
+                    return this.placeWindingBlock(windingPos, stack, dir); // Place winding block in old position
                 }
                 break;
             }
-            windingPos.move(Direction.DOWN);
+            windingPos.move(dir); // Block is chain/rope, continue towards the release direction
         }
         return false;
     }
 
-    public void placeWindingBlock(BlockState state, BlockPos pos){
-        BlockState windingState = Block.postProcessState(state, world, pos);
-        world.setBlockState(pos, windingState);
-        BlockSoundGroup soundGroup = state.getSoundGroup();
-        world.playSound(null, pos, soundGroup.getPlaceSound(), SoundCategory.BLOCKS, (soundGroup.getVolume() + 1.0F) / 2.0F, soundGroup.getPitch() * 0.8F);
+    public boolean placeWindingBlock(BlockPos pos, ItemStack stack, Direction dir){
+        if (!(stack.getItem() instanceof BlockItem bi)) return false;
+        BlockHitResult hitResult = new BlockHitResult(Vec3d.ofCenter(pos), dir.getOpposite(), pos, false);
+        ItemPlacementContext context = new ItemPlacementContext(world, null, null, stack, hitResult);
         world.setBlockState(this.pos, this.getCachedState().cycle(PulleyBlock.FLIPPED), Block.NOTIFY_LISTENERS);
+        bi.place(context);
+        return true;
     }
 
-    public boolean isPushable(BlockState state, World world, BlockPos pos, Direction dir) {
-        if (state.isAir()) return true;
+    public boolean isMovable(BlockState state, World world, BlockPos pos, Direction direction) {
+        if (state.isAir()) return false;
         if (state.getBlock() instanceof PulleyBlock) return false;
-        if (state.isOf(Blocks.OBSIDIAN) || state.isOf(Blocks.CRYING_OBSIDIAN) || state.isOf(Blocks.RESPAWN_ANCHOR) || state.isOf(Blocks.REINFORCED_DEEPSLATE)) return false;
+        if ((state.isOf(Blocks.PISTON) || state.isOf(Blocks.STICKY_PISTON)) && state.get(Properties.EXTENDED)) return false;
+        if (state.isOf(Blocks.OBSIDIAN) || state.isOf(Blocks.CRYING_OBSIDIAN) || state.isOf(Blocks.RESPAWN_ANCHOR) || state.isOf(Blocks.BEDROCK)) return false;
+
         if (pos.getY() < world.getBottomY() || pos.getY() > world.getTopY() - 1 || !world.getWorldBorder().contains(pos)) return false;
+        if (direction == Direction.DOWN && pos.getY() == world.getBottomY()) return false;
+        if (direction == Direction.UP && pos.getY() == world.getTopY() - 1) return false;
+
         if (state.isIn(BlockTagProvider.MOVEABLE_BY_PULLEY)) return true;
         if (state.isIn(BlockTagProvider.UNMOVEABLE_BY_PULLEY)) return false;
-        if (state.hasBlockEntity()) return false;
         if (state.isIn(BlockTagProvider.HANG_FROM_ROPES)) return true;
-        return state.isSideSolid(world, pos, dir, SideShapeType.CENTER);
+        
+        if (state.hasBlockEntity()) return false;
+        return state.isSideSolid(world, pos, direction, SideShapeType.CENTER); // Check the side from where is the chain/rope
     }
 
     public static Winding getContentType(Item item) {
