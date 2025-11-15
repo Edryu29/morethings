@@ -1,6 +1,8 @@
 package com.edryu.morethings.util;
 
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.edryu.morethings.block.PulleyBlock;
 import com.edryu.morethings.block.RopeBlock;
@@ -32,6 +34,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class WindingHelper {
+	public static final String MOD_ID = "morethings";
+	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static boolean addWindingDown(BlockPos pos, World world, @Nullable PlayerEntity player, Hand hand, Block windingBlock) {
         return addWinding(pos, world, player, hand, windingBlock, Direction.DOWN, Integer.MAX_VALUE);
@@ -81,18 +85,20 @@ public class WindingHelper {
         BlockPos targetPos = originPos.offset(moveDir);
         BlockState targetState = world.getBlockState(targetPos);
 
+        
         boolean needsToPush = !originalState.isReplaceable();
         if (needsToPush) {
             if (!targetState.isReplaceable() && placeWhereItWas != null) return false;
             if (!isPushableWithPulley(originalState, world, originPos, moveDir)) return false;
         }
+		LOGGER.info("Block to push {}", originalState.toString());
+		LOGGER.info("Target Position {}", targetState.toString());
 
         FluidState originalFluid = world.getFluidState(originPos);
         
         // Replace original block with air and place rope
         if (placeWhereItWas != null) {
-            world.removeBlock(originPos, false);
-            // world.setBlockState(originPos, originalFluid.getBlockState(), Block.REDRAW_ON_MAIN_THREAD | Block.NOTIFY_LISTENERS);
+            world.setBlockState(originPos, originalFluid.getBlockState(), Block.REDRAW_ON_MAIN_THREAD | Block.NOTIFY_LISTENERS);
             ItemStack stack = new ItemStack(placeWhereItWas);
             BlockHitResult hitResult = new BlockHitResult(Vec3d.ofCenter(originPos), moveDir.getOpposite(), originPos, false);
             ItemPlacementContext context = new ItemPlacementContext(world, player, hand, stack, hitResult);
@@ -113,6 +119,7 @@ public class WindingHelper {
         boolean waterFluid = targetFluid.isOf(Fluids.WATER);
 
         if (originalState.contains(Properties.WATERLOGGED)) {
+		    LOGGER.info("Waterlogged");
             originalState = originalState.with(Properties.WATERLOGGED, waterFluid);
         } else if (originalState.getBlock() instanceof AbstractCauldronBlock) {
             if (waterFluid && originalState.isOf(Blocks.CAULDRON) || originalState.isOf(Blocks.WATER_CAULDRON)) {
@@ -143,6 +150,7 @@ public class WindingHelper {
         if (moveDir.getAxis().isVertical() && state.isIn(BlockTagProvider.HANG_FROM_ROPES)) return true;
         if (state.isIn(BlockTagProvider.MOVEABLE_BY_PULLEY)) return true;
         if (state.hasBlockEntity()) return false;
+
         return state.isSideSolid(world, pos, moveDir, SideShapeType.CENTER);
     }
 
