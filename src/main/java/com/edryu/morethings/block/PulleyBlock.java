@@ -78,7 +78,7 @@ public class PulleyBlock extends Block implements BlockEntityProvider {
 		return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory)blockEntity : null;
 	}
 
-    public void windPulley(BlockState state, World world, BlockPos pos, boolean retract) {
+    public void windPulley(World world, BlockPos pos, boolean retract) {
         if (world.getBlockEntity(pos) instanceof PulleyBlockEntity pulleyEntity) pulleyEntity.pullWinding(retract);
     }
 }
