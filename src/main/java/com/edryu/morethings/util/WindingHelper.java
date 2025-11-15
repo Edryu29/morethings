@@ -14,7 +14,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChainBlock;
 import net.minecraft.block.LeveledCauldronBlock;
-import net.minecraft.block.PistonBlock;
 import net.minecraft.block.SideShapeType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
@@ -46,7 +45,7 @@ public class WindingHelper {
             return addWinding(pos.offset(moveDir), world, player, hand, windingBlock, moveDir, maxDist);
 
         } else if (state.getBlock() instanceof PulleyBlock && world.getBlockEntity(pos) instanceof PulleyBlockEntity te) {
-            return te.rotateIndirect(player, hand, windingBlock, moveDir, false);
+            return te.operateIndirect(player, hand, windingBlock, moveDir, false);
 
         } else {
             return placeAndMove(player, hand, world, pos, moveDir, windingBlock);
@@ -59,13 +58,13 @@ public class WindingHelper {
 
     public static boolean removeWinding(BlockPos pos, World world, Block windingBlock, Direction moveDir, int maxDist) {
         BlockState state = world.getBlockState(pos);
-        if (maxDist <= 0) return false;
+        if (maxDist < 0) return false;
         else maxDist--;
         if (isCorrectWinding(windingBlock, state, moveDir)) {
             return removeWinding(pos.offset(moveDir), world, windingBlock, moveDir, maxDist);
 
         } else if (state.getBlock() instanceof PulleyBlock && world.getBlockEntity(pos) instanceof PulleyBlockEntity pe && !pe.isEmpty()) {
-            return pe.rotateIndirect(null, Hand.MAIN_HAND, windingBlock, moveDir, true);
+            return pe.operateIndirect(null, Hand.MAIN_HAND, windingBlock, moveDir, true);
 
         } else {
             BlockPos up = pos.offset(moveDir.getOpposite());
@@ -89,8 +88,11 @@ public class WindingHelper {
         }
 
         FluidState originalFluid = world.getFluidState(originPos);
-
+        
+        // Replace original block with air and place rope
         if (placeWhereItWas != null) {
+            world.removeBlock(originPos, false);
+            // world.setBlockState(originPos, originalFluid.getBlockState(), Block.REDRAW_ON_MAIN_THREAD | Block.NOTIFY_LISTENERS);
             ItemStack stack = new ItemStack(placeWhereItWas);
             BlockHitResult hitResult = new BlockHitResult(Vec3d.ofCenter(originPos), moveDir.getOpposite(), originPos, false);
             ItemPlacementContext context = new ItemPlacementContext(world, player, hand, stack, hitResult);
@@ -125,72 +127,24 @@ public class WindingHelper {
         return true;
     }
 
-
     public static boolean isPushableWithPulley(BlockState state, World world, BlockPos pos, Direction moveDir) {
-        if (state.getBlock() instanceof PulleyBlock) return false;
+        if (state.isAir()) return true;
+
+        if (pos.getY() < world.getBottomY() || pos.getY() > world.getTopY() - 1 || !world.getWorldBorder().contains(pos)) return false;
+        if (moveDir == Direction.DOWN && pos.getY() == world.getBottomY()) return false;
+        if (moveDir == Direction.UP && pos.getY() == world.getTopY() - 1) return false;
         if (state.isIn(BlockTagProvider.UNMOVEABLE_BY_PULLEY)) return false;
-        if (!state.isSolid()) return false;
-        if (moveDir.getAxis().isVertical() && state.isIn(BlockTagProvider.HANG_FROM_ROPES)) {
-            return true;
-        }
-        boolean couldBreak = !state.isSolid();
-        return isPushable(state, world, pos, moveDir, couldBreak, moveDir);
+
+        if (state.getBlock() instanceof PulleyBlock) return false;
+        if ((state.isOf(Blocks.PISTON) || state.isOf(Blocks.STICKY_PISTON)) && state.get(Properties.EXTENDED)) return false;
+        if (state.isOf(Blocks.OBSIDIAN) || state.isOf(Blocks.CRYING_OBSIDIAN) || state.isOf(Blocks.RESPAWN_ANCHOR) || state.isOf(Blocks.BEDROCK)) return false;
+
+        if (state.getBlock() instanceof AbstractCauldronBlock) return true;
+        if (moveDir.getAxis().isVertical() && state.isIn(BlockTagProvider.HANG_FROM_ROPES)) return true;
+        if (state.isIn(BlockTagProvider.MOVEABLE_BY_PULLEY)) return true;
+        if (state.hasBlockEntity()) return false;
+        return state.isSideSolid(world, pos, moveDir, SideShapeType.CENTER);
     }
-
-    //same as PistonBaseBlock.isPushable but ignores some stuff like Block Entities
-    private static boolean isPushable(BlockState state, World world, BlockPos pos, Direction movementDirection, boolean allowDestroy, Direction pistonFacing) {
-        if (pos.getY() >= world.getBottomY() && pos.getY() <= world.getTopY() - 1 && world.getWorldBorder().contains(pos)) {
-            if (state.isAir()) {
-                return true;
-            } else if (!state.isOf(Blocks.OBSIDIAN) && !state.isOf(Blocks.CRYING_OBSIDIAN) && !state.isOf(Blocks.RESPAWN_ANCHOR) && !state.isOf(Blocks.REINFORCED_DEEPSLATE)) {
-                if (movementDirection == Direction.DOWN && pos.getY() == world.getBottomY()) {
-                    return false;
-                } else if (movementDirection == Direction.UP && pos.getY() == world.getTopY() - 1) {
-                    return false;
-                } else {
-                    if (!state.isOf(Blocks.PISTON) && !state.isOf(Blocks.STICKY_PISTON)) {
-                        if (state.getHardness(world, pos) == -1.0F) {
-                            return false;
-                        }
-
-                        switch (state.getPistonBehavior()) {
-                            case BLOCK -> {
-                                return false;
-                            }
-                            case DESTROY -> {
-
-                                return allowDestroy;
-                            }
-                            case PUSH_ONLY -> {
-                                return movementDirection == pistonFacing;
-                            }
-                        }
-                    } else if (state.get(PistonBlock.EXTENDED)) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
-    // public static boolean isPushableWithPulley(BlockState state, World world, BlockPos pos, Direction moveDir) {
-    //     if (state.isAir()) return false;
-    //     if (state.getBlock() instanceof PulleyBlock) return false;
-    //     if ((state.isOf(Blocks.PISTON) || state.isOf(Blocks.STICKY_PISTON)) && state.get(Properties.EXTENDED)) return false;
-    //     if (state.isOf(Blocks.OBSIDIAN) || state.isOf(Blocks.CRYING_OBSIDIAN) || state.isOf(Blocks.RESPAWN_ANCHOR) || state.isOf(Blocks.BEDROCK)) return false;
-
-    //     if (pos.getY() < world.getBottomY() || pos.getY() > world.getTopY() - 1 || !world.getWorldBorder().contains(pos)) return false;
-    //     if (moveDir == Direction.DOWN && pos.getY() == world.getBottomY()) return false;
-    //     if (moveDir == Direction.UP && pos.getY() == world.getTopY() - 1) return false;
-
-    //     if (state.isIn(BlockTagProvider.MOVEABLE_BY_PULLEY)) return true;
-    //     if (state.isIn(BlockTagProvider.UNMOVEABLE_BY_PULLEY)) return false;
-    //     if (moveDir.getAxis().isVertical() && state.isIn(BlockTagProvider.HANG_FROM_ROPES)) return true;
-    //     if (state.hasBlockEntity()) return false;
-    //     return state.isSideSolid(world, pos, moveDir, SideShapeType.CENTER);
-    // }
 
     public static boolean isCorrectWinding(Block windingBlock, BlockState state, Direction moveDir) {
         if (state.getBlock() instanceof ChainBlock && state.get(ChainBlock.AXIS) != moveDir.getAxis()) return false;

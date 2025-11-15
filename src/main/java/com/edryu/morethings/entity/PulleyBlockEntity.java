@@ -3,9 +3,6 @@ package com.edryu.morethings.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.edryu.morethings.block.PulleyBlock;
 import com.edryu.morethings.registry.EntityRegistry;
 import com.edryu.morethings.screen.PulleyScreenHandler;
@@ -38,9 +35,6 @@ import net.minecraft.sound.BlockSoundGroup;
 	
 public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, SimpleInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
-    
-	public static final String MOD_ID = "morethings";
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
     
     public PulleyBlockEntity(BlockPos pos, BlockState state) {
         super(EntityRegistry.PULLEY_ENTITY, pos, state);
@@ -150,13 +144,14 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
         return success;
     }
 
-    public boolean rotateIndirect(PlayerEntity player, Hand hand, Block windingBlock, Direction moveDir, boolean retracting) {
+    public boolean operateIndirect(PlayerEntity player, Hand hand, Block windingBlock, Direction moveDir, boolean retracting) {
         ItemStack stack = getStack(0);
         if (stack.isEmpty()) {
             if (retracting) {
                 return false;
             } else {
                 this.setStack(0, new ItemStack(windingBlock));
+                this.markDirty();
                 return true;
             }
         }
@@ -194,8 +189,4 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
         int dist = d == Direction.DOWN ? Integer.MAX_VALUE : maxSideDist;
         return retracting ? pullWinding(d, dist, false) : releaseWinding(d, dist, false);
     }
-
-   public boolean needsToUpdateClientWhenChanged() {
-      return false;
-   }
 }
