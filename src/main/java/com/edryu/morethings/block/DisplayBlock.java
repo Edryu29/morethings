@@ -68,19 +68,17 @@ public class DisplayBlock extends HorizontalFacingBlock implements BlockEntityPr
         ItemStack playerHeldItem = player.getStackInHand(Hand.MAIN_HAND);
 
         if (world.getBlockEntity(pos) instanceof DisplayBlockEntity DisplayBlockEntity) {
-            ItemStack storedItem = DisplayBlockEntity.getStack(0);
+            ItemStack storedItem = DisplayBlockEntity.getStoredItem();
             ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), storedItem);
 
             if (storedItem.isEmpty() ) {
-                DisplayBlockEntity.setStack(0, playerHeldItem.split(1));
+                DisplayBlockEntity.setStoredItem(playerHeldItem.split(1));
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
             } else {
                 world.spawnEntity(itemEntity);
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                DisplayBlockEntity.removeStack(0);
+                DisplayBlockEntity.removeStoredItem();
             }
-            
-            DisplayBlockEntity.markDirty();
             return ActionResult.SUCCESS;
         }
         return ActionResult.PASS;
@@ -89,12 +87,12 @@ public class DisplayBlock extends HorizontalFacingBlock implements BlockEntityPr
     @Override
     public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if (world.getBlockEntity(pos) instanceof DisplayBlockEntity DisplayBlockEntity) {
-            ItemStack storedItem = DisplayBlockEntity.getStack(0);
+            ItemStack storedItem = DisplayBlockEntity.getStoredItem();
             
             if (!storedItem.isEmpty()) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), storedItem);
                 world.spawnEntity(itemEntity);
-                DisplayBlockEntity.removeStack(0);
+                DisplayBlockEntity.removeStoredItem();
             }
         }
         return super.onBreak(world, pos, state, player);

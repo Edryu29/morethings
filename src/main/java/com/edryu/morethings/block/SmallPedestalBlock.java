@@ -83,16 +83,16 @@ public class SmallPedestalBlock extends HorizontalFacingBlock implements BlockEn
             return ActionResult.SUCCESS;
         // Manage stored item
         } else if (world.getBlockEntity(pos) instanceof SmallPedestalBlockEntity SmallPedestalBlockEntity) {
-            ItemStack storedItem = SmallPedestalBlockEntity.getStack(0);
+            ItemStack storedItem = SmallPedestalBlockEntity.getStoredItem();
             ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), storedItem);
 
             if (storedItem.isEmpty() ) {
-                SmallPedestalBlockEntity.setStack(0, playerHeldItem.split(1));
+                SmallPedestalBlockEntity.setStoredItem(playerHeldItem.split(1));
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
             } else {
                 world.spawnEntity(itemEntity);
                 world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                SmallPedestalBlockEntity.removeStack(0);
+                SmallPedestalBlockEntity.removeStoredItem();
             }
 
             SmallPedestalBlockEntity.markDirty();
@@ -104,11 +104,11 @@ public class SmallPedestalBlock extends HorizontalFacingBlock implements BlockEn
     @Override
     public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         if (world.getBlockEntity(pos) instanceof SmallPedestalBlockEntity SmallPedestalBlockEntity) {
-            ItemStack storedItem = SmallPedestalBlockEntity.getStack(0);
+            ItemStack storedItem = SmallPedestalBlockEntity.getStoredItem();
             if (!storedItem.isEmpty()) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), storedItem);
                 world.spawnEntity(itemEntity);
-                SmallPedestalBlockEntity.removeStack(0);
+                SmallPedestalBlockEntity.removeStoredItem();
             }
         }
         return super.onBreak(world, pos, state, player);

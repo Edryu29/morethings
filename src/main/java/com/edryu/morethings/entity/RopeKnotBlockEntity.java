@@ -23,7 +23,7 @@ public class RopeKnotBlockEntity extends BlockEntity {
 	}
 
     public BlockState getHeldBlock() {
-        return heldBlock;
+        return this.heldBlock;
     }
 
     public void setHeldBlock(BlockState state) {
@@ -32,14 +32,14 @@ public class RopeKnotBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.writeNbt(nbt, registries);
+    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.writeNbt(nbt, registryLookup);
         if (this.heldBlock != null) BlockState.CODEC.encodeStart(NbtOps.INSTANCE, heldBlock).result().ifPresent(nbtElement -> nbt.put("heldBlock", nbtElement));
     }
 
     @Override
-    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
         if (nbt.contains("heldBlock")) BlockState.CODEC.parse(NbtOps.INSTANCE, nbt.get("heldBlock")).result().ifPresent(blockState -> this.heldBlock = blockState);
     }
 
@@ -50,7 +50,7 @@ public class RopeKnotBlockEntity extends BlockEntity {
     }
     
     @Override
-    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registries) {
-        return createNbt(registries);
+    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+        return createNbt(registryLookup);
     }
 }

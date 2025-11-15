@@ -21,7 +21,7 @@ public class DisplayBlockEntityRenderer implements BlockEntityRenderer<DisplayBl
     @Override
     public void render(DisplayBlockEntity blockEntity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         Direction facing = blockEntity.getCachedState().get(DisplayBlock.FACING);
-        ItemStack storedItem = blockEntity.getStack(0);
+        ItemStack storedItem = blockEntity.getStoredItem();
 
         if (facing == Direction.NORTH || facing == Direction.SOUTH) facing = facing.getOpposite();
 

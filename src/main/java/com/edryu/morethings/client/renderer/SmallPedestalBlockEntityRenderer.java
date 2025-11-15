@@ -25,7 +25,7 @@ public class SmallPedestalBlockEntityRenderer implements BlockEntityRenderer<Sma
     public void render(SmallPedestalBlockEntity blockEntity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         boolean rotate = blockEntity.getCachedState().get(SmallPedestalBlock.ROTATE);
         Direction facing = blockEntity.getCachedState().get(SmallPedestalBlock.FACING);
-        ItemStack storedItem = blockEntity.getStack(0);
+        ItemStack storedItem = blockEntity.getStoredItem();
 
         if (facing == Direction.NORTH || facing == Direction.SOUTH) facing = facing.getOpposite();
 
