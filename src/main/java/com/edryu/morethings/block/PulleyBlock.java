@@ -78,7 +78,11 @@ public class PulleyBlock extends Block implements BlockEntityProvider {
 		return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory)blockEntity : null;
 	}
 
-    public void windPulley(World world, BlockPos pos, boolean retract) {
-        if (world.getBlockEntity(pos) instanceof PulleyBlockEntity pulleyEntity) pulleyEntity.pullWinding(retract);
+    public boolean windPulley(BlockState state, World world, BlockPos pos, Direction direction, boolean retract) {
+        boolean result = world.getBlockEntity(pos) instanceof PulleyBlockEntity pulleyEntity ? pulleyEntity.operateDirectly(retract) : false;
+        BlockPos connectedPos = pos.offset(direction.getAxis(),1);
+        BlockState connected = world.getBlockState(connectedPos);
+        if (connected.isOf(this) && state.get(AXIS) == connected.get(AXIS)) ((PulleyBlock)connected.getBlock()).windPulley(connected, world, connectedPos, direction, retract);
+        return result;
     }
 }

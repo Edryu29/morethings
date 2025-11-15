@@ -1,8 +1,8 @@
 package com.edryu.morethings.screen;
 
-import com.edryu.morethings.entity.PulleyBlockEntity;
 import com.edryu.morethings.registry.ScreenRegistry;
 import com.edryu.morethings.util.BlockProperties.Winding;
+import com.edryu.morethings.util.WindingHelper;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -33,7 +33,7 @@ public class PulleyScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inventory, 0, 79, 39) {
             @Override
             public boolean canInsert(ItemStack stack) {
-                return PulleyBlockEntity.getContentType(stack.getItem()) != Winding.NONE;
+                return WindingHelper.getWindingType(stack.getItem()) != Winding.NONE;
             }
         });
 
