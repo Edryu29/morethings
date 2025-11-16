@@ -57,11 +57,13 @@ public class PulleyBlock extends Block implements BlockEntityProvider {
         }
         return ActionResult.SUCCESS;
     }
-    
+
     @Override
-    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-        if (world.getBlockEntity(pos) instanceof PulleyBlockEntity PulleyBlockEntity) ItemScatterer.spawn(world, pos, PulleyBlockEntity);
-        return super.onBreak(world, pos, state, player);
+    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved)  {
+		if (!state.isOf(newState.getBlock())) {
+			if (world.getBlockEntity(pos) instanceof PulleyBlockEntity PulleyBlockEntity) ItemScatterer.spawn(world, pos, PulleyBlockEntity);
+		}
+		super.onStateReplaced(state, world, pos, newState, moved);
     }
 
 	@Override

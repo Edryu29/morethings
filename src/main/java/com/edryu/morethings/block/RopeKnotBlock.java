@@ -184,7 +184,24 @@ public class RopeKnotBlock extends WaterloggableBlock implements BlockEntityProv
     }
 
     @Override
+    protected void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
+        if (!world.isClient() && !state.isOf(oldState.getBlock())) updateNeighbors(world, pos);
+        super.onBlockAdded(state, world, pos, oldState, notify);
+    }
+
+    @Override
+    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved)  {
+        if (!world.isClient() && !state.isOf(newState.getBlock())) updateNeighbors(world, pos);
+        super.onStateReplaced(state, world, pos, newState, moved);
+    }
+
+    @Override
 	protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHAPE;
 	}
+
+    @Override
+    protected boolean hasSidedTransparency(BlockState state) {
+        return true;
+    }
 }

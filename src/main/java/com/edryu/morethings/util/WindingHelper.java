@@ -15,6 +15,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.ChainBlock;
 import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.block.SideShapeType;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -22,6 +23,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -80,12 +82,18 @@ public class WindingHelper {
         BlockState originalState = world.getBlockState(originPos);
         BlockPos targetPos = originPos.offset(moveDir);
         BlockState targetState = world.getBlockState(targetPos);
+        NbtCompound beTag = null;
 
-        
         boolean needsToPush = !originalState.isReplaceable();
         if (needsToPush) {
             if (!targetState.isReplaceable() && placeWhereItWas != null) return false;
             if (!isPushableWithPulley(originalState, world, originPos, moveDir)) return false;
+
+            BlockEntity be = world.getBlockEntity(originPos);
+            if (be != null) {
+                be.markRemoved();
+                beTag = be.createNbt(world.getRegistryManager());
+            }
         }
 
         FluidState originalFluid = world.getFluidState(originPos);
@@ -127,6 +135,10 @@ public class WindingHelper {
             world.setBlockState(targetPos, originalState);
         } else {
             world.removeBlock(targetPos, false);
+        }
+        if (beTag != null) {
+            BlockEntity te = world.getBlockEntity(targetPos);
+            if (te != null) te.read(beTag, world.getRegistryManager());
         }
         return true;
     }

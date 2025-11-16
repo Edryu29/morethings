@@ -1,7 +1,5 @@
 package com.edryu.morethings.item;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.edryu.morethings.entity.RopeKnotBlockEntity;
 import com.edryu.morethings.registry.BlockRegistry;
 import com.edryu.morethings.registry.SoundRegistry;
@@ -9,17 +7,12 @@ import com.edryu.morethings.registry.SoundRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FenceBlock;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 public class RopeItem extends BlockItem {
