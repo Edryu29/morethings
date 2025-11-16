@@ -1,8 +1,6 @@
 package com.edryu.morethings.util;
 
 import org.jetbrains.annotations.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.edryu.morethings.block.PulleyBlock;
 import com.edryu.morethings.block.RopeBlock;
@@ -34,8 +32,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class WindingHelper {
-	public static final String MOD_ID = "morethings";
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static boolean addWindingDown(BlockPos pos, World world, @Nullable PlayerEntity player, Hand hand, Block windingBlock) {
         return addWinding(pos, world, player, hand, windingBlock, Direction.DOWN, Integer.MAX_VALUE);
@@ -91,8 +87,6 @@ public class WindingHelper {
             if (!targetState.isReplaceable() && placeWhereItWas != null) return false;
             if (!isPushableWithPulley(originalState, world, originPos, moveDir)) return false;
         }
-		LOGGER.info("Block to push {}", originalState.toString());
-		LOGGER.info("Target Position {}", targetState.toString());
 
         FluidState originalFluid = world.getFluidState(originPos);
         
@@ -119,7 +113,6 @@ public class WindingHelper {
         boolean waterFluid = targetFluid.isOf(Fluids.WATER);
 
         if (originalState.contains(Properties.WATERLOGGED)) {
-		    LOGGER.info("Waterlogged");
             originalState = originalState.with(Properties.WATERLOGGED, waterFluid);
         } else if (originalState.getBlock() instanceof AbstractCauldronBlock) {
             if (waterFluid && originalState.isOf(Blocks.CAULDRON) || originalState.isOf(Blocks.WATER_CAULDRON)) {
@@ -129,8 +122,12 @@ public class WindingHelper {
             }
         }
 
-        originalState = Block.postProcessState(originalState, world, targetPos);
-        world.setBlockState(targetPos, originalState);
+        if (needsToPush){ // Condition added to skip replaceable blocks like water from being moved
+            originalState = Block.postProcessState(originalState, world, targetPos);
+            world.setBlockState(targetPos, originalState);
+        } else {
+            world.removeBlock(targetPos, false);
+        }
         return true;
     }
 

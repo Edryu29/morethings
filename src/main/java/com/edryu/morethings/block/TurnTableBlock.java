@@ -120,8 +120,8 @@ public class TurnTableBlock extends Block {
         if (facingState.isAir()) return false;
 
         if (facingBlock instanceof PulleyBlock && direction.getAxis() == facingState.get(PulleyBlock.AXIS)){
-			((PulleyBlock)facingBlock).windPulley(facingState, world, facingPos, direction, state.get(INVERTED));
-            world.playSound(null, facingPos, SoundRegistry.BLOCK_ROTATE, SoundCategory.BLOCKS, 1.0F, 1);
+			boolean result = ((PulleyBlock)facingBlock).windPulley(facingState, world, facingPos, direction, state.get(INVERTED));
+            if (result) world.playSound(null, facingPos, SoundRegistry.BLOCK_ROTATE, SoundCategory.BLOCKS, 1.0F, 1);
 		} else {
             BlockState rotatedState = facingState.rotate(state.get(INVERTED) ? BlockRotation.COUNTERCLOCKWISE_90 : BlockRotation.CLOCKWISE_90);
             world.setBlockState(facingPos, rotatedState, Block.NOTIFY_LISTENERS);

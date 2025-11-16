@@ -89,12 +89,13 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
 
     public void updateDisplayedItem() {
         BlockState state = this.getCachedState();
-        Winding type = WindingHelper.getWindingType(this.getItems().getFirst().getItem());
-        if (state.get(PulleyBlock.WINDING) != type) this.world.setBlockState(this.pos, state.with(PulleyBlock.WINDING, type), Block.NOTIFY_LISTENERS);
+        Winding windingType = WindingHelper.getWindingType(this.getItems().getFirst().getItem());
+        world.setBlockState(pos, state.with(PulleyBlock.WINDING, windingType).cycle(PulleyBlock.FLIPPED), Block.NOTIFY_LISTENERS);
+
     }
 
-    public boolean operateDirectly(boolean retract) {
-        return retract ? this.pullWindingUp() : this.releaseWindingDown();
+    public boolean operateDirectly(boolean retracting) {
+        return retracting ? this.pullWindingUp() : this.releaseWindingDown();
     }
 
     public boolean pullWindingUp() {
@@ -155,13 +156,9 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
                 return true;
             }
         }
-
         if (!stack.isOf(windingBlock.asItem())) return false;
-        BlockState state = getCachedState();
-        Direction.Axis axis = state.get(PulleyBlock.AXIS);
+        Direction.Axis axis = this.getCachedState().get(PulleyBlock.AXIS);
         if (axis == moveDir.getAxis()) return false;
-
-        world.setBlockState(pos, state.cycle(PulleyBlock.FLIPPED));
 
         Direction[] order = moveDir.getAxis().isHorizontal() ? new Direction[]{Direction.DOWN} :
                 new Direction[]{moveDir, moveDir.rotateClockwise(axis), moveDir.rotateCounterclockwise(axis)};
@@ -187,6 +184,8 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
 
     private boolean moveConnected(boolean retracting, int maxSideDist, Direction d) {
         int dist = d == Direction.DOWN ? Integer.MAX_VALUE : maxSideDist;
-        return retracting ? pullWinding(d, dist, false) : releaseWinding(d, dist, false);
+        boolean result = retracting ? pullWinding(d, dist, false) : releaseWinding(d, dist, false);
+        if (result && !retracting) world.setBlockState(pos, this.getCachedState().cycle(PulleyBlock.FLIPPED), Block.NOTIFY_LISTENERS);
+        return result;
     }
 }
