@@ -77,7 +77,9 @@ public class CrankBlock extends WaterloggableBlock {
 		BlockPos behindPos = pos.offset(direction);
 		BlockState behindState = world.getBlockState(behindPos);
 		Block behindBlock = behindState.getBlock();
-		if (behindBlock instanceof PulleyBlock && direction.getAxis() == behindState.get(PulleyBlock.AXIS)) ((PulleyBlock)behindBlock).windPulley(behindState, world, behindPos, direction, Screen.hasShiftDown());
+		if (behindBlock instanceof PulleyBlock && direction.getAxis() == behindState.get(PulleyBlock.AXIS)) {
+			((PulleyBlock)behindBlock).windPulley(behindState, world, behindPos, Screen.hasShiftDown(), direction);
+		}
         return ActionResult.SUCCESS;
     }
 

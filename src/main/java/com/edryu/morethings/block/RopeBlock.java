@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import com.edryu.morethings.client.datagen.BlockTagProvider;
 import com.edryu.morethings.registry.ItemRegistry;
 import com.edryu.morethings.registry.SoundRegistry;
+import com.edryu.morethings.util.WindingHelper;
 
 import net.minecraft.block.BellBlock;
 import net.minecraft.block.Block;
@@ -19,16 +20,20 @@ import net.minecraft.block.LanternBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.SideShapeType;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.data.client.VariantSettings.Rotation;
 import net.minecraft.entity.ai.pathing.NavigationType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -162,35 +167,31 @@ public class RopeBlock extends WaterloggableBlock {
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (player == null) return ActionResult.PASS;
 
-        if (Screen.hasShiftDown() && !player.isHolding(ItemRegistry.ROPE)) {
-            if (!(world.getBlockState(pos.down()).getBlock() instanceof RopeBlock)) return ActionResult.PASS;  // Block below rope on crosshair is not a rope, so nothing to pull
-            BlockPos.Mutable reelingPos = pos.mutableCopy().move(Direction.DOWN);
-            while (reelingPos.getY() >= world.getBottomY()) {
-                if (world.getBlockState(reelingPos).getBlock() instanceof RopeBlock) { // If block is rope, go down
-                    reelingPos.move(Direction.DOWN);
-                } else { // Block is not rope, return to last rope
-                    reelingPos.move(Direction.UP);
-                    world.removeBlock(reelingPos, false);
-                    world.playSound(player, pos, SoundRegistry.ROPE_SLIDE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                    if (!player.isInCreativeMode()) player.giveItemStack(new ItemStack(ItemRegistry.ROPE, 1));
-                    return ActionResult.SUCCESS;
-                }
+        ItemStack stack = player.getMainHandStack();
+        if (stack.isOf(this.asItem())) {
+            if (!Screen.hasShiftDown()) return ActionResult.PASS; 
+            if (WindingHelper.addWindingDown(pos.down(), world, player, Hand.MAIN_HAND, this)) {
+                BlockSoundGroup soundGroup = state.getSoundGroup();
+                world.playSound(player, pos, soundGroup.getPlaceSound(), SoundCategory.BLOCKS, (soundGroup.getVolume() + 1.0F) / 2.0F, soundGroup.getPitch() * 0.8F);
+                stack.decrementUnlessCreative(1, player);
+                return ActionResult.SUCCESS;
             }
+            return ActionResult.PASS;
         } else {
-            BlockPos.Mutable bellAdovePos = pos.mutableCopy().move(Direction.UP);
-            for (int i = 0; i < 32; i++) {
-                Block blockAdove = world.getBlockState(bellAdovePos).getBlock();
-                if (blockAdove instanceof BellBlock) {
-                    ((BellBlock) blockAdove).ring(world, bellAdovePos, player.getHorizontalFacing().rotateYClockwise());
-                    return ActionResult.SUCCESS;
-                } else if (blockAdove instanceof RopeBlock) {
-                    bellAdovePos.move(Direction.UP);
-                } else {
-                    return ActionResult.PASS;
+            if (state.get(UP)) {
+                if (findConnectedBell(world, pos, player, 0) && !Screen.hasShiftDown()) return ActionResult.SUCCESS;
+                if (findConnectedPulley(world, pos, player, 0, Screen.hasShiftDown())) return ActionResult.SUCCESS;
+            }
+            if (Screen.hasShiftDown()) {
+                if (world.getBlockState(pos.down()).isOf(this) || world.getBlockState(pos.up()).isOf(this)) {
+                    if (WindingHelper.removeWindingDown(pos.down(), world, this)) {
+                        world.playSound(player, pos, SoundRegistry.ROPE_SLIDE, SoundCategory.BLOCKS, 1, 0.6F);
+                        if (!player.isInCreativeMode()) player.giveItemStack(new ItemStack(ItemRegistry.ROPE, 1));
+                        return ActionResult.SUCCESS;
+                    }
                 }
             }
         }
-
         return ActionResult.PASS;
     }
 
@@ -249,6 +250,24 @@ public class RopeBlock extends WaterloggableBlock {
         return false;
     }
 
+    private boolean findConnectedPulley(World world, BlockPos pos, PlayerEntity player, int it, boolean retracting) {
+        if (it > 64) return false;
+        BlockState state = world.getBlockState(pos);
+        Block block = state.getBlock();
+        if (block instanceof RopeBlock) return findConnectedPulley(world, pos.up(), player, it + 1, retracting);
+        else if (block instanceof PulleyBlock pulley && it != 0) return pulley.windPulley(state, world, pos, retracting, null);
+        return false;
+    }
+
+    private boolean findConnectedBell(World world, BlockPos pos, PlayerEntity player, int it) {
+        if (it > 64) return false;
+        BlockState state = world.getBlockState(pos);
+        Block block = state.getBlock();
+        if (block instanceof RopeBlock) return findConnectedBell(world, pos.up(), player, it + 1);
+        else if (block instanceof BellBlock bell && it != 0) return bell.ring(world, pos, player.getHorizontalFacing().rotateYClockwise());;
+        return false;
+    }
+    
     private BooleanProperty getDirState(Direction direction) {
         return switch (direction) {
             case SOUTH -> SOUTH;

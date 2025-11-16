@@ -3,7 +3,8 @@ package com.edryu.morethings.block;
 import org.jetbrains.annotations.Nullable;
 
 import com.edryu.morethings.entity.SackBlockEntity;
-
+import com.edryu.morethings.util.BlockProperties.Winding;
+import com.edryu.morethings.util.WindingHelper;
 import com.mojang.serialization.MapCodec;
 
 import net.minecraft.block.Block;
@@ -105,13 +106,13 @@ public class SackBlock extends FallingBlock implements BlockEntityProvider, Wate
 	@Override
 	protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         BlockState topBlockState = world.getBlockState(pos.up());
-        if (!(topBlockState.getBlock() instanceof RopeBlock)) super.scheduledTick(state, world, pos, random);
+        if (!(WindingHelper.getWindingType(topBlockState.getBlock().asItem()) != Winding.NONE || topBlockState.getBlock() instanceof PulleyBlock)) super.scheduledTick(state, world, pos, random);
 	}
 
 	@Override
 	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
         BlockState topBlockState = world.getBlockState(pos.up());
-        if (!(topBlockState.getBlock() instanceof RopeBlock)) super.randomDisplayTick(state, world, pos, random);
+        if (!(WindingHelper.getWindingType(topBlockState.getBlock().asItem()) != Winding.NONE || topBlockState.getBlock() instanceof PulleyBlock))  super.randomDisplayTick(state, world, pos, random);
 	}
 
 	@Override

@@ -146,7 +146,7 @@ public class WindingHelper {
         if (state.getBlock() instanceof AbstractCauldronBlock) return true;
         if (moveDir.getAxis().isVertical() && state.isIn(BlockTagProvider.HANG_FROM_ROPES)) return true;
         if (state.isIn(BlockTagProvider.MOVEABLE_BY_PULLEY)) return true;
-        if (state.hasBlockEntity()) return false;
+        // if (state.hasBlockEntity()) return false;
 
         return state.isSideSolid(world, pos, moveDir, SideShapeType.CENTER);
     }

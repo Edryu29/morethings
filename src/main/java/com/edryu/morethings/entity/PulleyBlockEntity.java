@@ -89,7 +89,7 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
 
     public void updateDisplayedItem() {
         BlockState state = this.getCachedState();
-        Winding windingType = WindingHelper.getWindingType(this.getItems().getFirst().getItem());
+        Winding windingType = WindingHelper.getWindingType(this.getStack(0).getItem());
         world.setBlockState(pos, state.with(PulleyBlock.WINDING, windingType).cycle(PulleyBlock.FLIPPED), Block.NOTIFY_LISTENERS);
 
     }
