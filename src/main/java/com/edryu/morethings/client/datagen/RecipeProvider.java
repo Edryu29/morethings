@@ -103,7 +103,16 @@ public class RecipeProvider extends FabricRecipeProvider {
             .pattern(" 1 ")
             .pattern("1 1")
             .input('0', Items.SPYGLASS)
-            .input('1', Items.STICK)
+            .input('1', Items.COPPER_INGOT)
+            .criterion(FabricRecipeProvider.hasItem(Items.SPYGLASS), FabricRecipeProvider.conditionsFromItem(Items.SPYGLASS))
+            .offerTo(recipeExporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.SPYGLASS_STAND, 1)
+            .pattern(" 0 ")
+            .pattern(" 1 ")
+            .pattern("   ")
+            .input('0', Items.SPYGLASS)
+            .input('1', Items.COPPER_INGOT)
             .criterion(FabricRecipeProvider.hasItem(Items.SPYGLASS), FabricRecipeProvider.conditionsFromItem(Items.SPYGLASS))
             .offerTo(recipeExporter);
 

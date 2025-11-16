@@ -67,5 +67,6 @@ public class LootTableProvider extends FabricBlockLootTableProvider {
                 addDrop(BlockRegistry.GLOBE);
                 addDrop(BlockRegistry.GLOBE_SEPIA);
                 addDrop(BlockRegistry.TELESCOPE, doorDrops(BlockRegistry.TELESCOPE));
+                addDrop(BlockRegistry.SPYGLASS_STAND);
 	}
 }

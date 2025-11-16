@@ -3,23 +3,17 @@ package com.edryu.morethings.block;
 import org.jetbrains.annotations.Nullable;
 
 import com.edryu.morethings.entity.SackBlockEntity;
-import com.edryu.morethings.util.BlockProperties.Winding;
-import com.edryu.morethings.util.WindingHelper;
 import com.mojang.serialization.MapCodec;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.FallingBlock;
 import net.minecraft.block.ShapeContext;
-import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -27,15 +21,12 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 
-public class SackBlock extends FallingBlock implements BlockEntityProvider, Waterloggable {
+public class SackBlock extends WaterloggableBlock implements BlockEntityProvider {
     public static final MapCodec<SackBlock> CODEC = createCodec(SackBlock::new);
     
     public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
@@ -62,6 +53,11 @@ public class SackBlock extends FallingBlock implements BlockEntityProvider, Wate
     }
 
     @Override
+    public BlockState getPlacementState(ItemPlacementContext ctx) {
+        return this.getDefaultState().with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).isOf(Fluids.WATER));
+    }
+
+    @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
         if (state.get(OPEN)){
             return VoxelShapes.union(
@@ -75,11 +71,6 @@ public class SackBlock extends FallingBlock implements BlockEntityProvider, Wate
                 VoxelShapes.cuboid(0.375f, 0.75f, 0.375f, 0.625f, 0.8125f, 0.625f)
             );
         }
-    }
-
-    @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).isOf(Fluids.WATER));
     }
 
     @Override
@@ -98,29 +89,6 @@ public class SackBlock extends FallingBlock implements BlockEntityProvider, Wate
 		}
 		super.onStateReplaced(state, world, pos, newState, moved);
     }
-
-    @Override
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if (state.get(WATERLOGGED)) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
-    }
-
-	@Override
-	protected void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-        BlockState topBlockState = world.getBlockState(pos.up());
-        if (!(WindingHelper.getWindingType(topBlockState.getBlock().asItem()) != Winding.NONE || topBlockState.getBlock() instanceof PulleyBlock)) super.scheduledTick(state, world, pos, random);
-	}
-
-	@Override
-	public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
-        BlockState topBlockState = world.getBlockState(pos.up());
-        if (!(WindingHelper.getWindingType(topBlockState.getBlock().asItem()) != Winding.NONE || topBlockState.getBlock() instanceof PulleyBlock))  super.randomDisplayTick(state, world, pos, random);
-	}
-
-	@Override
-	protected FluidState getFluidState(BlockState state) {
-		return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
-	}
 
 	@Override
 	protected boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {

@@ -12,10 +12,10 @@
   "pattern": [
     " 0 ",
     " 1 ",
-    "1 1"
+    "   "
   ],
   "result": {
     "count": 1,
-    "id": "morethings:telescope"
+    "id": "morethings:spyglass_stand"
   }
 }

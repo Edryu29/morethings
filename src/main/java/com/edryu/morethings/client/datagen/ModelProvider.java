@@ -37,6 +37,7 @@ public class ModelProvider extends FabricModelProvider {
         itemModelGenerator.register(BlockRegistry.DISPLAY.asItem(), Models.GENERATED);
         itemModelGenerator.register(BlockRegistry.ROPE.asItem(), Models.GENERATED);
         itemModelGenerator.register(BlockRegistry.TELESCOPE.asItem(), Models.GENERATED);
+        itemModelGenerator.register(BlockRegistry.SPYGLASS_STAND.asItem(), Models.GENERATED);
         itemModelGenerator.register(BlockRegistry.TERRARIUM.asItem(), Models.GENERATED);
         itemModelGenerator.register(BlockRegistry.GLOBE.asItem(), Models.GENERATED);
         itemModelGenerator.register(BlockRegistry.GLOBE_SEPIA.asItem(), Models.GENERATED);

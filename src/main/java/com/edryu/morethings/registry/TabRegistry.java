@@ -39,6 +39,7 @@ public class TabRegistry {
             itemGroup.add(BlockRegistry.BOAT_IN_A_JAR.asItem());
             itemGroup.add(BlockRegistry.TERRARIUM.asItem());
             itemGroup.add(BlockRegistry.TELESCOPE.asItem());
+            itemGroup.add(BlockRegistry.SPYGLASS_STAND.asItem());
             itemGroup.add(BlockRegistry.GLOBE.asItem());
             itemGroup.add(BlockRegistry.GLOBE_SEPIA.asItem());
 
