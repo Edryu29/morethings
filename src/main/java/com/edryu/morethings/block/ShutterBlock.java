@@ -1,10 +1,6 @@
 package com.edryu.morethings.block;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import com.edryu.morethings.util.BlockProperties;
-import com.edryu.morethings.util.BlockProperties.Color;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;

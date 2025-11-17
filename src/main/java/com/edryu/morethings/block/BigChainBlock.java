@@ -11,9 +11,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class BigChainBlock extends ChainBlock {
-    protected static final VoxelShape X_SHAPE = Block.box(0, 4, 4, 16, 12, 12);
-    protected static final VoxelShape Y_SHAPE = Block.box(4, 0, 4, 12, 16, 12);
-    protected static final VoxelShape Z_SHAPE = Block.box(4, 4, 0, 12, 12, 16);
+    protected static final VoxelShape X_AXIS_AABB = Block.box(0, 4, 4, 16, 12, 12);
+    protected static final VoxelShape Y_AXIS_AABB = Block.box(4, 0, 4, 12, 16, 12);
+    protected static final VoxelShape Z_AXIS_AABB = Block.box(4, 4, 0, 12, 12, 16);
 
     public BigChainBlock(Properties settings) {
         super(settings);
@@ -30,11 +30,11 @@ public class BigChainBlock extends ChainBlock {
 		switch ((Direction.Axis)blockState.getValue(AXIS)) {
 			case X:
 			default:
-				return X_SHAPE;
+				return X_AXIS_AABB;
 			case Y:
-				return Y_SHAPE;
+				return Y_AXIS_AABB;
 			case Z:
-				return Z_SHAPE;
+				return Z_AXIS_AABB;
 		}
 	}
 }

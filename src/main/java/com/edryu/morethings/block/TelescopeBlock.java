@@ -30,12 +30,12 @@ public class TelescopeBlock extends DoublePlantBlock {
 
     public TelescopeBlock(Properties settings) {
         super(settings);
-        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(HALF, DoubleBlockHalf.LOWER));
+        this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH).setValue(HALF, DoubleBlockHalf.LOWER));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(BlockStateProperties.HORIZONTAL_FACING, HALF);
+        builder.add(FACING, HALF);
     }
 
 	@Override
@@ -48,13 +48,13 @@ public class TelescopeBlock extends DoublePlantBlock {
 	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
 		BlockPos blockPos = ctx.getClickedPos();
 		Level world = ctx.getLevel();
-		return blockPos.getY() < world.getMaxBuildHeight() - 1 && world.getBlockState(blockPos.above()).canBeReplaced(ctx) ? super.getStateForPlacement(ctx).setValue(BlockStateProperties.HORIZONTAL_FACING, ctx.getHorizontalDirection().getOpposite()) : null;
+		return blockPos.getY() < world.getMaxBuildHeight() - 1 && world.getBlockState(blockPos.above()).canBeReplaced(ctx) ? super.getStateForPlacement(ctx).setValue(FACING, ctx.getHorizontalDirection().getOpposite()) : null;
 	}
 
 	@Override
 	public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
 		BlockPos blockPos = pos.above();
-		world.setBlockAndUpdate(blockPos, copyWaterloggedFrom(world, blockPos, this.defaultBlockState().setValue(HALF, DoubleBlockHalf.UPPER).setValue(BlockStateProperties.HORIZONTAL_FACING, state.getValue(FACING))));
+		world.setBlockAndUpdate(blockPos, copyWaterloggedFrom(world, blockPos, this.defaultBlockState().setValue(HALF, DoubleBlockHalf.UPPER).setValue(FACING, state.getValue(FACING))));
 	}
 
 	@Override
