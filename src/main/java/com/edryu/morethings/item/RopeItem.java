@@ -3,6 +3,7 @@ package com.edryu.morethings.item;
 import com.edryu.morethings.entity.RopeKnotBlockEntity;
 import com.edryu.morethings.registry.BlockRegistry;
 import com.edryu.morethings.registry.SoundRegistry;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
@@ -22,16 +23,16 @@ public class RopeItem extends BlockItem {
 
 	@Override
 	public InteractionResult useOn(UseOnContext context) {
-		Level world = context.getLevel();
-		BlockPos blockPos = context.getClickedPos();
-		BlockState blockState = world.getBlockState(blockPos);
+		Level level = context.getLevel();
+		BlockPos pos = context.getClickedPos();
+		BlockState state = level.getBlockState(pos);
 
-        if (blockState.getBlock() instanceof FenceBlock) {
-            if (!world.isClientSide()) {
+        if (state.getBlock() instanceof FenceBlock) {
+            if (!level.isClientSide()) {
                 BlockState knot = BlockRegistry.ROPE_KNOT.defaultBlockState();
-				world.setBlockAndUpdate(blockPos, knot);
-				world.playSound(null, blockPos, SoundRegistry.ROPE_PLACE, SoundSource.BLOCKS, 0.5F, 0.8F);
-				if (world.getBlockEntity(blockPos) instanceof RopeKnotBlockEntity be) be.setHeldBlock(blockState);
+				level.setBlockAndUpdate(pos, knot);
+				level.playSound(null, pos, SoundRegistry.ROPE_PLACE, SoundSource.BLOCKS, 0.5F, 0.8F);
+				if (level.getBlockEntity(pos) instanceof RopeKnotBlockEntity be) be.setHeldBlock(state);
 				context.getItemInHand().consume(1, context.getPlayer());
             }
             return InteractionResult.SUCCESS;

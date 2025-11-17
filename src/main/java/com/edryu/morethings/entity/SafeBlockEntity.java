@@ -3,6 +3,7 @@ package com.edryu.morethings.entity;
 import com.edryu.morethings.block.SafeBlock;
 import com.edryu.morethings.registry.EntityRegistry;
 import com.edryu.morethings.util.SimpleInventory;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -37,20 +38,20 @@ public class SafeBlockEntity extends BlockEntity implements MenuProvider, Simple
     }
     
     @Override
-    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.loadAdditional(nbt, registryLookup);
-        ContainerHelper.loadAllItems(nbt, this.inventory, registryLookup);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        ContainerHelper.loadAllItems(tag, this.inventory, registries);
     }
     
     @Override
-    public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.saveAdditional(nbt, registryLookup);
-        ContainerHelper.saveAllItems(nbt, this.inventory, registryLookup);
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        ContainerHelper.saveAllItems(tag, this.inventory, registries);
     }
     
     @Override
-    public AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
-        return ChestMenu.threeRows(syncId, playerInventory, this);
+    public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+        return ChestMenu.threeRows(i, inventory, this);
     }
     
     @Override

@@ -53,13 +53,13 @@ public class PulleyScreenHandler extends AbstractContainerMenu {
     }
     
     @Override
-    public ItemStack quickMoveStack(Player player, int invSlot) {
+    public ItemStack quickMoveStack(Player player, int index) {
         ItemStack newStack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(invSlot);
+        Slot slot = this.slots.get(index);
         if (slot != null && slot.hasItem()) {
             ItemStack originalStack = slot.getItem();
             newStack = originalStack.copy();
-            if (invSlot < this.inventory.getContainerSize()) {
+            if (index < this.inventory.getContainerSize()) {
                 if (!this.moveItemStackTo(originalStack, this.inventory.getContainerSize(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }

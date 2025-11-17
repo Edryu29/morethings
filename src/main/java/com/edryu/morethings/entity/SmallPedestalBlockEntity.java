@@ -3,6 +3,7 @@ package com.edryu.morethings.entity;
 import org.jetbrains.annotations.Nullable;
 
 import com.edryu.morethings.registry.EntityRegistry;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -39,15 +40,15 @@ public class SmallPedestalBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.saveAdditional(nbt, registryLookup);
-        ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, storedItem).result().ifPresent(nbtElement -> nbt.put("storedItem", nbtElement));
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, storedItem).result().ifPresent(nbtElement -> tag.put("storedItem", nbtElement));
     }
 
     @Override
-    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.loadAdditional(nbt, registryLookup);
-        this.storedItem = ItemStack.CODEC.parse(NbtOps.INSTANCE, nbt.get("storedItem")).result().orElse(ItemStack.EMPTY);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.storedItem = ItemStack.CODEC.parse(NbtOps.INSTANCE, tag.get("storedItem")).result().orElse(ItemStack.EMPTY);
     }
 
     @Nullable
@@ -57,7 +58,7 @@ public class SmallPedestalBlockEntity extends BlockEntity {
     }
     
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registryLookup) {
-        return saveWithoutMetadata(registryLookup);
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return saveWithoutMetadata(registries);
     }
 }

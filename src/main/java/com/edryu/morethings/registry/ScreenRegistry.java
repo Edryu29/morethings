@@ -2,6 +2,7 @@ package com.edryu.morethings.registry;
 
 import com.edryu.morethings.MoreThingsMain;
 import com.edryu.morethings.screen.PulleyScreenHandler;
+
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;

@@ -7,6 +7,7 @@ import com.edryu.morethings.block.RopeBlock;
 import com.edryu.morethings.client.datagen.BlockTagProvider;
 import com.edryu.morethings.entity.PulleyBlockEntity;
 import com.edryu.morethings.util.BlockProperties.Winding;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -34,89 +35,89 @@ import net.minecraft.world.phys.Vec3;
 
 public class WindingHelper {
 
-    public static boolean addWindingDown(BlockPos pos, Level world, @Nullable Player player, InteractionHand hand, Block windingBlock) {
-        return addWinding(pos, world, player, hand, windingBlock, Direction.DOWN, Integer.MAX_VALUE);
+    public static boolean addWindingDown(BlockPos pos, Level level, @Nullable Player player, InteractionHand hand, Block windingBlock) {
+        return addWinding(pos, level, player, hand, windingBlock, Direction.DOWN, Integer.MAX_VALUE);
     }
 
-    public static boolean addWinding(BlockPos pos, Level world, @Nullable Player player, InteractionHand hand, Block windingBlock, Direction moveDir, int maxDist) {
-        BlockState state = world.getBlockState(pos);
+    public static boolean addWinding(BlockPos pos, Level level, @Nullable Player player, InteractionHand hand, Block windingBlock, Direction moveDir, int maxDist) {
+        BlockState state = level.getBlockState(pos);
         if (maxDist <= 0) return false;
         else maxDist--;
         if (isCorrectWinding(windingBlock, state, moveDir)) {
-            return addWinding(pos.relative(moveDir), world, player, hand, windingBlock, moveDir, maxDist);
+            return addWinding(pos.relative(moveDir), level, player, hand, windingBlock, moveDir, maxDist);
 
-        } else if (state.getBlock() instanceof PulleyBlock && world.getBlockEntity(pos) instanceof PulleyBlockEntity te) {
+        } else if (state.getBlock() instanceof PulleyBlock && level.getBlockEntity(pos) instanceof PulleyBlockEntity te) {
             return te.operateIndirect(player, hand, windingBlock, moveDir, false);
 
         } else {
-            return placeAndMove(player, hand, world, pos, moveDir, windingBlock);
+            return placeAndMove(player, hand, level, pos, moveDir, windingBlock);
         }
     }
 
-    public static boolean removeWindingDown(BlockPos pos, Level world, Block windingBlock) {
-        return removeWinding(pos, world, windingBlock, Direction.DOWN, Integer.MAX_VALUE);
+    public static boolean removeWindingDown(BlockPos pos, Level level, Block windingBlock) {
+        return removeWinding(pos, level, windingBlock, Direction.DOWN, Integer.MAX_VALUE);
     }
 
-    public static boolean removeWinding(BlockPos pos, Level world, Block windingBlock, Direction moveDir, int maxDist) {
-        BlockState state = world.getBlockState(pos);
+    public static boolean removeWinding(BlockPos pos, Level level, Block windingBlock, Direction moveDir, int maxDist) {
+        BlockState state = level.getBlockState(pos);
         if (maxDist < 0) return false;
         else maxDist--;
         if (isCorrectWinding(windingBlock, state, moveDir)) {
-            return removeWinding(pos.relative(moveDir), world, windingBlock, moveDir, maxDist);
+            return removeWinding(pos.relative(moveDir), level, windingBlock, moveDir, maxDist);
 
-        } else if (state.getBlock() instanceof PulleyBlock && world.getBlockEntity(pos) instanceof PulleyBlockEntity pe && !pe.isEmpty()) {
+        } else if (state.getBlock() instanceof PulleyBlock && level.getBlockEntity(pos) instanceof PulleyBlockEntity pe && !pe.isEmpty()) {
             return pe.operateIndirect(null, InteractionHand.MAIN_HAND, windingBlock, moveDir, true);
 
         } else {
             BlockPos up = pos.relative(moveDir.getOpposite());
-            if ((world.getBlockState(up).getBlock() != windingBlock)) return false;
-            if (!placeAndMove(null, InteractionHand.MAIN_HAND, world, pos, moveDir.getOpposite(), null)) {
-                world.setBlockAndUpdate(up, world.getFluidState(up).createLegacyBlock());
+            if ((level.getBlockState(up).getBlock() != windingBlock)) return false;
+            if (!placeAndMove(null, InteractionHand.MAIN_HAND, level, pos, moveDir.getOpposite(), null)) {
+                level.setBlockAndUpdate(up, level.getFluidState(up).createLegacyBlock());
             }
             return true;
         }
     }
 
-    public static boolean placeAndMove(@Nullable Player player, InteractionHand hand, Level world, BlockPos originPos, Direction moveDir, @Nullable Block placeWhereItWas) {
-        BlockState originalState = world.getBlockState(originPos);
+    public static boolean placeAndMove(@Nullable Player player, InteractionHand hand, Level level, BlockPos originPos, Direction moveDir, @Nullable Block placeWhereItWas) {
+        BlockState originalState = level.getBlockState(originPos);
         BlockPos targetPos = originPos.relative(moveDir);
-        BlockState targetState = world.getBlockState(targetPos);
+        BlockState targetState = level.getBlockState(targetPos);
         CompoundTag beTag = null;
 
         boolean needsToPush = !originalState.canBeReplaced();
         if (needsToPush) {
             if (!targetState.canBeReplaced() && placeWhereItWas != null) return false;
-            if (!isPushableWithPulley(originalState, world, originPos, moveDir)) return false;
+            if (!isPushableWithPulley(originalState, level, originPos, moveDir)) return false;
 
-            BlockEntity be = world.getBlockEntity(originPos);
+            BlockEntity be = level.getBlockEntity(originPos);
             if (be != null) {
                 be.setRemoved();
-                beTag = be.saveWithoutMetadata(world.registryAccess());
+                beTag = be.saveWithoutMetadata(level.registryAccess());
             }
         }
 
-        FluidState originalFluid = world.getFluidState(originPos);
+        FluidState originalFluid = level.getFluidState(originPos);
         
         // Replace original block with air and place rope
         if (placeWhereItWas != null) {
-            world.setBlock(originPos, originalFluid.createLegacyBlock(), Block.UPDATE_IMMEDIATE | Block.UPDATE_CLIENTS);
+            level.setBlock(originPos, originalFluid.createLegacyBlock(), Block.UPDATE_IMMEDIATE | Block.UPDATE_CLIENTS);
             ItemStack stack = new ItemStack(placeWhereItWas);
             BlockHitResult hitResult = new BlockHitResult(Vec3.atCenterOf(originPos), moveDir.getOpposite(), originPos, false);
-            BlockPlaceContext context = new BlockPlaceContext(world, player, hand, stack, hitResult);
+            BlockPlaceContext context = new BlockPlaceContext(level, player, hand, stack, hitResult);
 
             if (stack.getItem() instanceof BlockItem bi) {
                 InteractionResult placeResult = bi.place(context);
                 if (placeResult == InteractionResult.PASS || placeResult == InteractionResult.FAIL) {
-                    world.setBlock(originPos, originalState, Block.UPDATE_CLIENTS);
+                    level.setBlock(originPos, originalState, Block.UPDATE_CLIENTS);
                     return false;
                 }
                 if (!needsToPush) return true;
             }
         } else {
-            world.setBlockAndUpdate(originPos, originalFluid.createLegacyBlock());
+            level.setBlockAndUpdate(originPos, originalFluid.createLegacyBlock());
         }
 
-        FluidState targetFluid = world.getFluidState(targetPos);
+        FluidState targetFluid = level.getFluidState(targetPos);
         boolean waterFluid = targetFluid.is(Fluids.WATER);
 
         if (originalState.hasProperty(BlockStateProperties.WATERLOGGED)) {
@@ -130,24 +131,24 @@ public class WindingHelper {
         }
 
         if (needsToPush){ // Condition added to skip replaceable blocks like water from being moved
-            originalState = Block.updateFromNeighbourShapes(originalState, world, targetPos);
-            world.setBlockAndUpdate(targetPos, originalState);
+            originalState = Block.updateFromNeighbourShapes(originalState, level, targetPos);
+            level.setBlockAndUpdate(targetPos, originalState);
         } else {
-            world.removeBlock(targetPos, false);
+            level.removeBlock(targetPos, false);
         }
         if (beTag != null) {
-            BlockEntity te = world.getBlockEntity(targetPos);
-            if (te != null) te.loadWithComponents(beTag, world.registryAccess());
+            BlockEntity te = level.getBlockEntity(targetPos);
+            if (te != null) te.loadWithComponents(beTag, level.registryAccess());
         }
         return true;
     }
 
-    public static boolean isPushableWithPulley(BlockState state, Level world, BlockPos pos, Direction moveDir) {
+    public static boolean isPushableWithPulley(BlockState state, Level level, BlockPos pos, Direction moveDir) {
         if (state.isAir()) return true;
 
-        if (pos.getY() < world.getMinBuildHeight() || pos.getY() > world.getMaxBuildHeight() - 1 || !world.getWorldBorder().isWithinBounds(pos)) return false;
-        if (moveDir == Direction.DOWN && pos.getY() == world.getMinBuildHeight()) return false;
-        if (moveDir == Direction.UP && pos.getY() == world.getMaxBuildHeight() - 1) return false;
+        if (pos.getY() < level.getMinBuildHeight() || pos.getY() > level.getMaxBuildHeight() - 1 || !level.getWorldBorder().isWithinBounds(pos)) return false;
+        if (moveDir == Direction.DOWN && pos.getY() == level.getMinBuildHeight()) return false;
+        if (moveDir == Direction.UP && pos.getY() == level.getMaxBuildHeight() - 1) return false;
         if (state.is(BlockTagProvider.UNMOVEABLE_BY_PULLEY)) return false;
 
         if (state.getBlock() instanceof PulleyBlock) return false;
@@ -159,7 +160,7 @@ public class WindingHelper {
         if (state.is(BlockTagProvider.MOVEABLE_BY_PULLEY)) return true;
         // if (state.hasBlockEntity()) return false;
 
-        return state.isFaceSturdy(world, pos, moveDir, SupportType.CENTER);
+        return state.isFaceSturdy(level, pos, moveDir, SupportType.CENTER);
     }
 
     public static boolean isCorrectWinding(Block windingBlock, BlockState state, Direction moveDir) {

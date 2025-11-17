@@ -4,6 +4,7 @@ import com.edryu.morethings.block.SackBlock;
 import com.edryu.morethings.registry.EntityRegistry;
 import com.edryu.morethings.registry.SoundRegistry;
 import com.edryu.morethings.util.SimpleInventory;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -34,20 +35,20 @@ public class SackBlockEntity extends BlockEntity implements MenuProvider, Simple
     }
     
     @Override
-    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.loadAdditional(nbt, registryLookup);
-        ContainerHelper.loadAllItems(nbt, this.inventory, registryLookup);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        ContainerHelper.loadAllItems(tag, this.inventory, registries);
     }
     
     @Override
-    public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        ContainerHelper.saveAllItems(nbt, this.inventory, registryLookup);
-        super.saveAdditional(nbt, registryLookup);
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        ContainerHelper.saveAllItems(tag, this.inventory, registries);
+        super.saveAdditional(tag, registries);
     }
     
     @Override
-    public AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
-        return new DispenserMenu(syncId, playerInventory, this);
+    public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+        return new DispenserMenu(i, inventory, this);
     }
     
     @Override

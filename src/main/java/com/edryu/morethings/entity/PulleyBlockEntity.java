@@ -2,6 +2,14 @@ package com.edryu.morethings.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.edryu.morethings.block.PulleyBlock;
+import com.edryu.morethings.registry.EntityRegistry;
+import com.edryu.morethings.screen.PulleyScreenHandler;
+import com.edryu.morethings.util.BlockProperties.Winding;
+import com.edryu.morethings.util.SimpleInventory;
+import com.edryu.morethings.util.WindingHelper;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -24,12 +32,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import com.edryu.morethings.block.PulleyBlock;
-import com.edryu.morethings.registry.EntityRegistry;
-import com.edryu.morethings.screen.PulleyScreenHandler;
-import com.edryu.morethings.util.BlockProperties.Winding;
-import com.edryu.morethings.util.SimpleInventory;
-import com.edryu.morethings.util.WindingHelper;
 	
 public class PulleyBlockEntity extends BlockEntity implements MenuProvider, SimpleInventory {
     private final NonNullList<ItemStack> inventory = NonNullList.withSize(1, ItemStack.EMPTY);
@@ -44,20 +46,20 @@ public class PulleyBlockEntity extends BlockEntity implements MenuProvider, Simp
     }
     
     @Override
-    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.loadAdditional(nbt, registryLookup);
-        ContainerHelper.loadAllItems(nbt, this.inventory, registryLookup);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        ContainerHelper.loadAllItems(tag, this.inventory, registries);
     }
     
     @Override
-    public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.saveAdditional(nbt, registryLookup);
-        ContainerHelper.saveAllItems(nbt, this.inventory, registryLookup);
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        ContainerHelper.saveAllItems(tag, this.inventory, registries);
     }
     
     @Override
-    public AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
-        return new PulleyScreenHandler(syncId, playerInventory, this);
+    public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+        return new PulleyScreenHandler(i, inventory, this);
     }
     
     @Override
@@ -89,7 +91,6 @@ public class PulleyBlockEntity extends BlockEntity implements MenuProvider, Simp
         BlockState state = this.getBlockState();
         Winding windingType = WindingHelper.getWindingType(this.getItem(0).getItem());
         level.setBlock(worldPosition, state.setValue(PulleyBlock.WINDING, windingType).cycle(PulleyBlock.FLIPPED), Block.UPDATE_CLIENTS);
-
     }
 
     public boolean operateDirectly(boolean retracting) {
@@ -113,8 +114,8 @@ public class PulleyBlockEntity extends BlockEntity implements MenuProvider, Simp
         Block windingBlock = ((BlockItem) stack.getItem()).getBlock();
         boolean success = WindingHelper.removeWinding(worldPosition.relative(moveDir), level, windingBlock, moveDir, maxDist);
         if (success) {
-            SoundType soundGroup = windingBlock.defaultBlockState().getSoundType();
-            level.playSound(null, worldPosition, soundGroup.getBreakSound(), SoundSource.BLOCKS, (soundGroup.getVolume() + 1.0F) / 2.0F, soundGroup.getPitch() * 0.8F);
+            SoundType soundType = windingBlock.defaultBlockState().getSoundType();
+            level.playSound(null, worldPosition, soundType.getBreakSound(), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
             if (addNewItem) this.setItem(0, stack);
             else if (addItem) stack.grow(1);
             this.setChanged();
@@ -133,8 +134,8 @@ public class PulleyBlockEntity extends BlockEntity implements MenuProvider, Simp
 
         boolean success = WindingHelper.addWinding(worldPosition.relative(dir), level, null, InteractionHand.MAIN_HAND, windingBlock, dir, maxDist);
         if (success) {
-            SoundType soundGroup = windingBlock.defaultBlockState().getSoundType();
-            level.playSound(null, worldPosition, soundGroup.getPlaceSound(), SoundSource.BLOCKS, (soundGroup.getVolume() + 1.0F) / 2.0F, soundGroup.getPitch() * 0.8F);
+            SoundType soundType = windingBlock.defaultBlockState().getSoundType();
+            level.playSound(null, worldPosition, soundType.getPlaceSound(), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
             if(removeItem) {
                 stack.shrink(1);
                 this.setChanged();

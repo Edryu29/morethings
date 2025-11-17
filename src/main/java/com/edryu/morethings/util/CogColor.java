@@ -1,6 +1,7 @@
 package com.edryu.morethings.util;
 
 import com.edryu.morethings.block.CogBlock;
+
 import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;

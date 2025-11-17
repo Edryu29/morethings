@@ -3,6 +3,7 @@ package com.edryu.morethings.entity;
 import org.jetbrains.annotations.Nullable;
 
 import com.edryu.morethings.registry.EntityRegistry;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -31,15 +32,15 @@ public class RopeKnotBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.saveAdditional(nbt, registryLookup);
-        if (this.heldBlock != null) BlockState.CODEC.encodeStart(NbtOps.INSTANCE, heldBlock).result().ifPresent(nbtElement -> nbt.put("heldBlock", nbtElement));
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        if (this.heldBlock != null) BlockState.CODEC.encodeStart(NbtOps.INSTANCE, heldBlock).result().ifPresent(nbtElement -> tag.put("heldBlock", nbtElement));
     }
 
     @Override
-    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.loadAdditional(nbt, registryLookup);
-        if (nbt.contains("heldBlock")) BlockState.CODEC.parse(NbtOps.INSTANCE, nbt.get("heldBlock")).result().ifPresent(blockState -> this.heldBlock = blockState);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        if (tag.contains("heldBlock")) BlockState.CODEC.parse(NbtOps.INSTANCE, tag.get("heldBlock")).result().ifPresent(blockState -> this.heldBlock = blockState);
     }
 
     @Nullable
@@ -49,7 +50,7 @@ public class RopeKnotBlockEntity extends BlockEntity {
     }
     
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registryLookup) {
-        return saveWithoutMetadata(registryLookup);
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return saveWithoutMetadata(registries);
     }
 }
