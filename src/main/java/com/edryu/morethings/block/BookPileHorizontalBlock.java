@@ -1,34 +1,34 @@
 package com.edryu.morethings.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class BookPileHorizontalBlock extends BookPileBlock {
-    protected static final VoxelShape BOOKS_SHAPE_Z1 = Block.createCuboidShape(6, 0, 4, 10, 10, 12);
-    protected static final VoxelShape BOOKS_SHAPE_Z2 = Block.createCuboidShape(1, 0, 3, 13, 10, 12);
-    protected static final VoxelShape BOOKS_SHAPE_Z3 = Block.createCuboidShape(0, 0, 4, 15, 10, 13);
-    protected static final VoxelShape BOOKS_SHAPE_Z4 = Block.createCuboidShape(0, 0, 4, 16, 10, 13);
+    protected static final VoxelShape BOOKS_SHAPE_Z1 = Block.box(6, 0, 4, 10, 10, 12);
+    protected static final VoxelShape BOOKS_SHAPE_Z2 = Block.box(1, 0, 3, 13, 10, 12);
+    protected static final VoxelShape BOOKS_SHAPE_Z3 = Block.box(0, 0, 4, 15, 10, 13);
+    protected static final VoxelShape BOOKS_SHAPE_Z4 = Block.box(0, 0, 4, 16, 10, 13);
     
-    protected static final VoxelShape BOOKS_SHAPE_X1 = Block.createCuboidShape(4, 0, 6, 12, 10, 10);
-    protected static final VoxelShape BOOKS_SHAPE_X2 = Block.createCuboidShape(3, 0, 3, 12, 10, 15);
-    protected static final VoxelShape BOOKS_SHAPE_X3 = Block.createCuboidShape(4, 0, 1, 13, 10, 16);
-    protected static final VoxelShape BOOKS_SHAPE_X4 = Block.createCuboidShape(4, 0, 0, 13, 10, 16);
+    protected static final VoxelShape BOOKS_SHAPE_X1 = Block.box(4, 0, 6, 12, 10, 10);
+    protected static final VoxelShape BOOKS_SHAPE_X2 = Block.box(3, 0, 3, 12, 10, 15);
+    protected static final VoxelShape BOOKS_SHAPE_X3 = Block.box(4, 0, 1, 13, 10, 16);
+    protected static final VoxelShape BOOKS_SHAPE_X4 = Block.box(4, 0, 0, 13, 10, 16);
 
-    public BookPileHorizontalBlock(Settings settings) {
+    public BookPileHorizontalBlock(Properties settings) {
         super(settings);
     }
 
 	@Override
-	protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        switch (state.get(FACING)) {
+	protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        switch (state.getValue(FACING)) {
             case NORTH:
             case SOUTH:
             default:
-                switch (state.get(BOOKS)) {
+                switch (state.getValue(BOOKS)) {
                     case 0:
                     default:
                         return BOOKS_SHAPE_Z1;
@@ -41,7 +41,7 @@ public class BookPileHorizontalBlock extends BookPileBlock {
                 }
             case EAST:
             case WEST:
-                switch (state.get(BOOKS)) {
+                switch (state.getValue(BOOKS)) {
                     case 0:
                     default:
                         return BOOKS_SHAPE_X1;

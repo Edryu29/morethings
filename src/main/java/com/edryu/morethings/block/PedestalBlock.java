@@ -1,82 +1,82 @@
 package com.edryu.morethings.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.WorldAccess;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PedestalBlock extends WaterloggableBlock {
-	public static final BooleanProperty UP = BooleanProperty.of("up");
-	public static final BooleanProperty DOWN = BooleanProperty.of("down");
+	public static final BooleanProperty UP = BooleanProperty.create("up");
+	public static final BooleanProperty DOWN = BooleanProperty.create("down");
 
-    protected static final VoxelShape SHAPE = VoxelShapes.union(
-            VoxelShapes.cuboid(0.1875f, 0.125f, 0.1875f, 0.815f, 0.885f, 0.815f),
-            VoxelShapes.cuboid(0.0625f, 0.8125f, 0.0625f, 0.9375f, 1f, 0.9375f),
-            VoxelShapes.cuboid(0.0625f, 0f, 0.0625f, 0.9375f, 0.1875f, 0.9375f));
-    protected static final VoxelShape SHAPE_UP = VoxelShapes.union(
-            VoxelShapes.cuboid(0.1875f, 0.125f, 0.1875f, 0.815f, 1f, 0.815D),
-            VoxelShapes.cuboid(0.0625f, 0f, 0.0625f, 0.9375f, 0.1875f, 0.9375D));
-    protected static final VoxelShape SHAPE_DOWN = VoxelShapes.union(
-            VoxelShapes.cuboid(0.1875f, 0f, 0.1875f, 0.815f, 0.885f, 0.815D),
-            VoxelShapes.cuboid(0.0625f, 0.8125f, 0.0625f, 0.9375f, 1f, 0.9375D));
-    protected static final VoxelShape SHAPE_UP_DOWN = VoxelShapes.cuboid(0.1875f, 0f, 0.1875f, 0.815f, 1f, 0.815f);
+    protected static final VoxelShape SHAPE = Shapes.or(
+            Shapes.box(0.1875f, 0.125f, 0.1875f, 0.815f, 0.885f, 0.815f),
+            Shapes.box(0.0625f, 0.8125f, 0.0625f, 0.9375f, 1f, 0.9375f),
+            Shapes.box(0.0625f, 0f, 0.0625f, 0.9375f, 0.1875f, 0.9375f));
+    protected static final VoxelShape SHAPE_UP = Shapes.or(
+            Shapes.box(0.1875f, 0.125f, 0.1875f, 0.815f, 1f, 0.815D),
+            Shapes.box(0.0625f, 0f, 0.0625f, 0.9375f, 0.1875f, 0.9375D));
+    protected static final VoxelShape SHAPE_DOWN = Shapes.or(
+            Shapes.box(0.1875f, 0f, 0.1875f, 0.815f, 0.885f, 0.815D),
+            Shapes.box(0.0625f, 0.8125f, 0.0625f, 0.9375f, 1f, 0.9375D));
+    protected static final VoxelShape SHAPE_UP_DOWN = Shapes.box(0.1875f, 0f, 0.1875f, 0.815f, 1f, 0.815f);
 
-    public PedestalBlock(Settings settings) {
+    public PedestalBlock(Properties settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(WATERLOGGED, false).with(UP, false).with(DOWN, false));
+        registerDefaultState(defaultBlockState().setValue(WATERLOGGED, false).setValue(UP, false).setValue(DOWN, false));
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(WATERLOGGED, UP, DOWN);
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
-        if (!state.get(UP)) {
-            return !state.get(DOWN) ? SHAPE : SHAPE_DOWN;
+    public VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+        if (!state.getValue(UP)) {
+            return !state.getValue(DOWN) ? SHAPE : SHAPE_DOWN;
         } else {
-            return !state.get(DOWN) ? SHAPE_UP : SHAPE_UP_DOWN;
+            return !state.getValue(DOWN) ? SHAPE_UP : SHAPE_UP_DOWN;
         }
     }
 
 	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-        WorldAccess world = ctx.getWorld();
-        BlockPos pos = ctx.getBlockPos();
+	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        LevelAccessor world = ctx.getLevel();
+        BlockPos pos = ctx.getClickedPos();
 
-        boolean up    = canConnectTo(world, pos.up());
-        boolean down  = canConnectTo(world, pos.down());
+        boolean up    = canConnectTo(world, pos.above());
+        boolean down  = canConnectTo(world, pos.below());
 
 		FluidState fluidState = world.getFluidState(pos);
-		boolean wl = fluidState.getFluid() == Fluids.WATER;
+		boolean wl = fluidState.getType() == Fluids.WATER;
         
-        return super.getPlacementState(ctx).with(WATERLOGGED, wl).with(UP, up).with(DOWN, down);
+        return super.getStateForPlacement(ctx).setValue(WATERLOGGED, wl).setValue(UP, up).setValue(DOWN, down);
 	}
 
 	@Override
-	protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        boolean wl = state.get(WATERLOGGED);
-		if (wl) world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+        boolean wl = state.getValue(WATERLOGGED);
+		if (wl) world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
 
-        boolean up    = canConnectTo(world, pos.up());
-        boolean down  = canConnectTo(world, pos.down());
+        boolean up    = canConnectTo(world, pos.above());
+        boolean down  = canConnectTo(world, pos.below());
 
-		state = getDefaultState().with(WATERLOGGED, wl).with(UP, up).with(DOWN, down);
-		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+		state = defaultBlockState().setValue(WATERLOGGED, wl).setValue(UP, up).setValue(DOWN, down);
+		return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
 	}
 
-    private boolean canConnectTo(WorldAccess world, BlockPos pos) {
+    private boolean canConnectTo(LevelAccessor world, BlockPos pos) {
         return world.getBlockState(pos).getBlock() instanceof PedestalBlock ? true : false;
     }
 }

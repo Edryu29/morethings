@@ -1,47 +1,47 @@
 package com.edryu.morethings.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.IntProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 
 public class CogBlock extends Block {
-	public static final IntProperty POWER = Properties.POWER;
+	public static final IntegerProperty POWER = BlockStateProperties.POWER;
 
-    public CogBlock(Settings settings) {
+    public CogBlock(Properties settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(POWER, 0));
+        registerDefaultState(defaultBlockState().setValue(POWER, 0));
     }
 
     @Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return this.getDefaultState().with(POWER, ctx.getWorld().getReceivedRedstonePower(ctx.getBlockPos()));
+	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+		return this.defaultBlockState().setValue(POWER, ctx.getLevel().getBestNeighborSignal(ctx.getClickedPos()));
 	}
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(POWER);
     }
 
 	@Override
-	protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-		super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
-		world.setBlockState(pos, state.with(POWER, world.getReceivedRedstonePower(pos)));
+	protected void neighborChanged(BlockState state, Level world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+		super.neighborChanged(state, world, pos, sourceBlock, sourcePos, notify);
+		world.setBlockAndUpdate(pos, state.setValue(POWER, world.getBestNeighborSignal(pos)));
 	}
 
 	@Override
-	protected boolean emitsRedstonePower(BlockState state) {
+	protected boolean isSignalSource(BlockState state) {
 		return true;
 	}
 
 	@Override
-	protected int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-		return Math.max(0, state.get(POWER) - 1);
+	protected int getSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+		return Math.max(0, state.getValue(POWER) - 1);
 	}
 }

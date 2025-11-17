@@ -4,103 +4,102 @@ import org.jetbrains.annotations.Nullable;
 
 import com.edryu.morethings.entity.SackBlockEntity;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ItemScatterer;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-
-public class SackBlock extends WaterloggableBlock implements BlockEntityProvider {
-    public static final MapCodec<SackBlock> CODEC = createCodec(SackBlock::new);
+public class SackBlock extends WaterloggableBlock implements EntityBlock {
+    public static final MapCodec<SackBlock> CODEC = simpleCodec(SackBlock::new);
     
-    public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
-	public static final BooleanProperty OPEN = BooleanProperty.of("open");
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+	public static final BooleanProperty OPEN = BooleanProperty.create("open");
 
-    public SackBlock(Settings settings) {
+    public SackBlock(Properties settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(WATERLOGGED, false).with(OPEN, false));
+        registerDefaultState(defaultBlockState().setValue(WATERLOGGED, false).setValue(OPEN, false));
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(WATERLOGGED, OPEN);
     }
 
     @Override
-    protected MapCodec<? extends SackBlock> getCodec() {
-        return createCodec(SackBlock::new);
+    protected MapCodec<? extends SackBlock> codec() {
+        return simpleCodec(SackBlock::new);
     }
  
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new SackBlockEntity(pos, state);
     }
 
     @Override
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return this.getDefaultState().with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).isOf(Fluids.WATER));
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        return this.defaultBlockState().setValue(WATERLOGGED, ctx.getLevel().getFluidState(ctx.getClickedPos()).is(Fluids.WATER));
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
-        if (state.get(OPEN)){
-            return VoxelShapes.union(
-                VoxelShapes.cuboid(0.125f, 0f, 0.125f, 0.875f, 0.75f, 0.875f),
-                VoxelShapes.cuboid(0.1875f, 0.75f, 0.1875f, 0.8125f, 0.875f, 0.8125f)
+    public VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+        if (state.getValue(OPEN)){
+            return Shapes.or(
+                Shapes.box(0.125f, 0f, 0.125f, 0.875f, 0.75f, 0.875f),
+                Shapes.box(0.1875f, 0.75f, 0.1875f, 0.8125f, 0.875f, 0.8125f)
             );
         } else {
-            return VoxelShapes.union(
-                VoxelShapes.cuboid(0.125f, 0f, 0.125f, 0.875f, 0.75f, 0.875f),
-                VoxelShapes.cuboid(0.3125f, 0.8125f, 0.3125f, 0.6875f, 1f, 0.6875f),
-                VoxelShapes.cuboid(0.375f, 0.75f, 0.375f, 0.625f, 0.8125f, 0.625f)
+            return Shapes.or(
+                Shapes.box(0.125f, 0f, 0.125f, 0.875f, 0.75f, 0.875f),
+                Shapes.box(0.3125f, 0.8125f, 0.3125f, 0.6875f, 1f, 0.6875f),
+                Shapes.box(0.375f, 0.75f, 0.375f, 0.625f, 0.8125f, 0.625f)
             );
         }
     }
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!world.isClient) {
-            NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
-            if (screenHandlerFactory != null) player.openHandledScreen(screenHandlerFactory);
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        if (!world.isClientSide) {
+            MenuProvider screenHandlerFactory = state.getMenuProvider(world, pos);
+            if (screenHandlerFactory != null) player.openMenu(screenHandlerFactory);
         }
-        return ActionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
  
     @Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved)  {
-		if (!state.isOf(newState.getBlock())) {
-			if (world.getBlockEntity(pos) instanceof SackBlockEntity SackBlockEntity) ItemScatterer.spawn(world, pos, SackBlockEntity);
+    protected void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved)  {
+		if (!state.is(newState.getBlock())) {
+			if (world.getBlockEntity(pos) instanceof SackBlockEntity SackBlockEntity) Containers.dropContents(world, pos, SackBlockEntity);
 		}
-		super.onStateReplaced(state, world, pos, newState, moved);
+		super.onRemove(state, world, pos, newState, moved);
     }
 
 	@Override
-	protected boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
-		super.onSyncedBlockEvent(state, world, pos, type, data);
+	protected boolean triggerEvent(BlockState state, Level world, BlockPos pos, int type, int data) {
+		super.triggerEvent(state, world, pos, type, data);
 		BlockEntity blockEntity = world.getBlockEntity(pos);
-		return blockEntity == null ? false : blockEntity.onSyncedBlockEvent(type, data);
+		return blockEntity == null ? false : blockEntity.triggerEvent(type, data);
 	}
 
 	@Nullable
 	@Override
-	protected NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
+	protected MenuProvider getMenuProvider(BlockState state, Level world, BlockPos pos) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
-		return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory)blockEntity : null;
+		return blockEntity instanceof MenuProvider ? (MenuProvider)blockEntity : null;
 	}
 }

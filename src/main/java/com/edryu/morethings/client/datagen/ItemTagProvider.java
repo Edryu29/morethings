@@ -7,23 +7,23 @@ import com.edryu.morethings.registry.BlockRegistry;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.minecraft.item.Item;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 
 public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
     public static final TagKey<Item> PALISADES = registerTag("palisades");
 
-	public ItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+	public ItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
 		super(output, registriesFuture);
 	}
 
 	@Override
-	protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        getOrCreateTagBuilder(PALISADES)
+	protected void addTags(HolderLookup.Provider wrapperLookup) {
+        tag(PALISADES)
                 .add(BlockRegistry.ACACIA_PALISADE.asItem())
                 .add(BlockRegistry.BAMBOO_PALISADE.asItem())
                 .add(BlockRegistry.BIRCH_PALISADE.asItem())
@@ -39,7 +39,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
     }
 
 	public static TagKey<Item> registerTag(String name) {
-        Identifier tagID = Identifier.of(MoreThingsMain.MOD_ID, name);
-		return TagKey.of(RegistryKeys.ITEM, tagID);
+        ResourceLocation tagID = ResourceLocation.fromNamespaceAndPath(MoreThingsMain.MOD_ID, name);
+		return TagKey.create(Registries.ITEM, tagID);
 	}
 }

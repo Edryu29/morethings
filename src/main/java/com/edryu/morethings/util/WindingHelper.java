@@ -7,44 +7,43 @@ import com.edryu.morethings.block.RopeBlock;
 import com.edryu.morethings.client.datagen.BlockTagProvider;
 import com.edryu.morethings.entity.PulleyBlockEntity;
 import com.edryu.morethings.util.BlockProperties.Winding;
-
-import net.minecraft.block.AbstractCauldronBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ChainBlock;
-import net.minecraft.block.LeveledCauldronBlock;
-import net.minecraft.block.SideShapeType;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AbstractCauldronBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ChainBlock;
+import net.minecraft.world.level.block.LayeredCauldronBlock;
+import net.minecraft.world.level.block.SupportType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 
 public class WindingHelper {
 
-    public static boolean addWindingDown(BlockPos pos, World world, @Nullable PlayerEntity player, Hand hand, Block windingBlock) {
+    public static boolean addWindingDown(BlockPos pos, Level world, @Nullable Player player, InteractionHand hand, Block windingBlock) {
         return addWinding(pos, world, player, hand, windingBlock, Direction.DOWN, Integer.MAX_VALUE);
     }
 
-    public static boolean addWinding(BlockPos pos, World world, @Nullable PlayerEntity player, Hand hand, Block windingBlock, Direction moveDir, int maxDist) {
+    public static boolean addWinding(BlockPos pos, Level world, @Nullable Player player, InteractionHand hand, Block windingBlock, Direction moveDir, int maxDist) {
         BlockState state = world.getBlockState(pos);
         if (maxDist <= 0) return false;
         else maxDist--;
         if (isCorrectWinding(windingBlock, state, moveDir)) {
-            return addWinding(pos.offset(moveDir), world, player, hand, windingBlock, moveDir, maxDist);
+            return addWinding(pos.relative(moveDir), world, player, hand, windingBlock, moveDir, maxDist);
 
         } else if (state.getBlock() instanceof PulleyBlock && world.getBlockEntity(pos) instanceof PulleyBlockEntity te) {
             return te.operateIndirect(player, hand, windingBlock, moveDir, false);
@@ -54,45 +53,45 @@ public class WindingHelper {
         }
     }
 
-    public static boolean removeWindingDown(BlockPos pos, World world, Block windingBlock) {
+    public static boolean removeWindingDown(BlockPos pos, Level world, Block windingBlock) {
         return removeWinding(pos, world, windingBlock, Direction.DOWN, Integer.MAX_VALUE);
     }
 
-    public static boolean removeWinding(BlockPos pos, World world, Block windingBlock, Direction moveDir, int maxDist) {
+    public static boolean removeWinding(BlockPos pos, Level world, Block windingBlock, Direction moveDir, int maxDist) {
         BlockState state = world.getBlockState(pos);
         if (maxDist < 0) return false;
         else maxDist--;
         if (isCorrectWinding(windingBlock, state, moveDir)) {
-            return removeWinding(pos.offset(moveDir), world, windingBlock, moveDir, maxDist);
+            return removeWinding(pos.relative(moveDir), world, windingBlock, moveDir, maxDist);
 
         } else if (state.getBlock() instanceof PulleyBlock && world.getBlockEntity(pos) instanceof PulleyBlockEntity pe && !pe.isEmpty()) {
-            return pe.operateIndirect(null, Hand.MAIN_HAND, windingBlock, moveDir, true);
+            return pe.operateIndirect(null, InteractionHand.MAIN_HAND, windingBlock, moveDir, true);
 
         } else {
-            BlockPos up = pos.offset(moveDir.getOpposite());
+            BlockPos up = pos.relative(moveDir.getOpposite());
             if ((world.getBlockState(up).getBlock() != windingBlock)) return false;
-            if (!placeAndMove(null, Hand.MAIN_HAND, world, pos, moveDir.getOpposite(), null)) {
-                world.setBlockState(up, world.getFluidState(up).getBlockState());
+            if (!placeAndMove(null, InteractionHand.MAIN_HAND, world, pos, moveDir.getOpposite(), null)) {
+                world.setBlockAndUpdate(up, world.getFluidState(up).createLegacyBlock());
             }
             return true;
         }
     }
 
-    public static boolean placeAndMove(@Nullable PlayerEntity player, Hand hand, World world, BlockPos originPos, Direction moveDir, @Nullable Block placeWhereItWas) {
+    public static boolean placeAndMove(@Nullable Player player, InteractionHand hand, Level world, BlockPos originPos, Direction moveDir, @Nullable Block placeWhereItWas) {
         BlockState originalState = world.getBlockState(originPos);
-        BlockPos targetPos = originPos.offset(moveDir);
+        BlockPos targetPos = originPos.relative(moveDir);
         BlockState targetState = world.getBlockState(targetPos);
-        NbtCompound beTag = null;
+        CompoundTag beTag = null;
 
-        boolean needsToPush = !originalState.isReplaceable();
+        boolean needsToPush = !originalState.canBeReplaced();
         if (needsToPush) {
-            if (!targetState.isReplaceable() && placeWhereItWas != null) return false;
+            if (!targetState.canBeReplaced() && placeWhereItWas != null) return false;
             if (!isPushableWithPulley(originalState, world, originPos, moveDir)) return false;
 
             BlockEntity be = world.getBlockEntity(originPos);
             if (be != null) {
-                be.markRemoved();
-                beTag = be.createNbt(world.getRegistryManager());
+                be.setRemoved();
+                beTag = be.saveWithoutMetadata(world.registryAccess());
             }
         }
 
@@ -100,71 +99,71 @@ public class WindingHelper {
         
         // Replace original block with air and place rope
         if (placeWhereItWas != null) {
-            world.setBlockState(originPos, originalFluid.getBlockState(), Block.REDRAW_ON_MAIN_THREAD | Block.NOTIFY_LISTENERS);
+            world.setBlock(originPos, originalFluid.createLegacyBlock(), Block.UPDATE_IMMEDIATE | Block.UPDATE_CLIENTS);
             ItemStack stack = new ItemStack(placeWhereItWas);
-            BlockHitResult hitResult = new BlockHitResult(Vec3d.ofCenter(originPos), moveDir.getOpposite(), originPos, false);
-            ItemPlacementContext context = new ItemPlacementContext(world, player, hand, stack, hitResult);
+            BlockHitResult hitResult = new BlockHitResult(Vec3.atCenterOf(originPos), moveDir.getOpposite(), originPos, false);
+            BlockPlaceContext context = new BlockPlaceContext(world, player, hand, stack, hitResult);
 
             if (stack.getItem() instanceof BlockItem bi) {
-                ActionResult placeResult = bi.place(context);
-                if (placeResult == ActionResult.PASS || placeResult == ActionResult.FAIL) {
-                    world.setBlockState(originPos, originalState, Block.NOTIFY_LISTENERS);
+                InteractionResult placeResult = bi.place(context);
+                if (placeResult == InteractionResult.PASS || placeResult == InteractionResult.FAIL) {
+                    world.setBlock(originPos, originalState, Block.UPDATE_CLIENTS);
                     return false;
                 }
                 if (!needsToPush) return true;
             }
         } else {
-            world.setBlockState(originPos, originalFluid.getBlockState());
+            world.setBlockAndUpdate(originPos, originalFluid.createLegacyBlock());
         }
 
         FluidState targetFluid = world.getFluidState(targetPos);
-        boolean waterFluid = targetFluid.isOf(Fluids.WATER);
+        boolean waterFluid = targetFluid.is(Fluids.WATER);
 
-        if (originalState.contains(Properties.WATERLOGGED)) {
-            originalState = originalState.with(Properties.WATERLOGGED, waterFluid);
+        if (originalState.hasProperty(BlockStateProperties.WATERLOGGED)) {
+            originalState = originalState.setValue(BlockStateProperties.WATERLOGGED, waterFluid);
         } else if (originalState.getBlock() instanceof AbstractCauldronBlock) {
-            if (waterFluid && originalState.isOf(Blocks.CAULDRON) || originalState.isOf(Blocks.WATER_CAULDRON)) {
-                originalState = Blocks.WATER_CAULDRON.getDefaultState().with(LeveledCauldronBlock.LEVEL, 3);
-            } else if (targetFluid.isOf(Fluids.LAVA) && originalState.isOf(Blocks.CAULDRON) || originalState.isOf(Blocks.LAVA_CAULDRON)) {
-                originalState = Blocks.LAVA_CAULDRON.getDefaultState();
+            if (waterFluid && originalState.is(Blocks.CAULDRON) || originalState.is(Blocks.WATER_CAULDRON)) {
+                originalState = Blocks.WATER_CAULDRON.defaultBlockState().setValue(LayeredCauldronBlock.LEVEL, 3);
+            } else if (targetFluid.is(Fluids.LAVA) && originalState.is(Blocks.CAULDRON) || originalState.is(Blocks.LAVA_CAULDRON)) {
+                originalState = Blocks.LAVA_CAULDRON.defaultBlockState();
             }
         }
 
         if (needsToPush){ // Condition added to skip replaceable blocks like water from being moved
-            originalState = Block.postProcessState(originalState, world, targetPos);
-            world.setBlockState(targetPos, originalState);
+            originalState = Block.updateFromNeighbourShapes(originalState, world, targetPos);
+            world.setBlockAndUpdate(targetPos, originalState);
         } else {
             world.removeBlock(targetPos, false);
         }
         if (beTag != null) {
             BlockEntity te = world.getBlockEntity(targetPos);
-            if (te != null) te.read(beTag, world.getRegistryManager());
+            if (te != null) te.loadWithComponents(beTag, world.registryAccess());
         }
         return true;
     }
 
-    public static boolean isPushableWithPulley(BlockState state, World world, BlockPos pos, Direction moveDir) {
+    public static boolean isPushableWithPulley(BlockState state, Level world, BlockPos pos, Direction moveDir) {
         if (state.isAir()) return true;
 
-        if (pos.getY() < world.getBottomY() || pos.getY() > world.getTopY() - 1 || !world.getWorldBorder().contains(pos)) return false;
-        if (moveDir == Direction.DOWN && pos.getY() == world.getBottomY()) return false;
-        if (moveDir == Direction.UP && pos.getY() == world.getTopY() - 1) return false;
-        if (state.isIn(BlockTagProvider.UNMOVEABLE_BY_PULLEY)) return false;
+        if (pos.getY() < world.getMinBuildHeight() || pos.getY() > world.getMaxBuildHeight() - 1 || !world.getWorldBorder().isWithinBounds(pos)) return false;
+        if (moveDir == Direction.DOWN && pos.getY() == world.getMinBuildHeight()) return false;
+        if (moveDir == Direction.UP && pos.getY() == world.getMaxBuildHeight() - 1) return false;
+        if (state.is(BlockTagProvider.UNMOVEABLE_BY_PULLEY)) return false;
 
         if (state.getBlock() instanceof PulleyBlock) return false;
-        if ((state.isOf(Blocks.PISTON) || state.isOf(Blocks.STICKY_PISTON)) && state.get(Properties.EXTENDED)) return false;
-        if (state.isOf(Blocks.OBSIDIAN) || state.isOf(Blocks.CRYING_OBSIDIAN) || state.isOf(Blocks.RESPAWN_ANCHOR) || state.isOf(Blocks.BEDROCK)) return false;
+        if ((state.is(Blocks.PISTON) || state.is(Blocks.STICKY_PISTON)) && state.getValue(BlockStateProperties.EXTENDED)) return false;
+        if (state.is(Blocks.OBSIDIAN) || state.is(Blocks.CRYING_OBSIDIAN) || state.is(Blocks.RESPAWN_ANCHOR) || state.is(Blocks.BEDROCK)) return false;
 
         if (state.getBlock() instanceof AbstractCauldronBlock) return true;
-        if (moveDir.getAxis().isVertical() && state.isIn(BlockTagProvider.HANG_FROM_ROPES)) return true;
-        if (state.isIn(BlockTagProvider.MOVEABLE_BY_PULLEY)) return true;
+        if (moveDir.getAxis().isVertical() && state.is(BlockTagProvider.HANG_FROM_ROPES)) return true;
+        if (state.is(BlockTagProvider.MOVEABLE_BY_PULLEY)) return true;
         // if (state.hasBlockEntity()) return false;
 
-        return state.isSideSolid(world, pos, moveDir, SideShapeType.CENTER);
+        return state.isFaceSturdy(world, pos, moveDir, SupportType.CENTER);
     }
 
     public static boolean isCorrectWinding(Block windingBlock, BlockState state, Direction moveDir) {
-        if (state.getBlock() instanceof ChainBlock && state.get(ChainBlock.AXIS) != moveDir.getAxis()) return false;
+        if (state.getBlock() instanceof ChainBlock && state.getValue(ChainBlock.AXIS) != moveDir.getAxis()) return false;
         return windingBlock == state.getBlock();
     }
 

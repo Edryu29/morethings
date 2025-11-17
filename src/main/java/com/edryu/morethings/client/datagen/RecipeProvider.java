@@ -7,346 +7,346 @@ import com.edryu.morethings.registry.ItemRegistry;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.data.server.recipe.CookingRecipeJsonBuilder;
-import net.minecraft.data.server.recipe.RecipeExporter;
-import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
-import net.minecraft.data.server.recipe.StonecuttingRecipeJsonBuilder;
-import net.minecraft.item.ItemConvertible;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.data.recipes.SingleItemRecipeBuilder;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 
 public class RecipeProvider extends FabricRecipeProvider {
     
-	public RecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+	public RecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
 		super(output, registriesFuture);
 	}
 
 	@Override
-	public void generate(RecipeExporter recipeExporter) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DAUB, 2)
+	public void buildRecipes(RecipeOutput recipeExporter) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DAUB, 2)
             .pattern("10")
             .pattern("01")
-            .input('0', Items.CLAY_BALL)
-            .input('1', Items.WHEAT)
-            .criterion(FabricRecipeProvider.hasItem(Items.WHEAT), FabricRecipeProvider.conditionsFromItem(Items.WHEAT))
-            .offerTo(recipeExporter);
+            .define('0', Items.CLAY_BALL)
+            .define('1', Items.WHEAT)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.WHEAT), FabricRecipeProvider.has(Items.WHEAT))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DAUB_SLAB, 6)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DAUB_SLAB, 6)
             .pattern("000")
             .pattern("   ")
             .pattern("   ")
-            .input('0', BlockRegistry.DAUB)
-            .criterion(FabricRecipeProvider.hasItem(BlockRegistry.DAUB), FabricRecipeProvider.conditionsFromItem(BlockRegistry.DAUB))
-            .offerTo(recipeExporter);
+            .define('0', BlockRegistry.DAUB)
+            .unlockedBy(FabricRecipeProvider.getHasName(BlockRegistry.DAUB), FabricRecipeProvider.has(BlockRegistry.DAUB))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SACK, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SACK, 1)
             .pattern("101")
             .pattern("1 1")
             .pattern("111")
-            .input('0', Items.STRING)
-            .input('1', Items.WHEAT)
-            .criterion(FabricRecipeProvider.hasItem(Items.WHEAT), FabricRecipeProvider.conditionsFromItem(Items.WHEAT))
-            .offerTo(recipeExporter);
+            .define('0', Items.STRING)
+            .define('1', Items.WHEAT)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.WHEAT), FabricRecipeProvider.has(Items.WHEAT))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SAFE, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SAFE, 1)
             .pattern("000")
             .pattern("0 0")
             .pattern("000")
-            .input('0', Items.IRON_INGOT)
-            .criterion(FabricRecipeProvider.hasItem(Items.IRON_INGOT), FabricRecipeProvider.conditionsFromItem(Items.IRON_INGOT))
-            .offerTo(recipeExporter);
+            .define('0', Items.IRON_INGOT)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.IRON_INGOT), FabricRecipeProvider.has(Items.IRON_INGOT))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.ROPE, 3)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.ROPE, 3)
             .pattern("  0")
             .pattern(" 0 ")
             .pattern("0  ")
-            .input('0', Items.STRING)
-            .criterion(FabricRecipeProvider.hasItem(Items.STRING), FabricRecipeProvider.conditionsFromItem(Items.STRING))
-            .offerTo(recipeExporter);
+            .define('0', Items.STRING)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.STRING), FabricRecipeProvider.has(Items.STRING))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, ItemRegistry.BUNTING, 6)
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ItemRegistry.BUNTING, 6)
             .pattern("000")
             .pattern("111")
             .pattern(" 1 ")
-            .input('0', Items.STRING)
-            .input('1', ItemTags.WOOL)
-            .criterion(FabricRecipeProvider.hasItem(Items.STRING), FabricRecipeProvider.conditionsFromItem(Items.STRING))
-            .offerTo(recipeExporter);
+            .define('0', Items.STRING)
+            .define('1', ItemTags.WOOL)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.STRING), FabricRecipeProvider.has(Items.STRING))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.BOAT_IN_A_JAR, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegistry.BOAT_IN_A_JAR, 1)
             .pattern("111")
             .pattern("121")
             .pattern("000")
-            .input('0', ItemTags.WOODEN_SLABS)
-            .input('1', Items.GLASS_PANE)
-            .input('2', ItemTags.BOATS)
-            .criterion(FabricRecipeProvider.hasItem(Items.GLASS_PANE), FabricRecipeProvider.conditionsFromItem(Items.GLASS_PANE))
-            .offerTo(recipeExporter);
+            .define('0', ItemTags.WOODEN_SLABS)
+            .define('1', Items.GLASS_PANE)
+            .define('2', ItemTags.BOATS)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.GLASS_PANE), FabricRecipeProvider.has(Items.GLASS_PANE))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.TERRARIUM, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegistry.TERRARIUM, 1)
             .pattern("222")
             .pattern("304")
             .pattern("111")
-            .input('0', ItemTags.SAPLINGS)
-            .input('1', Items.DIRT)
-            .input('2', Items.GLASS_PANE)
-            .input('3', Items.SHORT_GRASS)
-            .input('4', Items.STONE)
-            .criterion(FabricRecipeProvider.hasItem(Items.GLASS_PANE), FabricRecipeProvider.conditionsFromItem(Items.GLASS_PANE))
-            .offerTo(recipeExporter);
+            .define('0', ItemTags.SAPLINGS)
+            .define('1', Items.DIRT)
+            .define('2', Items.GLASS_PANE)
+            .define('3', Items.SHORT_GRASS)
+            .define('4', Items.STONE)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.GLASS_PANE), FabricRecipeProvider.has(Items.GLASS_PANE))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.TELESCOPE, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegistry.TELESCOPE, 1)
             .pattern(" 0 ")
             .pattern(" 1 ")
             .pattern("1 1")
-            .input('0', Items.SPYGLASS)
-            .input('1', Items.COPPER_INGOT)
-            .criterion(FabricRecipeProvider.hasItem(Items.SPYGLASS), FabricRecipeProvider.conditionsFromItem(Items.SPYGLASS))
-            .offerTo(recipeExporter);
+            .define('0', Items.SPYGLASS)
+            .define('1', Items.COPPER_INGOT)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.SPYGLASS), FabricRecipeProvider.has(Items.SPYGLASS))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.SPYGLASS_STAND, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegistry.SPYGLASS_STAND, 1)
             .pattern(" 0 ")
             .pattern(" 1 ")
             .pattern("   ")
-            .input('0', Items.SPYGLASS)
-            .input('1', Items.COPPER_INGOT)
-            .criterion(FabricRecipeProvider.hasItem(Items.SPYGLASS), FabricRecipeProvider.conditionsFromItem(Items.SPYGLASS))
-            .offerTo(recipeExporter);
+            .define('0', Items.SPYGLASS)
+            .define('1', Items.COPPER_INGOT)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.SPYGLASS), FabricRecipeProvider.has(Items.SPYGLASS))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.GLOBE, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegistry.GLOBE, 1)
             .pattern(" 0 ")
             .pattern("12 ")
             .pattern(" 1 ")
-            .input('0', Items.MAP)
-            .input('1', Items.GOLD_INGOT)
-            .input('2', Items.BLUE_WOOL)
-            .criterion(FabricRecipeProvider.hasItem(Items.MAP), FabricRecipeProvider.conditionsFromItem(Items.MAP))
-            .offerTo(recipeExporter);
+            .define('0', Items.MAP)
+            .define('1', Items.GOLD_INGOT)
+            .define('2', Items.BLUE_WOOL)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.MAP), FabricRecipeProvider.has(Items.MAP))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.GLOBE_SEPIA, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegistry.GLOBE_SEPIA, 1)
             .pattern(" 0 ")
             .pattern("12 ")
             .pattern(" 1 ")
-            .input('0', Items.MAP)
-            .input('1', Items.GOLD_INGOT)
-            .input('2', Items.GRAY_WOOL)
-            .criterion(FabricRecipeProvider.hasItem(Items.MAP), FabricRecipeProvider.conditionsFromItem(Items.MAP))
-            .offerTo(recipeExporter);
+            .define('0', Items.MAP)
+            .define('1', Items.GOLD_INGOT)
+            .define('2', Items.GRAY_WOOL)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.MAP), FabricRecipeProvider.has(Items.MAP))
+            .save(recipeExporter);
             
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.BOOK_PILE_HORIZONTAL, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegistry.BOOK_PILE_HORIZONTAL, 1)
             .pattern("   ")
             .pattern(" 0 ")
             .pattern("000")
-            .input('0', Items.BOOK)
-            .criterion(FabricRecipeProvider.hasItem(Items.BOOK), FabricRecipeProvider.conditionsFromItem(Items.BOOK))
-            .offerTo(recipeExporter);
+            .define('0', Items.BOOK)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.BOOK), FabricRecipeProvider.has(Items.BOOK))
+            .save(recipeExporter);
             
-        ShapedRecipeJsonBuilder.create(RecipeCategory.DECORATIONS, BlockRegistry.BOOK_PILE_VERTICAL, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegistry.BOOK_PILE_VERTICAL, 1)
             .pattern(" 0 ")
             .pattern(" 0 ")
             .pattern("00 ")
-            .input('0', Items.BOOK)
-            .criterion(FabricRecipeProvider.hasItem(Items.BOOK), FabricRecipeProvider.conditionsFromItem(Items.BOOK))
-            .offerTo(recipeExporter);
+            .define('0', Items.BOOK)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.BOOK), FabricRecipeProvider.has(Items.BOOK))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.PEDESTAL, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.PEDESTAL, 1)
             .pattern("111")
             .pattern(" 0 ")
             .pattern("111")
-            .input('0', ItemTags.STONE_BRICKS)
-            .input('1', Items.STONE_BRICK_SLAB)
-            .criterion(FabricRecipeProvider.hasItem(Items.STONE_BRICKS), FabricRecipeProvider.conditionsFromItem(Items.STONE_BRICKS))
-            .offerTo(recipeExporter);
+            .define('0', ItemTags.STONE_BRICKS)
+            .define('1', Items.STONE_BRICK_SLAB)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.STONE_BRICKS), FabricRecipeProvider.has(Items.STONE_BRICKS))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMALL_PEDESTAL, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.SMALL_PEDESTAL, 1)
             .pattern(" 0 ")
             .pattern("010")
             .pattern(" 0 ")
-            .input('0', Items.STONE_BRICK_SLAB)
-            .input('1', Items.ITEM_FRAME)
-            .criterion(FabricRecipeProvider.hasItem(Items.ITEM_FRAME), FabricRecipeProvider.conditionsFromItem(Items.ITEM_FRAME))
-            .offerTo(recipeExporter);
+            .define('0', Items.STONE_BRICK_SLAB)
+            .define('1', Items.ITEM_FRAME)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.ITEM_FRAME), FabricRecipeProvider.has(Items.ITEM_FRAME))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DISPLAY, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.DISPLAY, 1)
             .pattern("111")
             .pattern("1 1")
             .pattern("000")
-            .input('0', ItemTags.PLANKS)
-            .input('1', Items.GLASS_PANE)
-            .criterion(FabricRecipeProvider.hasItem(Items.GLASS_PANE), FabricRecipeProvider.conditionsFromItem(Items.GLASS_PANE))
-            .offerTo(recipeExporter);
+            .define('0', ItemTags.PLANKS)
+            .define('1', Items.GLASS_PANE)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.GLASS_PANE), FabricRecipeProvider.has(Items.GLASS_PANE))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BlockRegistry.COG, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, BlockRegistry.COG, 1)
             .pattern("000")
             .pattern("010")
             .pattern("000")
-            .input('0', Items.COPPER_INGOT)
-            .input('1', Items.REDSTONE_BLOCK)
-            .criterion(FabricRecipeProvider.hasItem(Items.REDSTONE_BLOCK), FabricRecipeProvider.conditionsFromItem(Items.REDSTONE_BLOCK))
-            .offerTo(recipeExporter);
+            .define('0', Items.COPPER_INGOT)
+            .define('1', Items.REDSTONE_BLOCK)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.REDSTONE_BLOCK), FabricRecipeProvider.has(Items.REDSTONE_BLOCK))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BlockRegistry.PULLEY, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, BlockRegistry.PULLEY, 1)
             .pattern("010")
             .pattern("020")
             .pattern("010")
-            .input('0', ItemTags.PLANKS)
-            .input('1', ItemTags.WOODEN_SLABS)
-            .input('2', Items.IRON_INGOT)
-            .criterion(FabricRecipeProvider.hasItem(Items.IRON_INGOT), FabricRecipeProvider.conditionsFromItem(Items.IRON_INGOT))
-            .offerTo(recipeExporter);
+            .define('0', ItemTags.PLANKS)
+            .define('1', ItemTags.WOODEN_SLABS)
+            .define('2', Items.IRON_INGOT)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.IRON_INGOT), FabricRecipeProvider.has(Items.IRON_INGOT))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BlockRegistry.TURN_TABLE, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, BlockRegistry.TURN_TABLE, 1)
             .pattern("000")
             .pattern("121")
             .pattern("131")
-            .input('0', ItemTags.PLANKS)
-            .input('1', Items.COBBLESTONE)
-            .input('2', Items.COPPER_INGOT)
-            .input('3', Items.REDSTONE)
-            .criterion(FabricRecipeProvider.hasItem(Items.REDSTONE), FabricRecipeProvider.conditionsFromItem(Items.REDSTONE))
-            .offerTo(recipeExporter);
+            .define('0', ItemTags.PLANKS)
+            .define('1', Items.COBBLESTONE)
+            .define('2', Items.COPPER_INGOT)
+            .define('3', Items.REDSTONE)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.REDSTONE), FabricRecipeProvider.has(Items.REDSTONE))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BlockRegistry.CRANK, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, BlockRegistry.CRANK, 1)
             .pattern("   ")
             .pattern(" 1 ")
             .pattern("000")
-            .input('0', Items.SMOOTH_STONE_SLAB)
-            .input('1', ItemTags.PLANKS)
-            .criterion(FabricRecipeProvider.hasItem(Items.SMOOTH_STONE_SLAB), FabricRecipeProvider.conditionsFromItem(Items.SMOOTH_STONE_SLAB))
-            .offerTo(recipeExporter);
+            .define('0', Items.SMOOTH_STONE_SLAB)
+            .define('1', ItemTags.PLANKS)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.SMOOTH_STONE_SLAB), FabricRecipeProvider.has(Items.SMOOTH_STONE_SLAB))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BlockRegistry.CONSOLE, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, BlockRegistry.CONSOLE, 1)
             .pattern("101")
             .pattern("121")
             .pattern("111")
-            .input('0', Items.GLASS_PANE)
-            .input('1', Items.IRON_NUGGET)
-            .input('2', Items.REDSTONE)
-            .criterion(FabricRecipeProvider.hasItem(Items.REDSTONE), FabricRecipeProvider.conditionsFromItem(Items.REDSTONE))
-            .offerTo(recipeExporter);
+            .define('0', Items.GLASS_PANE)
+            .define('1', Items.IRON_NUGGET)
+            .define('2', Items.REDSTONE)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.REDSTONE), FabricRecipeProvider.has(Items.REDSTONE))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, BlockRegistry.RED_BUTTON, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, BlockRegistry.RED_BUTTON, 1)
             .pattern(" 2 ")
             .pattern("111")
             .pattern("101")
-            .input('0', Items.STONE_BUTTON)
-            .input('1', Items.GLASS_PANE)
-            .input('2', Items.RED_DYE)
-            .criterion(FabricRecipeProvider.hasItem(Items.STONE_BUTTON), FabricRecipeProvider.conditionsFromItem(Items.STONE_BUTTON))
-            .offerTo(recipeExporter);
+            .define('0', Items.STONE_BUTTON)
+            .define('1', Items.GLASS_PANE)
+            .define('2', Items.RED_DYE)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.STONE_BUTTON), FabricRecipeProvider.has(Items.STONE_BUTTON))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BIG_CHAIN, 4)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BIG_CHAIN, 4)
             .pattern("11 ")
             .pattern("00 ")
             .pattern("11 ")
-            .input('0', Items.IRON_INGOT)
-            .input('1', Items.IRON_NUGGET)
-            .criterion(FabricRecipeProvider.hasItem(Items.IRON_INGOT), FabricRecipeProvider.conditionsFromItem(Items.IRON_INGOT))
-            .offerTo(recipeExporter);
+            .define('0', Items.IRON_INGOT)
+            .define('1', Items.IRON_NUGGET)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.IRON_INGOT), FabricRecipeProvider.has(Items.IRON_INGOT))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BAR_PANEL, 2)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.BAR_PANEL, 2)
             .pattern("00 ")
             .pattern("   ")
             .pattern("   ")
-            .input('0', Items.IRON_BARS)
-            .criterion(FabricRecipeProvider.hasItem(Items.IRON_BARS), FabricRecipeProvider.conditionsFromItem(Items.IRON_BARS))
-            .offerTo(recipeExporter);
+            .define('0', Items.IRON_BARS)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.IRON_BARS), FabricRecipeProvider.has(Items.IRON_BARS))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.LATTICE, 4)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.LATTICE, 4)
             .pattern(" 0 ")
             .pattern("0 0")
             .pattern(" 0 ")
-            .input('0', ItemTags.PLANKS)
-            .criterion(FabricRecipeProvider.hasItem(Items.OAK_PLANKS), FabricRecipeProvider.conditionsFromItem(Items.OAK_PLANKS))
-            .offerTo(recipeExporter);
+            .define('0', ItemTags.PLANKS)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.OAK_PLANKS), FabricRecipeProvider.has(Items.OAK_PLANKS))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.THATCH_SLAB, 6)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.THATCH_SLAB, 6)
             .pattern("000")
             .pattern("   ")
             .pattern("   ")
-            .input('0', BlockRegistry.THATCH)
-            .criterion(FabricRecipeProvider.hasItem(BlockRegistry.THATCH), FabricRecipeProvider.conditionsFromItem(BlockRegistry.THATCH))
-            .offerTo(recipeExporter);
+            .define('0', BlockRegistry.THATCH)
+            .unlockedBy(FabricRecipeProvider.getHasName(BlockRegistry.THATCH), FabricRecipeProvider.has(BlockRegistry.THATCH))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.THATCH_STAIRS, 4)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.THATCH_STAIRS, 4)
             .pattern("0  ")
             .pattern("00 ")
             .pattern("000")
-            .input('0', BlockRegistry.THATCH)
-            .criterion(FabricRecipeProvider.hasItem(BlockRegistry.THATCH), FabricRecipeProvider.conditionsFromItem(BlockRegistry.THATCH))
-            .offerTo(recipeExporter);
+            .define('0', BlockRegistry.THATCH)
+            .unlockedBy(FabricRecipeProvider.getHasName(BlockRegistry.THATCH), FabricRecipeProvider.has(BlockRegistry.THATCH))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.HAYSTACK, 4)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.HAYSTACK, 4)
             .pattern("00 ")
             .pattern("00 ")
             .pattern("   ")
-            .input('0', Items.HAY_BLOCK)
-            .criterion(FabricRecipeProvider.hasItem(Items.HAY_BLOCK), FabricRecipeProvider.conditionsFromItem(Items.HAY_BLOCK))
-            .offerTo(recipeExporter);
+            .define('0', Items.HAY_BLOCK)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.HAY_BLOCK), FabricRecipeProvider.has(Items.HAY_BLOCK))
+            .save(recipeExporter);
 
-        ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, ItemRegistry.ORB, 1)
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemRegistry.ORB, 1)
             .pattern(" 0 ")
             .pattern("010")
             .pattern(" 0 ")
-            .input('0', Items.GLASS)
-            .input('1', Items.LAPIS_LAZULI)
-            .criterion(FabricRecipeProvider.hasItem(Items.LAPIS_LAZULI), FabricRecipeProvider.conditionsFromItem(Items.LAPIS_LAZULI))
-            .offerTo(recipeExporter);
+            .define('0', Items.GLASS)
+            .define('1', Items.LAPIS_LAZULI)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.LAPIS_LAZULI), FabricRecipeProvider.has(Items.LAPIS_LAZULI))
+            .save(recipeExporter);
 
-        CookingRecipeJsonBuilder.createSmoking(Ingredient.ofItems(Items.HAY_BLOCK), RecipeCategory.BUILDING_BLOCKS, BlockRegistry.THATCH, 0.1f, 300)
-            .criterion(FabricRecipeProvider.hasItem(Items.HAY_BLOCK), FabricRecipeProvider.conditionsFromItem(Items.HAY_BLOCK))
-            .offerTo(recipeExporter);
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(Items.HAY_BLOCK), RecipeCategory.BUILDING_BLOCKS, BlockRegistry.THATCH, 0.1f, 300)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.HAY_BLOCK), FabricRecipeProvider.has(Items.HAY_BLOCK))
+            .save(recipeExporter);
 
-        StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.STONE), RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_PILLAR)
-            .criterion(FabricRecipeProvider.hasItem(Items.STONE), FabricRecipeProvider.conditionsFromItem(Items.STONE))
-            .offerTo(recipeExporter);
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.STONE), RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_PILLAR)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.STONE), FabricRecipeProvider.has(Items.STONE))
+            .save(recipeExporter);
 
         // StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.STONE), RecipeCategory.BUILDING_BLOCKS, BlockRegistry.PEDESTAL)
         //     .criterion(FabricRecipeProvider.hasItem(Items.STONE_BRICKS), FabricRecipeProvider.conditionsFromItem(Items.STONE_BRICKS))
         //     .offerTo(recipeExporter);
 
-        StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.BLUE_CRYSTAL)
-            .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
-            .offerTo(recipeExporter);
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.BLUE_CRYSTAL)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.AMETHYST_SHARD), FabricRecipeProvider.has(Items.AMETHYST_SHARD))
+            .save(recipeExporter);
 
-        StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.GREEN_CRYSTAL)
-            .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
-            .offerTo(recipeExporter);
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.GREEN_CRYSTAL)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.AMETHYST_SHARD), FabricRecipeProvider.has(Items.AMETHYST_SHARD))
+            .save(recipeExporter);
 
-        StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.PURPLE_CRYSTAL)
-            .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
-            .offerTo(recipeExporter);
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.PURPLE_CRYSTAL)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.AMETHYST_SHARD), FabricRecipeProvider.has(Items.AMETHYST_SHARD))
+            .save(recipeExporter);
 
-        StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.RED_CRYSTAL)
-            .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
-            .offerTo(recipeExporter);
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.RED_CRYSTAL)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.AMETHYST_SHARD), FabricRecipeProvider.has(Items.AMETHYST_SHARD))
+            .save(recipeExporter);
 
-        StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.CITRINE)
-            .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
-            .offerTo(recipeExporter);
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.CITRINE)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.AMETHYST_SHARD), FabricRecipeProvider.has(Items.AMETHYST_SHARD))
+            .save(recipeExporter);
 
-        StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.JADE)
-            .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
-            .offerTo(recipeExporter);
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.JADE)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.AMETHYST_SHARD), FabricRecipeProvider.has(Items.AMETHYST_SHARD))
+            .save(recipeExporter);
 
-        StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.RUBY)
-            .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
-            .offerTo(recipeExporter);
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.RUBY)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.AMETHYST_SHARD), FabricRecipeProvider.has(Items.AMETHYST_SHARD))
+            .save(recipeExporter);
 
-        StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.SAPPHIRE)
-            .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
-            .offerTo(recipeExporter);
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.SAPPHIRE)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.AMETHYST_SHARD), FabricRecipeProvider.has(Items.AMETHYST_SHARD))
+            .save(recipeExporter);
 
-        StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.TANZANITE)
-            .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
-            .offerTo(recipeExporter);
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.TANZANITE)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.AMETHYST_SHARD), FabricRecipeProvider.has(Items.AMETHYST_SHARD))
+            .save(recipeExporter);
 
-        StonecuttingRecipeJsonBuilder.createStonecutting(Ingredient.ofItems(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.TOPAZ)
-            .criterion(FabricRecipeProvider.hasItem(Items.AMETHYST_SHARD), FabricRecipeProvider.conditionsFromItem(Items.AMETHYST_SHARD))
-            .offerTo(recipeExporter);
+        SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.TOPAZ)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.AMETHYST_SHARD), FabricRecipeProvider.has(Items.AMETHYST_SHARD))
+            .save(recipeExporter);
 
         createPalisadeRecipe(BlockRegistry.ACACIA_PALISADE, Items.STRIPPED_ACACIA_LOG, recipeExporter);
         createPalisadeRecipe(BlockRegistry.BAMBOO_PALISADE, Items.STRIPPED_BAMBOO_BLOCK, recipeExporter);
@@ -362,13 +362,13 @@ public class RecipeProvider extends FabricRecipeProvider {
         createPalisadeRecipe(BlockRegistry.WARPED_PALISADE, Items.STRIPPED_WARPED_STEM, recipeExporter);
     }
 
-    public static void createPalisadeRecipe(ItemConvertible output, ItemConvertible ingredient, RecipeExporter recipeExporter) {
-        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, output, 6)
+    public static void createPalisadeRecipe(ItemLike output, ItemLike ingredient, RecipeOutput recipeExporter) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, output, 6)
             .pattern("00 ")
             .pattern("   ")
             .pattern("   ")
-            .input('0', ingredient)
-            .criterion(FabricRecipeProvider.hasItem(ingredient), FabricRecipeProvider.conditionsFromItem(ingredient))
-            .offerTo(recipeExporter);
+            .define('0', ingredient)
+            .unlockedBy(FabricRecipeProvider.getHasName(ingredient), FabricRecipeProvider.has(ingredient))
+            .save(recipeExporter);
 	}
 }

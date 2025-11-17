@@ -3,84 +3,83 @@ package com.edryu.morethings.block;
 import com.edryu.morethings.entity.SmallPedestalBlockEntity;
 import com.edryu.morethings.registry.ItemRegistry;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.LevelEvent;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldEvents;
+public class SmallPedestalBlock extends HorizontalDirectionalBlock implements EntityBlock {
+    public static final BooleanProperty ROTATE = BooleanProperty.create("rotate");
+    public static final BooleanProperty VISIBLE = BooleanProperty.create("visible");
 
-public class SmallPedestalBlock extends HorizontalFacingBlock implements BlockEntityProvider {
-    public static final BooleanProperty ROTATE = BooleanProperty.of("rotate");
-    public static final BooleanProperty VISIBLE = BooleanProperty.of("visible");
-
-    public SmallPedestalBlock(Settings settings) {
+    public SmallPedestalBlock(Properties settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(ROTATE, true).with(VISIBLE, true));
+        registerDefaultState(defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(ROTATE, true).setValue(VISIBLE, true));
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(Properties.HORIZONTAL_FACING, ROTATE, VISIBLE);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(BlockStateProperties.HORIZONTAL_FACING, ROTATE, VISIBLE);
     }
 
     @Override
-    protected MapCodec<? extends SmallPedestalBlock> getCodec() {
+    protected MapCodec<? extends SmallPedestalBlock> codec() {
         return null;
     }
 
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new SmallPedestalBlockEntity(pos, state);
     }
 
     @Override
-    protected VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.cuboid(0.1875f, 0f, 0.1875f, 0.8125f, 0.0625f, 0.8125f);
+    protected VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+        return Shapes.box(0.1875f, 0f, 0.1875f, 0.8125f, 0.0625f, 0.8125f);
     }
 
     @Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return super.getPlacementState(ctx).with(Properties.HORIZONTAL_FACING, ctx.getHorizontalPlayerFacing().getOpposite());
+	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+		return super.getStateForPlacement(ctx).setValue(BlockStateProperties.HORIZONTAL_FACING, ctx.getHorizontalDirection().getOpposite());
 	}
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        ItemStack playerHeldItem = player.getStackInHand(Hand.MAIN_HAND);
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        ItemStack playerHeldItem = player.getItemInHand(InteractionHand.MAIN_HAND);
 
         // Wax display
-        if (player != null && player.isHolding(Items.HONEYCOMB) && state.get(ROTATE)) {
-            world.setBlockState(pos, state.with(ROTATE, false));
-            world.playSound(player, pos, SoundEvents.ITEM_HONEYCOMB_WAX_ON, SoundCategory.BLOCKS, 1.0f, 1.0f);
-            player.getWorld().syncWorldEvent(null, WorldEvents.BLOCK_WAXED, pos, 0);
-            return ActionResult.SUCCESS;
+        if (player != null && player.isHolding(Items.HONEYCOMB) && state.getValue(ROTATE)) {
+            world.setBlockAndUpdate(pos, state.setValue(ROTATE, false));
+            world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0f, 1.0f);
+            player.level().levelEvent(null, LevelEvent.PARTICLES_AND_SOUND_WAX_ON, pos, 0);
+            return InteractionResult.SUCCESS;
         // Hide holder
         } else if (player != null && player.isHolding(ItemRegistry.ORB)) {
-            boolean is_visible = state.get(VISIBLE);
-            world.setBlockState(pos, state.with(VISIBLE, !is_visible));
-            world.playSound(player, pos, SoundEvents.ITEM_AXE_STRIP, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            return ActionResult.SUCCESS;
+            boolean is_visible = state.getValue(VISIBLE);
+            world.setBlockAndUpdate(pos, state.setValue(VISIBLE, !is_visible));
+            world.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
+            return InteractionResult.SUCCESS;
         // Manage stored item
         } else if (world.getBlockEntity(pos) instanceof SmallPedestalBlockEntity SmallPedestalBlockEntity) {
             ItemStack storedItem = SmallPedestalBlockEntity.getStoredItem();
@@ -88,29 +87,29 @@ public class SmallPedestalBlock extends HorizontalFacingBlock implements BlockEn
 
             if (storedItem.isEmpty() ) {
                 SmallPedestalBlockEntity.setStoredItem(playerHeldItem.split(1));
-                world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.playSound(player, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
             } else {
-                world.spawnEntity(itemEntity);
-                world.playSound(player, pos, SoundEvents.ENTITY_ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                world.addFreshEntity(itemEntity);
+                world.playSound(player, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
                 SmallPedestalBlockEntity.removeStoredItem();
             }
 
-            SmallPedestalBlockEntity.markDirty();
-            return ActionResult.SUCCESS;
+            SmallPedestalBlockEntity.setChanged();
+            return InteractionResult.SUCCESS;
         }
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 
     @Override
-    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+    public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
         if (world.getBlockEntity(pos) instanceof SmallPedestalBlockEntity SmallPedestalBlockEntity) {
             ItemStack storedItem = SmallPedestalBlockEntity.getStoredItem();
             if (!storedItem.isEmpty()) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), storedItem);
-                world.spawnEntity(itemEntity);
+                world.addFreshEntity(itemEntity);
                 SmallPedestalBlockEntity.removeStoredItem();
             }
         }
-        return super.onBreak(world, pos, state, player);
+        return super.playerWillDestroy(world, pos, state, player);
     }
 }

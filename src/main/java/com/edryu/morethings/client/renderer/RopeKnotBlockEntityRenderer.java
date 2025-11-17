@@ -1,28 +1,27 @@
 package com.edryu.morethings.client.renderer;
 
 import com.edryu.morethings.entity.RopeKnotBlockEntity;
-
-import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.random.Random;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class RopeKnotBlockEntityRenderer implements BlockEntityRenderer<RopeKnotBlockEntity>{
 
-    public RopeKnotBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {}
+    public RopeKnotBlockEntityRenderer(BlockEntityRendererProvider.Context ctx) {}
 
     @Override
-    public void render(RopeKnotBlockEntity blockEntity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        if (blockEntity.getWorld() == null) return;
+    public void render(RopeKnotBlockEntity blockEntity, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
+        if (blockEntity.getLevel() == null) return;
         BlockState heldBlock = blockEntity.getHeldBlock();
         if (heldBlock == null || heldBlock.isAir()) return;
 
-        matrices.push();
-        MinecraftClient.getInstance().getBlockRenderManager().renderBlock(heldBlock, blockEntity.getPos(), blockEntity.getWorld(), matrices, vertexConsumers.getBuffer(RenderLayer.getCutout()), false, Random.create());
-        matrices.pop();
+        matrices.pushPose();
+        Minecraft.getInstance().getBlockRenderer().renderBatched(heldBlock, blockEntity.getBlockPos(), blockEntity.getLevel(), matrices, vertexConsumers.getBuffer(RenderType.cutout()), false, RandomSource.create());
+        matrices.popPose();
     }
 }

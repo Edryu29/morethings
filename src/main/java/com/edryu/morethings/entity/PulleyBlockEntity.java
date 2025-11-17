@@ -2,95 +2,93 @@ package com.edryu.morethings.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import com.edryu.morethings.block.PulleyBlock;
 import com.edryu.morethings.registry.EntityRegistry;
 import com.edryu.morethings.screen.PulleyScreenHandler;
 import com.edryu.morethings.util.BlockProperties.Winding;
 import com.edryu.morethings.util.SimpleInventory;
 import com.edryu.morethings.util.WindingHelper;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventories;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
-import net.minecraft.util.Hand;
-import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.sound.BlockSoundGroup;
 	
-public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, SimpleInventory {
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(1, ItemStack.EMPTY);
+public class PulleyBlockEntity extends BlockEntity implements MenuProvider, SimpleInventory {
+    private final NonNullList<ItemStack> inventory = NonNullList.withSize(1, ItemStack.EMPTY);
     
     public PulleyBlockEntity(BlockPos pos, BlockState state) {
         super(EntityRegistry.PULLEY_ENTITY, pos, state);
     }
     
     @Override
-    public DefaultedList<ItemStack> getItems() {
+    public NonNullList<ItemStack> getItems() {
         return inventory;
     }
     
     @Override
-    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        super.readNbt(nbt, registryLookup);
-        Inventories.readNbt(nbt, this.inventory, registryLookup);
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
+        super.loadAdditional(nbt, registryLookup);
+        ContainerHelper.loadAllItems(nbt, this.inventory, registryLookup);
     }
     
     @Override
-    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        super.writeNbt(nbt, registryLookup);
-        Inventories.writeNbt(nbt, this.inventory, registryLookup);
+    public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
+        super.saveAdditional(nbt, registryLookup);
+        ContainerHelper.saveAllItems(nbt, this.inventory, registryLookup);
     }
     
     @Override
-    public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+    public AbstractContainerMenu createMenu(int syncId, Inventory playerInventory, Player player) {
         return new PulleyScreenHandler(syncId, playerInventory, this);
     }
     
     @Override
-    public Text getDisplayName() {
-        return Text.translatable(getCachedState().getBlock().getTranslationKey());
+    public Component getDisplayName() {
+        return Component.translatable(getBlockState().getBlock().getDescriptionId());
     }
 
 	public void playSound(SoundEvent soundEvent) {
-		double d = this.pos.getX() + 0.5;
-		double e = this.pos.getY() + 0.5;
-		double f = this.pos.getZ() + 0.5;
-		this.world.playSound(null, d, e, f, soundEvent, SoundCategory.BLOCKS, 0.5F, this.world.random.nextFloat() * 0.1F + 0.9F);
+		double d = this.worldPosition.getX() + 0.5;
+		double e = this.worldPosition.getY() + 0.5;
+		double f = this.worldPosition.getZ() + 0.5;
+		this.level.playSound(null, d, e, f, soundEvent, SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
 	}
 
-    public void onOpen(PlayerEntity player) {
-        this.playSound(SoundEvents.BLOCK_BARREL_OPEN);
+    public void startOpen(Player player) {
+        this.playSound(SoundEvents.BARREL_OPEN);
     }
 
-    public void onClose(PlayerEntity player) {
-        this.playSound(SoundEvents.BLOCK_BARREL_CLOSE);
+    public void stopOpen(Player player) {
+        this.playSound(SoundEvents.BARREL_CLOSE);
     }
 
-	public void markDirty() {
-		super.markDirty();
+	public void setChanged() {
+		super.setChanged();
         this.updateDisplayedItem();
 	}
 
     public void updateDisplayedItem() {
-        BlockState state = this.getCachedState();
-        Winding windingType = WindingHelper.getWindingType(this.getStack(0).getItem());
-        world.setBlockState(pos, state.with(PulleyBlock.WINDING, windingType).cycle(PulleyBlock.FLIPPED), Block.NOTIFY_LISTENERS);
+        BlockState state = this.getBlockState();
+        Winding windingType = WindingHelper.getWindingType(this.getItem(0).getItem());
+        level.setBlock(worldPosition, state.setValue(PulleyBlock.WINDING, windingType).cycle(PulleyBlock.FLIPPED), Block.UPDATE_CLIENTS);
 
     }
 
@@ -103,23 +101,23 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
     }
 
     public boolean pullWinding(Direction moveDir, int maxDist, boolean addItem) {
-        ItemStack stack = this.getStack(0);
+        ItemStack stack = this.getItem(0);
         boolean addNewItem = false;
         if (stack.isEmpty()) {
-            Item i = world.getBlockState(pos.down()).getBlock().asItem();
+            Item i = level.getBlockState(worldPosition.below()).getBlock().asItem();
             if (WindingHelper.getWindingType(i) == Winding.NONE) return false;
             stack = new ItemStack(i);
             addNewItem = true;
         }
-        if (stack.getCount() + 1 > stack.getMaxCount() || !(stack.getItem() instanceof BlockItem)) return false;
+        if (stack.getCount() + 1 > stack.getMaxStackSize() || !(stack.getItem() instanceof BlockItem)) return false;
         Block windingBlock = ((BlockItem) stack.getItem()).getBlock();
-        boolean success = WindingHelper.removeWinding(pos.offset(moveDir), world, windingBlock, moveDir, maxDist);
+        boolean success = WindingHelper.removeWinding(worldPosition.relative(moveDir), level, windingBlock, moveDir, maxDist);
         if (success) {
-            BlockSoundGroup soundGroup = windingBlock.getDefaultState().getSoundGroup();
-            world.playSound(null, pos, soundGroup.getBreakSound(), SoundCategory.BLOCKS, (soundGroup.getVolume() + 1.0F) / 2.0F, soundGroup.getPitch() * 0.8F);
-            if (addNewItem) this.setStack(0, stack);
-            else if (addItem) stack.increment(1);
-            this.markDirty();
+            SoundType soundGroup = windingBlock.defaultBlockState().getSoundType();
+            level.playSound(null, worldPosition, soundGroup.getBreakSound(), SoundSource.BLOCKS, (soundGroup.getVolume() + 1.0F) / 2.0F, soundGroup.getPitch() * 0.8F);
+            if (addNewItem) this.setItem(0, stack);
+            else if (addItem) stack.grow(1);
+            this.setChanged();
         }
         return success;
     }
@@ -129,44 +127,44 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
     }
 
     public boolean releaseWinding(Direction dir, int maxDist, boolean removeItem) {
-        ItemStack stack = this.getStack(0);
+        ItemStack stack = this.getItem(0);
         if (stack.getCount() < 1 || !(stack.getItem() instanceof BlockItem bi)) return false;
         Block windingBlock = bi.getBlock();
 
-        boolean success = WindingHelper.addWinding(pos.offset(dir), world, null, Hand.MAIN_HAND, windingBlock, dir, maxDist);
+        boolean success = WindingHelper.addWinding(worldPosition.relative(dir), level, null, InteractionHand.MAIN_HAND, windingBlock, dir, maxDist);
         if (success) {
-            BlockSoundGroup soundGroup = windingBlock.getDefaultState().getSoundGroup();
-            world.playSound(null, pos, soundGroup.getPlaceSound(), SoundCategory.BLOCKS, (soundGroup.getVolume() + 1.0F) / 2.0F, soundGroup.getPitch() * 0.8F);
+            SoundType soundGroup = windingBlock.defaultBlockState().getSoundType();
+            level.playSound(null, worldPosition, soundGroup.getPlaceSound(), SoundSource.BLOCKS, (soundGroup.getVolume() + 1.0F) / 2.0F, soundGroup.getPitch() * 0.8F);
             if(removeItem) {
-                stack.decrement(1);
-                this.markDirty();
+                stack.shrink(1);
+                this.setChanged();
             }
         }
         return success;
     }
 
-    public boolean operateIndirect(PlayerEntity player, Hand hand, Block windingBlock, Direction moveDir, boolean retracting) {
-        ItemStack stack = getStack(0);
+    public boolean operateIndirect(Player player, InteractionHand hand, Block windingBlock, Direction moveDir, boolean retracting) {
+        ItemStack stack = getItem(0);
         if (stack.isEmpty()) {
             if (retracting) {
                 return false;
             } else {
-                this.setStack(0, new ItemStack(windingBlock));
-                this.markDirty();
+                this.setItem(0, new ItemStack(windingBlock));
+                this.setChanged();
                 return true;
             }
         }
-        if (!stack.isOf(windingBlock.asItem())) return false;
-        Direction.Axis axis = this.getCachedState().get(PulleyBlock.AXIS);
+        if (!stack.is(windingBlock.asItem())) return false;
+        Direction.Axis axis = this.getBlockState().getValue(PulleyBlock.AXIS);
         if (axis == moveDir.getAxis()) return false;
 
         Direction[] order = moveDir.getAxis().isHorizontal() ? new Direction[]{Direction.DOWN} :
-                new Direction[]{moveDir, moveDir.rotateClockwise(axis), moveDir.rotateCounterclockwise(axis)};
+                new Direction[]{moveDir, moveDir.getClockWise(axis), moveDir.getCounterClockWise(axis)};
 
         List<Direction> remaining = new ArrayList<>();
         int maxSideDist = 7;
         for (var d : order) {
-            if (WindingHelper.isCorrectWinding(windingBlock, world.getBlockState(pos.offset(d)), d)) {
+            if (WindingHelper.isCorrectWinding(windingBlock, level.getBlockState(worldPosition.relative(d)), d)) {
                 if (moveConnected(retracting, maxSideDist, d)) return true;
                 return false;
             } else remaining.add(d);
@@ -175,8 +173,8 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
             if (moveConnected(retracting, maxSideDist, d)) return true;
         }
         if (retracting) {
-            stack.decrement(1);
-            this.markDirty();
+            stack.shrink(1);
+            this.setChanged();
             return true;
         }
         return false;
@@ -185,7 +183,7 @@ public class PulleyBlockEntity extends BlockEntity implements NamedScreenHandler
     private boolean moveConnected(boolean retracting, int maxSideDist, Direction d) {
         int dist = d == Direction.DOWN ? Integer.MAX_VALUE : maxSideDist;
         boolean result = retracting ? pullWinding(d, dist, false) : releaseWinding(d, dist, false);
-        if (result && !retracting) world.setBlockState(pos, this.getCachedState().cycle(PulleyBlock.FLIPPED), Block.NOTIFY_LISTENERS);
+        if (result && !retracting) level.setBlock(worldPosition, this.getBlockState().cycle(PulleyBlock.FLIPPED), Block.UPDATE_CLIENTS);
         return result;
     }
 }

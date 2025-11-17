@@ -7,66 +7,66 @@ import com.edryu.morethings.registry.ItemRegistry;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.core.HolderLookup;
 
 public class LootTableProvider extends FabricBlockLootTableProvider {
     
-	protected LootTableProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+	protected LootTableProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
 		super(dataOutput, registryLookup);
 	}
 
 	@Override
 	public void generate() {
-                addDrop(BlockRegistry.SACK);
-                addDrop(BlockRegistry.SAFE);
-                addDrop(BlockRegistry.PEDESTAL);
-                addDrop(BlockRegistry.SMALL_PEDESTAL);
-                addDrop(BlockRegistry.DISPLAY);
-                addDrop(BlockRegistry.BAR_PANEL);
-                addDrop(BlockRegistry.LATTICE);
-                addDrop(BlockRegistry.BOOK_PILE_HORIZONTAL);
-                addDrop(BlockRegistry.BOOK_PILE_VERTICAL);
-                addDrop(BlockRegistry.STONE_PILLAR);
-                addDrop(BlockRegistry.BIG_CHAIN);
+                dropSelf(BlockRegistry.SACK);
+                dropSelf(BlockRegistry.SAFE);
+                dropSelf(BlockRegistry.PEDESTAL);
+                dropSelf(BlockRegistry.SMALL_PEDESTAL);
+                dropSelf(BlockRegistry.DISPLAY);
+                dropSelf(BlockRegistry.BAR_PANEL);
+                dropSelf(BlockRegistry.LATTICE);
+                dropSelf(BlockRegistry.BOOK_PILE_HORIZONTAL);
+                dropSelf(BlockRegistry.BOOK_PILE_VERTICAL);
+                dropSelf(BlockRegistry.STONE_PILLAR);
+                dropSelf(BlockRegistry.BIG_CHAIN);
 
-                addDrop(BlockRegistry.COG);
-                addDrop(BlockRegistry.PULLEY);
-                addDrop(BlockRegistry.TURN_TABLE);
-                addDrop(BlockRegistry.CRANK);
-                addDrop(BlockRegistry.CONSOLE);
-                addDrop(BlockRegistry.RED_BUTTON);
+                dropSelf(BlockRegistry.COG);
+                dropSelf(BlockRegistry.PULLEY);
+                dropSelf(BlockRegistry.TURN_TABLE);
+                dropSelf(BlockRegistry.CRANK);
+                dropSelf(BlockRegistry.CONSOLE);
+                dropSelf(BlockRegistry.RED_BUTTON);
 
-                addDrop(BlockRegistry.ROPE);
-                addDrop(BlockRegistry.ROPE_KNOT, ItemRegistry.ROPE);
-                addDrop(BlockRegistry.BUNTING_CEILING);
-                addDrop(BlockRegistry.BUNTING_WALL);
+                dropSelf(BlockRegistry.ROPE);
+                dropOther(BlockRegistry.ROPE_KNOT, ItemRegistry.ROPE);
+                dropSelf(BlockRegistry.BUNTING_CEILING);
+                dropSelf(BlockRegistry.BUNTING_WALL);
 
-                addDrop(BlockRegistry.DAUB);
-                addDrop(BlockRegistry.DAUB_SLAB, slabDrops(BlockRegistry.DAUB_SLAB));
-                addDrop(BlockRegistry.THATCH);
-                addDrop(BlockRegistry.THATCH_STAIRS);
-                addDrop(BlockRegistry.THATCH_SLAB, slabDrops(BlockRegistry.THATCH_SLAB));
-                addDrop(BlockRegistry.HAYSTACK);
+                dropSelf(BlockRegistry.DAUB);
+                add(BlockRegistry.DAUB_SLAB, createSlabItemTable(BlockRegistry.DAUB_SLAB));
+                dropSelf(BlockRegistry.THATCH);
+                dropSelf(BlockRegistry.THATCH_STAIRS);
+                add(BlockRegistry.THATCH_SLAB, createSlabItemTable(BlockRegistry.THATCH_SLAB));
+                dropSelf(BlockRegistry.HAYSTACK);
 
 
-                addDrop(BlockRegistry.ACACIA_PALISADE);
-                addDrop(BlockRegistry.BAMBOO_PALISADE);
-                addDrop(BlockRegistry.BIRCH_PALISADE);
-                addDrop(BlockRegistry.CHERRY_PALISADE);
-                addDrop(BlockRegistry.CRIMSON_PALISADE);
-                addDrop(BlockRegistry.DARK_OAK_PALISADE);
-                addDrop(BlockRegistry.JUNGLE_PALISADE);
-                addDrop(BlockRegistry.MANGROVE_PALISADE);
-                addDrop(BlockRegistry.OAK_PALISADE);
-                addDrop(BlockRegistry.PALE_OAK_PALISADE);
-                addDrop(BlockRegistry.SPRUCE_PALISADE);
-                addDrop(BlockRegistry.WARPED_PALISADE);
+                dropSelf(BlockRegistry.ACACIA_PALISADE);
+                dropSelf(BlockRegistry.BAMBOO_PALISADE);
+                dropSelf(BlockRegistry.BIRCH_PALISADE);
+                dropSelf(BlockRegistry.CHERRY_PALISADE);
+                dropSelf(BlockRegistry.CRIMSON_PALISADE);
+                dropSelf(BlockRegistry.DARK_OAK_PALISADE);
+                dropSelf(BlockRegistry.JUNGLE_PALISADE);
+                dropSelf(BlockRegistry.MANGROVE_PALISADE);
+                dropSelf(BlockRegistry.OAK_PALISADE);
+                dropSelf(BlockRegistry.PALE_OAK_PALISADE);
+                dropSelf(BlockRegistry.SPRUCE_PALISADE);
+                dropSelf(BlockRegistry.WARPED_PALISADE);
 
-                addDrop(BlockRegistry.BOAT_IN_A_JAR);
-                addDrop(BlockRegistry.TERRARIUM);
-                addDrop(BlockRegistry.GLOBE);
-                addDrop(BlockRegistry.GLOBE_SEPIA);
-                addDrop(BlockRegistry.TELESCOPE, doorDrops(BlockRegistry.TELESCOPE));
-                addDrop(BlockRegistry.SPYGLASS_STAND);
+                dropSelf(BlockRegistry.BOAT_IN_A_JAR);
+                dropSelf(BlockRegistry.TERRARIUM);
+                dropSelf(BlockRegistry.GLOBE);
+                dropSelf(BlockRegistry.GLOBE_SEPIA);
+                add(BlockRegistry.TELESCOPE, createDoorTable(BlockRegistry.TELESCOPE));
+                dropSelf(BlockRegistry.SPYGLASS_STAND);
 	}
 }

@@ -1,31 +1,31 @@
 package com.edryu.morethings.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class BookPileVerticalBlock extends BookPileBlock {
-    protected static final VoxelShape BOOKS_SHAPE_Z1 = Block.createCuboidShape(4, 0, 3, 12, 4, 13);
-    protected static final VoxelShape BOOKS_SHAPE_X1 = Block.createCuboidShape(3, 0, 4, 13, 4, 12);
+    protected static final VoxelShape BOOKS_SHAPE_Z1 = Block.box(4, 0, 3, 12, 4, 13);
+    protected static final VoxelShape BOOKS_SHAPE_X1 = Block.box(3, 0, 4, 13, 4, 12);
     
-    protected static final VoxelShape BOOKS_SHAPE_N2 = Block.createCuboidShape(1, 0, 1, 15, 8, 15);
-    protected static final VoxelShape BOOKS_SHAPE_N3 = Block.createCuboidShape(1, 0, 1, 15, 12, 15);
-    protected static final VoxelShape BOOKS_SHAPE_N4 = Block.createCuboidShape(1, 0, 1, 15, 16, 15);
+    protected static final VoxelShape BOOKS_SHAPE_N2 = Block.box(1, 0, 1, 15, 8, 15);
+    protected static final VoxelShape BOOKS_SHAPE_N3 = Block.box(1, 0, 1, 15, 12, 15);
+    protected static final VoxelShape BOOKS_SHAPE_N4 = Block.box(1, 0, 1, 15, 16, 15);
 
-    public BookPileVerticalBlock(Settings settings) {
+    public BookPileVerticalBlock(Properties settings) {
         super(settings);
     }
 
 	@Override
-	protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-        switch (state.get(FACING)) {
+	protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        switch (state.getValue(FACING)) {
             case NORTH:
             case SOUTH:
             default:
-                switch (state.get(BOOKS)) {
+                switch (state.getValue(BOOKS)) {
                     case 0:
                     default:
                         return BOOKS_SHAPE_Z1;
@@ -38,7 +38,7 @@ public class BookPileVerticalBlock extends BookPileBlock {
                 }
             case EAST:
             case WEST:
-                switch (state.get(BOOKS)) {
+                switch (state.getValue(BOOKS)) {
                     case 0:
                     default:
                         return BOOKS_SHAPE_X1;

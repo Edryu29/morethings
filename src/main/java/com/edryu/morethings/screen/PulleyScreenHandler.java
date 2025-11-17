@@ -3,36 +3,35 @@ package com.edryu.morethings.screen;
 import com.edryu.morethings.registry.ScreenRegistry;
 import com.edryu.morethings.util.BlockProperties.Winding;
 import com.edryu.morethings.util.WindingHelper;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.slot.Slot;
 
-
-public class PulleyScreenHandler extends ScreenHandler {
-    private final Inventory inventory;
+public class PulleyScreenHandler extends AbstractContainerMenu {
+    private final Container inventory;
     
-    public PulleyScreenHandler(int syncId, PlayerInventory playerInventory) {
-        this(syncId, playerInventory, new SimpleInventory(1));
+    public PulleyScreenHandler(int syncId, Inventory playerInventory) {
+        this(syncId, playerInventory, new SimpleContainer(1));
     }
     
-    public PulleyScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
+    public PulleyScreenHandler(int syncId, Inventory playerInventory, Container inventory) {
         super(ScreenRegistry.PULLEY_SCREEN_HANDLER, syncId);
-        checkSize(inventory, 1);
+        checkContainerSize(inventory, 1);
         this.inventory = inventory;
 
-        inventory.onOpen(playerInventory.player);
+        inventory.startOpen(playerInventory.player);
     
         int m;
         int l;
         
         this.addSlot(new Slot(inventory, 0, 79, 39) {
             @Override
-            public boolean canInsert(ItemStack stack) {
+            public boolean mayPlace(ItemStack stack) {
                 return WindingHelper.getWindingType(stack.getItem()) != Winding.NONE;
             }
         });
@@ -49,37 +48,37 @@ public class PulleyScreenHandler extends ScreenHandler {
     }
     
     @Override
-    public boolean canUse(PlayerEntity player) {
-        return this.inventory.canPlayerUse(player);
+    public boolean stillValid(Player player) {
+        return this.inventory.stillValid(player);
     }
     
     @Override
-    public ItemStack quickMove(PlayerEntity player, int invSlot) {
+    public ItemStack quickMoveStack(Player player, int invSlot) {
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(invSlot);
-        if (slot != null && slot.hasStack()) {
-            ItemStack originalStack = slot.getStack();
+        if (slot != null && slot.hasItem()) {
+            ItemStack originalStack = slot.getItem();
             newStack = originalStack.copy();
-            if (invSlot < this.inventory.size()) {
-                if (!this.insertItem(originalStack, this.inventory.size(), this.slots.size(), true)) {
+            if (invSlot < this.inventory.getContainerSize()) {
+                if (!this.moveItemStackTo(originalStack, this.inventory.getContainerSize(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.insertItem(originalStack, 0, this.inventory.size(), false)) {
+            } else if (!this.moveItemStackTo(originalStack, 0, this.inventory.getContainerSize(), false)) {
                 return ItemStack.EMPTY;
             }
     
             if (originalStack.isEmpty()) {
-                slot.setStack(ItemStack.EMPTY);
+                slot.setByPlayer(ItemStack.EMPTY);
             } else {
-                slot.markDirty();
+                slot.setChanged();
             }
         }
     
         return newStack;
     }
 
-   public void onClosed(PlayerEntity player) {
-        super.onClosed(player);
-        this.inventory.onClose(player);
+   public void removed(Player player) {
+        super.removed(player);
+        this.inventory.stopOpen(player);
     }
 }

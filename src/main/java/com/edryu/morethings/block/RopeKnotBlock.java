@@ -1,100 +1,98 @@
 package com.edryu.morethings.block;
 
 import java.util.List;
-
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShearsItem;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import com.edryu.morethings.entity.RopeKnotBlockEntity;
 import com.edryu.morethings.registry.BlockRegistry;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShearsItem;
-import net.minecraft.loot.context.LootContextParameterSet;
-import net.minecraft.loot.context.LootContextParameters;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ItemActionResult;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.util.shape.VoxelShapes;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
+public class RopeKnotBlock extends WaterloggableBlock implements EntityBlock {
+    public static final BooleanProperty NORTH = BooleanProperty.create("north");
+    public static final BooleanProperty SOUTH = BooleanProperty.create("south");
+    public static final BooleanProperty WEST = BooleanProperty.create("west");
+    public static final BooleanProperty EAST = BooleanProperty.create("east");
 
-public class RopeKnotBlock extends WaterloggableBlock implements BlockEntityProvider {
-    public static final BooleanProperty NORTH = BooleanProperty.of("north");
-    public static final BooleanProperty SOUTH = BooleanProperty.of("south");
-    public static final BooleanProperty WEST = BooleanProperty.of("west");
-    public static final BooleanProperty EAST = BooleanProperty.of("east");
+    private static final VoxelShape ROPE_KNOT = Block.box(5, 8, 5, 11, 14, 11);
+    private static final VoxelShape ROPE_NORTH = Block.box(6, 9, 0, 10, 13, 9);
+    private static final VoxelShape ROPE_SOUTH = Block.box(6, 9, 9, 10, 13, 16);
+    private static final VoxelShape ROPE_WEST = Block.box(0, 9, 6, 9, 13, 10);
+    private static final VoxelShape ROPE_EAST = Block.box(9, 9, 6, 16, 13, 10);
+    private static final VoxelShape POST = Block.box(6, 0, 6, 10, 16, 10);
+    private static final VoxelShape SHAPE = Shapes.or(POST, ROPE_KNOT);
 
-    private static final VoxelShape ROPE_KNOT = Block.createCuboidShape(5, 8, 5, 11, 14, 11);
-    private static final VoxelShape ROPE_NORTH = Block.createCuboidShape(6, 9, 0, 10, 13, 9);
-    private static final VoxelShape ROPE_SOUTH = Block.createCuboidShape(6, 9, 9, 10, 13, 16);
-    private static final VoxelShape ROPE_WEST = Block.createCuboidShape(0, 9, 6, 9, 13, 10);
-    private static final VoxelShape ROPE_EAST = Block.createCuboidShape(9, 9, 6, 16, 13, 10);
-    private static final VoxelShape POST = Block.createCuboidShape(6, 0, 6, 10, 16, 10);
-    private static final VoxelShape SHAPE = VoxelShapes.union(POST, ROPE_KNOT);
-
-    public RopeKnotBlock(Settings settings) {
+    public RopeKnotBlock(Properties settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(WATERLOGGED, false)
-            .with(NORTH, false).with(SOUTH, false).with(WEST, false).with(EAST, false));
+        registerDefaultState(defaultBlockState().setValue(WATERLOGGED, false)
+            .setValue(NORTH, false).setValue(SOUTH, false).setValue(WEST, false).setValue(EAST, false));
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(WATERLOGGED, NORTH, SOUTH, WEST, EAST);
     }
 
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new RopeKnotBlockEntity(pos, state);
     }
 
     @Override
-    public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
-        return VoxelShapes.union( SHAPE,
-            state.get(NORTH) ? ROPE_NORTH : VoxelShapes.empty(),
-            state.get(SOUTH) ? ROPE_SOUTH : VoxelShapes.empty(),
-            state.get(EAST) ? ROPE_EAST : VoxelShapes.empty(),
-            state.get(WEST) ? ROPE_WEST : VoxelShapes.empty()
+    public VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+        return Shapes.or( SHAPE,
+            state.getValue(NORTH) ? ROPE_NORTH : Shapes.empty(),
+            state.getValue(SOUTH) ? ROPE_SOUTH : Shapes.empty(),
+            state.getValue(EAST) ? ROPE_EAST : Shapes.empty(),
+            state.getValue(WEST) ? ROPE_WEST : Shapes.empty()
         );
     }
 
     @Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-        WorldAccess world = ctx.getWorld();
-        BlockPos pos = ctx.getBlockPos();
-        BlockState state = this.getDefaultState();
-        for (Direction dir : Direction.Type.HORIZONTAL) {
-            state = state.with(getDirState(dir), canConnectTo(world.getBlockState(pos.offset(dir)), dir));
+	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        LevelAccessor world = ctx.getLevel();
+        BlockPos pos = ctx.getClickedPos();
+        BlockState state = this.defaultBlockState();
+        for (Direction dir : Direction.Plane.HORIZONTAL) {
+            state = state.setValue(getDirState(dir), canConnectTo(world.getBlockState(pos.relative(dir)), dir));
         }
         return state;
     }
 
     @Override
-	protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
         if (direction.getAxis().isHorizontal()) {
             boolean connected = canConnectTo(neighborState, direction);
-            state = state.with(getDirectionProperty(direction), connected);
+            state = state.setValue(getDirectionProperty(direction), connected);
         }
 
         if (world.getBlockEntity(pos) instanceof RopeKnotBlockEntity be) {
             BlockState heldBlock = be.getHeldBlock();
             if (heldBlock != null) {
-                BlockState updated = heldBlock.getStateForNeighborUpdate(direction, neighborState, world, pos, neighborPos);
+                BlockState updated = heldBlock.updateShape(direction, neighborState, world, pos, neighborPos);
                 be.setHeldBlock(updated);
             }
         }
@@ -102,34 +100,34 @@ public class RopeKnotBlock extends WaterloggableBlock implements BlockEntityProv
     }
 
     @Override
-    protected ItemActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (stack.getItem() instanceof ShearsItem || Screen.hasShiftDown()) {
-            if (!world.isClient() && world.getBlockEntity(pos) instanceof RopeKnotBlockEntity be) {
+            if (!world.isClientSide() && world.getBlockEntity(pos) instanceof RopeKnotBlockEntity be) {
                 ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(BlockRegistry.ROPE));
-                world.spawnEntity(itemEntity);
+                world.addFreshEntity(itemEntity);
                 BlockState heldBlock = be.getHeldBlock();
                 if (heldBlock != null && !heldBlock.isAir()) {
-                    world.setBlockState(pos, heldBlock, Block.NOTIFY_ALL_AND_REDRAW);
+                    world.setBlock(pos, heldBlock, Block.UPDATE_ALL_IMMEDIATE);
                 } else {
                     world.removeBlock(pos, false);
                 }
                 if (stack.getItem() instanceof ShearsItem) {
-                    world.playSound(null, pos, SoundEvents.ENTITY_SNOW_GOLEM_SHEAR, SoundCategory.BLOCKS, 0.8F, 1.3F);
-                    stack.damage(1, player, null);
+                    world.playSound(null, pos, SoundEvents.SNOW_GOLEM_SHEAR, SoundSource.BLOCKS, 0.8F, 1.3F);
+                    stack.hurtAndBreak(1, player, null);
                 } else {
-                    world.playSound(null, pos, SoundEvents.ENTITY_LEASH_KNOT_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    world.playSound(null, pos, SoundEvents.LEASH_KNOT_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
                 }
                 updateNeighbors(world, pos);
             }
-            return world.isClient() ? ItemActionResult.CONSUME : ItemActionResult.SUCCESS;
+            return world.isClientSide() ? ItemInteractionResult.CONSUME : ItemInteractionResult.SUCCESS;
         }
-        return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Override
-    protected List<ItemStack> getDroppedStacks(BlockState state, LootContextParameterSet.Builder builder) {
-        List<ItemStack> drops = super.getDroppedStacks(state, builder);
-        if (builder.getOptional(LootContextParameters.BLOCK_ENTITY) instanceof RopeKnotBlockEntity be) {
+    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
+        List<ItemStack> drops = super.getDrops(state, builder);
+        if (builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof RopeKnotBlockEntity be) {
             BlockState heldBlock = be.getHeldBlock();
             if (heldBlock != null && !heldBlock.isAir()) {
                 drops.add(new ItemStack(heldBlock.getBlock().asItem()));
@@ -141,16 +139,16 @@ public class RopeKnotBlock extends WaterloggableBlock implements BlockEntityProv
     private boolean canConnectTo(BlockState neighbor, Direction dirTowardNeighbor) {
         if (neighbor.getBlock() instanceof RopeBlock) {
             Direction needOnNeighbor = dirTowardNeighbor.getOpposite();
-            return neighbor.get(getRopeProperty(needOnNeighbor));
+            return neighbor.getValue(getRopeProperty(needOnNeighbor));
         }
         return false;
     }
 
-    private void updateNeighbors(World world, BlockPos pos) {
-        world.updateNeighbors(pos, this);
-        for (Direction d : Direction.Type.HORIZONTAL) {
-            BlockPos n = pos.offset(d);
-            world.updateNeighbors(n, world.getBlockState(n).getBlock());
+    private void updateNeighbors(Level world, BlockPos pos) {
+        world.blockUpdated(pos, this);
+        for (Direction d : Direction.Plane.HORIZONTAL) {
+            BlockPos n = pos.relative(d);
+            world.blockUpdated(n, world.getBlockState(n).getBlock());
         }
     }
 
@@ -184,24 +182,24 @@ public class RopeKnotBlock extends WaterloggableBlock implements BlockEntityProv
     }
 
     @Override
-    protected void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
-        if (!world.isClient() && !state.isOf(oldState.getBlock())) updateNeighbors(world, pos);
-        super.onBlockAdded(state, world, pos, oldState, notify);
+    protected void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify) {
+        if (!world.isClientSide() && !state.is(oldState.getBlock())) updateNeighbors(world, pos);
+        super.onPlace(state, world, pos, oldState, notify);
     }
 
     @Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved)  {
-        if (!world.isClient() && !state.isOf(newState.getBlock())) updateNeighbors(world, pos);
-        super.onStateReplaced(state, world, pos, newState, moved);
+    protected void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved)  {
+        if (!world.isClientSide() && !state.is(newState.getBlock())) updateNeighbors(world, pos);
+        super.onRemove(state, world, pos, newState, moved);
     }
 
     @Override
-	protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+	protected VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return SHAPE;
 	}
 
     @Override
-    protected boolean hasSidedTransparency(BlockState state) {
+    protected boolean useShapeForLightOcclusion(BlockState state) {
         return true;
     }
 }

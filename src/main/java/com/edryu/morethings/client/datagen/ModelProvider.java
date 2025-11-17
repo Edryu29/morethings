@@ -5,9 +5,9 @@ import com.edryu.morethings.registry.ItemRegistry;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.minecraft.data.client.BlockStateModelGenerator;
-import net.minecraft.data.client.ItemModelGenerator;
-import net.minecraft.data.client.Models;
+import net.minecraft.data.models.BlockModelGenerators;
+import net.minecraft.data.models.ItemModelGenerators;
+import net.minecraft.data.models.model.ModelTemplates;
 
 public class ModelProvider extends FabricModelProvider {
     
@@ -16,34 +16,34 @@ public class ModelProvider extends FabricModelProvider {
     }
     
     @Override
-    public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        itemModelGenerator.register(ItemRegistry.ORB, Models.GENERATED);
-        itemModelGenerator.register(ItemRegistry.BUNTING, Models.GENERATED);
+    public void generateItemModels(ItemModelGenerators itemModelGenerator) {
+        itemModelGenerator.generateFlatItem(ItemRegistry.ORB, ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ItemRegistry.BUNTING, ModelTemplates.FLAT_ITEM);
 
-        itemModelGenerator.register(ItemRegistry.BLUE_CRYSTAL, Models.GENERATED);
-        itemModelGenerator.register(ItemRegistry.GREEN_CRYSTAL, Models.GENERATED);
-        itemModelGenerator.register(ItemRegistry.PURPLE_CRYSTAL, Models.GENERATED);
-        itemModelGenerator.register(ItemRegistry.RED_CRYSTAL, Models.GENERATED);
+        itemModelGenerator.generateFlatItem(ItemRegistry.BLUE_CRYSTAL, ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ItemRegistry.GREEN_CRYSTAL, ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ItemRegistry.PURPLE_CRYSTAL, ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ItemRegistry.RED_CRYSTAL, ModelTemplates.FLAT_ITEM);
         
-        itemModelGenerator.register(ItemRegistry.CITRINE, Models.GENERATED);
-        itemModelGenerator.register(ItemRegistry.JADE, Models.GENERATED);
-        itemModelGenerator.register(ItemRegistry.RUBY, Models.GENERATED);
-        itemModelGenerator.register(ItemRegistry.SAPPHIRE, Models.GENERATED);
-        itemModelGenerator.register(ItemRegistry.TANZANITE, Models.GENERATED);
-        itemModelGenerator.register(ItemRegistry.TOPAZ, Models.GENERATED);
+        itemModelGenerator.generateFlatItem(ItemRegistry.CITRINE, ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ItemRegistry.JADE, ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ItemRegistry.RUBY, ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ItemRegistry.SAPPHIRE, ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ItemRegistry.TANZANITE, ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(ItemRegistry.TOPAZ, ModelTemplates.FLAT_ITEM);
         
-        itemModelGenerator.register(BlockRegistry.BIG_CHAIN.asItem(), Models.GENERATED);
-        itemModelGenerator.register(BlockRegistry.BOAT_IN_A_JAR.asItem(), Models.GENERATED);
-        itemModelGenerator.register(BlockRegistry.DISPLAY.asItem(), Models.GENERATED);
-        itemModelGenerator.register(BlockRegistry.ROPE.asItem(), Models.GENERATED);
-        itemModelGenerator.register(BlockRegistry.TELESCOPE.asItem(), Models.GENERATED);
-        itemModelGenerator.register(BlockRegistry.SPYGLASS_STAND.asItem(), Models.GENERATED);
-        itemModelGenerator.register(BlockRegistry.TERRARIUM.asItem(), Models.GENERATED);
-        itemModelGenerator.register(BlockRegistry.GLOBE.asItem(), Models.GENERATED);
-        itemModelGenerator.register(BlockRegistry.GLOBE_SEPIA.asItem(), Models.GENERATED);
-        itemModelGenerator.register(BlockRegistry.CRANK.asItem(), Models.GENERATED);
+        itemModelGenerator.generateFlatItem(BlockRegistry.BIG_CHAIN.asItem(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(BlockRegistry.BOAT_IN_A_JAR.asItem(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(BlockRegistry.DISPLAY.asItem(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(BlockRegistry.ROPE.asItem(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(BlockRegistry.TELESCOPE.asItem(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(BlockRegistry.SPYGLASS_STAND.asItem(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(BlockRegistry.TERRARIUM.asItem(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(BlockRegistry.GLOBE.asItem(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(BlockRegistry.GLOBE_SEPIA.asItem(), ModelTemplates.FLAT_ITEM);
+        itemModelGenerator.generateFlatItem(BlockRegistry.CRANK.asItem(), ModelTemplates.FLAT_ITEM);
     }
 
   @Override
-  public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {}
+  public void generateBlockStateModels(BlockModelGenerators blockStateModelGenerator) {}
 }
