@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "0": {
+      "item": "minecraft:birch_log"
+    }
+  },
+  "pattern": [
+    "00 ",
+    "00 ",
+    "00 "
+  ],
+  "result": {
+    "count": 6,
+    "id": "morethings:pale_oak_shutter"
+  }
+}

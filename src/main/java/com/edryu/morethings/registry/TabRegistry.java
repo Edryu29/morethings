@@ -70,6 +70,16 @@ public class TabRegistry {
             itemGroup.accept(BlockRegistry.SPRUCE_PALISADE.asItem());
             itemGroup.accept(BlockRegistry.WARPED_PALISADE.asItem());
 
+            itemGroup.accept(BlockRegistry.ACACIA_SHUTTER.asItem());
+            itemGroup.accept(BlockRegistry.BIRCH_SHUTTER.asItem());
+            itemGroup.accept(BlockRegistry.CHERRY_SHUTTER.asItem());
+            itemGroup.accept(BlockRegistry.DARK_OAK_SHUTTER.asItem());
+            itemGroup.accept(BlockRegistry.JUNGLE_SHUTTER.asItem());
+            itemGroup.accept(BlockRegistry.MANGROVE_SHUTTER.asItem());
+            itemGroup.accept(BlockRegistry.OAK_SHUTTER.asItem());
+            itemGroup.accept(BlockRegistry.PALE_OAK_SHUTTER.asItem());
+            itemGroup.accept(BlockRegistry.SPRUCE_SHUTTER.asItem());
+
             itemGroup.accept(ItemRegistry.ORB);
 
             itemGroup.accept(ItemRegistry.BUNTING);

@@ -360,6 +360,16 @@ public class RecipeProvider extends FabricRecipeProvider {
         // createPalisadeRecipe(BlockRegistry.PALE_OAK_PALISADE, Items.BIRCH_LOG, recipeExporter);
         createPalisadeRecipe(BlockRegistry.SPRUCE_PALISADE, Items.STRIPPED_SPRUCE_LOG, recipeExporter);
         createPalisadeRecipe(BlockRegistry.WARPED_PALISADE, Items.STRIPPED_WARPED_STEM, recipeExporter);
+
+        createShutterRecipe(BlockRegistry.ACACIA_SHUTTER, Items.STRIPPED_ACACIA_LOG, recipeExporter);
+        createShutterRecipe(BlockRegistry.BIRCH_SHUTTER, Items.STRIPPED_BIRCH_LOG, recipeExporter);
+        createShutterRecipe(BlockRegistry.CHERRY_SHUTTER, Items.STRIPPED_CHERRY_LOG, recipeExporter);
+        createShutterRecipe(BlockRegistry.DARK_OAK_SHUTTER, Items.STRIPPED_DARK_OAK_LOG, recipeExporter);
+        createShutterRecipe(BlockRegistry.JUNGLE_SHUTTER, Items.STRIPPED_JUNGLE_LOG, recipeExporter);
+        createShutterRecipe(BlockRegistry.MANGROVE_SHUTTER, Items.STRIPPED_MANGROVE_LOG, recipeExporter);
+        createShutterRecipe(BlockRegistry.OAK_SHUTTER, Items.STRIPPED_OAK_LOG, recipeExporter);
+        // createShutterRecipe(BlockRegistry.PALE_OAK_SHUTTER, Items.BIRCH_LOG, recipeExporter);
+        createShutterRecipe(BlockRegistry.SPRUCE_SHUTTER, Items.STRIPPED_SPRUCE_LOG, recipeExporter);
     }
 
     public static void createPalisadeRecipe(ItemLike output, ItemLike ingredient, RecipeOutput recipeExporter) {
@@ -367,6 +377,16 @@ public class RecipeProvider extends FabricRecipeProvider {
             .pattern("00 ")
             .pattern("   ")
             .pattern("   ")
+            .define('0', ingredient)
+            .unlockedBy(FabricRecipeProvider.getHasName(ingredient), FabricRecipeProvider.has(ingredient))
+            .save(recipeExporter);
+	}
+
+    public static void createShutterRecipe(ItemLike output, ItemLike ingredient, RecipeOutput recipeExporter) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, output, 6)
+            .pattern("00 ")
+            .pattern("00 ")
+            .pattern("00 ")
             .define('0', ingredient)
             .unlockedBy(FabricRecipeProvider.getHasName(ingredient), FabricRecipeProvider.has(ingredient))
             .save(recipeExporter);

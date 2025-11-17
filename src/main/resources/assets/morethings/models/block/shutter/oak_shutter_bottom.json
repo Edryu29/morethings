@@ -1,8 +1,8 @@
 {
 	"credit": "Made by Satisfy",
 	"textures": {
-		"particle": "morethings:block/oak_shutter_bottom",
-		"middle": "morethings:block/oak_shutter_bottom"
+		"particle": "morethings:block/shutter/oak_shutter_bottom",
+		"middle": "morethings:block/shutter/oak_shutter_bottom"
 	},
 	"elements": [
 		{

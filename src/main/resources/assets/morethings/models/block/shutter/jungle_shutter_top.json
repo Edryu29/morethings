@@ -1,7 +1,7 @@
 {
-  "parent": "morethings:block/oak_shutter_top",
+  "parent": "morethings:block/shutter/oak_shutter_top",
   "textures": {
-    "particle": "morethings:block/jungle_shutter_top",
-    "middle": "morethings:block/jungle_shutter_top"
+    "particle": "morethings:block/shutter/jungle_shutter_top",
+    "middle": "morethings:block/shutter/jungle_shutter_top"
   }
 }

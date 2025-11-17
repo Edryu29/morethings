@@ -62,6 +62,16 @@ public class LootTableProvider extends FabricBlockLootTableProvider {
                 dropSelf(BlockRegistry.SPRUCE_PALISADE);
                 dropSelf(BlockRegistry.WARPED_PALISADE);
 
+                dropSelf(BlockRegistry.ACACIA_SHUTTER);
+                dropSelf(BlockRegistry.BIRCH_SHUTTER);
+                dropSelf(BlockRegistry.CHERRY_SHUTTER);
+                dropSelf(BlockRegistry.DARK_OAK_SHUTTER);
+                dropSelf(BlockRegistry.JUNGLE_SHUTTER);
+                dropSelf(BlockRegistry.MANGROVE_SHUTTER);
+                dropSelf(BlockRegistry.OAK_SHUTTER);
+                dropSelf(BlockRegistry.PALE_OAK_SHUTTER);
+                dropSelf(BlockRegistry.SPRUCE_SHUTTER);
+
                 dropSelf(BlockRegistry.BOAT_IN_A_JAR);
                 dropSelf(BlockRegistry.TERRARIUM);
                 dropSelf(BlockRegistry.GLOBE);

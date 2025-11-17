@@ -75,6 +75,16 @@ public class BlockRegistry {
     public static final Block SPRUCE_PALISADE = registerBlock(new PalisadeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_FENCE)),"spruce_palisade", true);
     public static final Block WARPED_PALISADE = registerBlock(new PalisadeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_FENCE)),"warped_palisade", true);
 
+    public static final Block ACACIA_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_TRAPDOOR)),"acacia_shutter", true);
+    public static final Block BIRCH_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_TRAPDOOR)),"birch_shutter", true);
+    public static final Block CHERRY_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_TRAPDOOR)),"cherry_shutter", true);
+    public static final Block DARK_OAK_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_TRAPDOOR)),"dark_oak_shutter", true);
+    public static final Block JUNGLE_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_TRAPDOOR)),"jungle_shutter", true);
+    public static final Block MANGROVE_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_TRAPDOOR)),"mangrove_shutter", true);
+    public static final Block OAK_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR)),"oak_shutter", true);
+    public static final Block PALE_OAK_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_TRAPDOOR)),"pale_oak_shutter", true);
+    public static final Block SPRUCE_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_TRAPDOOR)),"spruce_shutter", true);
+
     public static BlockBehaviour.Properties bookPileSettings() {
         return BlockBehaviour.Properties.of().sound(SoundRegistry.BOOKS).strength(0.3f).noOcclusion();
     }
