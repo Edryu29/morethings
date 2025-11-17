@@ -4,7 +4,8 @@
     "morethings:telescope",
     "morethings:pulley",
     "morethings:turn_table",
+    "morethings:rope_knot",
     "#morethings:palisades",
-    "morethings:rope_knot"
+    "#morethings:shutters"
   ]
 }

@@ -162,8 +162,6 @@ public class RopeBlock extends WaterloggableBlock {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (player == null) return InteractionResult.PASS;
-
         ItemStack stack = player.getMainHandItem();
         if (stack.is(this.asItem())) {
             if (!Screen.hasShiftDown()) return InteractionResult.PASS; 
@@ -174,18 +172,17 @@ public class RopeBlock extends WaterloggableBlock {
                 return InteractionResult.SUCCESS;
             }
             return InteractionResult.PASS;
-        } else {
-            if (state.getValue(UP)) {
-                if (findConnectedBell(level, pos, player, 0) && !Screen.hasShiftDown()) return InteractionResult.SUCCESS;
-                if (findConnectedPulley(level, pos, player, 0, Screen.hasShiftDown())) return InteractionResult.SUCCESS;
-            }
-            if (Screen.hasShiftDown()) {
-                if (level.getBlockState(pos.below()).is(this) || level.getBlockState(pos.above()).is(this)) {
-                    if (WindingHelper.removeWindingDown(pos.below(), level, this)) {
-                        level.playSound(player, pos, SoundRegistry.ROPE_SLIDE, SoundSource.BLOCKS, 1, 0.6F);
-                        if (!player.hasInfiniteMaterials()) player.addItem(new ItemStack(ItemRegistry.ROPE, 1));
-                        return InteractionResult.SUCCESS;
-                    }
+        }
+        if (state.getValue(UP)) {
+            if (findConnectedBell(level, pos, player, 0) && !Screen.hasShiftDown()) return InteractionResult.SUCCESS;
+            if (findConnectedPulley(level, pos, player, 0, Screen.hasShiftDown())) return InteractionResult.SUCCESS;
+        }
+        if (Screen.hasShiftDown()) {
+            if (level.getBlockState(pos.below()).is(this) || level.getBlockState(pos.above()).is(this)) {
+                if (WindingHelper.removeWindingDown(pos.below(), level, this)) {
+                    level.playSound(player, pos, SoundRegistry.ROPE_SLIDE, SoundSource.BLOCKS, 1, 0.6F);
+                    if (!player.hasInfiniteMaterials()) player.addItem(new ItemStack(ItemRegistry.ROPE, 1));
+                    return InteractionResult.SUCCESS;
                 }
             }
         }

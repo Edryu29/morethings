@@ -13,7 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -48,21 +48,18 @@ public class BuntingBlock extends HorizontalDirectionalBlock {
 	}
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (player == null) return InteractionResult.PASS;
-
-        Item itemInHand = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
+   protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        Item itemInHand = stack.getItem();
         if (getColorFromDye(itemInHand) != null) {
             level.setBlockAndUpdate(pos, state.setValue(COLOR, getColorFromDye(itemInHand)));
             level.playSound(player, pos, SoundRegistry.ROPE_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
-            return InteractionResult.SUCCESS;
-
+            return ItemInteractionResult.SUCCESS;
         } else if (itemInHand.equals(ItemRegistry.ORB)) {
             level.setBlockAndUpdate(pos, state.setValue(COLOR, getRandomColor()));
             level.playSound(player, pos, SoundRegistry.ROPE_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         }
-        return InteractionResult.PASS;
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Override

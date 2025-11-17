@@ -80,7 +80,6 @@ public class ShutterBlock extends WaterloggableBlock {
         }
 
         state = state.setValue(TYPE, getType(state, level.getBlockState(pos.above()), level.getBlockState(pos.below())));
-
         return state.setValue(WATERLOGGED, level.getFluidState(pos).getType() == Fluids.WATER);
     }
 
@@ -114,11 +113,9 @@ public class ShutterBlock extends WaterloggableBlock {
     public InteractionResult toggleShutters(BlockState state, Level level, BlockPos pos, Player player) {
         state = state.cycle(OPEN);
         level.setBlock(pos, state, Block.UPDATE_ALL);
-        if (player == null || !player.isCrouching()) toggleShutters(state, level, pos, state.getValue(OPEN));
+        if (!player.isCrouching()) toggleShutters(state, level, pos, state.getValue(OPEN));
         level.playSound(null, pos, shutterSound(state.getValue(OPEN)), SoundSource.BLOCKS, 1.0F, 1.0F);
-
         if (state.getValue(WATERLOGGED)) level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-
         return InteractionResult.sidedSuccess(level.isClientSide());
     }
 
