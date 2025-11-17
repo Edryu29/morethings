@@ -6,87 +6,87 @@ import com.edryu.morethings.entity.PulleyBlockEntity;
 import com.edryu.morethings.util.BlockProperties;
 import com.edryu.morethings.util.BlockProperties.Winding;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ItemScatterer;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.BlockHitResult;
 
-public class PulleyBlock extends Block implements BlockEntityProvider {
-	public static final EnumProperty<Direction.Axis> AXIS = Properties.HORIZONTAL_AXIS;
-    public static final BooleanProperty FLIPPED = BooleanProperty.of("flipped");
+public class PulleyBlock extends Block implements EntityBlock {
+	public static final EnumProperty<Direction.Axis> AXIS = BlockStateProperties.HORIZONTAL_AXIS;
+    public static final BooleanProperty FLIPPED = BooleanProperty.create("flipped");
     public static final EnumProperty<Winding> WINDING = BlockProperties.WINDING;
 
-    public PulleyBlock(Settings settings) {
+    public PulleyBlock(Properties settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(AXIS, Direction.Axis.X).with(FLIPPED, false).with(WINDING, Winding.NONE));
+        this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.X).setValue(FLIPPED, false).setValue(WINDING, Winding.NONE));
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(AXIS, FLIPPED, WINDING);
     }
 
     @Override
-    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new PulleyBlockEntity(pos, state);
     }
 
 	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return this.getDefaultState().with(AXIS, ctx.getHorizontalPlayerFacing().getOpposite().getAxis());
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		return this.defaultBlockState().setValue(AXIS, context.getHorizontalDirection().getOpposite().getAxis());
 	}
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!world.isClient) {
-            NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
-            if (screenHandlerFactory != null) player.openHandledScreen(screenHandlerFactory);
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (!level.isClientSide()) {
+            MenuProvider menuProvider = state.getMenuProvider(level, pos);
+            if (menuProvider != null) player.openMenu(menuProvider);
         }
-        return ActionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
     @Override
-    protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved)  {
-		if (!state.isOf(newState.getBlock())) {
-			if (world.getBlockEntity(pos) instanceof PulleyBlockEntity PulleyBlockEntity) ItemScatterer.spawn(world, pos, PulleyBlockEntity);
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston)  {
+		if (!state.is(newState.getBlock())) {
+			if (level.getBlockEntity(pos) instanceof PulleyBlockEntity PulleyBlockEntity) Containers.dropContents(level, pos, PulleyBlockEntity);
 		}
-		super.onStateReplaced(state, world, pos, newState, moved);
+		super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
 	@Override
-	protected boolean onSyncedBlockEvent(BlockState state, World world, BlockPos pos, int type, int data) {
-		super.onSyncedBlockEvent(state, world, pos, type, data);
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		return blockEntity == null ? false : blockEntity.onSyncedBlockEvent(type, data);
+	protected boolean triggerEvent(BlockState state, Level level, BlockPos pos, int id, int param) {
+		super.triggerEvent(state, level, pos, id, param);
+		BlockEntity blockEntity = level.getBlockEntity(pos);
+		return blockEntity == null ? false : blockEntity.triggerEvent(id, param);
 	}
 
 	@Nullable
 	@Override
-	protected NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		return blockEntity instanceof NamedScreenHandlerFactory ? (NamedScreenHandlerFactory)blockEntity : null;
+	protected MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
+		BlockEntity blockEntity = level.getBlockEntity(pos);
+		return blockEntity instanceof MenuProvider ? (MenuProvider)blockEntity : null;
 	}
 
-    public boolean windPulley(BlockState state, World world, BlockPos pos, boolean retract, @Nullable Direction direction) {
-        boolean result = world.getBlockEntity(pos) instanceof PulleyBlockEntity pulleyEntity ? pulleyEntity.operateDirectly(retract) : false;
+    public boolean windPulley(BlockState state, Level level, BlockPos pos, boolean retract, @Nullable Direction direction) {
+        boolean result = level.getBlockEntity(pos) instanceof PulleyBlockEntity pulleyEntity ? pulleyEntity.operateDirectly(retract) : false;
         if (direction != null){
-            BlockPos connectedPos = pos.offset(direction);
-            BlockState connectedPulley = world.getBlockState(connectedPos);
-            if (connectedPulley.isOf(this) && state.get(AXIS) == connectedPulley.get(AXIS)) {
-                ((PulleyBlock)connectedPulley.getBlock()).windPulley(connectedPulley, world, connectedPos, retract, direction);
+            BlockPos connectedPos = pos.relative(direction);
+            BlockState connectedPulley = level.getBlockState(connectedPos);
+            if (connectedPulley.is(this) && state.getValue(AXIS) == connectedPulley.getValue(AXIS)) {
+                ((PulleyBlock)connectedPulley.getBlock()).windPulley(connectedPulley, level, connectedPos, retract, direction);
             }
         }
         return result;

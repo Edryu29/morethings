@@ -1,42 +1,42 @@
 package com.edryu.morethings.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FenceBlock;
-import net.minecraft.block.FenceGateBlock;
-import net.minecraft.block.PaneBlock;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.FenceGateBlock;
+import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PalisadeBlock extends FenceBlock {
-	protected final VoxelShape[] collisionShapes;
-	protected final VoxelShape[] boundingShapes;
+	protected final VoxelShape[] collisionShapeByIndex;
+	protected final VoxelShape[] shapeByIndex;
 
-    public PalisadeBlock(Settings settings) {
+    public PalisadeBlock(Properties settings) {
         super(settings);
-		this.collisionShapes = this.createShapes(3.0F, 3.0F, 24.0F, 0.0F, 24.0F);
-		this.boundingShapes = this.createShapes(3.0F, 3.0F, 16.0F, 0.0F, 16.0F);
+		this.collisionShapeByIndex = this.makeShapes(3.0F, 3.0F, 24.0F, 0.0F, 24.0F);
+		this.shapeByIndex = this.makeShapes(3.0F, 3.0F, 16.0F, 0.0F, 16.0F);
     }
 
 	@Override
-	public boolean canConnect(BlockState state, boolean neighborIsFullSquare, Direction dir) {
+	public boolean connectsTo(BlockState state, boolean isSideSolid, Direction direction) {
 		Block block = state.getBlock();
-		boolean bl = block instanceof PalisadeBlock || block instanceof PaneBlock || state.isIn(BlockTags.WALLS);
-		boolean bl2 = block instanceof FenceGateBlock && FenceGateBlock.canWallConnect(state, dir);
-		return !cannotConnect(state) && neighborIsFullSquare || bl || bl2;
+		boolean bl = block instanceof PalisadeBlock || block instanceof IronBarsBlock || state.is(BlockTags.WALLS);
+		boolean bl2 = block instanceof FenceGateBlock && FenceGateBlock.connectsToDirection(state, direction);
+		return !isExceptionForConnection(state) && isSideSolid || bl || bl2;
 	}
 
 	@Override
-	protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		return this.boundingShapes[this.getShapeIndex(state)];
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		return this.shapeByIndex[this.getAABBIndex(state)];
 	}
 
 	@Override
-	protected VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		return this.collisionShapes[this.getShapeIndex(state)];
+	protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		return this.collisionShapeByIndex[this.getAABBIndex(state)];
 	}
 }

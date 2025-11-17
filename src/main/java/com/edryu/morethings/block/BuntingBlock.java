@@ -9,67 +9,65 @@ import com.edryu.morethings.util.BlockProperties;
 
 import com.mojang.serialization.MapCodec;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.phys.BlockHitResult;
 
-public class BuntingBlock extends HorizontalFacingBlock {
-    public static final MapCodec<BuntingBlock> CODEC = Block.createCodec(BuntingBlock::new);
+public class BuntingBlock extends HorizontalDirectionalBlock {
+    public static final MapCodec<BuntingBlock> CODEC = Block.simpleCodec(BuntingBlock::new);
 
     public static final EnumProperty<Color> COLOR = BlockProperties.COLOR;       
 
-    public BuntingBlock(Settings settings) {
+    public BuntingBlock(Properties settings) {
         super(settings);
-        setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH).with(COLOR, Color.WHITE));
+        this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH).setValue(COLOR, Color.WHITE));
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(Properties.HORIZONTAL_FACING, COLOR);
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(FACING, COLOR);
     }
 
 	@Override
-	protected MapCodec<? extends BuntingBlock> getCodec() {
+	protected MapCodec<? extends BuntingBlock> codec() {
 		return CODEC;
 	}
 
     @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!player.getAbilities().allowModifyWorld || player == null) {
-            return ActionResult.PASS;
-        } else {
-            Item itemInHand = player.getStackInHand(Hand.MAIN_HAND).getItem();
-            if (getColorFromDye(itemInHand) != null) {
-                world.setBlockState(pos, state.with(COLOR, getColorFromDye(itemInHand)));
-                world.playSound(player, pos, SoundRegistry.ROPE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                return ActionResult.SUCCESS;
-            } else if (itemInHand.equals(ItemRegistry.ORB)) {
-                world.setBlockState(pos, state.with(COLOR, getRandomColor()));
-                world.playSound(player, pos, SoundRegistry.ROPE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                return ActionResult.SUCCESS;
-            }
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (player == null) return InteractionResult.PASS;
+
+        Item itemInHand = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
+        if (getColorFromDye(itemInHand) != null) {
+            level.setBlockAndUpdate(pos, state.setValue(COLOR, getColorFromDye(itemInHand)));
+            level.playSound(player, pos, SoundRegistry.ROPE_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            return InteractionResult.SUCCESS;
+
+        } else if (itemInHand.equals(ItemRegistry.ORB)) {
+            level.setBlockAndUpdate(pos, state.setValue(COLOR, getRandomColor()));
+            level.playSound(player, pos, SoundRegistry.ROPE_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            return InteractionResult.SUCCESS;
         }
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 
     @Override
-	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-        world.setBlockState(pos, state.with(COLOR, getRandomColor()));
+	public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        level.setBlockAndUpdate(pos, state.setValue(COLOR, getRandomColor()));
 	}
 
     protected Color getRandomColor() {

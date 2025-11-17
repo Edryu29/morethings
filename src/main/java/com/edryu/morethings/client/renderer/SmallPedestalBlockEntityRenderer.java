@@ -2,76 +2,74 @@ package com.edryu.morethings.client.renderer;
 
 import com.edryu.morethings.block.SmallPedestalBlock;
 import com.edryu.morethings.entity.SmallPedestalBlockEntity;
-
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.core.Direction;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
 import org.joml.Quaternionf;
-
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.RotationAxis;
 
 public class SmallPedestalBlockEntityRenderer implements BlockEntityRenderer<SmallPedestalBlockEntity>{
     
-    public SmallPedestalBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {}
+    public SmallPedestalBlockEntityRenderer(BlockEntityRendererProvider.Context ctx) {}
 
     @Override
-    public void render(SmallPedestalBlockEntity blockEntity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        boolean rotate = blockEntity.getCachedState().get(SmallPedestalBlock.ROTATE);
-        Direction facing = blockEntity.getCachedState().get(SmallPedestalBlock.FACING);
+    public void render(SmallPedestalBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+        boolean rotate = blockEntity.getBlockState().getValue(SmallPedestalBlock.ROTATE);
+        Direction facing = blockEntity.getBlockState().getValue(SmallPedestalBlock.FACING);
         ItemStack storedItem = blockEntity.getStoredItem();
 
         if (facing == Direction.NORTH || facing == Direction.SOUTH) facing = facing.getOpposite();
 
         if (!storedItem.isEmpty()) {
-            matrices.push();
+            poseStack.pushPose();
 
-            if (storedItem.isIn(ItemTags.SWORDS)) {
+            if (storedItem.is(ItemTags.SWORDS)) {
 
                 // facing == Direction.NORTH
-                Quaternionf angle = RotationAxis.POSITIVE_Z.rotationDegrees(230);
+                Quaternionf angle = Axis.ZP.rotationDegrees(230);
                 double translateX = 0.65;
                 double translateZ = 0.5;
 
                 if (facing == Direction.EAST) {
-                    angle = RotationAxis.POSITIVE_Z.rotationDegrees(230);
+                    angle = Axis.ZP.rotationDegrees(230);
                     translateX = 0.5;
                     translateZ = 0.35;
 
                 } else if (facing == Direction.SOUTH) {
-                    angle = RotationAxis.NEGATIVE_Z.rotationDegrees(130);
+                    angle = Axis.ZN.rotationDegrees(130);
                     translateX = 0.35;
                     translateZ = 0.5;
 
                 } else if (facing == Direction.WEST) {
-                    angle = RotationAxis.NEGATIVE_Z.rotationDegrees(130);
+                    angle = Axis.ZN.rotationDegrees(130);
                     translateX = 0.5;
                     translateZ = 0.65;
                 }
 
-                matrices.translate(translateX, 0.5, translateZ);
-                matrices.scale(1.5f, 1.5f, 1.5f);
-                matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(facing.asRotation()));
-                matrices.multiply(angle);
+                poseStack.translate(translateX, 0.5, translateZ);
+                poseStack.scale(1.5f, 1.5f, 1.5f);
+                poseStack.mulPose(Axis.YP.rotationDegrees(facing.toYRot()));
+                poseStack.mulPose(angle);
 
             } else {
-                double yOffset = 0.3 + 0.05 * Math.sin((blockEntity.getWorld().getTime() + tickDelta) / 8.0) / 4.0;
+                double yOffset = 0.3 + 0.05 * Math.sin((blockEntity.getLevel().getGameTime() + partialTick) / 8.0) / 4.0;
                 float rotation = (System.currentTimeMillis() / 20) % 360;
-                if (!rotate) rotation = facing.asRotation();
-                matrices.translate(0.5, yOffset, 0.5);
-                matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotation));
-                matrices.scale(1.2f, 1.2f, 1.2f);
+                if (!rotate) rotation = facing.toYRot();
+                poseStack.translate(0.5, yOffset, 0.5);
+                poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
+                poseStack.scale(1.2f, 1.2f, 1.2f);
             }
 
-            ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
-            itemRenderer.renderItem(storedItem, ModelTransformationMode.GROUND, light, overlay, matrices, vertexConsumers, blockEntity.getWorld(), 0);
-            matrices.pop();
+            ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+            itemRenderer.renderStatic(storedItem, ItemDisplayContext.GROUND, packedLight, packedOverlay, poseStack, bufferSource, blockEntity.getLevel(), 0);
+            poseStack.popPose();
         }
     }
 }

@@ -2,41 +2,40 @@ package com.edryu.morethings.client.renderer;
 
 import com.edryu.morethings.block.DisplayBlock;
 import com.edryu.morethings.entity.DisplayBlockEntity;
-
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.RotationAxis;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
 
 public class DisplayBlockEntityRenderer implements BlockEntityRenderer<DisplayBlockEntity>{
     
-    public DisplayBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {}
+    public DisplayBlockEntityRenderer(BlockEntityRendererProvider.Context ctx) {}
 
     @Override
-    public void render(DisplayBlockEntity blockEntity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
-        Direction facing = blockEntity.getCachedState().get(DisplayBlock.FACING);
+    public void render(DisplayBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+        Direction facing = blockEntity.getBlockState().getValue(DisplayBlock.FACING);
         ItemStack storedItem = blockEntity.getStoredItem();
 
         if (facing == Direction.NORTH || facing == Direction.SOUTH) facing = facing.getOpposite();
 
         if (!storedItem.isEmpty()) {
-            float rotation = facing.asRotation();
-            double yOffset = 0.3 + 0.05 * Math.sin((blockEntity.getWorld().getTime() + tickDelta) / 8.0) / 2.0;
+            float rotation = facing.toYRot();
+            double yOffset = 0.3 + 0.05 * Math.sin((blockEntity.getLevel().getGameTime() + partialTick) / 8.0) / 2.0;
 
-            matrices.push();
-            matrices.translate(0.5, 0.6 + yOffset * 0.05, 0.5);
-            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotation));
-            matrices.scale(0.75f, 0.75f, 0.75f);
+            poseStack.pushPose();
+            poseStack.translate(0.5, 0.6 + yOffset * 0.05, 0.5);
+            poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
+            poseStack.scale(0.75f, 0.75f, 0.75f);
 
-            ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
-            itemRenderer.renderItem(storedItem, ModelTransformationMode.GROUND, light, overlay, matrices, vertexConsumers, blockEntity.getWorld(), 0);
-            matrices.pop();
+            ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+            itemRenderer.renderStatic(storedItem, ItemDisplayContext.GROUND, packedLight, packedOverlay, poseStack, bufferSource, blockEntity.getLevel(), 0);
+            poseStack.popPose();
         }
     }
 }

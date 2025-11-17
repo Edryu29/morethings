@@ -7,11 +7,11 @@ import com.edryu.morethings.registry.BlockRegistry;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.minecraft.block.Block;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
 
 public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
@@ -21,12 +21,12 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     public static final TagKey<Block> UNMOVEABLE_BY_PULLEY = registerTag("unmoveable_by_pulley");
     public static final TagKey<Block> MOVEABLE_BY_PULLEY = registerTag("moveable_by_pulley");
 
-	public BlockTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+	public BlockTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
 		super(output, registriesFuture);
 	}
 
 	@Override
-	protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+	protected void addTags(HolderLookup.Provider wrapperLookup) {
         getOrCreateTagBuilder(PALISADES)
                 .add(BlockRegistry.ACACIA_PALISADE)
                 .add(BlockRegistry.BAMBOO_PALISADE)
@@ -43,7 +43,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
     }
 
 	public static TagKey<Block> registerTag(String name) {
-        Identifier tagID = Identifier.of(MoreThingsMain.MOD_ID, name);
-		return TagKey.of(RegistryKeys.BLOCK, tagID);
+        ResourceLocation tagID = ResourceLocation.fromNamespaceAndPath(MoreThingsMain.MOD_ID, name);
+		return TagKey.create(Registries.BLOCK, tagID);
 	}
 }

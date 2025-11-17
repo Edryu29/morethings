@@ -1,33 +1,32 @@
 package com.edryu.morethings.block;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.TripWireBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.ShapeContext;
-import net.minecraft.block.TripwireBlock;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.BlockView;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.WorldView;
-
 public class BuntingWallBlock extends BuntingBlock {
-    protected static final VoxelShape SHAPE_NORTH = Block.createCuboidShape(0, 0, 15, 16, 16, 16);
-    protected static final VoxelShape SHAPE_SOUTH = Block.createCuboidShape(0, 0, 0, 16, 16, 1);
-    protected static final VoxelShape SHAPE_EAST = Block.createCuboidShape(0, 0, 0, 1, 16, 16);
-    protected static final VoxelShape SHAPE_WEST = Block.createCuboidShape(15, 0, 0, 16, 16, 16);
+    protected static final VoxelShape SHAPE_NORTH = Block.box(0, 0, 15, 16, 16, 16);
+    protected static final VoxelShape SHAPE_SOUTH = Block.box(0, 0, 0, 16, 16, 1);
+    protected static final VoxelShape SHAPE_EAST = Block.box(0, 0, 0, 1, 16, 16);
+    protected static final VoxelShape SHAPE_WEST = Block.box(15, 0, 0, 16, 16, 16);
 
-    public BuntingWallBlock(Settings settings) {
+    public BuntingWallBlock(Properties settings) {
         super(settings);
     }
 
 	@Override
-	protected VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
-		switch (state.get(FACING)) {
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		switch (state.getValue(FACING)) {
 			case NORTH:
 			default:
 				return SHAPE_NORTH;
@@ -42,33 +41,33 @@ public class BuntingWallBlock extends BuntingBlock {
 
 	@Nullable
 	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		BlockState blockState = this.getDefaultState();
-		WorldView worldView = ctx.getWorld();
-		BlockPos blockPos = ctx.getBlockPos();
-		Direction[] directions = ctx.getPlacementDirections();
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		BlockState state = this.defaultBlockState();
+		LevelReader level = context.getLevel();
+		BlockPos pos = context.getClickedPos();
+		Direction[] directions = context.getNearestLookingDirections();
 
 		for (Direction direction : directions) {
 			if (direction.getAxis().isHorizontal()) {
 				Direction direction2 = direction.getOpposite();
-				blockState = blockState.with(FACING, direction2);
-				if (blockState.canPlaceAt(worldView, blockPos)) return blockState;
+				state = state.setValue(FACING, direction2);
+				if (state.canSurvive(level, pos)) return state;
 			}
 		}
 		return null;
 	}
 
 	@Override
-	protected BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-		return direction.getOpposite() == state.get(FACING) && !state.canPlaceAt(world, pos) ? Blocks.AIR.getDefaultState() : state;
+	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+		return direction.getOpposite() == state.getValue(FACING) && !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : state;
 	}
 
 	@Override
-	protected boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-		Direction facing = state.get(FACING);
-		BlockPos blockPos = pos.offset(facing.getOpposite());
-		BlockState blockState = world.getBlockState(blockPos);
-		if (blockState.getBlock() instanceof TripwireBlock) return true;
-		return blockState.isSideSolidFullSquare(world, blockPos, facing);
+	protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+		Direction facing = state.getValue(FACING);
+		BlockPos neighborPos = pos.relative(facing.getOpposite());
+		BlockState neighborState = level.getBlockState(neighborPos);
+		if (neighborState.getBlock() instanceof TripWireBlock) return true;
+		return neighborState.isFaceSturdy(level, neighborPos, facing);
 	}
 }

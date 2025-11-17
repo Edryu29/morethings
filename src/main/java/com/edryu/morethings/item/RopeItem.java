@@ -4,39 +4,39 @@ import com.edryu.morethings.entity.RopeKnotBlockEntity;
 import com.edryu.morethings.registry.BlockRegistry;
 import com.edryu.morethings.registry.SoundRegistry;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FenceBlock;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FenceBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class RopeItem extends BlockItem {
 
-    public RopeItem(Block block, Item.Settings settings) {
+    public RopeItem(Block block, Item.Properties settings) {
         super(block, settings);
     }
 
 	@Override
-	public ActionResult useOnBlock(ItemUsageContext context) {
-		World world = context.getWorld();
-		BlockPos blockPos = context.getBlockPos();
-		BlockState blockState = world.getBlockState(blockPos);
+	public InteractionResult useOn(UseOnContext context) {
+		Level level = context.getLevel();
+		BlockPos pos = context.getClickedPos();
+		BlockState state = level.getBlockState(pos);
 
-        if (blockState.getBlock() instanceof FenceBlock) {
-            if (!world.isClient) {
-                BlockState knot = BlockRegistry.ROPE_KNOT.getDefaultState();
-				world.setBlockState(blockPos, knot);
-				world.playSound(null, blockPos, SoundRegistry.ROPE_PLACE, SoundCategory.BLOCKS, 0.5F, 0.8F);
-				if (world.getBlockEntity(blockPos) instanceof RopeKnotBlockEntity be) be.setHeldBlock(blockState);
-				context.getStack().decrementUnlessCreative(1, context.getPlayer());
+        if (state.getBlock() instanceof FenceBlock) {
+            if (!level.isClientSide()) {
+                BlockState knot = BlockRegistry.ROPE_KNOT.defaultBlockState();
+				level.setBlockAndUpdate(pos, knot);
+				level.playSound(null, pos, SoundRegistry.ROPE_PLACE, SoundSource.BLOCKS, 0.5F, 0.8F);
+				if (level.getBlockEntity(pos) instanceof RopeKnotBlockEntity be) be.setHeldBlock(state);
+				context.getItemInHand().consume(1, context.getPlayer());
             }
-            return ActionResult.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
-        return super.useOnBlock(context);
+        return super.useOn(context);
 	}
 }

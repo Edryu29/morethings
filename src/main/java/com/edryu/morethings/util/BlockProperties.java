@@ -1,15 +1,15 @@
 package com.edryu.morethings.util;
 
-import net.minecraft.state.property.EnumProperty;
-import net.minecraft.util.StringIdentifiable;
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 
 public class BlockProperties {
     
-    public static final EnumProperty<Winding> WINDING = EnumProperty.of("winding", Winding.class);
-    public static final EnumProperty<Color> COLOR = EnumProperty.of("color", Color.class);
-    public static final EnumProperty<VerticalConnectingType> VERTICAL_CONNECTING_TYPE = EnumProperty.of("type", VerticalConnectingType.class);
+    public static final EnumProperty<Winding> WINDING = EnumProperty.create("winding", Winding.class);
+    public static final EnumProperty<Color> COLOR = EnumProperty.create("color", Color.class);
+    public static final EnumProperty<VerticalConnectingType> VERTICAL_CONNECTING_TYPE = EnumProperty.create("type", VerticalConnectingType.class);
 
-    public enum Winding implements StringIdentifiable {
+    public enum Winding implements StringRepresentable {
         NONE("none"),
         CHAIN("chain"),
         ROPE("rope");
@@ -21,12 +21,12 @@ public class BlockProperties {
         }
 
         @Override
-        public String asString() {
+        public String getSerializedName() {
             return this.name;
         }
     }
 
-    public enum Color implements StringIdentifiable {
+    public enum Color implements StringRepresentable {
         BLACK("black"),
         BLUE("blue"),
         BROWN("brown"),
@@ -51,12 +51,12 @@ public class BlockProperties {
         }
 
         @Override
-        public String asString() {
+        public String getSerializedName() {
             return this.name;
         }
     }
 
-    public enum VerticalConnectingType implements StringIdentifiable {
+    public enum VerticalConnectingType implements StringRepresentable {
         TOP("top"),
         MIDDLE("middle"),
         BOTTOM("bottom"),
@@ -69,7 +69,7 @@ public class BlockProperties {
         }
 
         @Override
-        public String asString() {
+        public String getSerializedName() {
             return this.name;
         }
     }

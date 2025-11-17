@@ -4,16 +4,16 @@ import org.jetbrains.annotations.Nullable;
 
 import com.edryu.morethings.registry.EntityRegistry;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 	
 
 public class DisplayBlockEntity extends BlockEntity {
@@ -29,36 +29,36 @@ public class DisplayBlockEntity extends BlockEntity {
 
     public void setStoredItem(ItemStack item) {
         this.storedItem = item;
-        this.markDirty();
+        this.setChanged();
     }
     
     public ItemStack removeStoredItem() {
         ItemStack item = storedItem;
         this.storedItem = ItemStack.EMPTY;
-        this.markDirty();
+        this.setChanged();
         return item;
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        super.writeNbt(nbt, registryLookup);
-        ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, storedItem).result().ifPresent(nbtElement -> nbt.put("storedItem", nbtElement));
+    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        ItemStack.CODEC.encodeStart(NbtOps.INSTANCE, storedItem).result().ifPresent(nbtElement -> tag.put("storedItem", nbtElement));
     }
 
     @Override
-    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
-        super.readNbt(nbt, registryLookup);
-        this.storedItem = ItemStack.CODEC.parse(NbtOps.INSTANCE, nbt.get("storedItem")).result().orElse(ItemStack.EMPTY);
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        this.storedItem = ItemStack.CODEC.parse(NbtOps.INSTANCE, tag.get("storedItem")).result().orElse(ItemStack.EMPTY);
     }
 
     @Nullable
     @Override
-    public Packet<ClientPlayPacketListener> toUpdatePacket() {
-        return BlockEntityUpdateS2CPacket.create(this);
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
     
     @Override
-    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
-        return createNbt(registryLookup);
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return saveWithoutMetadata(registries);
     }
 }
