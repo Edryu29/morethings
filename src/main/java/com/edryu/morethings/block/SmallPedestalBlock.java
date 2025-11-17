@@ -36,7 +36,7 @@ public class SmallPedestalBlock extends HorizontalDirectionalBlock implements En
 
     public SmallPedestalBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(ROTATE, true).setValue(VISIBLE, true));
+        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(ROTATE, true).setValue(VISIBLE, true));
     }
 
     @Override

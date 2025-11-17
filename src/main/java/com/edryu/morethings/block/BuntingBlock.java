@@ -34,7 +34,7 @@ public class BuntingBlock extends HorizontalDirectionalBlock {
 
     public BuntingBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(COLOR, Color.WHITE));
+        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(COLOR, Color.WHITE));
     }
 
     @Override

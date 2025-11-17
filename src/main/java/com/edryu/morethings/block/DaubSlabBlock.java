@@ -20,7 +20,7 @@ public class DaubSlabBlock extends SlabBlock {
 
     public DaubSlabBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(TYPE, SlabType.BOTTOM).setValue(WATERLOGGED, false).setValue(VARIANT, 0));
+        this.registerDefaultState(this.defaultBlockState().setValue(TYPE, SlabType.BOTTOM).setValue(WATERLOGGED, false).setValue(VARIANT, 0));
     }
 
     @Override

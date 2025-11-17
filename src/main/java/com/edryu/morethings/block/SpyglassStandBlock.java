@@ -18,7 +18,7 @@ public class SpyglassStandBlock extends HorizontalDirectionalBlock {
 
     public SpyglassStandBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
+        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
     @Override

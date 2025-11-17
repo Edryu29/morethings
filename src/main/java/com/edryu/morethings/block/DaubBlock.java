@@ -18,7 +18,7 @@ public class DaubBlock extends Block {
 
     public DaubBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(VARIANT, 0));
+        this.registerDefaultState(this.defaultBlockState().setValue(VARIANT, 0));
     }
 
     @Override

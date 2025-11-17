@@ -123,9 +123,9 @@ public class WindingHelper {
             originalState = originalState.setValue(BlockStateProperties.WATERLOGGED, waterFluid);
         } else if (originalState.getBlock() instanceof AbstractCauldronBlock) {
             if (waterFluid && originalState.is(Blocks.CAULDRON) || originalState.is(Blocks.WATER_CAULDRON)) {
-                originalState = Blocks.WATER_CAULDRON.defaultBlockState().setValue(LayeredCauldronBlock.LEVEL, 3);
+                originalState = Blocks.WATER_CAULDRON.this.defaultBlockState().setValue(LayeredCauldronBlock.LEVEL, 3);
             } else if (targetFluid.is(Fluids.LAVA) && originalState.is(Blocks.CAULDRON) || originalState.is(Blocks.LAVA_CAULDRON)) {
-                originalState = Blocks.LAVA_CAULDRON.defaultBlockState();
+                originalState = Blocks.LAVA_CAULDRON.this.defaultBlockState();
             }
         }
 

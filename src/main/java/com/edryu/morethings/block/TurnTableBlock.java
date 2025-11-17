@@ -41,7 +41,7 @@ public class TurnTableBlock extends Block {
 
     public TurnTableBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(POWER, 0).setValue(INVERTED, false).setValue(ROTATING, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH).setValue(POWER, 0).setValue(INVERTED, false).setValue(ROTATING, false));
     }
 
     @Override

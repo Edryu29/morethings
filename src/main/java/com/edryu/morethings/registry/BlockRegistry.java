@@ -34,7 +34,7 @@ public class BlockRegistry {
 
     public static final Block THATCH = registerBlock(new HayBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.HAY_BLOCK)),"thatch", true);
     public static final Block THATCH_SLAB = registerBlock(new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.HAY_BLOCK)),"thatch_slab", true);
-    public static final Block THATCH_STAIRS = registerBlock(new StairBlock(THATCH.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(THATCH)),"thatch_stairs", true);
+    public static final Block THATCH_STAIRS = registerBlock(new StairBlock(THATCH.this.defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(THATCH)),"thatch_stairs", true);
     public static final Block HAYSTACK = registerBlock(new HaystackBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).mapColor(MapColor.COLOR_YELLOW).strength(0.2F).noCollission()),"haystack", true);
 
     public static final Block BOAT_IN_A_JAR = registerBlock(new BoatInAJarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)),"boat_in_a_jar", true);

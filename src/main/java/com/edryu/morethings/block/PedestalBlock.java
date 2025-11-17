@@ -33,7 +33,7 @@ public class PedestalBlock extends WaterloggableBlock {
 
     public PedestalBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(WATERLOGGED, false).setValue(UP, false).setValue(DOWN, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false).setValue(UP, false).setValue(DOWN, false));
     }
 
     @Override
@@ -72,7 +72,7 @@ public class PedestalBlock extends WaterloggableBlock {
         boolean up    = canConnectTo(world, pos.above());
         boolean down  = canConnectTo(world, pos.below());
 
-		state = defaultBlockState().setValue(WATERLOGGED, wl).setValue(UP, up).setValue(DOWN, down);
+		state = this.defaultBlockState().setValue(WATERLOGGED, wl).setValue(UP, up).setValue(DOWN, down);
 		return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
 	}
 

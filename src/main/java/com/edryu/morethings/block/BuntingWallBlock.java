@@ -59,7 +59,7 @@ public class BuntingWallBlock extends BuntingBlock {
 
 	@Override
 	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
-		return direction.getOpposite() == state.getValue(FACING) && !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : state;
+		return direction.getOpposite() == state.getValue(FACING) && !state.canSurvive(world, pos) ? Blocks.AIR.this.defaultBlockState() : state;
 	}
 
 	@Override

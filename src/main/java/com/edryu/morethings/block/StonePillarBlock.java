@@ -13,7 +13,7 @@ public class StonePillarBlock extends WaterloggableBlock {
 
     public StonePillarBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(WATERLOGGED, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false));
     }
 
     @Override

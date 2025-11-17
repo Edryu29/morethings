@@ -55,7 +55,7 @@ public class RedButtonBlock extends ButtonBlock {
 
     public RedButtonBlock(Properties settings) {
         super(BlockSetType.STONE, 30, settings);
-        registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(POWERED, false).setValue(FACE, AttachFace.WALL).setValue(OPEN, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH).setValue(POWERED, false).setValue(FACE, AttachFace.WALL).setValue(OPEN, false));
     }
 
     @Override

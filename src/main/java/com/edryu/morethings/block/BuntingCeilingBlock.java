@@ -35,7 +35,7 @@ public class BuntingCeilingBlock extends BuntingBlock {
 
 	@Override
 	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
-		return direction == Direction.UP && !this.canSurvive(state, world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+		return direction == Direction.UP && !this.canSurvive(state, world, pos) ? Blocks.AIR.this.defaultBlockState() : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
 	}
 
 	@Override

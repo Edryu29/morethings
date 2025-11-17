@@ -16,7 +16,7 @@ public class CogBlock extends Block {
 
     public CogBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(POWER, 0));
+        this.registerDefaultState(this.defaultBlockState().setValue(POWER, 0));
     }
 
     @Override

@@ -34,7 +34,7 @@ public class SafeBlock extends WaterloggableBlock implements EntityBlock {
 
     public SafeBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH).setValue(OPEN, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH).setValue(OPEN, false));
     }
 
     @Override

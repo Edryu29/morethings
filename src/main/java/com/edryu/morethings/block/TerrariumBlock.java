@@ -19,7 +19,7 @@ public class TerrariumBlock extends HorizontalDirectionalBlock {
 
     public TerrariumBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
+        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
     @Override

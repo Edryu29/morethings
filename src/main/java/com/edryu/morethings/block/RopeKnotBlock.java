@@ -47,7 +47,7 @@ public class RopeKnotBlock extends WaterloggableBlock implements EntityBlock {
 
     public RopeKnotBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(WATERLOGGED, false)
+        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false)
             .setValue(NORTH, false).setValue(SOUTH, false).setValue(WEST, false).setValue(EAST, false));
     }
 

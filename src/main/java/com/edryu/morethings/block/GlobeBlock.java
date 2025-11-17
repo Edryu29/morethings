@@ -28,7 +28,7 @@ public class GlobeBlock extends HorizontalDirectionalBlock {
 
     public GlobeBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(VARIANT, 0));
+        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH).setValue(VARIANT, 0));
     }
 
     @Override

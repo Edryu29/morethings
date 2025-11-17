@@ -33,7 +33,7 @@ public class SackBlock extends WaterloggableBlock implements EntityBlock {
 
     public SackBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(WATERLOGGED, false).setValue(OPEN, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false).setValue(OPEN, false));
     }
 
     @Override

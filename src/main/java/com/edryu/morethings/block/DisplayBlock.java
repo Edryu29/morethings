@@ -31,7 +31,7 @@ public class DisplayBlock extends HorizontalDirectionalBlock implements EntityBl
 
     public DisplayBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
+        this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH));
     }
 
     @Override

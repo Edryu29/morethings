@@ -31,7 +31,7 @@ public class ShutterBlock extends WaterloggableBlock {
 
     public ShutterBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH)
+        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH)
                 .setValue(OPEN, false).setValue(POWERED, false).setValue(LEFT, false).setValue(TYPE, BlockProperties.VerticalConnectingType.NONE));
     }
 

@@ -46,7 +46,7 @@ public class CrankBlock extends WaterloggableBlock {
 
     public CrankBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH).setValue(POWER, 0));
+        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH).setValue(POWER, 0));
     }
 
     @Override
@@ -108,7 +108,7 @@ public class CrankBlock extends WaterloggableBlock {
 	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
         boolean wl = ctx.getLevel().getFluidState(ctx.getClickedPos()).is(Fluids.WATER);
 		for (Direction direction : ctx.getNearestLookingDirections()) {
-			BlockState blockState = defaultBlockState().setValue(WATERLOGGED, wl).setValue(FACING, direction.getOpposite());
+			BlockState blockState = this.defaultBlockState().setValue(WATERLOGGED, wl).setValue(FACING, direction.getOpposite());
 			if (blockState.canSurvive(ctx.getLevel(), ctx.getClickedPos())) return blockState;
 		}
 		return null;
@@ -118,7 +118,7 @@ public class CrankBlock extends WaterloggableBlock {
     protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED)) world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
 		return state.getValue(FACING).getOpposite() == direction && !state.canSurvive(world, pos)
-                ? Blocks.AIR.defaultBlockState(): super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+                ? Blocks.AIR.this.defaultBlockState(): super.updateShape(state, direction, neighborState, world, pos, neighborPos);
     }
 
 	@Override

@@ -30,7 +30,7 @@ public class PulleyBlock extends Block implements EntityBlock {
 
     public PulleyBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(AXIS, Direction.Axis.X).setValue(FLIPPED, false).setValue(WINDING, Winding.NONE));
+        this.registerDefaultState(this.defaultBlockState().setValue(AXIS, Direction.Axis.X).setValue(FLIPPED, false).setValue(WINDING, Winding.NONE));
     }
 
     @Override

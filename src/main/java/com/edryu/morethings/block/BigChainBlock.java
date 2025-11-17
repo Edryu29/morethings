@@ -17,24 +17,24 @@ public class BigChainBlock extends ChainBlock {
 
     public BigChainBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(WATERLOGGED, false).setValue(AXIS, Direction.Axis.Y));
+        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false).setValue(AXIS, Direction.Axis.Y));
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+   	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(WATERLOGGED, AXIS);
     }
 
 	@Override
-	protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-		switch ((Direction.Axis)state.getValue(AXIS)) {
+   protected VoxelShape getShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
+		switch ((Direction.Axis)blockState.getValue(AXIS)) {
 			case X:
 			default:
-				return X_AXIS_AABB;
+				return X_SHAPE;
 			case Y:
-				return Y_AXIS_AABB;
+				return Y_SHAPE;
 			case Z:
-				return Z_AXIS_AABB;
+				return Z_SHAPE;
 		}
 	}
 }

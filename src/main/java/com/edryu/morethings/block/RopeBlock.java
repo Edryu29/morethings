@@ -60,7 +60,7 @@ public class RopeBlock extends WaterloggableBlock {
 
     public RopeBlock(Properties settings) {
         super(settings);
-        registerDefaultState(defaultBlockState().setValue(WATERLOGGED, false)
+        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false)
             .setValue(KNOT, false).setValue(BELL, false).setValue(UP, false).setValue(DOWN, false)
             .setValue(NORTH, false).setValue(SOUTH, false).setValue(WEST, false).setValue(EAST, false));
     }
@@ -144,7 +144,7 @@ public class RopeBlock extends WaterloggableBlock {
         boolean singleAxis    = (north ^ south) || (east ^ west) || (up ^ down);
         boolean ropeKnot      = (hasHorizontal && (isCorner || hasVertical)) || noConnections || singleAxis;
 
-        state = defaultBlockState()
+        state = this.defaultBlockState()
                 .setValue(WATERLOGGED, wl)
                 .setValue(KNOT, ropeKnot)
                 .setValue(BELL, bell)
@@ -155,7 +155,7 @@ public class RopeBlock extends WaterloggableBlock {
                 .setValue(UP, up)
                 .setValue(DOWN, down);
 
-        if (hasNoConnection(state) || !hasFixedAnchor(world, pos)) return Blocks.AIR.defaultBlockState();
+        if (hasNoConnection(state) || !hasFixedAnchor(world, pos)) return Blocks.AIR.this.defaultBlockState();
 		return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
 	}
 
