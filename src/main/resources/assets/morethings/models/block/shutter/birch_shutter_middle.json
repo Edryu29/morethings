@@ -1,0 +1,7 @@
+{
+  "parent": "morethings:block/oak_shutter_middle",
+  "textures": {
+    "particle": "morethings:block/birch_shutter_middle",
+    "middle": "morethings:block/birch_shutter_middle"
+  }
+}

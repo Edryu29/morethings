@@ -41,7 +41,7 @@ public class BlockRegistry {
     public static final Block BOAT_IN_A_JAR = registerBlock(new BoatInAJarBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"boat_in_a_jar", true);
     public static final Block TERRARIUM = registerBlock(new TerrariumBlock(AbstractBlock.Settings.copy(Blocks.GLASS)),"terrarium", true);
     public static final Block TELESCOPE = registerBlock(new TelescopeBlock(AbstractBlock.Settings.copy(Blocks.OAK_PLANKS)),"telescope", true);
-    public static final Block SPYGLASS_STAND = registerBlock(new BoatInAJarBlock(AbstractBlock.Settings.copy(TELESCOPE)),"spyglass_stand", true);
+    public static final Block SPYGLASS_STAND = registerBlock(new SpyglassStandBlock(AbstractBlock.Settings.copy(TELESCOPE)),"spyglass_stand", true);
     public static final Block GLOBE = registerBlock(new GlobeBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).strength(2f, 4).nonOpaque()),"globe", true);
     public static final Block GLOBE_SEPIA = registerBlock(new GlobeBlock(AbstractBlock.Settings.create().sounds(BlockSoundGroup.METAL).strength(2f, 4).nonOpaque()),"globe_sepia", true);
     

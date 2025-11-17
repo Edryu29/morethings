@@ -7,6 +7,7 @@ public class BlockProperties {
     
     public static final EnumProperty<Winding> WINDING = EnumProperty.of("winding", Winding.class);
     public static final EnumProperty<Color> COLOR = EnumProperty.of("color", Color.class);
+    public static final EnumProperty<VerticalConnectingType> VERTICAL_CONNECTING_TYPE = EnumProperty.of("type", VerticalConnectingType.class);
 
     public enum Winding implements StringIdentifiable {
         NONE("none"),
@@ -46,6 +47,24 @@ public class BlockProperties {
         private final String name;
 
         Color(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String asString() {
+            return this.name;
+        }
+    }
+
+    public enum VerticalConnectingType implements StringIdentifiable {
+        TOP("top"),
+        MIDDLE("middle"),
+        BOTTOM("bottom"),
+        NONE("none");
+
+        private final String name;
+
+        VerticalConnectingType(String name) {
             this.name = name;
         }
 
