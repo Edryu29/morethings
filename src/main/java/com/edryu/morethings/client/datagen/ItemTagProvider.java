@@ -23,7 +23,7 @@ public class ItemTagProvider extends FabricTagProvider.ItemTagProvider {
 
 	@Override
 	protected void addTags(HolderLookup.Provider wrapperLookup) {
-        tag(PALISADES)
+        getOrCreateTagBuilder(PALISADES)
                 .add(BlockRegistry.ACACIA_PALISADE.asItem())
                 .add(BlockRegistry.BAMBOO_PALISADE.asItem())
                 .add(BlockRegistry.BIRCH_PALISADE.asItem())

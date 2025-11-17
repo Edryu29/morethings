@@ -27,7 +27,7 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
 	@Override
 	protected void addTags(HolderLookup.Provider wrapperLookup) {
-        tag(PALISADES)
+        getOrCreateTagBuilder(PALISADES)
                 .add(BlockRegistry.ACACIA_PALISADE)
                 .add(BlockRegistry.BAMBOO_PALISADE)
                 .add(BlockRegistry.BIRCH_PALISADE)
