@@ -38,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
 import com.edryu.morethings.client.datagen.BlockTagProvider;
 import com.edryu.morethings.registry.ItemRegistry;
 import com.edryu.morethings.registry.SoundRegistry;
-import com.edryu.morethings.util.WindingHelper;
+import com.edryu.morethings.util.MoreThingsHelper;
 
 public class RopeBlock extends WaterloggableBlock {
 	public static final BooleanProperty KNOT = BooleanProperty.create("knot");
@@ -106,7 +106,7 @@ public class RopeBlock extends WaterloggableBlock {
         boolean ropeKnot      = (hasHorizontal && (isCorner || hasVertical)) || noConnections || singleAxis;
 
 		FluidState fluidState = level.getFluidState(pos);
-		boolean wl = fluidState.getType() == Fluids.WATER;
+		boolean wl = fluidState.is(Fluids.WATER);
 
 		BlockState state = super.getStateForPlacement(context)
             .setValue(WATERLOGGED, wl)
@@ -165,7 +165,7 @@ public class RopeBlock extends WaterloggableBlock {
         ItemStack stack = player.getMainHandItem();
         if (stack.is(this.asItem())) {
             if (!Screen.hasShiftDown()) return InteractionResult.PASS; 
-            if (WindingHelper.addWindingDown(pos.below(), level, player, InteractionHand.MAIN_HAND, this)) {
+            if (MoreThingsHelper.addWindingDown(pos.below(), level, player, InteractionHand.MAIN_HAND, this)) {
                 SoundType soundType = state.getSoundType();
                 level.playSound(player, pos, soundType.getPlaceSound(), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
                 stack.consume(1, player);
@@ -179,7 +179,7 @@ public class RopeBlock extends WaterloggableBlock {
         }
         if (Screen.hasShiftDown()) {
             if (level.getBlockState(pos.below()).is(this) || level.getBlockState(pos.above()).is(this)) {
-                if (WindingHelper.removeWindingDown(pos.below(), level, this)) {
+                if (MoreThingsHelper.removeWindingDown(pos.below(), level, this)) {
                     level.playSound(player, pos, SoundRegistry.ROPE_SLIDE, SoundSource.BLOCKS, 1, 0.6F);
                     if (!player.hasInfiniteMaterials()) player.addItem(new ItemStack(ItemRegistry.ROPE, 1));
                     return InteractionResult.SUCCESS;

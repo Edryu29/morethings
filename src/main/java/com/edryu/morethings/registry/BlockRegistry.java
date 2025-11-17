@@ -28,6 +28,9 @@ public class BlockRegistry {
     public static final Block BAR_PANEL = registerBlock(new TrapDoorBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_TRAPDOOR)),"bar_panel", true);
     public static final Block LATTICE = registerBlock(new TrapDoorBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR)),"lattice", true);
 
+    public static final Block WALL_LANTERN = registerBlock(new WallLanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN)),"wall_lantern", false);
+    public static final Block SOUL_WALL_LANTERN = registerBlock(new WallLanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SOUL_LANTERN)),"soul_wall_lantern", false);
+
     public static final Block DAUB = registerBlock(new DaubBlock(BlockBehaviour.Properties.of().sound(SoundType.PACKED_MUD).mapColor(DyeColor.WHITE).strength(1.5f, 3f)), "daub", true);
     public static final Block DAUB_SLAB = registerBlock(new DaubSlabBlock(BlockBehaviour.Properties.ofFullCopy(DAUB)), "daub_slab", true);
     public static final Block PEDESTAL = registerBlock(new PedestalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS)),"pedestal", true);

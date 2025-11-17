@@ -8,7 +8,7 @@ import com.edryu.morethings.registry.EntityRegistry;
 import com.edryu.morethings.screen.PulleyScreenHandler;
 import com.edryu.morethings.util.BlockProperties.Winding;
 import com.edryu.morethings.util.SimpleInventory;
-import com.edryu.morethings.util.WindingHelper;
+import com.edryu.morethings.util.MoreThingsHelper;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -89,7 +89,7 @@ public class PulleyBlockEntity extends BlockEntity implements MenuProvider, Simp
 
     public void updateDisplayedItem() {
         BlockState state = this.getBlockState();
-        Winding windingType = WindingHelper.getWindingType(this.getItem(0).getItem());
+        Winding windingType = MoreThingsHelper.getWindingType(this.getItem(0).getItem());
         level.setBlock(worldPosition, state.setValue(PulleyBlock.WINDING, windingType).cycle(PulleyBlock.FLIPPED), Block.UPDATE_CLIENTS);
     }
 
@@ -106,13 +106,13 @@ public class PulleyBlockEntity extends BlockEntity implements MenuProvider, Simp
         boolean addNewItem = false;
         if (stack.isEmpty()) {
             Item i = level.getBlockState(worldPosition.below()).getBlock().asItem();
-            if (WindingHelper.getWindingType(i) == Winding.NONE) return false;
+            if (MoreThingsHelper.getWindingType(i) == Winding.NONE) return false;
             stack = new ItemStack(i);
             addNewItem = true;
         }
         if (stack.getCount() + 1 > stack.getMaxStackSize() || !(stack.getItem() instanceof BlockItem)) return false;
         Block windingBlock = ((BlockItem) stack.getItem()).getBlock();
-        boolean success = WindingHelper.removeWinding(worldPosition.relative(moveDir), level, windingBlock, moveDir, maxDist);
+        boolean success = MoreThingsHelper.removeWinding(worldPosition.relative(moveDir), level, windingBlock, moveDir, maxDist);
         if (success) {
             SoundType soundType = windingBlock.defaultBlockState().getSoundType();
             level.playSound(null, worldPosition, soundType.getBreakSound(), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
@@ -132,7 +132,7 @@ public class PulleyBlockEntity extends BlockEntity implements MenuProvider, Simp
         if (stack.getCount() < 1 || !(stack.getItem() instanceof BlockItem bi)) return false;
         Block windingBlock = bi.getBlock();
 
-        boolean success = WindingHelper.addWinding(worldPosition.relative(dir), level, null, InteractionHand.MAIN_HAND, windingBlock, dir, maxDist);
+        boolean success = MoreThingsHelper.addWinding(worldPosition.relative(dir), level, null, InteractionHand.MAIN_HAND, windingBlock, dir, maxDist);
         if (success) {
             SoundType soundType = windingBlock.defaultBlockState().getSoundType();
             level.playSound(null, worldPosition, soundType.getPlaceSound(), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
@@ -165,7 +165,7 @@ public class PulleyBlockEntity extends BlockEntity implements MenuProvider, Simp
         List<Direction> remaining = new ArrayList<>();
         int maxSideDist = 7;
         for (var d : order) {
-            if (WindingHelper.isCorrectWinding(windingBlock, level.getBlockState(worldPosition.relative(d)), d)) {
+            if (MoreThingsHelper.isCorrectWinding(windingBlock, level.getBlockState(worldPosition.relative(d)), d)) {
                 if (moveConnected(retracting, maxSideDist, d)) return true;
                 return false;
             } else remaining.add(d);

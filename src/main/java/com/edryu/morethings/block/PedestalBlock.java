@@ -56,7 +56,7 @@ public class PedestalBlock extends WaterloggableBlock {
         boolean down  = canConnectTo(level, pos.below());
 
 		FluidState fluidState = level.getFluidState(pos);
-		boolean wl = fluidState.getType() == Fluids.WATER;
+		boolean wl = fluidState.is(Fluids.WATER);
         
         return super.getStateForPlacement(context).setValue(WATERLOGGED, wl).setValue(UP, up).setValue(DOWN, down);
 	}

@@ -1,0 +1,8 @@
+{
+  "parent": "morethings:block/template_wall_lantern",
+  "textures": {
+    "lantern": "minecraft:block/soul_lantern",
+		"bar": "minecraft:block/dark_oak_planks",
+		"holder": "morethings:block/wall_lantern_holder"
+  }
+}

@@ -33,7 +33,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class WindingHelper {
+public class MoreThingsHelper {
 
     public static boolean addWindingDown(BlockPos pos, Level level, @Nullable Player player, InteractionHand hand, Block windingBlock) {
         return addWinding(pos, level, player, hand, windingBlock, Direction.DOWN, Integer.MAX_VALUE);
@@ -173,4 +173,5 @@ public class WindingHelper {
         if (item instanceof BlockItem bi && bi.getBlock() instanceof RopeBlock) return Winding.ROPE;
         return Winding.NONE;
     }
+
 }

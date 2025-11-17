@@ -12,6 +12,8 @@
     "morethings:red_button",
     "morethings:console",
     "morethings:cog",
-    "morethings:crank"
+    "morethings:crank",
+    "morethings:wall_lantern",
+    "morethings:soul_wall_lantern"
   ]
 }

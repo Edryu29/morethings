@@ -8,6 +8,7 @@ import com.edryu.morethings.registry.ItemRegistry;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.world.item.Items;
 
 public class LootTableProvider extends FabricBlockLootTableProvider {
     
@@ -35,6 +36,9 @@ public class LootTableProvider extends FabricBlockLootTableProvider {
                 dropSelf(BlockRegistry.CRANK);
                 dropSelf(BlockRegistry.CONSOLE);
                 dropSelf(BlockRegistry.RED_BUTTON);
+
+                dropOther(BlockRegistry.WALL_LANTERN, Items.LANTERN);
+                dropOther(BlockRegistry.SOUL_WALL_LANTERN, Items.SOUL_LANTERN);
 
                 dropSelf(BlockRegistry.ROPE);
                 dropOther(BlockRegistry.ROPE_KNOT, ItemRegistry.ROPE);
