@@ -43,12 +43,12 @@ public class ShutterBlock extends WaterloggableBlock {
     public ShutterBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH)
-                .setValue(OPEN, false).setValue(POWERED, false).setValue(LEFT, false).setValue(TYPE, BlockProperties.VerticalConnectingType.NONE));
+            .setValue(OPEN, false).setValue(POWERED, false).setValue(LEFT, false).setValue(TYPE, BlockProperties.VerticalConnectingType.NONE));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, TYPE, OPEN, LEFT, POWERED, WATERLOGGED);
+        builder.add(WATERLOGGED, FACING, TYPE, OPEN, LEFT, POWERED);
     }
 
 	@Override
@@ -132,7 +132,7 @@ public class ShutterBlock extends WaterloggableBlock {
                 if (above.is(state.getBlock()) && above.getValue(FACING) == updateState.getValue(FACING) && above.getValue(LEFT) == updateState.getValue(LEFT) && above.getValue(OPEN) != open) {
                     updateState = above;
                     updatePos = updatePos.above();
-                    level.setBlock(updatePos, updateState.setValue(OPEN, open), 3);
+                    level.setBlock(updatePos, updateState.setValue(OPEN, open), Block.UPDATE_ALL);
                 } else break;
             }
         }
@@ -146,7 +146,7 @@ public class ShutterBlock extends WaterloggableBlock {
                 if (below.is(state.getBlock()) && below.getValue(FACING) == updateState.getValue(FACING) && below.getValue(LEFT) == updateState.getValue(LEFT) && below.getValue(OPEN) != open) {
                     updateState = below;
                     updatePos = updatePos.below();
-                    level.setBlock(updatePos, updateState.setValue(OPEN, open), 3);
+                    level.setBlock(updatePos, updateState.setValue(OPEN, open), Block.UPDATE_ALL);
                 } else break;
             }
         }
