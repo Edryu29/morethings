@@ -3,6 +3,7 @@ package com.edryu.morethings.block;
 import org.jetbrains.annotations.Nullable;
 
 import com.edryu.morethings.registry.SoundRegistry;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -50,97 +51,97 @@ public class TurnTableBlock extends Block {
     }
 
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-		return this.defaultBlockState().setValue(FACING, ctx.getNearestLookingDirection().getOpposite());
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite());
 	}
 
 	@Override
-	protected void neighborChanged(BlockState state, Level world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-        super.neighborChanged(state, world, pos, sourceBlock, sourcePos, notify);
-        boolean powerUpdated = this.updatePower(state, world, pos);
-        state = world.getBlockState(pos);
-        if (state.getValue(POWER) != 0 && (powerUpdated || sourcePos.equals(pos.relative(state.getValue(FACING))))) {
-            if (this.rotateFacingBlock(state, world, pos)) this.scheduleTick(world, pos, state);
+	protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+        super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
+        boolean powerUpdated = this.updatePower(state, level, pos);
+        state = level.getBlockState(pos);
+        if (state.getValue(POWER) != 0 && (powerUpdated || neighborPos.equals(pos.relative(state.getValue(FACING))))) {
+            if (this.rotateFacingBlock(state, level, pos)) this.scheduleTick(level, pos, state);
         }
 	}
 
 	@Override
-	protected void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
+	protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
 		if (state.getValue(ROTATING)) {
-			if (this.rotateFacingBlock(state, world, pos)) this.scheduleTick(world, pos, state);
+			if (this.rotateFacingBlock(state, level, pos)) this.scheduleTick(level, pos, state);
         }
 	}
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
-        if (hit.getDirection() != state.getValue(FACING) && hit.getDirection() != state.getValue(FACING).getOpposite()) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (hitResult.getDirection() != state.getValue(FACING) && hitResult.getDirection() != state.getValue(FACING).getOpposite()) {
             state = state.cycle(INVERTED);
-            world.playSound(player, pos, SoundEvents.COMPARATOR_CLICK, SoundSource.BLOCKS, 0.3F, state.getValue(INVERTED) ? 0.55F : 0.5F);
-            world.setBlockAndUpdate(pos, state);
+            level.playSound(player, pos, SoundEvents.COMPARATOR_CLICK, SoundSource.BLOCKS, 0.3F, state.getValue(INVERTED) ? 0.55F : 0.5F);
+            level.setBlockAndUpdate(pos, state);
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
     }
 
     @Override
-	public void stepOn(Level world, BlockPos pos, BlockState state, Entity entity) {
-        super.stepOn(world, pos, state, entity);
-        this.rotateEntity(world, pos, state, entity);
+	public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
+        super.stepOn(level, pos, state, entity);
+        this.rotateEntity(level, pos, state, entity);
 	}
 
     @Override
-	public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-        if (this.updatePower(state, world, pos) && world.getBlockState(pos).getValue(POWER) != 0) this.rotateFacingBlock(state, world, pos);
+	public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        if (this.updatePower(state, level, pos) && level.getBlockState(pos).getValue(POWER) != 0) this.rotateFacingBlock(state, level, pos);
 	}
 
-    private boolean updatePower(BlockState state, Level world, BlockPos pos) {
-        int receivedPower = world.getBestNeighborSignal(pos);
+    private boolean updatePower(BlockState state, Level level, BlockPos pos) {
+        int receivedPower = level.getBestNeighborSignal(pos);
         if (receivedPower != state.getValue(POWER)) {
-            world.setBlockAndUpdate(pos, state.setValue(POWER, receivedPower).setValue(ROTATING, receivedPower != 0));
+            level.setBlockAndUpdate(pos, state.setValue(POWER, receivedPower).setValue(ROTATING, receivedPower != 0));
             return true;
         }
         return false;
     }
 
-	private void scheduleTick(LevelAccessor world, BlockPos pos, BlockState state) {
-		if (!world.isClientSide() && !world.getBlockTicks().hasScheduledTick(pos, this)) world.scheduleTick(pos, this, getPeriod(state));
+	private void scheduleTick(LevelAccessor level, BlockPos pos, BlockState state) {
+		if (!level.isClientSide() && !level.getBlockTicks().hasScheduledTick(pos, this)) level.scheduleTick(pos, this, getPeriod(state));
 	}
 
     private int getPeriod(BlockState state) {
         return (60 - state.getValue(POWER) * 4) + 4;
     }
 
-    private boolean rotateFacingBlock(BlockState state, Level world, BlockPos pos) {
+    private boolean rotateFacingBlock(BlockState state, Level level, BlockPos pos) {
         Direction direction = state.getValue(FACING);
 		BlockPos facingPos = pos.relative(direction);
-		BlockState facingState = world.getBlockState(facingPos);
+		BlockState facingState = level.getBlockState(facingPos);
 		Block facingBlock = facingState.getBlock();
 
         if (facingState.isAir()) return false;
 
         if (facingBlock instanceof PulleyBlock && direction.getAxis() == facingState.getValue(PulleyBlock.AXIS)){
-			boolean result = ((PulleyBlock)facingBlock).windPulley(facingState, world, facingPos, state.getValue(INVERTED), direction);
-            if (result) world.playSound(null, facingPos, SoundRegistry.BLOCK_ROTATE, SoundSource.BLOCKS, 1.0F, 1);
+			boolean result = ((PulleyBlock)facingBlock).windPulley(facingState, level, facingPos, state.getValue(INVERTED), direction);
+            if (result) level.playSound(null, facingPos, SoundRegistry.BLOCK_ROTATE, SoundSource.BLOCKS, 1.0F, 1);
 		} else {
             BlockState rotatedState = facingState.rotate(state.getValue(INVERTED) ? Rotation.COUNTERCLOCKWISE_90 : Rotation.CLOCKWISE_90);
-            world.setBlock(facingPos, rotatedState, Block.UPDATE_CLIENTS);
+            level.setBlock(facingPos, rotatedState, Block.UPDATE_CLIENTS);
 
             if (facingState.hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF)) {
                 DoubleBlockHalf doubleBlockHalf = facingState.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF);
                 BlockPos doubleBlockHalfPos = doubleBlockHalf == DoubleBlockHalf.LOWER ? facingPos.above() : facingPos.below();
-                BlockState doubleBlockHalfState = world.getBlockState(doubleBlockHalfPos);
+                BlockState doubleBlockHalfState = level.getBlockState(doubleBlockHalfPos);
                 BlockState doubleBlockHalfRotatedState = doubleBlockHalfState.rotate(state.getValue(INVERTED) ? Rotation.COUNTERCLOCKWISE_90 : Rotation.CLOCKWISE_90);
-                world.setBlock(doubleBlockHalfPos, doubleBlockHalfRotatedState, Block.UPDATE_CLIENTS);
+                level.setBlock(doubleBlockHalfPos, doubleBlockHalfRotatedState, Block.UPDATE_CLIENTS);
             }
 
-            world.playSound(null, facingPos, SoundRegistry.BLOCK_ROTATE, SoundSource.BLOCKS, 1.0F, 1);
-            world.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
+            level.playSound(null, facingPos, SoundRegistry.BLOCK_ROTATE, SoundSource.BLOCKS, 1.0F, 1);
+            level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
         }
         return true;
     }
 
-	private void rotateEntity(Level world, BlockPos pos, BlockState state, Entity entity) {
-        super.stepOn(world, pos, state, entity);
+	private void rotateEntity(Level level, BlockPos pos, BlockState state, Entity entity) {
+        super.stepOn(level, pos, state, entity);
         if (!entity.onGround()) return;
         if (state.getValue(POWER) != 0 && state.getValue(FACING) == Direction.UP) {
             float period = this.getPeriod(state) + 1;

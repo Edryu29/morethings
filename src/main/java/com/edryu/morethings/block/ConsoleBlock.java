@@ -29,7 +29,7 @@ public class ConsoleBlock extends LeverBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         Direction direction = state.getValue(FACING);
         switch (state.getValue(FACE)) {
             case FLOOR:
@@ -52,16 +52,16 @@ public class ConsoleBlock extends LeverBlock {
     }
 
 	@Override
-	protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
-		if (world.isClientSide) {
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+		if (level.isClientSide()) {
 			state.cycle(POWERED);
 			return InteractionResult.SUCCESS;
 		} else {
-			this.pull(state, world, pos, null);
+			this.pull(state, level, pos, null);
 			return InteractionResult.CONSUME;
 		}
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {}
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {}
 }

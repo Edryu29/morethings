@@ -3,6 +3,7 @@ package com.edryu.morethings.block;
 import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.Set;
+
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -71,7 +72,7 @@ public class RopeBlock extends WaterloggableBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return Shapes.or(
             state.getValue(KNOT) ? ROPE_KNOT : Shapes.empty(),
             state.getValue(NORTH) ? ROPE_NORTH : Shapes.empty(),
@@ -85,17 +86,17 @@ public class RopeBlock extends WaterloggableBlock {
 
 	@Nullable
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-        LevelAccessor world = ctx.getLevel();
-        BlockPos pos = ctx.getClickedPos();
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+        LevelAccessor level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
 
-        boolean north = canConnectTo(world, pos.north(), Direction.SOUTH);
-        boolean south = canConnectTo(world, pos.south(), Direction.NORTH);
-        boolean east = canConnectTo(world, pos.east(),  Direction.WEST);
-        boolean west = canConnectTo(world, pos.west(),  Direction.EAST);
-        boolean up = canConnectTo(world, pos.above(),    Direction.DOWN);
-        boolean down = canConnectTo(world, pos.below(),  Direction.UP);
-        boolean bell = canConnectToBell(world, pos);
+        boolean north = canConnectTo(level, pos.north(), Direction.SOUTH);
+        boolean south = canConnectTo(level, pos.south(), Direction.NORTH);
+        boolean east = canConnectTo(level, pos.east(),  Direction.WEST);
+        boolean west = canConnectTo(level, pos.west(),  Direction.EAST);
+        boolean up = canConnectTo(level, pos.above(),    Direction.DOWN);
+        boolean down = canConnectTo(level, pos.below(),  Direction.UP);
+        boolean bell = canConnectToBell(level, pos);
 
         boolean hasVertical   = up || down;
         boolean hasHorizontal = north || south || east || west;
@@ -104,10 +105,10 @@ public class RopeBlock extends WaterloggableBlock {
         boolean singleAxis    = (north ^ south) || (east ^ west) || (up ^ down);
         boolean ropeKnot      = (hasHorizontal && (isCorner || hasVertical)) || noConnections || singleAxis;
 
-		FluidState fluidState = world.getFluidState(pos);
+		FluidState fluidState = level.getFluidState(pos);
 		boolean wl = fluidState.getType() == Fluids.WATER;
 
-		BlockState state = super.getStateForPlacement(ctx)
+		BlockState state = super.getStateForPlacement(context)
             .setValue(WATERLOGGED, wl)
             .setValue(KNOT, ropeKnot)
             .setValue(BELL, bell)
@@ -118,16 +119,16 @@ public class RopeBlock extends WaterloggableBlock {
             .setValue(UP, up)
             .setValue(DOWN, down);
 
-        if (hasNoConnection(state) || !hasFixedAnchor(world, pos)) return null;
+        if (hasNoConnection(state) || !hasFixedAnchor(level, pos)) return null;
         return state;
 	}
 
 	@Override
-	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         boolean wl = state.getValue(WATERLOGGED);
-		if (wl) world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+		if (wl) level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 
-        state = state.setValue(getDirState(direction), canConnectTo(world, neighborPos, direction.getOpposite()));
+        state = state.setValue(getDirState(direction), canConnectTo(level, neighborPos, direction.getOpposite()));
 
         boolean north = state.getValue(NORTH);
         boolean south = state.getValue(SOUTH);
@@ -135,7 +136,7 @@ public class RopeBlock extends WaterloggableBlock {
         boolean west = state.getValue(WEST);
         boolean up = state.getValue(UP);
         boolean down = state.getValue(DOWN);
-        boolean bell  = canConnectToBell(world, pos);
+        boolean bell  = canConnectToBell(level, pos);
 
         boolean hasVertical   = up || down;
         boolean hasHorizontal = north || south || east || west;
@@ -155,33 +156,33 @@ public class RopeBlock extends WaterloggableBlock {
                 .setValue(UP, up)
                 .setValue(DOWN, down);
 
-        if (hasNoConnection(state) || !hasFixedAnchor(world, pos)) return Blocks.AIR.this.defaultBlockState();
-		return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+        if (hasNoConnection(state) || !hasFixedAnchor(level, pos)) return Blocks.AIR.defaultBlockState();
+		return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
 	}
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (player == null) return InteractionResult.PASS;
 
         ItemStack stack = player.getMainHandItem();
         if (stack.is(this.asItem())) {
             if (!Screen.hasShiftDown()) return InteractionResult.PASS; 
-            if (WindingHelper.addWindingDown(pos.below(), world, player, InteractionHand.MAIN_HAND, this)) {
-                SoundType soundGroup = state.getSoundType();
-                world.playSound(player, pos, soundGroup.getPlaceSound(), SoundSource.BLOCKS, (soundGroup.getVolume() + 1.0F) / 2.0F, soundGroup.getPitch() * 0.8F);
+            if (WindingHelper.addWindingDown(pos.below(), level, player, InteractionHand.MAIN_HAND, this)) {
+                SoundType soundType = state.getSoundType();
+                level.playSound(player, pos, soundType.getPlaceSound(), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
                 stack.consume(1, player);
                 return InteractionResult.SUCCESS;
             }
             return InteractionResult.PASS;
         } else {
             if (state.getValue(UP)) {
-                if (findConnectedBell(world, pos, player, 0) && !Screen.hasShiftDown()) return InteractionResult.SUCCESS;
-                if (findConnectedPulley(world, pos, player, 0, Screen.hasShiftDown())) return InteractionResult.SUCCESS;
+                if (findConnectedBell(level, pos, player, 0) && !Screen.hasShiftDown()) return InteractionResult.SUCCESS;
+                if (findConnectedPulley(level, pos, player, 0, Screen.hasShiftDown())) return InteractionResult.SUCCESS;
             }
             if (Screen.hasShiftDown()) {
-                if (world.getBlockState(pos.below()).is(this) || world.getBlockState(pos.above()).is(this)) {
-                    if (WindingHelper.removeWindingDown(pos.below(), world, this)) {
-                        world.playSound(player, pos, SoundRegistry.ROPE_SLIDE, SoundSource.BLOCKS, 1, 0.6F);
+                if (level.getBlockState(pos.below()).is(this) || level.getBlockState(pos.above()).is(this)) {
+                    if (WindingHelper.removeWindingDown(pos.below(), level, this)) {
+                        level.playSound(player, pos, SoundRegistry.ROPE_SLIDE, SoundSource.BLOCKS, 1, 0.6F);
                         if (!player.hasInfiniteMaterials()) player.addItem(new ItemStack(ItemRegistry.ROPE, 1));
                         return InteractionResult.SUCCESS;
                     }
@@ -191,8 +192,8 @@ public class RopeBlock extends WaterloggableBlock {
         return InteractionResult.PASS;
     }
 
-    private boolean canConnectTo(LevelAccessor world, BlockPos neighborPos, Direction dirTowardRope) {
-        BlockState neighborState = world.getBlockState(neighborPos);
+    private boolean canConnectTo(LevelAccessor level, BlockPos neighborPos, Direction dirTowardRope) {
+        BlockState neighborState = level.getBlockState(neighborPos);
         if (neighborState.getBlock() instanceof RopeBlock) return true;
         if (neighborState.getBlock() instanceof RopeKnotBlock) return true;
 
@@ -204,21 +205,21 @@ public class RopeBlock extends WaterloggableBlock {
             if (neighborState.getBlock() instanceof LanternBlock) return true;
             if (neighborState.getBlock() instanceof BellBlock) return true;
             if (neighborState.is(BlockTagProvider.HANG_FROM_ROPES)) return true;
-            return neighborState.isFaceSturdy(world, neighborPos, Direction.DOWN, SupportType.CENTER);
+            return neighborState.isFaceSturdy(level, neighborPos, Direction.DOWN, SupportType.CENTER);
         }
 
-        return neighborState.isFaceSturdy(world, neighborPos, dirTowardRope, SupportType.CENTER);
+        return neighborState.isFaceSturdy(level, neighborPos, dirTowardRope, SupportType.CENTER);
     }
 
-    private boolean canConnectToBell(LevelAccessor world, BlockPos pos) {
-        return world.getBlockState(pos.above()).getBlock() instanceof BellBlock;
+    private boolean canConnectToBell(LevelAccessor level, BlockPos pos) {
+        return level.getBlockState(pos.above()).getBlock() instanceof BellBlock;
     }
 
     private boolean hasNoConnection(BlockState state) {
         return !(state.getValue(NORTH) || state.getValue(SOUTH) || state.getValue(EAST) || state.getValue(WEST) || state.getValue(UP) || state.getValue(DOWN));
     }
 
-    private boolean hasFixedAnchor(LevelAccessor world, BlockPos start) {
+    private boolean hasFixedAnchor(LevelAccessor level, BlockPos start) {
         ArrayDeque<BlockPos> queue = new ArrayDeque<>();
         Set<BlockPos> seen = new HashSet<>();
         queue.add(start);
@@ -228,7 +229,7 @@ public class RopeBlock extends WaterloggableBlock {
             if (!seen.add(p)) continue;
             for (Direction d : Direction.values()) {
                 BlockPos n = p.relative(d);
-                BlockState s = world.getBlockState(n);
+                BlockState s = level.getBlockState(n);
                 if (s.getBlock() instanceof RopeKnotBlock) return true;
                 if (s.getBlock() instanceof RopeBlock) {
                     if (!seen.contains(n)) queue.add(n);
@@ -236,9 +237,9 @@ public class RopeBlock extends WaterloggableBlock {
                 }
                 if (d == Direction.UP) {
                     if (s.is(BlockTagProvider.ROPE_SUPPORT) || s.getBlock() instanceof BellBlock) return true;
-                    if (s.isFaceSturdy(world, n, Direction.DOWN, SupportType.CENTER)) return true;
+                    if (s.isFaceSturdy(level, n, Direction.DOWN, SupportType.CENTER)) return true;
                 } else if (d != Direction.DOWN) {
-                    if (s.isFaceSturdy(world, n, d.getOpposite(), SupportType.CENTER)) return true;
+                    if (s.isFaceSturdy(level, n, d.getOpposite(), SupportType.CENTER)) return true;
                 }
             }
             steps++;
@@ -246,21 +247,21 @@ public class RopeBlock extends WaterloggableBlock {
         return false;
     }
 
-    private boolean findConnectedPulley(Level world, BlockPos pos, Player player, int it, boolean retracting) {
+    private boolean findConnectedPulley(Level level, BlockPos pos, Player player, int it, boolean retracting) {
         if (it > 64) return false;
-        BlockState state = world.getBlockState(pos);
+        BlockState state = level.getBlockState(pos);
         Block block = state.getBlock();
-        if (block instanceof RopeBlock) return findConnectedPulley(world, pos.above(), player, it + 1, retracting);
-        else if (block instanceof PulleyBlock pulley && it != 0) return pulley.windPulley(state, world, pos, retracting, null);
+        if (block instanceof RopeBlock) return findConnectedPulley(level, pos.above(), player, it + 1, retracting);
+        else if (block instanceof PulleyBlock pulley && it != 0) return pulley.windPulley(state, level, pos, retracting, null);
         return false;
     }
 
-    private boolean findConnectedBell(Level world, BlockPos pos, Player player, int it) {
+    private boolean findConnectedBell(Level level, BlockPos pos, Player player, int it) {
         if (it > 64) return false;
-        BlockState state = world.getBlockState(pos);
+        BlockState state = level.getBlockState(pos);
         Block block = state.getBlock();
-        if (block instanceof RopeBlock) return findConnectedBell(world, pos.above(), player, it + 1);
-        else if (block instanceof BellBlock bell && it != 0) return bell.attemptToRing(world, pos, player.getDirection().getClockWise());;
+        if (block instanceof RopeBlock) return findConnectedBell(level, pos.above(), player, it + 1);
+        else if (block instanceof BellBlock bell && it != 0) return bell.attemptToRing(level, pos, player.getDirection().getClockWise());;
         return false;
     }
     
@@ -276,17 +277,17 @@ public class RopeBlock extends WaterloggableBlock {
     }
 
     @Override
-    protected @NotNull VoxelShape getBlockSupportShape(BlockState state, BlockGetter world, BlockPos pos) {
-        return Shapes.or(this.getCollisionShape(state, world, pos, CollisionContext.empty()), ROPE_DOWN);
+    protected @NotNull VoxelShape getBlockSupportShape(BlockState state, BlockGetter level, BlockPos pos) {
+        return Shapes.or(this.getCollisionShape(state, level, pos, CollisionContext.empty()), ROPE_DOWN);
     }
 
     @Override
-	protected VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        return !state.getValue(UP) && (!state.getValue(DOWN) || (context.isAbove(COLLISION_SHAPE, pos, true) && !Screen.hasShiftDown())) ? state.getShape(world, pos) : Shapes.empty();
+	protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return !state.getValue(UP) && (!state.getValue(DOWN) || (context.isAbove(COLLISION_SHAPE, pos, true) && !Screen.hasShiftDown())) ? state.getShape(level, pos) : Shapes.empty();
 	}
 
 	@Override
-	protected boolean isPathfindable(BlockState state, PathComputationType type) {
+	protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
 		return false;
 	}
 }

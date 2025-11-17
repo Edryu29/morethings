@@ -15,13 +15,13 @@ public class RopeKnotBlockEntityRenderer implements BlockEntityRenderer<RopeKnot
     public RopeKnotBlockEntityRenderer(BlockEntityRendererProvider.Context ctx) {}
 
     @Override
-    public void render(RopeKnotBlockEntity blockEntity, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
+    public void render(RopeKnotBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
         if (blockEntity.getLevel() == null) return;
         BlockState heldBlock = blockEntity.getHeldBlock();
         if (heldBlock == null || heldBlock.isAir()) return;
 
-        matrices.pushPose();
-        Minecraft.getInstance().getBlockRenderer().renderBatched(heldBlock, blockEntity.getBlockPos(), blockEntity.getLevel(), matrices, vertexConsumers.getBuffer(RenderType.cutout()), false, RandomSource.create());
-        matrices.popPose();
+        poseStack.pushPose();
+        Minecraft.getInstance().getBlockRenderer().renderBatched(heldBlock, blockEntity.getBlockPos(), blockEntity.getLevel(), poseStack, bufferSource.getBuffer(RenderType.cutout()), false, RandomSource.create());
+        poseStack.popPose();
     }
 }

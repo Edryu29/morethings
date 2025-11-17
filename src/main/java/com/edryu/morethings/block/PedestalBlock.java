@@ -42,18 +42,15 @@ public class PedestalBlock extends WaterloggableBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
-        if (!state.getValue(UP)) {
-            return !state.getValue(DOWN) ? SHAPE : SHAPE_DOWN;
-        } else {
-            return !state.getValue(DOWN) ? SHAPE_UP : SHAPE_UP_DOWN;
-        }
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        if (!state.getValue(UP)) return !state.getValue(DOWN) ? SHAPE : SHAPE_DOWN;
+        else return !state.getValue(DOWN) ? SHAPE_UP : SHAPE_UP_DOWN;
     }
 
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-        LevelAccessor world = ctx.getLevel();
-        BlockPos pos = ctx.getClickedPos();
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+        LevelAccessor world = context.getLevel();
+        BlockPos pos = context.getClickedPos();
 
         boolean up    = canConnectTo(world, pos.above());
         boolean down  = canConnectTo(world, pos.below());
@@ -61,22 +58,22 @@ public class PedestalBlock extends WaterloggableBlock {
 		FluidState fluidState = world.getFluidState(pos);
 		boolean wl = fluidState.getType() == Fluids.WATER;
         
-        return super.getStateForPlacement(ctx).setValue(WATERLOGGED, wl).setValue(UP, up).setValue(DOWN, down);
+        return super.getStateForPlacement(context).setValue(WATERLOGGED, wl).setValue(UP, up).setValue(DOWN, down);
 	}
 
 	@Override
-	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         boolean wl = state.getValue(WATERLOGGED);
-		if (wl) world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+		if (wl) level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 
-        boolean up    = canConnectTo(world, pos.above());
-        boolean down  = canConnectTo(world, pos.below());
+        boolean up    = canConnectTo(level, pos.above());
+        boolean down  = canConnectTo(level, pos.below());
 
 		state = this.defaultBlockState().setValue(WATERLOGGED, wl).setValue(UP, up).setValue(DOWN, down);
-		return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+		return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
 	}
 
-    private boolean canConnectTo(LevelAccessor world, BlockPos pos) {
-        return world.getBlockState(pos).getBlock() instanceof PedestalBlock ? true : false;
+    private boolean canConnectTo(LevelAccessor level, BlockPos pos) {
+        return level.getBlockState(pos).getBlock() instanceof PedestalBlock ? true : false;
     }
 }

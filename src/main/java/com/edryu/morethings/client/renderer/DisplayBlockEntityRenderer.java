@@ -18,7 +18,7 @@ public class DisplayBlockEntityRenderer implements BlockEntityRenderer<DisplayBl
     public DisplayBlockEntityRenderer(BlockEntityRendererProvider.Context ctx) {}
 
     @Override
-    public void render(DisplayBlockEntity blockEntity, float tickDelta, PoseStack matrices, MultiBufferSource vertexConsumers, int light, int overlay) {
+    public void render(DisplayBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
         Direction facing = blockEntity.getBlockState().getValue(DisplayBlock.FACING);
         ItemStack storedItem = blockEntity.getStoredItem();
 
@@ -26,16 +26,16 @@ public class DisplayBlockEntityRenderer implements BlockEntityRenderer<DisplayBl
 
         if (!storedItem.isEmpty()) {
             float rotation = facing.toYRot();
-            double yOffset = 0.3 + 0.05 * Math.sin((blockEntity.getLevel().getGameTime() + tickDelta) / 8.0) / 2.0;
+            double yOffset = 0.3 + 0.05 * Math.sin((blockEntity.getLevel().getGameTime() + partialTick) / 8.0) / 2.0;
 
-            matrices.pushPose();
-            matrices.translate(0.5, 0.6 + yOffset * 0.05, 0.5);
-            matrices.mulPose(Axis.YP.rotationDegrees(rotation));
-            matrices.scale(0.75f, 0.75f, 0.75f);
+            poseStack.pushPose();
+            poseStack.translate(0.5, 0.6 + yOffset * 0.05, 0.5);
+            poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
+            poseStack.scale(0.75f, 0.75f, 0.75f);
 
             ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-            itemRenderer.renderStatic(storedItem, ItemDisplayContext.GROUND, light, overlay, matrices, vertexConsumers, blockEntity.getLevel(), 0);
-            matrices.popPose();
+            itemRenderer.renderStatic(storedItem, ItemDisplayContext.GROUND, packedLight, packedOverlay, poseStack, bufferSource, blockEntity.getLevel(), 0);
+            poseStack.popPose();
         }
     }
 }

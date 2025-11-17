@@ -20,8 +20,8 @@ public class CogBlock extends Block {
     }
 
     @Override
-	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-		return this.defaultBlockState().setValue(POWER, ctx.getLevel().getBestNeighborSignal(ctx.getClickedPos()));
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		return this.defaultBlockState().setValue(POWER, context.getLevel().getBestNeighborSignal(context.getClickedPos()));
 	}
 
     @Override
@@ -30,9 +30,9 @@ public class CogBlock extends Block {
     }
 
 	@Override
-	protected void neighborChanged(BlockState state, Level world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
-		super.neighborChanged(state, world, pos, sourceBlock, sourcePos, notify);
-		world.setBlockAndUpdate(pos, state.setValue(POWER, world.getBestNeighborSignal(pos)));
+	protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
+		super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
+		level.setBlockAndUpdate(pos, state.setValue(POWER, level.getBestNeighborSignal(pos)));
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class CogBlock extends Block {
 	}
 
 	@Override
-	protected int getSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+	protected int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
 		return Math.max(0, state.getValue(POWER) - 1);
 	}
 }

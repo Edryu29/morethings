@@ -3,6 +3,7 @@ package com.edryu.morethings.block;
 import org.jetbrains.annotations.Nullable;
 
 import com.edryu.morethings.registry.SoundRegistry;
+
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -55,7 +56,7 @@ public class CrankBlock extends WaterloggableBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return switch (state.getValue(FACING)) {
             case NORTH -> SHAPE_NORTH;
             case WEST -> SHAPE_WEST;
@@ -67,77 +68,77 @@ public class CrankBlock extends WaterloggableBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         boolean ccw = Screen.hasShiftDown();
-        spawnParticles(state, world, pos, ParticleTypes.SMOKE);
-        this.turnPower(state, world, pos, ccw, player);
+        makeParticle(state, level, pos, ParticleTypes.SMOKE);
+        this.turnPower(state, level, pos, ccw, player);
 
 		Direction direction = state.getValue(FACING).getOpposite();
 		BlockPos behindPos = pos.relative(direction);
-		BlockState behindState = world.getBlockState(behindPos);
+		BlockState behindState = level.getBlockState(behindPos);
 		Block behindBlock = behindState.getBlock();
 		if (behindBlock instanceof PulleyBlock && direction.getAxis() == behindState.getValue(PulleyBlock.AXIS)) {
-			((PulleyBlock)behindBlock).windPulley(behindState, world, behindPos, Screen.hasShiftDown(), direction);
+			((PulleyBlock)behindBlock).windPulley(behindState, level, behindPos, Screen.hasShiftDown(), direction);
 		}
         return InteractionResult.SUCCESS;
     }
 
-    public void turnPower(BlockState state, Level world, BlockPos pos, boolean ccw, @Nullable Player player) {
+    public void turnPower(BlockState state, Level level, BlockPos pos, boolean ccw, @Nullable Player player) {
         int newPower = (16 + state.getValue(POWER) + (ccw ? -1 : 1)) % 16;
-        world.setBlockAndUpdate(pos, state.setValue(POWER, newPower));
-        this.updateNeighbors(state, world, pos);
-        world.playSound(player, pos, SoundRegistry.CRANK, SoundSource.BLOCKS, 1.0F, 0.55f + state.getValue(POWER) * 0.04f);
-		world.gameEvent(player, state.getValue(POWER) > 0 ? GameEvent.BLOCK_ACTIVATE : GameEvent.BLOCK_DEACTIVATE, pos);
+        level.setBlockAndUpdate(pos, state.setValue(POWER, newPower));
+        this.updateNeighbors(state, level, pos);
+        level.playSound(player, pos, SoundRegistry.CRANK, SoundSource.BLOCKS, 1.0F, 0.55f + state.getValue(POWER) * 0.04f);
+		level.gameEvent(player, state.getValue(POWER) > 0 ? GameEvent.BLOCK_ACTIVATE : GameEvent.BLOCK_DEACTIVATE, pos);
     }
 
-	private static void spawnParticles(BlockState state, LevelAccessor world, BlockPos pos, ParticleOptions particle) {
+	private static void makeParticle(BlockState state, LevelAccessor level, BlockPos pos, ParticleOptions particle) {
 		Direction direction = state.getValue(FACING).getOpposite();
 		double d = pos.getX() + 0.5 + 0.1 * direction.getStepX() + 0.2 * direction.getStepX();
 		double e = pos.getY() + 0.5 + 0.1 * direction.getStepY() + 0.2 * direction.getStepY();
 		double f = pos.getZ() + 0.5 + 0.1 * direction.getStepZ() + 0.2 * direction.getStepZ();
-		world.addParticle(particle, d, e, f, 0.0, 0.0, 0.0);
+		level.addParticle(particle, d, e, f, 0.0, 0.0, 0.0);
 	}
 
 	@Override
-	public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
-		if (state.getValue(POWER) > 0 && random.nextFloat() < 0.25F) spawnParticles(state, world, pos, new DustParticleOptions(DustParticleOptions.REDSTONE_PARTICLE_COLOR, 0.5F));
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+		if (state.getValue(POWER) > 0 && random.nextFloat() < 0.25F) makeParticle(state, level, pos, new DustParticleOptions(DustParticleOptions.REDSTONE_PARTICLE_COLOR, 0.5F));
 	}
 
 	@Nullable
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-        boolean wl = ctx.getLevel().getFluidState(ctx.getClickedPos()).is(Fluids.WATER);
-		for (Direction direction : ctx.getNearestLookingDirections()) {
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+        boolean wl = context.getLevel().getFluidState(context.getClickedPos()).is(Fluids.WATER);
+		for (Direction direction : context.getNearestLookingDirections()) {
 			BlockState blockState = this.defaultBlockState().setValue(WATERLOGGED, wl).setValue(FACING, direction.getOpposite());
-			if (blockState.canSurvive(ctx.getLevel(), ctx.getClickedPos())) return blockState;
+			if (blockState.canSurvive(context.getLevel(), context.getClickedPos())) return blockState;
 		}
 		return null;
 	}
 
     @Override
-    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
-        if (state.getValue(WATERLOGGED)) world.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
-		return state.getValue(FACING).getOpposite() == direction && !state.canSurvive(world, pos)
-                ? Blocks.AIR.this.defaultBlockState(): super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        if (state.getValue(WATERLOGGED)) level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+		return state.getValue(FACING).getOpposite() == direction && !state.canSurvive(level, pos)
+                ? Blocks.AIR.defaultBlockState(): super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
 	@Override
-	protected boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-		BlockPos blockPos = pos.relative(state.getValue(FACING).getOpposite());
-		return world.getBlockState(blockPos).isFaceSturdy(world, blockPos, state.getValue(FACING));
+	protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+		BlockPos neighborPos = pos.relative(state.getValue(FACING).getOpposite());
+		return level.getBlockState(neighborPos).isFaceSturdy(level, neighborPos, state.getValue(FACING));
 	}
 
 	@Override
-	protected void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
-		if (!moved && !state.is(newState.getBlock())) {
-			this.updateNeighbors(state, world, pos);
-			super.onRemove(state, world, pos, newState, moved);
+	protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+		if (!movedByPiston && !state.is(newState.getBlock())) {
+			this.updateNeighbors(state, level, pos);
+			super.onRemove(state, level, pos, newState, movedByPiston);
 		}
 	}
 
-	private void updateNeighbors(BlockState state, Level world, BlockPos pos) {
-		world.updateNeighborsAt(pos, this);
-		world.updateNeighborsAt(pos.relative(state.getValue(FACING).getOpposite()), this);
+	private void updateNeighbors(BlockState state, Level level, BlockPos pos) {
+		level.updateNeighborsAt(pos, this);
+		level.updateNeighborsAt(pos.relative(state.getValue(FACING).getOpposite()), this);
 	}
 
 	@Override
@@ -146,12 +147,12 @@ public class CrankBlock extends WaterloggableBlock {
 	}
 
 	@Override
-	protected int getSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+	protected int getSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
 		return state.getValue(POWER);
 	}
 
 	@Override
-	protected int getDirectSignal(BlockState state, BlockGetter world, BlockPos pos, Direction direction) {
+	protected int getDirectSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
 		return state.getValue(FACING) == direction ? state.getValue(POWER) : 0;
 	}
 

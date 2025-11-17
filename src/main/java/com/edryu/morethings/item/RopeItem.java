@@ -27,8 +27,8 @@ public class RopeItem extends BlockItem {
 		BlockState blockState = world.getBlockState(blockPos);
 
         if (blockState.getBlock() instanceof FenceBlock) {
-            if (!world.isClientSide) {
-                BlockState knot = BlockRegistry.ROPE_KNOT.this.defaultBlockState();
+            if (!world.isClientSide()) {
+                BlockState knot = BlockRegistry.ROPE_KNOT.defaultBlockState();
 				world.setBlockAndUpdate(blockPos, knot);
 				world.playSound(null, blockPos, SoundRegistry.ROPE_PLACE, SoundSource.BLOCKS, 0.5F, 0.8F);
 				if (world.getBlockEntity(blockPos) instanceof RopeKnotBlockEntity be) be.setHeldBlock(blockState);

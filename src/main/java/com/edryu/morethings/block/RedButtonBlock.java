@@ -1,5 +1,7 @@
 package com.edryu.morethings.block;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,7 +24,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.Nullable;
 
 public class RedButtonBlock extends ButtonBlock {
     public static final BooleanProperty OPEN = BooleanProperty.create("open");
@@ -64,7 +65,7 @@ public class RedButtonBlock extends ButtonBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         Direction direction = state.getValue(FACING);
         boolean is_powered = state.getValue(POWERED);
         boolean is_open = state.getValue(OPEN);
@@ -76,13 +77,13 @@ public class RedButtonBlock extends ButtonBlock {
                 switch (direction) {
                     case NORTH:
 					default:
-                        return is_powered ? PRESSED_NORTH_AABB : (is_open ? NORTH_OPEN_SHAPE : NORTH_CLOSED_SHAPE);
+                        return is_powered ? NORTH_PRESSED_SHAPE : (is_open ? NORTH_OPEN_SHAPE : NORTH_CLOSED_SHAPE);
                     case EAST:
-                        return is_powered ? PRESSED_EAST_AABB : (is_open ? EAST_OPEN_SHAPE : EAST_CLOSED_SHAPE);
+                        return is_powered ? EAST_PRESSED_SHAPE : (is_open ? EAST_OPEN_SHAPE : EAST_CLOSED_SHAPE);
                     case SOUTH:
-                        return is_powered ? PRESSED_SOUTH_AABB : (is_open ? SOUTH_OPEN_SHAPE : SOUTH_CLOSED_SHAPE);
+                        return is_powered ? SOUTH_PRESSED_SHAPE : (is_open ? SOUTH_OPEN_SHAPE : SOUTH_CLOSED_SHAPE);
                     case WEST:
-                        return is_powered ? PRESSED_WEST_AABB : (is_open ? WEST_OPEN_SHAPE : WEST_CLOSED_SHAPE);
+                        return is_powered ? WEST_PRESSED_SHAPE : (is_open ? WEST_OPEN_SHAPE : WEST_CLOSED_SHAPE);
                 }
 			default:
                 return is_powered ? CEILING_PRESSED_SHAPE : (is_open ? CEILING_OPEN_SHAPE : CEILING_CLOSED_SHAPE);
@@ -90,12 +91,12 @@ public class RedButtonBlock extends ButtonBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         boolean is_open = state.getValue(OPEN);
 
         if (Screen.hasShiftDown()) {
-            world.setBlockAndUpdate(pos, state.setValue(OPEN, !is_open));
-            world.playSound(is_open ? player : null, pos, is_open ? SoundEvents.IRON_TRAPDOOR_OPEN : SoundEvents.IRON_TRAPDOOR_CLOSE, SoundSource.BLOCKS, 1f, 1);
+            level.setBlockAndUpdate(pos, state.setValue(OPEN, !is_open));
+            level.playSound(is_open ? player : null, pos, is_open ? SoundEvents.IRON_TRAPDOOR_OPEN : SoundEvents.IRON_TRAPDOOR_CLOSE, SoundSource.BLOCKS, 1f, 1);
             return InteractionResult.SUCCESS;
 
         } else if (!is_open) {
@@ -105,19 +106,19 @@ public class RedButtonBlock extends ButtonBlock {
             if ((Boolean)state.getValue(POWERED)) {
                 return InteractionResult.CONSUME;
             } else {
-                this.press(state, world, pos, player);
-                return InteractionResult.sidedSuccess(world.isClientSide);
+                this.press(state, level, pos, player);
+                return InteractionResult.sidedSuccess(level.isClientSide());
             }
         }
     }
 
     @Override
-    protected void playSound(@Nullable Player player, LevelAccessor world, BlockPos pos, boolean powered) {
-        world.playSound(powered ? player : null, pos, this.getSound(powered), SoundSource.BLOCKS, 1, powered ? 0.6f : 0.5f);
+    protected void playSound(@Nullable Player player, LevelAccessor level, BlockPos pos, boolean powered) {
+        level.playSound(powered ? player : null, pos, this.getSound(powered), SoundSource.BLOCKS, 1, powered ? 0.6f : 0.5f);
     }
 
     @Override
-    protected SoundEvent getSound(boolean powered) {
+    protected SoundEvent getSound(boolean isOn) {
         return SoundEvents.BONE_BLOCK_BREAK;
     }
 }

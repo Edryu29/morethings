@@ -1,5 +1,7 @@
 package com.edryu.morethings.block;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,7 +22,6 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.Nullable;
 
 public class TelescopeBlock extends DoublePlantBlock {
 	public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -39,29 +40,29 @@ public class TelescopeBlock extends DoublePlantBlock {
     }
 
 	@Override
-	protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return state.getValue(HALF) == DoubleBlockHalf.UPPER ? SHAPE_TOP : SHAPE_BOTTOM;
 	}
 
 	@Nullable
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-		BlockPos blockPos = ctx.getClickedPos();
-		Level world = ctx.getLevel();
-		return blockPos.getY() < world.getMaxBuildHeight() - 1 && world.getBlockState(blockPos.above()).canBeReplaced(ctx) ? super.getStateForPlacement(ctx).setValue(FACING, ctx.getHorizontalDirection().getOpposite()) : null;
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		BlockPos pos = context.getClickedPos();
+		Level level = context.getLevel();
+		return pos.getY() < level.getMaxBuildHeight() - 1 && level.getBlockState(pos.above()).canBeReplaced(context) ? super.getStateForPlacement(context).setValue(FACING, context.getHorizontalDirection().getOpposite()) : null;
 	}
 
 	@Override
-	public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
+	public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
 		BlockPos blockPos = pos.above();
-		world.setBlockAndUpdate(blockPos, copyWaterloggedFrom(world, blockPos, this.defaultBlockState().setValue(HALF, DoubleBlockHalf.UPPER).setValue(FACING, state.getValue(FACING))));
+		level.setBlockAndUpdate(blockPos, copyWaterloggedFrom(level, blockPos, this.defaultBlockState().setValue(HALF, DoubleBlockHalf.UPPER).setValue(FACING, state.getValue(FACING))));
 	}
 
 	@Override
-	protected boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-		BlockState blockState = world.getBlockState(pos.below());
-		if (state.getValue(HALF) == DoubleBlockHalf.UPPER) return blockState.is(this) && blockState.getValue(HALF) == DoubleBlockHalf.LOWER;
-		return blockState.isFaceSturdy(world, pos.below(), Direction.UP, SupportType.CENTER);
+	protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+		BlockState neighborState = level.getBlockState(pos.below());
+		if (state.getValue(HALF) == DoubleBlockHalf.UPPER) return neighborState.is(this) && neighborState.getValue(HALF) == DoubleBlockHalf.LOWER;
+		return neighborState.isFaceSturdy(level, pos.below(), Direction.UP, SupportType.CENTER);
 	}
 
 	@Override

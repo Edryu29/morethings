@@ -1,6 +1,7 @@
 package com.edryu.morethings.block;
 
 import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -32,7 +33,7 @@ public class TerrariumBlock extends HorizontalDirectionalBlock {
 	}
 
 	@Override
-	protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return Shapes.or(
             Shapes.box(0.0f, 0.0f, 0.0f, 1.0f, 0.125f, 1.0f),
             Shapes.box(0.0625f, 0.125f, 0.0625f, 0.9375f, 0.875f, 0.9375f)
@@ -40,7 +41,7 @@ public class TerrariumBlock extends HorizontalDirectionalBlock {
 	}
 
     @Override
-	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-		return super.getStateForPlacement(ctx).setValue(FACING, ctx.getHorizontalDirection().getOpposite());
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		return super.getStateForPlacement(context).setValue(FACING, context.getHorizontalDirection().getOpposite());
 	}
 }

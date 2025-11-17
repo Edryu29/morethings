@@ -113,7 +113,7 @@ public class PulleyBlockEntity extends BlockEntity implements MenuProvider, Simp
         Block windingBlock = ((BlockItem) stack.getItem()).getBlock();
         boolean success = WindingHelper.removeWinding(worldPosition.relative(moveDir), level, windingBlock, moveDir, maxDist);
         if (success) {
-            SoundType soundGroup = windingBlock.this.defaultBlockState().getSoundType();
+            SoundType soundGroup = windingBlock.defaultBlockState().getSoundType();
             level.playSound(null, worldPosition, soundGroup.getBreakSound(), SoundSource.BLOCKS, (soundGroup.getVolume() + 1.0F) / 2.0F, soundGroup.getPitch() * 0.8F);
             if (addNewItem) this.setItem(0, stack);
             else if (addItem) stack.grow(1);
@@ -133,7 +133,7 @@ public class PulleyBlockEntity extends BlockEntity implements MenuProvider, Simp
 
         boolean success = WindingHelper.addWinding(worldPosition.relative(dir), level, null, InteractionHand.MAIN_HAND, windingBlock, dir, maxDist);
         if (success) {
-            SoundType soundGroup = windingBlock.this.defaultBlockState().getSoundType();
+            SoundType soundGroup = windingBlock.defaultBlockState().getSoundType();
             level.playSound(null, worldPosition, soundGroup.getPlaceSound(), SoundSource.BLOCKS, (soundGroup.getVolume() + 1.0F) / 2.0F, soundGroup.getPitch() * 0.8F);
             if(removeItem) {
                 stack.shrink(1);

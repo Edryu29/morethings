@@ -13,8 +13,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PalisadeBlock extends FenceBlock {
-	protected final VoxelShape[] collisionShapes;
-	protected final VoxelShape[] boundingShapes;
+	protected final VoxelShape[] collisionShapeByIndex;
+	protected final VoxelShape[] shapeByIndex;
 
     public PalisadeBlock(Properties settings) {
         super(settings);
@@ -23,20 +23,20 @@ public class PalisadeBlock extends FenceBlock {
     }
 
 	@Override
-	public boolean connectsTo(BlockState state, boolean neighborIsFullSquare, Direction dir) {
+	public boolean connectsTo(BlockState state, boolean isSideSolid, Direction direction) {
 		Block block = state.getBlock();
 		boolean bl = block instanceof PalisadeBlock || block instanceof IronBarsBlock || state.is(BlockTags.WALLS);
-		boolean bl2 = block instanceof FenceGateBlock && FenceGateBlock.connectsToDirection(state, dir);
-		return !isExceptionForConnection(state) && neighborIsFullSquare || bl || bl2;
+		boolean bl2 = block instanceof FenceGateBlock && FenceGateBlock.connectsToDirection(state, direction);
+		return !isExceptionForConnection(state) && isSideSolid || bl || bl2;
 	}
 
 	@Override
-	protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return this.shapeByIndex[this.getAABBIndex(state)];
 	}
 
 	@Override
-	protected VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+	protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return this.collisionShapeByIndex[this.getAABBIndex(state)];
 	}
 }

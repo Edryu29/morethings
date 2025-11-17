@@ -19,18 +19,18 @@ public class HaystackBlock extends Block {
     }
 
     @Override
-	protected boolean propagatesSkylightDown(BlockState state, BlockGetter world, BlockPos pos) {
+	protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
 		return true;
 	}
 
     @Override
-    protected void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        super.entityInside(state, world, pos, entity);
+    protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+        super.entityInside(state, level, pos, entity);
         entity.makeStuckInBlock(state, new Vec3(0.85D, 1.0D, 0.85D));
     }
 
     @Override
-    protected boolean isPathfindable(BlockState state, PathComputationType type) {
+    protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
         return false;
     }
 
@@ -45,7 +45,7 @@ public class HaystackBlock extends Block {
     }
 
     @Override
-	protected VoxelShape getVisualShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+	protected VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return Shapes.empty();
 	}
 }

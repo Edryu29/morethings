@@ -3,6 +3,7 @@ package com.edryu.morethings.block;
 import com.edryu.morethings.entity.DisplayBlockEntity;
 
 import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -49,32 +50,29 @@ public class DisplayBlock extends HorizontalDirectionalBlock implements EntityBl
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
-        return Shapes.or(
-            Block.box(1, 0, 1, 15, 7, 15),
-            Block.box(2, 7, 2, 14, 16, 14)
-        );
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.or(Block.box(1, 0, 1, 15, 7, 15), Block.box(2, 7, 2, 14, 16, 14));
     }
 
     @Override
-	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-		return super.getStateForPlacement(ctx).setValue(FACING, ctx.getHorizontalDirection().getOpposite());
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		return super.getStateForPlacement(context).setValue(FACING, context.getHorizontalDirection().getOpposite());
 	}
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         ItemStack playerHeldItem = player.getItemInHand(InteractionHand.MAIN_HAND);
 
-        if (world.getBlockEntity(pos) instanceof DisplayBlockEntity DisplayBlockEntity) {
+        if (level.getBlockEntity(pos) instanceof DisplayBlockEntity DisplayBlockEntity) {
             ItemStack storedItem = DisplayBlockEntity.getStoredItem();
-            ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), storedItem);
+            ItemEntity storedItemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), storedItem);
 
             if (storedItem.isEmpty() ) {
                 DisplayBlockEntity.setStoredItem(playerHeldItem.split(1));
-                world.playSound(player, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.playSound(player, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
             } else {
-                world.addFreshEntity(itemEntity);
-                world.playSound(player, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.addFreshEntity(storedItemEntity);
+                level.playSound(player, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
                 DisplayBlockEntity.removeStoredItem();
             }
             return InteractionResult.SUCCESS;
@@ -83,16 +81,15 @@ public class DisplayBlock extends HorizontalDirectionalBlock implements EntityBl
     }
 
     @Override
-    public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
-        if (world.getBlockEntity(pos) instanceof DisplayBlockEntity DisplayBlockEntity) {
+    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        if (level.getBlockEntity(pos) instanceof DisplayBlockEntity DisplayBlockEntity) {
             ItemStack storedItem = DisplayBlockEntity.getStoredItem();
-            
             if (!storedItem.isEmpty()) {
-                ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), storedItem);
-                world.addFreshEntity(itemEntity);
+                ItemEntity storedItemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), storedItem);
+                level.addFreshEntity(storedItemEntity);
                 DisplayBlockEntity.removeStoredItem();
             }
         }
-        return super.playerWillDestroy(world, pos, state, player);
+        return super.playerWillDestroy(level, pos, state, player);
     }
 }

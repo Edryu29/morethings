@@ -2,7 +2,9 @@ package com.edryu.morethings.block;
 
 import com.edryu.morethings.entity.SmallPedestalBlockEntity;
 import com.edryu.morethings.registry.ItemRegistry;
+
 import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -54,42 +56,44 @@ public class SmallPedestalBlock extends HorizontalDirectionalBlock implements En
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return Shapes.box(0.1875f, 0f, 0.1875f, 0.8125f, 0.0625f, 0.8125f);
     }
 
     @Override
-	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-		return super.getStateForPlacement(ctx).setValue(FACING, ctx.getHorizontalDirection().getOpposite());
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		return super.getStateForPlacement(context).setValue(FACING, context.getHorizontalDirection().getOpposite());
 	}
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         ItemStack playerHeldItem = player.getItemInHand(InteractionHand.MAIN_HAND);
 
         // Wax display
         if (player != null && player.isHolding(Items.HONEYCOMB) && state.getValue(ROTATE)) {
-            world.setBlockAndUpdate(pos, state.setValue(ROTATE, false));
-            world.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0f, 1.0f);
+            level.setBlockAndUpdate(pos, state.setValue(ROTATE, false));
+            level.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0f, 1.0f);
             player.level().levelEvent(null, LevelEvent.PARTICLES_AND_SOUND_WAX_ON, pos, 0);
             return InteractionResult.SUCCESS;
+
         // Hide holder
         } else if (player != null && player.isHolding(ItemRegistry.ORB)) {
             boolean is_visible = state.getValue(VISIBLE);
-            world.setBlockAndUpdate(pos, state.setValue(VISIBLE, !is_visible));
-            world.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.setBlockAndUpdate(pos, state.setValue(VISIBLE, !is_visible));
+            level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
             return InteractionResult.SUCCESS;
+
         // Manage stored item
-        } else if (world.getBlockEntity(pos) instanceof SmallPedestalBlockEntity SmallPedestalBlockEntity) {
+        } else if (level.getBlockEntity(pos) instanceof SmallPedestalBlockEntity SmallPedestalBlockEntity) {
             ItemStack storedItem = SmallPedestalBlockEntity.getStoredItem();
-            ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), storedItem);
+            ItemEntity storedItemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), storedItem);
 
             if (storedItem.isEmpty() ) {
                 SmallPedestalBlockEntity.setStoredItem(playerHeldItem.split(1));
-                world.playSound(player, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.playSound(player, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
             } else {
-                world.addFreshEntity(itemEntity);
-                world.playSound(player, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
+                level.addFreshEntity(storedItemEntity);
+                level.playSound(player, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
                 SmallPedestalBlockEntity.removeStoredItem();
             }
 
@@ -100,15 +104,15 @@ public class SmallPedestalBlock extends HorizontalDirectionalBlock implements En
     }
 
     @Override
-    public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
-        if (world.getBlockEntity(pos) instanceof SmallPedestalBlockEntity SmallPedestalBlockEntity) {
+    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        if (level.getBlockEntity(pos) instanceof SmallPedestalBlockEntity SmallPedestalBlockEntity) {
             ItemStack storedItem = SmallPedestalBlockEntity.getStoredItem();
             if (!storedItem.isEmpty()) {
-                ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), storedItem);
-                world.addFreshEntity(itemEntity);
+                ItemEntity storedItemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), storedItem);
+                level.addFreshEntity(storedItemEntity);
                 SmallPedestalBlockEntity.removeStoredItem();
             }
         }
-        return super.playerWillDestroy(world, pos, state, player);
+        return super.playerWillDestroy(level, pos, state, player);
     }
 }

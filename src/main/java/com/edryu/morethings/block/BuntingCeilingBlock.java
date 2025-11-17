@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SupportType;
 import net.minecraft.world.level.block.TripWireBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -24,24 +23,24 @@ public class BuntingCeilingBlock extends BuntingBlock {
     }
 
 	@Override
-	protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return state.getValue(FACING).getAxis() == Direction.Axis.Z ? SHAPE_Z : SHAPE_X;
 	}
 
     @Override
-	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-		return super.getStateForPlacement(ctx).setValue(FACING, ctx.getHorizontalDirection().getOpposite());
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		return super.getStateForPlacement(context).setValue(FACING, context.getHorizontalDirection().getOpposite());
 	}
 
 	@Override
-	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
-		return direction == Direction.UP && !this.canSurvive(state, world, pos) ? Blocks.AIR.this.defaultBlockState() : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+		return direction == Direction.UP && !this.canSurvive(state, level, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, neighborState, level, pos, neighborPos);
 	}
 
 	@Override
-	protected boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
-		BlockState neighborUpState = world.getBlockState(pos.above());
-		if (neighborUpState.getBlock() instanceof TripWireBlock) return true;
-		return neighborUpState.isFaceSturdy(world, pos.above(), Direction.DOWN, SupportType.CENTER);
+	protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+		BlockState neighborState = level.getBlockState(pos.above());
+		if (neighborState.getBlock() instanceof TripWireBlock) return true;
+		return neighborState.isFaceSturdy(level, pos.above(), Direction.DOWN, SupportType.CENTER);
 	}
 }

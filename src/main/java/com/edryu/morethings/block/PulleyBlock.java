@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import com.edryu.morethings.entity.PulleyBlockEntity;
 import com.edryu.morethings.util.BlockProperties;
 import com.edryu.morethings.util.BlockProperties.Winding;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Containers;
@@ -44,48 +45,48 @@ public class PulleyBlock extends Block implements EntityBlock {
     }
 
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-		return this.defaultBlockState().setValue(AXIS, ctx.getHorizontalDirection().getOpposite().getAxis());
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		return this.defaultBlockState().setValue(AXIS, context.getHorizontalDirection().getOpposite().getAxis());
 	}
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
-        if (!world.isClientSide) {
-            MenuProvider screenHandlerFactory = state.getMenuProvider(world, pos);
-            if (screenHandlerFactory != null) player.openMenu(screenHandlerFactory);
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (!level.isClientSide()) {
+            MenuProvider menuProvider = state.getMenuProvider(level, pos);
+            if (menuProvider != null) player.openMenu(menuProvider);
         }
         return InteractionResult.SUCCESS;
     }
 
     @Override
-    protected void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved)  {
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston)  {
 		if (!state.is(newState.getBlock())) {
-			if (world.getBlockEntity(pos) instanceof PulleyBlockEntity PulleyBlockEntity) Containers.dropContents(world, pos, PulleyBlockEntity);
+			if (level.getBlockEntity(pos) instanceof PulleyBlockEntity PulleyBlockEntity) Containers.dropContents(level, pos, PulleyBlockEntity);
 		}
-		super.onRemove(state, world, pos, newState, moved);
+		super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
 	@Override
-	protected boolean triggerEvent(BlockState state, Level world, BlockPos pos, int type, int data) {
-		super.triggerEvent(state, world, pos, type, data);
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		return blockEntity == null ? false : blockEntity.triggerEvent(type, data);
+	protected boolean triggerEvent(BlockState state, Level level, BlockPos pos, int id, int param) {
+		super.triggerEvent(state, level, pos, id, param);
+		BlockEntity blockEntity = level.getBlockEntity(pos);
+		return blockEntity == null ? false : blockEntity.triggerEvent(id, param);
 	}
 
 	@Nullable
 	@Override
-	protected MenuProvider getMenuProvider(BlockState state, Level world, BlockPos pos) {
-		BlockEntity blockEntity = world.getBlockEntity(pos);
+	protected MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
+		BlockEntity blockEntity = level.getBlockEntity(pos);
 		return blockEntity instanceof MenuProvider ? (MenuProvider)blockEntity : null;
 	}
 
-    public boolean windPulley(BlockState state, Level world, BlockPos pos, boolean retract, @Nullable Direction direction) {
-        boolean result = world.getBlockEntity(pos) instanceof PulleyBlockEntity pulleyEntity ? pulleyEntity.operateDirectly(retract) : false;
+    public boolean windPulley(BlockState state, Level level, BlockPos pos, boolean retract, @Nullable Direction direction) {
+        boolean result = level.getBlockEntity(pos) instanceof PulleyBlockEntity pulleyEntity ? pulleyEntity.operateDirectly(retract) : false;
         if (direction != null){
             BlockPos connectedPos = pos.relative(direction);
-            BlockState connectedPulley = world.getBlockState(connectedPos);
+            BlockState connectedPulley = level.getBlockState(connectedPos);
             if (connectedPulley.is(this) && state.getValue(AXIS) == connectedPulley.getValue(AXIS)) {
-                ((PulleyBlock)connectedPulley.getBlock()).windPulley(connectedPulley, world, connectedPos, retract, direction);
+                ((PulleyBlock)connectedPulley.getBlock()).windPulley(connectedPulley, level, connectedPos, retract, direction);
             }
         }
         return result;

@@ -3,7 +3,9 @@ package com.edryu.morethings.block;
 import org.jetbrains.annotations.Nullable;
 
 import com.edryu.morethings.entity.SackBlockEntity;
+
 import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
@@ -52,12 +54,12 @@ public class SackBlock extends WaterloggableBlock implements EntityBlock {
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-        return this.defaultBlockState().setValue(WATERLOGGED, ctx.getLevel().getFluidState(ctx.getClickedPos()).is(Fluids.WATER));
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(WATERLOGGED, context.getLevel().getFluidState(context.getClickedPos()).is(Fluids.WATER));
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         if (state.getValue(OPEN)){
             return Shapes.or(
                 Shapes.box(0.125f, 0f, 0.125f, 0.875f, 0.75f, 0.875f),
@@ -73,33 +75,33 @@ public class SackBlock extends WaterloggableBlock implements EntityBlock {
     }
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
-        if (!world.isClientSide) {
-            MenuProvider screenHandlerFactory = state.getMenuProvider(world, pos);
-            if (screenHandlerFactory != null) player.openMenu(screenHandlerFactory);
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (!level.isClientSide()) {
+            MenuProvider menuProvider = state.getMenuProvider(level, pos);
+            if (menuProvider != null) player.openMenu(menuProvider);
         }
         return InteractionResult.SUCCESS;
     }
  
     @Override
-    protected void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved)  {
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston)  {
 		if (!state.is(newState.getBlock())) {
-			if (world.getBlockEntity(pos) instanceof SackBlockEntity SackBlockEntity) Containers.dropContents(world, pos, SackBlockEntity);
+			if (level.getBlockEntity(pos) instanceof SackBlockEntity SackBlockEntity) Containers.dropContents(level, pos, SackBlockEntity);
 		}
-		super.onRemove(state, world, pos, newState, moved);
+		super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
 	@Override
-	protected boolean triggerEvent(BlockState state, Level world, BlockPos pos, int type, int data) {
-		super.triggerEvent(state, world, pos, type, data);
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		return blockEntity == null ? false : blockEntity.triggerEvent(type, data);
+	protected boolean triggerEvent(BlockState state, Level level, BlockPos pos, int id, int param) {
+		super.triggerEvent(state, level, pos, id, param);
+		BlockEntity blockEntity = level.getBlockEntity(pos);
+		return blockEntity == null ? false : blockEntity.triggerEvent(id, param);
 	}
 
 	@Nullable
 	@Override
-	protected MenuProvider getMenuProvider(BlockState state, Level world, BlockPos pos) {
-		BlockEntity blockEntity = world.getBlockEntity(pos);
+	protected MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
+		BlockEntity blockEntity = level.getBlockEntity(pos);
 		return blockEntity instanceof MenuProvider ? (MenuProvider)blockEntity : null;
 	}
 }

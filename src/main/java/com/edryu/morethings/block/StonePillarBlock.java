@@ -22,7 +22,7 @@ public class StonePillarBlock extends WaterloggableBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return Shapes.box(0.125f, 0f, 0.125f, 0.875f, 1f, 0.875f);
     }
 }

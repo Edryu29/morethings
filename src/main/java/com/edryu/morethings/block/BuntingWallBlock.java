@@ -25,7 +25,7 @@ public class BuntingWallBlock extends BuntingBlock {
     }
 
 	@Override
-	protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		switch (state.getValue(FACING)) {
 			case NORTH:
 			default:
@@ -41,33 +41,33 @@ public class BuntingWallBlock extends BuntingBlock {
 
 	@Nullable
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-		BlockState blockState = this.defaultBlockState();
-		LevelReader worldView = ctx.getLevel();
-		BlockPos blockPos = ctx.getClickedPos();
-		Direction[] directions = ctx.getNearestLookingDirections();
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		BlockState state = this.defaultBlockState();
+		LevelReader level = context.getLevel();
+		BlockPos pos = context.getClickedPos();
+		Direction[] directions = context.getNearestLookingDirections();
 
 		for (Direction direction : directions) {
 			if (direction.getAxis().isHorizontal()) {
 				Direction direction2 = direction.getOpposite();
-				blockState = blockState.setValue(FACING, direction2);
-				if (blockState.canSurvive(worldView, blockPos)) return blockState;
+				state = state.setValue(FACING, direction2);
+				if (state.canSurvive(level, pos)) return state;
 			}
 		}
 		return null;
 	}
 
 	@Override
-	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
-		return direction.getOpposite() == state.getValue(FACING) && !state.canSurvive(world, pos) ? Blocks.AIR.this.defaultBlockState() : state;
+	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+		return direction.getOpposite() == state.getValue(FACING) && !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : state;
 	}
 
 	@Override
-	protected boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+	protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
 		Direction facing = state.getValue(FACING);
-		BlockPos blockPos = pos.relative(facing.getOpposite());
-		BlockState blockState = world.getBlockState(blockPos);
-		if (blockState.getBlock() instanceof TripWireBlock) return true;
-		return blockState.isFaceSturdy(world, blockPos, facing);
+		BlockPos neighborPos = pos.relative(facing.getOpposite());
+		BlockState neighborState = level.getBlockState(neighborPos);
+		if (neighborState.getBlock() instanceof TripWireBlock) return true;
+		return neighborState.isFaceSturdy(level, neighborPos, facing);
 	}
 }

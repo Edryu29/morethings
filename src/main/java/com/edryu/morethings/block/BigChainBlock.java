@@ -26,8 +26,8 @@ public class BigChainBlock extends ChainBlock {
     }
 
 	@Override
-   protected VoxelShape getShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
-		switch ((Direction.Axis)blockState.getValue(AXIS)) {
+   	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		switch (state.getValue(AXIS)) {
 			case X:
 			default:
 				return X_AXIS_AABB;

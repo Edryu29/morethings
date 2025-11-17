@@ -8,6 +8,7 @@ import com.edryu.morethings.util.BlockProperties.Color;
 import com.edryu.morethings.util.BlockProperties;
 
 import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundSource;
@@ -47,27 +48,26 @@ public class BuntingBlock extends HorizontalDirectionalBlock {
 	}
 
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
-        if (!player.getAbilities().mayBuild || player == null) {
-            return InteractionResult.PASS;
-        } else {
-            Item itemInHand = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
-            if (getColorFromDye(itemInHand) != null) {
-                world.setBlockAndUpdate(pos, state.setValue(COLOR, getColorFromDye(itemInHand)));
-                world.playSound(player, pos, SoundRegistry.ROPE_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
-                return InteractionResult.SUCCESS;
-            } else if (itemInHand.equals(ItemRegistry.ORB)) {
-                world.setBlockAndUpdate(pos, state.setValue(COLOR, getRandomColor()));
-                world.playSound(player, pos, SoundRegistry.ROPE_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
-                return InteractionResult.SUCCESS;
-            }
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (player == null) return InteractionResult.PASS;
+
+        Item itemInHand = player.getItemInHand(InteractionHand.MAIN_HAND).getItem();
+        if (getColorFromDye(itemInHand) != null) {
+            level.setBlockAndUpdate(pos, state.setValue(COLOR, getColorFromDye(itemInHand)));
+            level.playSound(player, pos, SoundRegistry.ROPE_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            return InteractionResult.SUCCESS;
+
+        } else if (itemInHand.equals(ItemRegistry.ORB)) {
+            level.setBlockAndUpdate(pos, state.setValue(COLOR, getRandomColor()));
+            level.playSound(player, pos, SoundRegistry.ROPE_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
     }
 
     @Override
-	public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
-        world.setBlockAndUpdate(pos, state.setValue(COLOR, getRandomColor()));
+	public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+        level.setBlockAndUpdate(pos, state.setValue(COLOR, getRandomColor()));
 	}
 
     protected Color getRandomColor() {

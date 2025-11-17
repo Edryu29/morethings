@@ -32,36 +32,7 @@ public class ShutterBlock extends WaterloggableBlock {
     }
 
 	@Override
-	protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE_1;
 	}
-
-	// @Nullable
-	// @Override
-	// public BlockState getPlacementState(ItemPlacementContext ctx) {
-    //     Direction facing = ctx.getHorizontalPlayerFacing().getOpposite();
-    //     BlockState blockState = this.getDefaultState().with(FACING, facing);
-
-    //     WorldAccess world = ctx.getWorld();
-    //     BlockPos clickedPos = ctx.getBlockPos();
-    //     Vec3d clickLocation = ctx.getHitPos();
-
-    //     boolean left;
-    //     if (facing.getAxis() == Direction.Axis.X) {
-    //         left = clickLocation.z - (double) clickedPos.getZ() > 0.5D;
-    //     } else {
-    //         left = clickLocation.x - (double) clickedPos.getX() > 0.5D;
-    //     }
-    //     if (context.getNearestLookingDirection() == Direction.NORTH || context.getNearestLookingDirection() == Direction.EAST)
-    //         left = !left;
-    //     blockState = blockState.setValue(LEFT, left);
-
-    //     if (world.hasNeighborSignal(clickedPos)) {
-    //         blockState = blockState.setValue(OPEN, true).setValue(POWERED, true);
-    //     }
-
-    //     blockState = blockState.setValue(TYPE, getType(blockState, world.getBlockState(clickedPos.above()), world.getBlockState(clickedPos.below())));
-
-    //     return blockState.setValue(WATERLOGGED, world.getFluidState(clickedPos).getType() == Fluids.WATER);
-	// }
 }

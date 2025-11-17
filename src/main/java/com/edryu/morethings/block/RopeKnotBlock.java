@@ -1,6 +1,10 @@
 package com.edryu.morethings.block;
 
 import java.util.List;
+
+import com.edryu.morethings.entity.RopeKnotBlockEntity;
+import com.edryu.morethings.registry.BlockRegistry;
+
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -28,8 +32,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import com.edryu.morethings.entity.RopeKnotBlockEntity;
-import com.edryu.morethings.registry.BlockRegistry;
 
 public class RopeKnotBlock extends WaterloggableBlock implements EntityBlock {
     public static final BooleanProperty NORTH = BooleanProperty.create("north");
@@ -62,7 +64,7 @@ public class RopeKnotBlock extends WaterloggableBlock implements EntityBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter view, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return Shapes.or( SHAPE,
             state.getValue(NORTH) ? ROPE_NORTH : Shapes.empty(),
             state.getValue(SOUTH) ? ROPE_SOUTH : Shapes.empty(),
@@ -72,62 +74,62 @@ public class RopeKnotBlock extends WaterloggableBlock implements EntityBlock {
     }
 
     @Override
-	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-        LevelAccessor world = ctx.getLevel();
-        BlockPos pos = ctx.getClickedPos();
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+        LevelAccessor level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
         BlockState state = this.defaultBlockState();
         for (Direction dir : Direction.Plane.HORIZONTAL) {
-            state = state.setValue(getDirState(dir), canConnectTo(world.getBlockState(pos.relative(dir)), dir));
+            state = state.setValue(getDirectionProperty(dir), canConnectTo(level.getBlockState(pos.relative(dir)), dir));
         }
         return state;
     }
 
     @Override
-	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (direction.getAxis().isHorizontal()) {
             boolean connected = canConnectTo(neighborState, direction);
             state = state.setValue(getDirectionProperty(direction), connected);
         }
 
-        if (world.getBlockEntity(pos) instanceof RopeKnotBlockEntity be) {
+        if (level.getBlockEntity(pos) instanceof RopeKnotBlockEntity be) {
             BlockState heldBlock = be.getHeldBlock();
             if (heldBlock != null) {
-                BlockState updated = heldBlock.updateShape(direction, neighborState, world, pos, neighborPos);
-                be.setHeldBlock(updated);
+                BlockState updatedState = heldBlock.updateShape(direction, neighborState, level, pos, neighborPos);
+                be.setHeldBlock(updatedState);
             }
         }
         return state;
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (stack.getItem() instanceof ShearsItem || Screen.hasShiftDown()) {
-            if (!world.isClientSide() && world.getBlockEntity(pos) instanceof RopeKnotBlockEntity be) {
-                ItemEntity itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(BlockRegistry.ROPE));
-                world.addFreshEntity(itemEntity);
+            if (!level.isClientSide() && level.getBlockEntity(pos) instanceof RopeKnotBlockEntity be) {
+                ItemEntity ropeItemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(BlockRegistry.ROPE));
+                level.addFreshEntity(ropeItemEntity);
                 BlockState heldBlock = be.getHeldBlock();
                 if (heldBlock != null && !heldBlock.isAir()) {
-                    world.setBlock(pos, heldBlock, Block.UPDATE_ALL_IMMEDIATE);
+                    level.setBlock(pos, heldBlock, Block.UPDATE_ALL_IMMEDIATE);
                 } else {
-                    world.removeBlock(pos, false);
+                    level.removeBlock(pos, false);
                 }
                 if (stack.getItem() instanceof ShearsItem) {
-                    world.playSound(null, pos, SoundEvents.SNOW_GOLEM_SHEAR, SoundSource.BLOCKS, 0.8F, 1.3F);
+                    level.playSound(null, pos, SoundEvents.SNOW_GOLEM_SHEAR, SoundSource.BLOCKS, 0.8F, 1.3F);
                     stack.hurtAndBreak(1, player, null);
                 } else {
-                    world.playSound(null, pos, SoundEvents.LEASH_KNOT_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    level.playSound(null, pos, SoundEvents.LEASH_KNOT_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
                 }
-                updateNeighbors(world, pos);
+                updateNeighbors(level, pos);
             }
-            return world.isClientSide() ? ItemInteractionResult.CONSUME : ItemInteractionResult.SUCCESS;
+            return level.isClientSide() ? ItemInteractionResult.CONSUME : ItemInteractionResult.SUCCESS;
         }
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Override
-    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
-        List<ItemStack> drops = super.getDrops(state, builder);
-        if (builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof RopeKnotBlockEntity be) {
+    protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
+        List<ItemStack> drops = super.getDrops(state, params);
+        if (params.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof RopeKnotBlockEntity be) {
             BlockState heldBlock = be.getHeldBlock();
             if (heldBlock != null && !heldBlock.isAir()) {
                 drops.add(new ItemStack(heldBlock.getBlock().asItem()));
@@ -144,15 +146,15 @@ public class RopeKnotBlock extends WaterloggableBlock implements EntityBlock {
         return false;
     }
 
-    private void updateNeighbors(Level world, BlockPos pos) {
-        world.blockUpdated(pos, this);
+    private void updateNeighbors(Level level, BlockPos pos) {
+        level.blockUpdated(pos, this);
         for (Direction d : Direction.Plane.HORIZONTAL) {
             BlockPos n = pos.relative(d);
-            world.blockUpdated(n, world.getBlockState(n).getBlock());
+            level.blockUpdated(n, level.getBlockState(n).getBlock());
         }
     }
 
-    private BooleanProperty getDirState(Direction direction) {
+    private BooleanProperty getDirectionProperty(Direction direction) {
         return switch (direction) {
             case SOUTH -> SOUTH;
             case EAST -> EAST;
@@ -171,30 +173,20 @@ public class RopeKnotBlock extends WaterloggableBlock implements EntityBlock {
         };
     }
 
-    private BooleanProperty getDirectionProperty(Direction direction) {
-        return switch (direction) {
-            case NORTH -> NORTH;
-            case SOUTH -> SOUTH;
-            case EAST  -> EAST;
-            case WEST  -> WEST;
-            default -> throw new IllegalArgumentException();
-        };
+    @Override
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
+        if (!level.isClientSide() && !state.is(oldState.getBlock())) updateNeighbors(level, pos);
+        super.onPlace(state, level, pos, oldState, movedByPiston);
     }
 
     @Override
-    protected void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify) {
-        if (!world.isClientSide() && !state.is(oldState.getBlock())) updateNeighbors(world, pos);
-        super.onPlace(state, world, pos, oldState, notify);
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston)  {
+        if (!level.isClientSide() && !state.is(newState.getBlock())) updateNeighbors(level, pos);
+        super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
     @Override
-    protected void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved)  {
-        if (!world.isClientSide() && !state.is(newState.getBlock())) updateNeighbors(world, pos);
-        super.onRemove(state, world, pos, newState, moved);
-    }
-
-    @Override
-	protected VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+	protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
 	}
 
