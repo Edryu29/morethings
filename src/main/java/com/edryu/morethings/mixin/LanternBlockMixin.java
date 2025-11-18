@@ -1,11 +1,11 @@
 package com.edryu.morethings.mixin;
 
-
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.state.BlockState;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,7 +24,7 @@ public class LanternBlockMixin {
             if (itemInHand.equals(Blocks.LANTERN.asItem())) state = BlockRegistry.WALL_LANTERN.getStateForPlacement(context);
             else if (itemInHand.equals(Blocks.SOUL_LANTERN.asItem())) state = BlockRegistry.SOUL_WALL_LANTERN.getStateForPlacement(context);
 
-            if (state != null) cir.setReturnValue(state);
+            if (state != null && state.canSurvive(context.getLevel(), context.getClickedPos())) cir.setReturnValue(state);
         }
     }
 }
