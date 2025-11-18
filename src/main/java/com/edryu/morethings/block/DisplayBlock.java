@@ -69,7 +69,6 @@ public class DisplayBlock extends HorizontalDirectionalBlock implements EntityBl
                 level.playSound(player, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
                 displayBE.removeStoredItem();
             }
-            displayBE.setChanged();
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;

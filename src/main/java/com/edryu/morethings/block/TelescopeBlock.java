@@ -39,11 +39,6 @@ public class TelescopeBlock extends DoublePlantBlock {
         builder.add(FACING, HALF);
     }
 
-	@Override
-	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-		return state.getValue(HALF) == DoubleBlockHalf.UPPER ? SHAPE_TOP : SHAPE_BOTTOM;
-	}
-
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -63,6 +58,11 @@ public class TelescopeBlock extends DoublePlantBlock {
 		BlockState neighborState = level.getBlockState(pos.below());
 		if (state.getValue(HALF) == DoubleBlockHalf.UPPER) return neighborState.is(this) && neighborState.getValue(HALF) == DoubleBlockHalf.LOWER;
 		return neighborState.isFaceSturdy(level, pos.below(), Direction.UP, SupportType.CENTER);
+	}
+
+	@Override
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		return state.getValue(HALF) == DoubleBlockHalf.UPPER ? SHAPE_TOP : SHAPE_BOTTOM;
 	}
 
 	@Override

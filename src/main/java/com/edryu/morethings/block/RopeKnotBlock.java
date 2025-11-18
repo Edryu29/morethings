@@ -5,7 +5,6 @@ import java.util.List;
 import com.edryu.morethings.entity.RopeKnotBlockEntity;
 import com.edryu.morethings.registry.BlockRegistry;
 
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -78,50 +77,39 @@ public class RopeKnotBlock extends WaterloggableBlock implements EntityBlock {
         LevelAccessor level = context.getLevel();
         BlockPos pos = context.getClickedPos();
         BlockState state = this.defaultBlockState();
-        for (Direction dir : Direction.Plane.HORIZONTAL) {
-            state = state.setValue(getDirectionProperty(dir), canConnectTo(level.getBlockState(pos.relative(dir)), dir));
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
+            state = state.setValue(getDirectionProperty(direction), canConnectTo(level.getBlockState(pos.relative(direction)), direction));
         }
         return state;
     }
 
     @Override
 	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
-        if (direction.getAxis().isHorizontal()) {
-            boolean connected = canConnectTo(neighborState, direction);
-            state = state.setValue(getDirectionProperty(direction), connected);
-        }
-
-        if (level.getBlockEntity(pos) instanceof RopeKnotBlockEntity be) {
-            BlockState heldBlock = be.getHeldBlock();
-            if (heldBlock != null) {
-                BlockState updatedState = heldBlock.updateShape(direction, neighborState, level, pos, neighborPos);
-                be.setHeldBlock(updatedState);
-            }
+        if (direction.getAxis().isHorizontal()) state = state.setValue(getDirectionProperty(direction), canConnectTo(neighborState, direction));
+        if (level.getBlockEntity(pos) instanceof RopeKnotBlockEntity ropeKnotBE) {
+            BlockState heldBlock = ropeKnotBE.getHeldBlock();
+            if (heldBlock != null) ropeKnotBE.setHeldBlock(heldBlock.updateShape(direction, neighborState, level, pos, neighborPos));
         }
         return state;
     }
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (stack.getItem() instanceof ShearsItem || Screen.hasShiftDown()) {
-            if (!level.isClientSide() && level.getBlockEntity(pos) instanceof RopeKnotBlockEntity be) {
-                ItemEntity ropeItemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(BlockRegistry.ROPE));
-                level.addFreshEntity(ropeItemEntity);
-                BlockState heldBlock = be.getHeldBlock();
-                if (heldBlock != null && !heldBlock.isAir()) {
-                    level.setBlock(pos, heldBlock, Block.UPDATE_ALL_IMMEDIATE);
-                } else {
-                    level.removeBlock(pos, false);
-                }
-                if (stack.getItem() instanceof ShearsItem) {
-                    level.playSound(null, pos, SoundEvents.SNOW_GOLEM_SHEAR, SoundSource.BLOCKS, 0.8F, 1.3F);
-                    stack.hurtAndBreak(1, player, null);
-                } else {
-                    level.playSound(null, pos, SoundEvents.LEASH_KNOT_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
-                }
+        if (stack.getItem() instanceof ShearsItem) {
+            if (level.getBlockEntity(pos) instanceof RopeKnotBlockEntity ropeKnotBE) {
+                ItemEntity storedItemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(BlockRegistry.ROPE));
+                BlockState heldBlock = ropeKnotBE.getHeldBlock();
+
+                if (heldBlock != null && !heldBlock.isAir()) level.setBlock(pos, heldBlock, Block.UPDATE_ALL_IMMEDIATE);
+                else level.removeBlock(pos, false);
+
+                level.addFreshEntity(storedItemEntity);
+                level.playSound(null, pos, SoundEvents.SNOW_GOLEM_SHEAR, SoundSource.BLOCKS, 0.8F, 1.3F);
+                stack.hurtAndBreak(1, player, null);
+
                 updateNeighbors(level, pos);
+                return ItemInteractionResult.SUCCESS;
             }
-            return level.isClientSide() ? ItemInteractionResult.CONSUME : ItemInteractionResult.SUCCESS;
         }
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
@@ -129,8 +117,8 @@ public class RopeKnotBlock extends WaterloggableBlock implements EntityBlock {
     @Override
     protected List<ItemStack> getDrops(BlockState state, LootParams.Builder params) {
         List<ItemStack> drops = super.getDrops(state, params);
-        if (params.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof RopeKnotBlockEntity be) {
-            BlockState heldBlock = be.getHeldBlock();
+        if (params.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof RopeKnotBlockEntity ropeKnotBE) {
+            BlockState heldBlock = ropeKnotBE.getHeldBlock();
             if (heldBlock != null && !heldBlock.isAir()) {
                 drops.add(new ItemStack(heldBlock.getBlock().asItem()));
             }

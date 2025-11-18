@@ -91,8 +91,6 @@ public class SmallPedestalBlock extends HorizontalDirectionalBlock implements En
                 level.playSound(player, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
                 smallPedestalBE.removeStoredItem();
             }
-
-            smallPedestalBE.setChanged();
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;

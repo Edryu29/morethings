@@ -55,11 +55,6 @@ public class SafeBlock extends WaterloggableBlock implements EntityBlock {
 	}
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return Shapes.box(0.0625f, 0f, 0.0625f, 0.9375f, 1, 0.9375f);
-    }
-
-    @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!level.isClientSide()) {
             MenuProvider menuProvider = state.getMenuProvider(level, pos);
@@ -89,6 +84,11 @@ public class SafeBlock extends WaterloggableBlock implements EntityBlock {
 		BlockEntity blockEntity = level.getBlockEntity(pos);
 		return blockEntity instanceof MenuProvider ? (MenuProvider)blockEntity : null;
 	}
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.box(0.0625f, 0f, 0.0625f, 0.9375f, 1, 0.9375f);
+    }
 
 	@Override
 	protected BlockState rotate(BlockState state, Rotation rotation) {

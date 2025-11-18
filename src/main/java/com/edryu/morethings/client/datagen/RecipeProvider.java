@@ -138,8 +138,8 @@ public class RecipeProvider extends FabricRecipeProvider {
             
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegistry.BOOK_STACK, 1)
             .pattern("   ")
-            .pattern(" 0 ")
             .pattern("000")
+            .pattern("   ")
             .define('0', Items.BOOK)
             .unlockedBy(FabricRecipeProvider.getHasName(Items.BOOK), FabricRecipeProvider.has(Items.BOOK))
             .save(recipeExporter);
@@ -147,7 +147,7 @@ public class RecipeProvider extends FabricRecipeProvider {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegistry.BOOK_PILE, 1)
             .pattern(" 0 ")
             .pattern(" 0 ")
-            .pattern("00 ")
+            .pattern(" 0 ")
             .define('0', Items.BOOK)
             .unlockedBy(FabricRecipeProvider.getHasName(Items.BOOK), FabricRecipeProvider.has(Items.BOOK))
             .save(recipeExporter);

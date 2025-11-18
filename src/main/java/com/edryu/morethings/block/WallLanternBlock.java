@@ -46,21 +46,6 @@ public class WallLanternBlock extends WaterloggableBlock {
         builder.add(WATERLOGGED, FACING);
     }
 
-    @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-		switch (state.getValue(FACING)) {
-			case NORTH:
-			default:
-				return Shapes.or(SHAPE_HOLDER_NORTH, SHAPE_LANTERN);
-			case EAST:
-				return Shapes.or(SHAPE_HOLDER_EAST, SHAPE_LANTERN);
-			case SOUTH:
-				return Shapes.or(SHAPE_HOLDER_SOUTH, SHAPE_LANTERN);
-			case WEST:
-				return Shapes.or(SHAPE_HOLDER_WEST, SHAPE_LANTERN);
-		}
-    }
-
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -97,6 +82,21 @@ public class WallLanternBlock extends WaterloggableBlock {
     @Override
     protected boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
         return false;
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		switch (state.getValue(FACING)) {
+			case NORTH:
+			default:
+				return Shapes.or(SHAPE_HOLDER_NORTH, SHAPE_LANTERN);
+			case EAST:
+				return Shapes.or(SHAPE_HOLDER_EAST, SHAPE_LANTERN);
+			case SOUTH:
+				return Shapes.or(SHAPE_HOLDER_SOUTH, SHAPE_LANTERN);
+			case WEST:
+				return Shapes.or(SHAPE_HOLDER_WEST, SHAPE_LANTERN);
+		}
     }
 
     @Override

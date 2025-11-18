@@ -8,7 +8,7 @@ public class BlockProperties {
     
     public static final EnumProperty<Winding> WINDING = EnumProperty.create("winding", Winding.class);
     public static final EnumProperty<DyeColor> COLOR = EnumProperty.create("color", DyeColor.class);
-    public static final EnumProperty<VerticalConnectingType> VERTICAL_CONNECTING_TYPE = EnumProperty.create("type", VerticalConnectingType.class);
+    public static final EnumProperty<ConnectingType> CONNECTING_TYPE = EnumProperty.create("type", ConnectingType.class);
 
     public enum Winding implements StringRepresentable {
         NONE("none"),
@@ -27,7 +27,7 @@ public class BlockProperties {
         }
     }
 
-    public enum VerticalConnectingType implements StringRepresentable {
+    public enum ConnectingType implements StringRepresentable {
         TOP("top"),
         MIDDLE("middle"),
         BOTTOM("bottom"),
@@ -35,7 +35,7 @@ public class BlockProperties {
 
         private final String name;
 
-        VerticalConnectingType(String name) {
+        ConnectingType(String name) {
             this.name = name;
         }
 

@@ -25,7 +25,6 @@ import net.minecraft.world.level.block.SupportType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
@@ -92,8 +91,7 @@ public class RopeBlock extends WaterloggableBlock {
         boolean singleAxis    = (north ^ south) || (east ^ west) || (up ^ down);
         boolean ropeKnot      = (hasHorizontal && (isCorner || hasVertical)) || noConnections || singleAxis;
 
-		FluidState fluidState = level.getFluidState(pos);
-		boolean wl = fluidState.is(Fluids.WATER);
+		boolean wl = level.getFluidState(pos).is(Fluids.WATER);
 
 		BlockState state = super.getStateForPlacement(context)
             .setValue(WATERLOGGED, wl)
@@ -115,7 +113,7 @@ public class RopeBlock extends WaterloggableBlock {
         boolean wl = state.getValue(WATERLOGGED);
 		if (wl) level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 
-        state = state.setValue(getDirState(direction), canConnectTo(level, neighborPos, direction.getOpposite()));
+        state = state.setValue(getDirectionState(direction), canConnectTo(level, neighborPos, direction.getOpposite()));
 
         boolean north = state.getValue(NORTH);
         boolean south = state.getValue(SOUTH);
@@ -159,17 +157,18 @@ public class RopeBlock extends WaterloggableBlock {
                 return InteractionResult.SUCCESS;
             }
             return InteractionResult.PASS;
-        }
-        if (state.getValue(UP)) {
-            if (findConnectedBell(level, pos, player, 0) && !Screen.hasShiftDown()) return InteractionResult.SUCCESS;
-            if (findConnectedPulley(level, pos, player, 0, Screen.hasShiftDown())) return InteractionResult.SUCCESS;
-        }
-        if (Screen.hasShiftDown()) {
-            if (level.getBlockState(pos.below()).is(this) || level.getBlockState(pos.above()).is(this)) {
-                if (MoreThingsHelper.removeWindingDown(pos.below(), level, this)) {
-                    level.playSound(player, pos, SoundRegistry.ROPE_SLIDE, SoundSource.BLOCKS, 1, 0.6F);
-                    if (!player.hasInfiniteMaterials()) player.addItem(new ItemStack(ItemRegistry.ROPE, 1));
-                    return InteractionResult.SUCCESS;
+        } else {
+            if (state.getValue(UP)) {
+                if (findConnectedBell(level, pos, player, 0) && !Screen.hasShiftDown()) return InteractionResult.SUCCESS;
+                if (findConnectedPulley(level, pos, player, 0, Screen.hasShiftDown())) return InteractionResult.SUCCESS;
+            }
+            if (Screen.hasShiftDown()) {
+                if (level.getBlockState(pos.below()).is(this) || level.getBlockState(pos.above()).is(this)) {
+                    if (MoreThingsHelper.removeWindingDown(pos.below(), level, this)) {
+                        level.playSound(player, pos, SoundRegistry.ROPE_SLIDE, SoundSource.BLOCKS, 1, 0.6F);
+                        if (!player.isCreative()) player.addItem(new ItemStack(ItemRegistry.ROPE, 1));
+                        return InteractionResult.SUCCESS;
+                    }
                 }
             }
         }
@@ -249,7 +248,7 @@ public class RopeBlock extends WaterloggableBlock {
         return false;
     }
     
-    private BooleanProperty getDirState(Direction direction) {
+    private BooleanProperty getDirectionState(Direction direction) {
         return switch (direction) {
             case SOUTH -> SOUTH;
             case EAST -> EAST;

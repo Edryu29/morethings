@@ -59,22 +59,6 @@ public class SackBlock extends WaterloggableBlock implements EntityBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        if (state.getValue(OPEN)){
-            return Shapes.or(
-                Shapes.box(0.125f, 0f, 0.125f, 0.875f, 0.75f, 0.875f),
-                Shapes.box(0.1875f, 0.75f, 0.1875f, 0.8125f, 0.875f, 0.8125f)
-            );
-        } else {
-            return Shapes.or(
-                Shapes.box(0.125f, 0f, 0.125f, 0.875f, 0.75f, 0.875f),
-                Shapes.box(0.3125f, 0.8125f, 0.3125f, 0.6875f, 1f, 0.6875f),
-                Shapes.box(0.375f, 0.75f, 0.375f, 0.625f, 0.8125f, 0.625f)
-            );
-        }
-    }
-
-    @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         if (!level.isClientSide()) {
             MenuProvider menuProvider = state.getMenuProvider(level, pos);
@@ -89,6 +73,22 @@ public class SackBlock extends WaterloggableBlock implements EntityBlock {
 			if (level.getBlockEntity(pos) instanceof SackBlockEntity SackBlockEntity) Containers.dropContents(level, pos, SackBlockEntity);
 		}
 		super.onRemove(state, level, pos, newState, movedByPiston);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        if (state.getValue(OPEN)){
+            return Shapes.or(
+                Shapes.box(0.125f, 0f, 0.125f, 0.875f, 0.75f, 0.875f),
+                Shapes.box(0.1875f, 0.75f, 0.1875f, 0.8125f, 0.875f, 0.8125f)
+            );
+        } else {
+            return Shapes.or(
+                Shapes.box(0.125f, 0f, 0.125f, 0.875f, 0.75f, 0.875f),
+                Shapes.box(0.3125f, 0.8125f, 0.3125f, 0.6875f, 1f, 0.6875f),
+                Shapes.box(0.375f, 0.75f, 0.375f, 0.625f, 0.8125f, 0.625f)
+            );
+        }
     }
 
 	@Override
