@@ -24,21 +24,6 @@ public class BuntingWallBlock extends BuntingBlock {
         super(settings);
     }
 
-	@Override
-	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-		switch (state.getValue(FACING)) {
-			case NORTH:
-			default:
-				return SHAPE_NORTH;
-			case EAST:
-				return SHAPE_EAST;
-			case SOUTH:
-				return SHAPE_SOUTH;
-			case WEST:
-				return SHAPE_WEST;
-		}
-	}
-
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -69,5 +54,20 @@ public class BuntingWallBlock extends BuntingBlock {
 		BlockState neighborState = level.getBlockState(neighborPos);
 		if (neighborState.getBlock() instanceof TripWireBlock) return true;
 		return neighborState.isFaceSturdy(level, neighborPos, facing);
+	}
+
+	@Override
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		switch (state.getValue(FACING)) {
+			case NORTH:
+			default:
+				return SHAPE_NORTH;
+			case EAST:
+				return SHAPE_EAST;
+			case SOUTH:
+				return SHAPE_SOUTH;
+			case WEST:
+				return SHAPE_WEST;
+		}
 	}
 }

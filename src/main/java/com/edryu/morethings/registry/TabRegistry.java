@@ -22,8 +22,8 @@ public class TabRegistry {
 
         ItemGroupEvents.modifyEntriesEvent(MORE_BLOCKS_GROUP_KEY).register(itemGroup -> {
             itemGroup.accept(BlockRegistry.BIG_CHAIN.asItem());
-            itemGroup.accept(BlockRegistry.BOOK_PILE_HORIZONTAL.asItem());
-            itemGroup.accept(BlockRegistry.BOOK_PILE_VERTICAL.asItem());
+            itemGroup.accept(BlockRegistry.BOOK_STACK.asItem());
+            itemGroup.accept(BlockRegistry.BOOK_PILE.asItem());
             itemGroup.accept(BlockRegistry.BAR_PANEL.asItem());
             itemGroup.accept(BlockRegistry.LATTICE.asItem());
 

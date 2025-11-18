@@ -22,11 +22,6 @@ public class BuntingCeilingBlock extends BuntingBlock {
         super(settings);
     }
 
-	@Override
-	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-		return state.getValue(FACING).getAxis() == Direction.Axis.Z ? SHAPE_Z : SHAPE_X;
-	}
-
     @Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return super.getStateForPlacement(context).setValue(FACING, context.getHorizontalDirection().getOpposite());
@@ -42,5 +37,10 @@ public class BuntingCeilingBlock extends BuntingBlock {
 		BlockState neighborState = level.getBlockState(pos.above());
 		if (neighborState.getBlock() instanceof TripWireBlock) return true;
 		return neighborState.isFaceSturdy(level, pos.above(), Direction.DOWN, SupportType.CENTER);
+	}
+
+	@Override
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		return state.getValue(FACING).getAxis() == Direction.Axis.Z ? SHAPE_Z : SHAPE_X;
 	}
 }

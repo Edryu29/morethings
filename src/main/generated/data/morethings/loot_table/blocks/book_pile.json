@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "morethings:book_pile_horizontal"
+          "name": "morethings:book_pile"
         }
       ],
       "rolls": 1.0

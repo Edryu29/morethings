@@ -71,19 +71,6 @@ public class RopeBlock extends WaterloggableBlock {
         builder.add(WATERLOGGED, KNOT, BELL, UP, DOWN, NORTH, SOUTH, WEST, EAST);
     }
 
-    @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return Shapes.or(
-            state.getValue(KNOT) ? ROPE_KNOT : Shapes.empty(),
-            state.getValue(NORTH) ? ROPE_NORTH : Shapes.empty(),
-            state.getValue(SOUTH) ? ROPE_SOUTH : Shapes.empty(),
-            state.getValue(EAST) ? ROPE_EAST : Shapes.empty(),
-            state.getValue(WEST) ? ROPE_WEST : Shapes.empty(),
-            state.getValue(UP) ? ROPE_UP : Shapes.empty(),
-            state.getValue(DOWN) ? ROPE_DOWN : Shapes.empty()
-        );
-    }
-
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -271,6 +258,19 @@ public class RopeBlock extends WaterloggableBlock {
             case DOWN -> DOWN;
             default -> NORTH;
         };
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.or(
+            state.getValue(KNOT) ? ROPE_KNOT : Shapes.empty(),
+            state.getValue(NORTH) ? ROPE_NORTH : Shapes.empty(),
+            state.getValue(SOUTH) ? ROPE_SOUTH : Shapes.empty(),
+            state.getValue(EAST) ? ROPE_EAST : Shapes.empty(),
+            state.getValue(WEST) ? ROPE_WEST : Shapes.empty(),
+            state.getValue(UP) ? ROPE_UP : Shapes.empty(),
+            state.getValue(DOWN) ? ROPE_DOWN : Shapes.empty()
+        );
     }
 
     @Override

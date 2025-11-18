@@ -28,6 +28,20 @@ public class ConsoleBlock extends LeverBlock {
         super(settings);
     }
 
+	@Override
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+		if (level.isClientSide()) {
+			state.cycle(POWERED);
+			return InteractionResult.SUCCESS;
+		} else {
+			this.pull(state, level, pos, null);
+			return InteractionResult.CONSUME;
+		}
+	}
+
+	@Override
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {}
+
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         Direction direction = state.getValue(FACING);
@@ -50,18 +64,4 @@ public class ConsoleBlock extends LeverBlock {
                 return direction.getAxis() == Direction.Axis.X ? CEILING_X_SHAPE : CEILING_Z_SHAPE;
         }
     }
-
-	@Override
-	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-		if (level.isClientSide()) {
-			state.cycle(POWERED);
-			return InteractionResult.SUCCESS;
-		} else {
-			this.pull(state, level, pos, null);
-			return InteractionResult.CONSUME;
-		}
-	}
-
-	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {}
 }

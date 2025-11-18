@@ -1,6 +1,6 @@
 {
   "values": [
-    "morethings:book_pile_horizontal",
-    "morethings:book_pile_vertical"
+    "morethings:book_stack",
+    "morethings:book_pile"
   ]
 }

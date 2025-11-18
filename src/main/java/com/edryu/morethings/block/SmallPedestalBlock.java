@@ -56,63 +56,63 @@ public class SmallPedestalBlock extends HorizontalDirectionalBlock implements En
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return Shapes.box(0.1875f, 0f, 0.1875f, 0.8125f, 0.0625f, 0.8125f);
-    }
-
-    @Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return super.getStateForPlacement(context).setValue(FACING, context.getHorizontalDirection().getOpposite());
 	}
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        ItemStack playerHeldItem = player.getItemInHand(InteractionHand.MAIN_HAND);
+        if (player == null) return InteractionResult.PASS;
 
+        ItemStack playerHeldItem = player.getItemInHand(InteractionHand.MAIN_HAND);
         // Wax display
-        if (player != null && player.isHolding(Items.HONEYCOMB) && state.getValue(ROTATE)) {
+        if (playerHeldItem.is(Items.HONEYCOMB) && state.getValue(ROTATE)) {
             level.setBlockAndUpdate(pos, state.setValue(ROTATE, false));
             level.playSound(player, pos, SoundEvents.HONEYCOMB_WAX_ON, SoundSource.BLOCKS, 1.0f, 1.0f);
             player.level().levelEvent(null, LevelEvent.PARTICLES_AND_SOUND_WAX_ON, pos, 0);
             return InteractionResult.SUCCESS;
 
         // Hide holder
-        } else if (player != null && player.isHolding(ItemRegistry.ORB)) {
-            boolean is_visible = state.getValue(VISIBLE);
-            level.setBlockAndUpdate(pos, state.setValue(VISIBLE, !is_visible));
+        } else if (playerHeldItem.is(ItemRegistry.ORB)) {
+            level.setBlockAndUpdate(pos, state.setValue(VISIBLE, !state.getValue(VISIBLE)));
             level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
             return InteractionResult.SUCCESS;
 
         // Manage stored item
-        } else if (level.getBlockEntity(pos) instanceof SmallPedestalBlockEntity SmallPedestalBlockEntity) {
-            ItemStack storedItem = SmallPedestalBlockEntity.getStoredItem();
+        } else if (level.getBlockEntity(pos) instanceof SmallPedestalBlockEntity smallPedestalBE) {
+            ItemStack storedItem = smallPedestalBE.getStoredItem();
             ItemEntity storedItemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), storedItem);
 
             if (storedItem.isEmpty() ) {
-                SmallPedestalBlockEntity.setStoredItem(playerHeldItem.split(1));
+                smallPedestalBE.setStoredItem(playerHeldItem.split(1));
                 level.playSound(player, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
             } else {
                 level.addFreshEntity(storedItemEntity);
                 level.playSound(player, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
-                SmallPedestalBlockEntity.removeStoredItem();
+                smallPedestalBE.removeStoredItem();
             }
 
-            SmallPedestalBlockEntity.setChanged();
+            smallPedestalBE.setChanged();
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
     }
 
     @Override
-    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        if (level.getBlockEntity(pos) instanceof SmallPedestalBlockEntity SmallPedestalBlockEntity) {
-            ItemStack storedItem = SmallPedestalBlockEntity.getStoredItem();
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+        if (level.getBlockEntity(pos) instanceof SmallPedestalBlockEntity smallPedestalBE && !state.is(newState.getBlock())) {
+            ItemStack storedItem = smallPedestalBE.getStoredItem();
             if (!storedItem.isEmpty()) {
                 ItemEntity storedItemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), storedItem);
                 level.addFreshEntity(storedItemEntity);
-                SmallPedestalBlockEntity.removeStoredItem();
+                smallPedestalBE.removeStoredItem();
             }
         }
-        return super.playerWillDestroy(level, pos, state, player);
+        super.onRemove(state, level, pos, newState, movedByPiston);
+    }
+
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.box(0.1875f, 0f, 0.1875f, 0.8125f, 0.0625f, 0.8125f);
     }
 }

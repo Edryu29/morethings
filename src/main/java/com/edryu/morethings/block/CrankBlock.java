@@ -56,18 +56,6 @@ public class CrankBlock extends WaterloggableBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return switch (state.getValue(FACING)) {
-            case NORTH -> SHAPE_NORTH;
-            case WEST -> SHAPE_WEST;
-            case EAST -> SHAPE_EAST;
-            case UP -> SHAPE_UP;
-            case DOWN -> SHAPE_DOWN;
-            default -> SHAPE_SOUTH;
-        };
-    }
-
-    @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         boolean ccw = Screen.hasShiftDown();
         makeParticle(state, level, pos, ParticleTypes.SMOKE);
@@ -155,6 +143,18 @@ public class CrankBlock extends WaterloggableBlock {
 	protected int getDirectSignal(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
 		return state.getValue(FACING) == direction ? state.getValue(POWER) : 0;
 	}
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return switch (state.getValue(FACING)) {
+            case NORTH -> SHAPE_NORTH;
+            case WEST -> SHAPE_WEST;
+            case EAST -> SHAPE_EAST;
+            case UP -> SHAPE_UP;
+            case DOWN -> SHAPE_DOWN;
+            default -> SHAPE_SOUTH;
+        };
+    }
 
 	@Override
 	protected BlockState rotate(BlockState state, Rotation rotation) {

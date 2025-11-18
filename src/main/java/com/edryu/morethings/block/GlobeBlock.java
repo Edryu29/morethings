@@ -41,11 +41,6 @@ public class GlobeBlock extends HorizontalDirectionalBlock {
 		return CODEC;
 	}
 
-	@Override
-	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-		return Block.box(2, 0, 2, 14, 15, 14);
-	}
-
     @Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return super.getStateForPlacement(context).setValue(FACING, context.getHorizontalDirection().getOpposite());
@@ -58,4 +53,9 @@ public class GlobeBlock extends HorizontalDirectionalBlock {
         level.playSound(player, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
         return InteractionResult.SUCCESS;
     }
+
+	@Override
+	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		return Block.box(2, 0, 2, 14, 15, 14);
+	}
 }

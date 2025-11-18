@@ -163,8 +163,8 @@ public class RopeKnotBlock extends WaterloggableBlock implements EntityBlock {
         };
     }
 
-    private static BooleanProperty getRopeProperty(Direction dir) {
-        return switch (dir) {
+    private static BooleanProperty getRopeProperty(Direction direction) {
+        return switch (direction) {
             case NORTH -> RopeBlock.NORTH;
             case SOUTH -> RopeBlock.SOUTH;
             case EAST  -> RopeBlock.EAST;

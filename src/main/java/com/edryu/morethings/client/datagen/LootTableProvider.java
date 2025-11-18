@@ -25,8 +25,8 @@ public class LootTableProvider extends FabricBlockLootTableProvider {
                 dropSelf(BlockRegistry.DISPLAY);
                 dropSelf(BlockRegistry.BAR_PANEL);
                 dropSelf(BlockRegistry.LATTICE);
-                dropSelf(BlockRegistry.BOOK_PILE_HORIZONTAL);
-                dropSelf(BlockRegistry.BOOK_PILE_VERTICAL);
+                dropSelf(BlockRegistry.BOOK_STACK);
+                dropSelf(BlockRegistry.BOOK_PILE);
                 dropSelf(BlockRegistry.STONE_PILLAR);
                 dropSelf(BlockRegistry.BIG_CHAIN);
 

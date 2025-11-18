@@ -1,5 +1,5 @@
 {
-  "parent": "morethings:block/book_pile/book_pile_v3",
+  "parent": "morethings:block/books/book_pile_v3",
 	"display": {
 		"gui": {
 			"rotation": [15, 0, 0],

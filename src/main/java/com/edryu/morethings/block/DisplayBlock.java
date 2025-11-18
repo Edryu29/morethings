@@ -50,11 +50,6 @@ public class DisplayBlock extends HorizontalDirectionalBlock implements EntityBl
     }
 
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return Shapes.or(Block.box(1, 0, 1, 15, 7, 15), Block.box(2, 7, 2, 14, 16, 14));
-    }
-
-    @Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
 		return super.getStateForPlacement(context).setValue(FACING, context.getHorizontalDirection().getOpposite());
 	}
@@ -62,34 +57,39 @@ public class DisplayBlock extends HorizontalDirectionalBlock implements EntityBl
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
         ItemStack playerHeldItem = player.getItemInHand(InteractionHand.MAIN_HAND);
-
-        if (level.getBlockEntity(pos) instanceof DisplayBlockEntity DisplayBlockEntity) {
-            ItemStack storedItem = DisplayBlockEntity.getStoredItem();
+        if (level.getBlockEntity(pos) instanceof DisplayBlockEntity displayBE) {
+            ItemStack storedItem = displayBE.getStoredItem();
             ItemEntity storedItemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), storedItem);
 
             if (storedItem.isEmpty() ) {
-                DisplayBlockEntity.setStoredItem(playerHeldItem.split(1));
+                displayBE.setStoredItem(playerHeldItem.split(1));
                 level.playSound(player, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
             } else {
                 level.addFreshEntity(storedItemEntity);
                 level.playSound(player, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
-                DisplayBlockEntity.removeStoredItem();
+                displayBE.removeStoredItem();
             }
+            displayBE.setChanged();
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
     }
 
     @Override
-    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
-        if (level.getBlockEntity(pos) instanceof DisplayBlockEntity DisplayBlockEntity) {
-            ItemStack storedItem = DisplayBlockEntity.getStoredItem();
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+        if (level.getBlockEntity(pos) instanceof DisplayBlockEntity displayBE && !state.is(newState.getBlock())) {
+            ItemStack storedItem = displayBE.getStoredItem();
             if (!storedItem.isEmpty()) {
                 ItemEntity storedItemEntity = new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), storedItem);
                 level.addFreshEntity(storedItemEntity);
-                DisplayBlockEntity.removeStoredItem();
+                displayBE.removeStoredItem();
             }
         }
-        return super.playerWillDestroy(level, pos, state, player);
+        super.onRemove(state, level, pos, newState, movedByPiston);
+    }
+
+    @Override
+    protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.or(Block.box(1, 0, 1, 15, 7, 15), Block.box(2, 7, 2, 14, 16, 14));
     }
 }

@@ -9,7 +9,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -41,12 +40,6 @@ public class PedestalBlock extends WaterloggableBlock {
         builder.add(WATERLOGGED, UP, DOWN);
     }
 
-    @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        if (!state.getValue(UP)) return !state.getValue(DOWN) ? SHAPE : SHAPE_DOWN;
-        else return !state.getValue(DOWN) ? SHAPE_UP : SHAPE_UP_DOWN;
-    }
-
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
         LevelAccessor level = context.getLevel();
@@ -55,8 +48,7 @@ public class PedestalBlock extends WaterloggableBlock {
         boolean up    = canConnectTo(level, pos.above());
         boolean down  = canConnectTo(level, pos.below());
 
-		FluidState fluidState = level.getFluidState(pos);
-		boolean wl = fluidState.is(Fluids.WATER);
+		boolean wl = level.getFluidState(pos).is(Fluids.WATER);
         
         return super.getStateForPlacement(context).setValue(WATERLOGGED, wl).setValue(UP, up).setValue(DOWN, down);
 	}
@@ -75,5 +67,11 @@ public class PedestalBlock extends WaterloggableBlock {
 
     private boolean canConnectTo(LevelAccessor level, BlockPos pos) {
         return level.getBlockState(pos).getBlock() instanceof PedestalBlock ? true : false;
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        if (!state.getValue(UP)) return !state.getValue(DOWN) ? SHAPE : SHAPE_DOWN;
+        else return !state.getValue(DOWN) ? SHAPE_UP : SHAPE_UP_DOWN;
     }
 }

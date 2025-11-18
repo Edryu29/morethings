@@ -19,11 +19,6 @@ public class HaystackBlock extends Block {
     }
 
     @Override
-	protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
-		return true;
-	}
-
-    @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
         super.entityInside(state, level, pos, entity);
         entity.makeStuckInBlock(state, new Vec3(0.85D, 1.0D, 0.85D));
@@ -43,6 +38,11 @@ public class HaystackBlock extends Block {
     protected float getMaxVerticalOffset() {
         return 0.5f;
     }
+
+    @Override
+	protected boolean propagatesSkylightDown(BlockState state, BlockGetter level, BlockPos pos) {
+		return true;
+	}
 
     @Override
 	protected VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {

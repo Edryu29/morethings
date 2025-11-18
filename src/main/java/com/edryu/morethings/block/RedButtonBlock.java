@@ -65,6 +65,22 @@ public class RedButtonBlock extends ButtonBlock {
     }
 
     @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        boolean is_open = state.getValue(OPEN);
+        if (Screen.hasShiftDown()) {
+            level.setBlockAndUpdate(pos, state.setValue(OPEN, !is_open));
+            level.playSound(is_open ? player : null, pos, is_open ? SoundEvents.IRON_TRAPDOOR_OPEN : SoundEvents.IRON_TRAPDOOR_CLOSE, SoundSource.BLOCKS, 1f, 1);
+            return InteractionResult.SUCCESS;
+        } else if (!is_open) return InteractionResult.SUCCESS; 
+        return super.useWithoutItem(state, level, pos, player, hitResult);
+    }
+
+    @Override
+    protected void playSound(@Nullable Player player, LevelAccessor level, BlockPos pos, boolean powered) {
+        level.playSound(powered ? player : null, pos, SoundEvents.BONE_BLOCK_BREAK, SoundSource.BLOCKS, 1, powered ? 0.6f : 0.5f);
+    }
+
+    @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         Direction direction = state.getValue(FACING);
         boolean is_powered = state.getValue(POWERED);
@@ -88,37 +104,5 @@ public class RedButtonBlock extends ButtonBlock {
 			default:
                 return is_powered ? CEILING_PRESSED_SHAPE : (is_open ? CEILING_OPEN_SHAPE : CEILING_CLOSED_SHAPE);
         }
-    }
-
-    @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        boolean is_open = state.getValue(OPEN);
-
-        if (Screen.hasShiftDown()) {
-            level.setBlockAndUpdate(pos, state.setValue(OPEN, !is_open));
-            level.playSound(is_open ? player : null, pos, is_open ? SoundEvents.IRON_TRAPDOOR_OPEN : SoundEvents.IRON_TRAPDOOR_CLOSE, SoundSource.BLOCKS, 1f, 1);
-            return InteractionResult.SUCCESS;
-
-        } else if (!is_open) {
-           return InteractionResult.SUCCESS; 
-
-        } else {
-            if ((Boolean)state.getValue(POWERED)) {
-                return InteractionResult.CONSUME;
-            } else {
-                this.press(state, level, pos, player);
-                return InteractionResult.sidedSuccess(level.isClientSide());
-            }
-        }
-    }
-
-    @Override
-    protected void playSound(@Nullable Player player, LevelAccessor level, BlockPos pos, boolean powered) {
-        level.playSound(powered ? player : null, pos, this.getSound(powered), SoundSource.BLOCKS, 1, powered ? 0.6f : 0.5f);
-    }
-
-    @Override
-    protected SoundEvent getSound(boolean isOn) {
-        return SoundEvents.BONE_BLOCK_BREAK;
     }
 }

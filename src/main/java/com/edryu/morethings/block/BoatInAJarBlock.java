@@ -34,6 +34,11 @@ public class BoatInAJarBlock extends HorizontalDirectionalBlock {
 		return CODEC;
 	}
 
+    @Override
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+		return super.getStateForPlacement(context).setValue(FACING, context.getHorizontalDirection().getOpposite());
+	}
+
 	@Override
 	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		switch (state.getValue(FACING)) {
@@ -45,10 +50,5 @@ public class BoatInAJarBlock extends HorizontalDirectionalBlock {
 			case WEST:
 				return SHAPE_X;
 		}
-	}
-
-    @Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return super.getStateForPlacement(context).setValue(FACING, context.getHorizontalDirection().getOpposite());
 	}
 }

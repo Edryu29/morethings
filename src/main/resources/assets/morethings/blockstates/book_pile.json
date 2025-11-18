@@ -1,0 +1,67 @@
+{
+  "variants": {
+    "books=0,facing=north": {
+      "model": "morethings:block/books/book_pile_v1"
+    },
+    "books=0,facing=east": {
+      "model": "morethings:block/books/book_pile_v1",
+      "y": 90
+    },
+    "books=0,facing=south": {
+      "model": "morethings:block/books/book_pile_v1",
+      "y": 180
+    },
+    "books=0,facing=west": {
+      "model": "morethings:block/books/book_pile_v1",
+      "y": 270
+    },
+
+    "books=1,facing=north": {
+      "model": "morethings:block/books/book_pile_v2"
+    },
+    "books=1,facing=east": {
+      "model": "morethings:block/books/book_pile_v2",
+      "y": 90
+    },
+    "books=1,facing=south": {
+      "model": "morethings:block/books/book_pile_v2",
+      "y": 180
+    },
+    "books=1,facing=west": {
+      "model": "morethings:block/books/book_pile_v2",
+      "y": 270
+    },
+
+    "books=2,facing=north": {
+      "model": "morethings:block/books/book_pile_v3"
+    },
+    "books=2,facing=east": {
+      "model": "morethings:block/books/book_pile_v3",
+      "y": 90
+    },
+    "books=2,facing=south": {
+      "model": "morethings:block/books/book_pile_v3",
+      "y": 180
+    },
+    "books=2,facing=west": {
+      "model": "morethings:block/books/book_pile_v3",
+      "y": 270
+    },
+
+    "books=3,facing=north": {
+      "model": "morethings:block/books/book_pile_v4"
+    },
+    "books=3,facing=east": {
+      "model": "morethings:block/books/book_pile_v4",
+      "y": 90
+    },
+    "books=3,facing=south": {
+      "model": "morethings:block/books/book_pile_v4",
+      "y": 180
+    },
+    "books=3,facing=west": {
+      "model": "morethings:block/books/book_pile_v4",
+      "y": 270
+    }
+  }
+}

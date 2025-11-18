@@ -23,8 +23,8 @@ import net.minecraft.world.level.material.PushReaction;
 
 public class BlockRegistry {
     public static final Block BIG_CHAIN = registerBlock(new BigChainBlock(BlockBehaviour.Properties.of().sound(SoundType.CHAIN).mapColor(MapColor.METAL).strength(5f, 6f).requiresCorrectToolForDrops().forceSolidOn().noOcclusion()),"big_chain", true);
-    public static final Block BOOK_PILE_HORIZONTAL = registerBlock(new BookPileHorizontalBlock(bookPileSettings()),"book_pile_horizontal", true);
-    public static final Block BOOK_PILE_VERTICAL = registerBlock(new BookPileVerticalBlock(bookPileSettings()),"book_pile_vertical", true);
+    public static final Block BOOK_STACK = registerBlock(new BookStackBlock(bookPileSettings()),"book_stack", true);
+    public static final Block BOOK_PILE = registerBlock(new BookPileBlock(bookPileSettings()),"book_pile", true);
     public static final Block BAR_PANEL = registerBlock(new TrapDoorBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_TRAPDOOR)),"bar_panel", true);
     public static final Block LATTICE = registerBlock(new TrapDoorBlock(BlockSetType.OAK, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR)),"lattice", true);
 

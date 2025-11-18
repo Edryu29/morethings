@@ -1,5 +1,5 @@
 {
-	"parent": "morethings:block/book_pile/template_book_pile_h4",
+	"parent": "morethings:block/books/template_book_stack_v4",
 	"textures": {
 		"0": "morethings:block/books/book_orange",
 		"1": "morethings:block/books/book_lime",
