@@ -1,11 +1,10 @@
 {
   "values": [
-    "morethings:lattice",
-    "morethings:telescope",
-    "morethings:pulley",
-    "morethings:turn_table",
-    "morethings:rope_knot",
     "#morethings:palisades",
-    "#morethings:shutters"
+    "#morethings:shutters",
+    "morethings:lattice",
+    "morethings:pulley",
+    "morethings:rope_knot",
+    "morethings:turn_table"
   ]
 }

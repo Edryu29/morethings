@@ -2,18 +2,20 @@
   "values": [
     "morethings:bar_panel",
     "morethings:big_chain",
+    "morethings:cog",
+    "morethings:console",
+    "morethings:crank",
     "morethings:daub",
     "morethings:daub_slab",
-    "morethings:small_pedestal",
     "morethings:pedestal",
+    "morethings:red_button",
+    "morethings:red_button",
     "morethings:safe",
+    "morethings:small_pedestal",
+    "morethings:soul_wall_lantern",
+    "morethings:spyglass_stand",
     "morethings:stone_pillar",
-    "morethings:red_button",
-    "morethings:red_button",
-    "morethings:console",
-    "morethings:cog",
-    "morethings:crank",
-    "morethings:wall_lantern",
-    "morethings:soul_wall_lantern"
+    "morethings:telescope",
+    "morethings:wall_lantern"
   ]
 }

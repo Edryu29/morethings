@@ -1,14 +1,16 @@
 {
-  "replace": false,
   "values": [
     "#minecraft:ceiling_hanging_signs",
     "#minecraft:lanterns",
     "#minecraft:leaves",
-    "minecraft:lantern",
-    "minecraft:soul_lantern",
     "minecraft:bell",
+    "minecraft:cauldron",
+    "minecraft:lantern",
+    "minecraft:lava_cauldron",
+    "minecraft:soul_lantern",
+    "minecraft:water_cauldron",
     "#c:lanterns",
-    "morethings:sack",
-    "morethings:rope"
+    "morethings:rope",
+    "morethings:sack"
   ]
 }

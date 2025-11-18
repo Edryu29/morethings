@@ -1,8 +1,9 @@
 {
   "values": [
+    "morethings:haystack",
+    "morethings:rope",
     "morethings:thatch",
     "morethings:thatch_slab",
-    "morethings:thatch_stairs",
-    "morethings:rope"
+    "morethings:thatch_stairs"
   ]
 }
