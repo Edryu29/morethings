@@ -174,14 +174,4 @@ public class MoreThingsHelper {
         if (item instanceof BlockItem bi && bi.getBlock() instanceof RopeBlock) return Winding.ROPE;
         return Winding.NONE;
     }
-
-    public static BlockState getWallLanternPlacement(BlockPlaceContext context) {
-        BlockState state = null;
-        Item itemInHand = context.getItemInHand().getItem();
-        
-        if (itemInHand.equals(Blocks.LANTERN.asItem())) state = BlockRegistry.WALL_LANTERN.getStateForPlacement(context);
-        else if (itemInHand.equals(Blocks.SOUL_LANTERN.asItem())) state = BlockRegistry.SOUL_WALL_LANTERN.getStateForPlacement(context);
-
-        return (state != null && state.canSurvive(context.getLevel(), context.getClickedPos())) ? state : null;
-    }
 }

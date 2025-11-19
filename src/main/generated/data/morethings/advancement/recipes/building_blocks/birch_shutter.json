@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_stripped_birch_log": {
+    "has_birch_slab": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:stripped_birch_log"
+            "items": "minecraft:birch_slab"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_stripped_birch_log"
+      "has_birch_slab"
     ]
   ],
   "rewards": {
