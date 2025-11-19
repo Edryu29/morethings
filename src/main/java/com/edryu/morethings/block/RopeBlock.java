@@ -16,6 +16,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.AbstractCauldronBlock;
 import net.minecraft.world.level.block.BellBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -187,6 +188,7 @@ public class RopeBlock extends WaterloggableBlock {
         if (dirTowardRope == Direction.UP) { // Top side of block below rope
             if (neighborState.getBlock() instanceof LanternBlock) return true;
             if (neighborState.getBlock() instanceof BellBlock) return true;
+            if (neighborState.getBlock() instanceof AbstractCauldronBlock) return true;
             if (neighborState.is(BlockTagProvider.HANG_FROM_ROPES)) return true;
             return neighborState.isFaceSturdy(level, neighborPos, Direction.DOWN, SupportType.CENTER);
         }

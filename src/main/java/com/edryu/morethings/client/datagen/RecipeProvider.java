@@ -383,7 +383,7 @@ public class RecipeProvider extends FabricRecipeProvider {
 	}
 
     public static void createShutterRecipe(ItemLike output, ItemLike ingredient, RecipeOutput recipeExporter) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, output, 6)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, output, 4)
             .pattern("00 ")
             .pattern("00 ")
             .pattern("00 ")

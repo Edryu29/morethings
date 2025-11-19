@@ -54,12 +54,11 @@ public class ShutterBlock extends WaterloggableBlock {
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        Direction facing = context.getHorizontalDirection().getOpposite();
-        BlockState state = this.defaultBlockState().setValue(FACING, facing);
-
         Level level = context.getLevel();
         BlockPos pos = context.getClickedPos();
         Vec3 hitLocation = context.getClickLocation();
+        Direction facing = context.getHorizontalDirection().getOpposite();
+        BlockState state = this.defaultBlockState().setValue(FACING, facing);
 
         boolean left = (facing.getAxis() == Direction.Axis.X) ? (hitLocation.z - (double) pos.getZ() > 0.5D) : (hitLocation.x - (double) pos.getX() > 0.5D);
 
@@ -93,19 +92,15 @@ public class ShutterBlock extends WaterloggableBlock {
 
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        return toggleShutters(state, level, pos, player);
-    }
-
-    public InteractionResult toggleShutters(BlockState state, Level level, BlockPos pos, Player player) {
         state = state.cycle(OPEN);
         level.setBlockAndUpdate(pos, state);
-        if (!player.isCrouching()) toggleShutters(state, level, pos, state.getValue(OPEN));
+        if (!player.isCrouching()) toggleNeighborShutters(state, level, pos, state.getValue(OPEN));
         level.playSound(null, pos, shutterSound(state.getValue(OPEN)), SoundSource.BLOCKS, 1.0F, 1.0F);
         if (state.getValue(WATERLOGGED)) level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         return InteractionResult.SUCCESS;
     }
 
-    public void toggleShutters(BlockState state, Level level, BlockPos pos, boolean open) {
+    public void toggleNeighborShutters(BlockState state, Level level, BlockPos pos, boolean open) {
         BlockState updateState = state;
         BlockPos updatePos = pos;
         if (state.getValue(TYPE) == BlockProperties.ConnectingType.MIDDLE || state.getValue(TYPE) == BlockProperties.ConnectingType.BOTTOM) {
