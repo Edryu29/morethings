@@ -67,5 +67,6 @@
   "item.morethings.topaz": "Topaz",
   "item.morethings.quiver": "Quiver",
   "item.morethings.orb": "Orb of Change",
-  "itemGroup.more_blocks": "More Things"
+  "itemGroup.more_blocks": "More Things",
+  "item.morethings.quiver.hint": "Provides arrows for archery."
 }
