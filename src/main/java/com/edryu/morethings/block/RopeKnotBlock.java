@@ -25,6 +25,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
@@ -32,7 +33,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class RopeKnotBlock extends WaterloggableBlock implements EntityBlock {
+public class RopeKnotBlock extends WaterloggedBlock implements EntityBlock {
     public static final BooleanProperty NORTH = BooleanProperty.create("north");
     public static final BooleanProperty SOUTH = BooleanProperty.create("south");
     public static final BooleanProperty WEST = BooleanProperty.create("west");
@@ -63,28 +64,18 @@ public class RopeKnotBlock extends WaterloggableBlock implements EntityBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return Shapes.or( SHAPE,
-            state.getValue(NORTH) ? ROPE_NORTH : Shapes.empty(),
-            state.getValue(SOUTH) ? ROPE_SOUTH : Shapes.empty(),
-            state.getValue(EAST) ? ROPE_EAST : Shapes.empty(),
-            state.getValue(WEST) ? ROPE_WEST : Shapes.empty()
-        );
-    }
-
-    @Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
-        LevelAccessor level = context.getLevel();
-        BlockPos pos = context.getClickedPos();
-        BlockState state = this.defaultBlockState();
+        boolean wl = context.getLevel().getFluidState(context.getClickedPos()).is(Fluids.WATER);
+        BlockState state = this.defaultBlockState().setValue(WATERLOGGED, wl);
         for (Direction direction : Direction.Plane.HORIZONTAL) {
-            state = state.setValue(getDirectionProperty(direction), canConnectTo(level.getBlockState(pos.relative(direction)), direction));
+            state = state.setValue(getDirectionProperty(direction), canConnectTo(context.getLevel().getBlockState(context.getClickedPos().relative(direction)), direction));
         }
         return state;
     }
 
     @Override
 	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        if (state.getValue(WATERLOGGED)) level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         if (direction.getAxis().isHorizontal()) state = state.setValue(getDirectionProperty(direction), canConnectTo(neighborState, direction));
         if (level.getBlockEntity(pos) instanceof RopeKnotBlockEntity ropeKnotBE) {
             BlockState heldBlock = ropeKnotBE.getHeldBlock();
@@ -171,6 +162,16 @@ public class RopeKnotBlock extends WaterloggableBlock implements EntityBlock {
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston)  {
         if (!level.isClientSide() && !state.is(newState.getBlock())) updateNeighbors(level, pos);
         super.onRemove(state, level, pos, newState, movedByPiston);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.or( SHAPE,
+            state.getValue(NORTH) ? ROPE_NORTH : Shapes.empty(),
+            state.getValue(SOUTH) ? ROPE_SOUTH : Shapes.empty(),
+            state.getValue(EAST) ? ROPE_EAST : Shapes.empty(),
+            state.getValue(WEST) ? ROPE_WEST : Shapes.empty()
+        );
     }
 
     @Override

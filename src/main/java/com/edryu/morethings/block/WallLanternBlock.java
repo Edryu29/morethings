@@ -2,8 +2,6 @@ package com.edryu.morethings.block;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.mojang.serialization.MapCodec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -12,24 +10,14 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class WallLanternBlock extends WaterloggableBlock {
-    public static final MapCodec<WallLanternBlock> CODEC = Block.simpleCodec(WallLanternBlock::new);
-
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-
+public class WallLanternBlock extends WaterloggedHorizontalBlock {
     protected static final VoxelShape SHAPE_LANTERN = Shapes.or(Block.box(5.0, 0.0, 5.0, 11.0, 7.0, 11.0), Block.box(6.0, 7.0, 6.0, 10.0, 9.0, 10.0), Block.box(7.0, 9.0, 7.0, 9.0, 11.0, 9.0));
     protected static final VoxelShape SHAPE_HOLDER_NORTH = Shapes.or(Block.box(7, 11, 5, 9, 13, 16), Block.box(6, 5, 15, 10, 14, 16));
     protected static final VoxelShape SHAPE_HOLDER_SOUTH = Shapes.or(Block.box(7, 11, 0, 9, 13, 11), Block.box(6, 5, 0, 10, 14, 1));
@@ -38,28 +26,19 @@ public class WallLanternBlock extends WaterloggableBlock {
 
     public WallLanternBlock(Properties settings) {
         super(settings);
-        this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false).setValue(FACING, Direction.NORTH));
-    }
-
-    @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(WATERLOGGED, FACING);
     }
 
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
-        FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
+        boolean wl = context.getLevel().getFluidState(context.getClickedPos()).is(Fluids.WATER);
 		BlockState state = this.defaultBlockState();
-		LevelReader level = context.getLevel();
-		BlockPos pos = context.getClickedPos();
 		Direction[] directions = context.getNearestLookingDirections();
-
 		for (Direction direction : directions) {
 			if (direction.getAxis().isHorizontal()) {
 				Direction direction2 = direction.getOpposite();
 				state = state.setValue(FACING, direction2);
-				if (state.canSurvive(level, pos)) return state.setValue(WATERLOGGED, fluidState.is(Fluids.WATER));
+				if (state.canSurvive(context.getLevel(), context.getClickedPos())) return state.setValue(WATERLOGGED, wl);
 			}
 		}
 		return null;
@@ -97,15 +76,5 @@ public class WallLanternBlock extends WaterloggableBlock {
 			case WEST:
 				return Shapes.or(SHAPE_HOLDER_WEST, SHAPE_LANTERN);
 		}
-    }
-
-    @Override
-    protected BlockState rotate(BlockState state, Rotation rotation) {
-        return (BlockState)state.setValue(FACING, rotation.rotate((Direction)state.getValue(FACING)));
-    }
-
-    @Override
-    protected BlockState mirror(BlockState state, Mirror mirror) {
-        return state.rotate(mirror.getRotation((Direction)state.getValue(FACING)));
     }
 }

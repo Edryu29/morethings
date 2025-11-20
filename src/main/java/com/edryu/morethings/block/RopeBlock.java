@@ -40,7 +40,7 @@ import com.edryu.morethings.registry.ItemRegistry;
 import com.edryu.morethings.registry.SoundRegistry;
 import com.edryu.morethings.util.MoreThingsHelper;
 
-public class RopeBlock extends WaterloggableBlock {
+public class RopeBlock extends WaterloggedBlock {
 	public static final BooleanProperty KNOT = BooleanProperty.create("knot");
 	public static final BooleanProperty UP = BooleanProperty.create("up");
 	public static final BooleanProperty DOWN = BooleanProperty.create("down");
@@ -77,6 +77,8 @@ public class RopeBlock extends WaterloggableBlock {
         LevelAccessor level = context.getLevel();
         BlockPos pos = context.getClickedPos();
 
+		boolean wl = level.getFluidState(pos).is(Fluids.WATER);
+
         boolean north = canConnectTo(level, pos.north(), Direction.SOUTH);
         boolean south = canConnectTo(level, pos.south(), Direction.NORTH);
         boolean east = canConnectTo(level, pos.east(),  Direction.WEST);
@@ -91,8 +93,6 @@ public class RopeBlock extends WaterloggableBlock {
         boolean isCorner      = (north || south) && (east || west);
         boolean singleAxis    = (north ^ south) || (east ^ west) || (up ^ down);
         boolean ropeKnot      = (hasHorizontal && (isCorner || hasVertical)) || noConnections || singleAxis;
-
-		boolean wl = level.getFluidState(pos).is(Fluids.WATER);
 
 		BlockState state = super.getStateForPlacement(context)
             .setValue(WATERLOGGED, wl)

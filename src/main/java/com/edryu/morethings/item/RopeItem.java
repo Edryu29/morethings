@@ -1,5 +1,6 @@
 package com.edryu.morethings.item;
 
+import com.edryu.morethings.block.PalisadeBlock;
 import com.edryu.morethings.entity.RopeKnotBlockEntity;
 import com.edryu.morethings.registry.BlockRegistry;
 import com.edryu.morethings.registry.SoundRegistry;
@@ -27,7 +28,7 @@ public class RopeItem extends BlockItem {
 		BlockPos pos = context.getClickedPos();
 		BlockState state = level.getBlockState(pos);
 
-        if (state.getBlock() instanceof FenceBlock) {
+        if (state.getBlock() instanceof FenceBlock && !(state.getBlock() instanceof PalisadeBlock)) {
             if (!level.isClientSide()) {
                 BlockState knot = BlockRegistry.ROPE_KNOT.defaultBlockState();
 				level.setBlockAndUpdate(pos, knot);

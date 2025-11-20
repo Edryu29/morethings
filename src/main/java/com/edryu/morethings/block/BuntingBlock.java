@@ -28,9 +28,9 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
 public class BuntingBlock extends HorizontalDirectionalBlock {
-    public static final MapCodec<BuntingBlock> CODEC = Block.simpleCodec(BuntingBlock::new);
-
-    public static final EnumProperty<DyeColor> COLOR = BlockProperties.COLOR;       
+    public static final EnumProperty<DyeColor> COLOR = BlockProperties.COLOR;      
+    
+    public static final MapCodec<BuntingBlock> CODEC = Block.simpleCodec(BuntingBlock::new); 
 
     public BuntingBlock(Properties settings) {
         super(settings);

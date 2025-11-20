@@ -34,7 +34,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class CrankBlock extends WaterloggableBlock {
+public class CrankBlock extends WaterloggedBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final IntegerProperty POWER = BlockStateProperties.POWER;
 
@@ -55,11 +55,33 @@ public class CrankBlock extends WaterloggableBlock {
         builder.add(WATERLOGGED, FACING, POWER);
     }
 
+	@Nullable
+	@Override
+	public BlockState getStateForPlacement(BlockPlaceContext context) {
+        boolean wl = context.getLevel().getFluidState(context.getClickedPos()).is(Fluids.WATER);
+		for (Direction direction : context.getNearestLookingDirections()) {
+			BlockState blockState = this.defaultBlockState().setValue(WATERLOGGED, wl).setValue(FACING, direction.getOpposite());
+			if (blockState.canSurvive(context.getLevel(), context.getClickedPos())) return blockState;
+		}
+		return null;
+	}
+
+    @Override
+    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        if (state.getValue(WATERLOGGED)) level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+		return state.getValue(FACING).getOpposite() == direction && !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState() : state;
+    }
+
+	@Override
+	protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+		BlockPos neighborPos = pos.relative(state.getValue(FACING).getOpposite());
+		return level.getBlockState(neighborPos).isFaceSturdy(level, neighborPos, state.getValue(FACING));
+	}
+
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        boolean ccw = Screen.hasShiftDown();
         makeParticle(state, level, pos, ParticleTypes.SMOKE);
-        this.turnPower(state, level, pos, ccw, player);
+        this.turnPower(state, level, pos, Screen.hasShiftDown(), player);
 
 		Direction direction = state.getValue(FACING).getOpposite();
 		BlockPos behindPos = pos.relative(direction);
@@ -70,6 +92,19 @@ public class CrankBlock extends WaterloggableBlock {
 		}
         return InteractionResult.SUCCESS;
     }
+
+	@Override
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+		if (state.getValue(POWER) > 0 && random.nextFloat() < 0.25F) makeParticle(state, level, pos, new DustParticleOptions(DustParticleOptions.REDSTONE_PARTICLE_COLOR, 0.5F));
+	}
+
+	@Override
+	protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+		if (!movedByPiston && !state.is(newState.getBlock())) {
+			this.updateNeighbors(state, level, pos);
+			super.onRemove(state, level, pos, newState, movedByPiston);
+		}
+	}
 
     public void turnPower(BlockState state, Level level, BlockPos pos, boolean ccw, @Nullable Player player) {
         int newPower = (16 + state.getValue(POWER) + (ccw ? -1 : 1)) % 16;
@@ -85,43 +120,6 @@ public class CrankBlock extends WaterloggableBlock {
 		double e = pos.getY() + 0.5 + 0.1 * direction.getStepY() + 0.2 * direction.getStepY();
 		double f = pos.getZ() + 0.5 + 0.1 * direction.getStepZ() + 0.2 * direction.getStepZ();
 		level.addParticle(particle, d, e, f, 0.0, 0.0, 0.0);
-	}
-
-	@Override
-	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-		if (state.getValue(POWER) > 0 && random.nextFloat() < 0.25F) makeParticle(state, level, pos, new DustParticleOptions(DustParticleOptions.REDSTONE_PARTICLE_COLOR, 0.5F));
-	}
-
-	@Nullable
-	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext context) {
-        boolean wl = context.getLevel().getFluidState(context.getClickedPos()).is(Fluids.WATER);
-		for (Direction direction : context.getNearestLookingDirections()) {
-			BlockState blockState = this.defaultBlockState().setValue(WATERLOGGED, wl).setValue(FACING, direction.getOpposite());
-			if (blockState.canSurvive(context.getLevel(), context.getClickedPos())) return blockState;
-		}
-		return null;
-	}
-
-    @Override
-    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
-        if (state.getValue(WATERLOGGED)) level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
-		return state.getValue(FACING).getOpposite() == direction && !state.canSurvive(level, pos)
-                ? Blocks.AIR.defaultBlockState(): super.updateShape(state, direction, neighborState, level, pos, neighborPos);
-    }
-
-	@Override
-	protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-		BlockPos neighborPos = pos.relative(state.getValue(FACING).getOpposite());
-		return level.getBlockState(neighborPos).isFaceSturdy(level, neighborPos, state.getValue(FACING));
-	}
-
-	@Override
-	protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-		if (!movedByPiston && !state.is(newState.getBlock())) {
-			this.updateNeighbors(state, level, pos);
-			super.onRemove(state, level, pos, newState, movedByPiston);
-		}
 	}
 
 	private void updateNeighbors(BlockState state, Level level, BlockPos pos) {

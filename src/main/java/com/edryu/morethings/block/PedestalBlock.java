@@ -14,7 +14,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class PedestalBlock extends WaterloggableBlock {
+public class PedestalBlock extends WaterloggedBlock {
 	public static final BooleanProperty UP = BooleanProperty.create("up");
 	public static final BooleanProperty DOWN = BooleanProperty.create("down");
 
@@ -45,23 +45,22 @@ public class PedestalBlock extends WaterloggableBlock {
         LevelAccessor level = context.getLevel();
         BlockPos pos = context.getClickedPos();
 
+		boolean wl = level.getFluidState(pos).is(Fluids.WATER);
+
         boolean up    = canConnectTo(level, pos.above());
         boolean down  = canConnectTo(level, pos.below());
-
-		boolean wl = level.getFluidState(pos).is(Fluids.WATER);
         
         return super.getStateForPlacement(context).setValue(WATERLOGGED, wl).setValue(UP, up).setValue(DOWN, down);
 	}
 
 	@Override
 	protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
-        boolean wl = state.getValue(WATERLOGGED);
-		if (wl) level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+		if (state.getValue(WATERLOGGED)) level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
 
         boolean up    = canConnectTo(level, pos.above());
         boolean down  = canConnectTo(level, pos.below());
 
-		state = this.defaultBlockState().setValue(WATERLOGGED, wl).setValue(UP, up).setValue(DOWN, down);
+		state = this.defaultBlockState().setValue(WATERLOGGED, state.getValue(WATERLOGGED)).setValue(UP, up).setValue(DOWN, down);
 		return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
 	}
 

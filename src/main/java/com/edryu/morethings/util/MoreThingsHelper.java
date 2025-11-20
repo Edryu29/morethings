@@ -6,7 +6,6 @@ import com.edryu.morethings.block.PulleyBlock;
 import com.edryu.morethings.block.RopeBlock;
 import com.edryu.morethings.client.datagen.BlockTagProvider;
 import com.edryu.morethings.entity.PulleyBlockEntity;
-import com.edryu.morethings.registry.BlockRegistry;
 import com.edryu.morethings.util.BlockProperties.Winding;
 
 import net.minecraft.core.BlockPos;

@@ -1,5 +1,7 @@
 package com.edryu.morethings.block;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -13,10 +15,12 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 
-public class WaterloggableBlock extends Block implements SimpleWaterloggedBlock {
+public class WaterloggedBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    
+    public static final MapCodec<WaterloggedBlock> CODEC = Block.simpleCodec(WaterloggedBlock::new);
 
-    public WaterloggableBlock(Properties settings) {
+    public WaterloggedBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false));
     }
@@ -26,9 +30,15 @@ public class WaterloggableBlock extends Block implements SimpleWaterloggedBlock 
         builder.add(WATERLOGGED);
     }
 
+	@Override
+	protected MapCodec<? extends WaterloggedBlock> codec() {
+		return CODEC;
+	}
+
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(WATERLOGGED, context.getLevel().getFluidState(context.getClickedPos()).is(Fluids.WATER));
+        boolean wl = context.getLevel().getFluidState(context.getClickedPos()).is(Fluids.WATER);
+        return this.defaultBlockState().setValue(WATERLOGGED, wl);
     }
 
     @Override

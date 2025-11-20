@@ -49,37 +49,6 @@ public class PulleyBlock extends Block implements EntityBlock {
 		return this.defaultBlockState().setValue(AXIS, context.getHorizontalDirection().getOpposite().getAxis());
 	}
 
-    @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (!level.isClientSide()) {
-            MenuProvider menuProvider = state.getMenuProvider(level, pos);
-            if (menuProvider != null) player.openMenu(menuProvider);
-        }
-        return InteractionResult.SUCCESS;
-    }
-
-    @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston)  {
-		if (!state.is(newState.getBlock())) {
-			if (level.getBlockEntity(pos) instanceof PulleyBlockEntity PulleyBlockEntity) Containers.dropContents(level, pos, PulleyBlockEntity);
-		}
-		super.onRemove(state, level, pos, newState, movedByPiston);
-    }
-
-	@Override
-	protected boolean triggerEvent(BlockState state, Level level, BlockPos pos, int id, int param) {
-		super.triggerEvent(state, level, pos, id, param);
-		BlockEntity blockEntity = level.getBlockEntity(pos);
-		return blockEntity == null ? false : blockEntity.triggerEvent(id, param);
-	}
-
-	@Nullable
-	@Override
-	protected MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
-		BlockEntity blockEntity = level.getBlockEntity(pos);
-		return blockEntity instanceof MenuProvider ? (MenuProvider)blockEntity : null;
-	}
-
     public boolean windPulley(BlockState state, Level level, BlockPos pos, boolean retract, @Nullable Direction direction) {
         boolean result = level.getBlockEntity(pos) instanceof PulleyBlockEntity pulleyEntity ? pulleyEntity.operateDirectly(retract) : false;
         if (direction != null){
@@ -91,4 +60,35 @@ public class PulleyBlock extends Block implements EntityBlock {
         }
         return result;
     }
+
+    @Override
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston)  {
+		if (!state.is(newState.getBlock())) {
+			if (level.getBlockEntity(pos) instanceof PulleyBlockEntity PulleyBlockEntity) Containers.dropContents(level, pos, PulleyBlockEntity);
+		}
+		super.onRemove(state, level, pos, newState, movedByPiston);
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (!level.isClientSide()) {
+            MenuProvider menuProvider = state.getMenuProvider(level, pos);
+            if (menuProvider != null) player.openMenu(menuProvider);
+        }
+        return InteractionResult.SUCCESS;
+    }
+
+	@Nullable
+	@Override
+	protected MenuProvider getMenuProvider(BlockState state, Level level, BlockPos pos) {
+		BlockEntity blockEntity = level.getBlockEntity(pos);
+		return blockEntity instanceof MenuProvider ? (MenuProvider)blockEntity : null;
+	}
+
+	@Override
+	protected boolean triggerEvent(BlockState state, Level level, BlockPos pos, int id, int param) {
+		super.triggerEvent(state, level, pos, id, param);
+		BlockEntity blockEntity = level.getBlockEntity(pos);
+		return blockEntity == null ? false : blockEntity.triggerEvent(id, param);
+	}
 }
