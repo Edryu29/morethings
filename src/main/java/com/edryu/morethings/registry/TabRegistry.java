@@ -83,6 +83,7 @@ public class TabRegistry {
             itemGroup.accept(BlockRegistry.SPRUCE_SHUTTER.asItem());
 
             itemGroup.accept(ItemRegistry.ORB);
+            itemGroup.accept(ItemRegistry.QUIVER);
             itemGroup.accept(ItemRegistry.BLUE_CRYSTAL);
             itemGroup.accept(ItemRegistry.GREEN_CRYSTAL);
             itemGroup.accept(ItemRegistry.PURPLE_CRYSTAL);

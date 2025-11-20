@@ -296,6 +296,16 @@ public class RecipeProvider extends FabricRecipeProvider {
             .unlockedBy(FabricRecipeProvider.getHasName(Items.LAPIS_LAZULI), FabricRecipeProvider.has(Items.LAPIS_LAZULI))
             .save(recipeExporter);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ItemRegistry.QUIVER, 1)
+            .pattern("0  ")
+            .pattern("1  ")
+            .pattern("2  ")
+            .define('0', Items.STRING)
+            .define('1', Items.LEATHER)
+            .define('2', Items.FEATHER)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.LEATHER), FabricRecipeProvider.has(Items.LEATHER))
+            .save(recipeExporter);
+
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(Items.HAY_BLOCK), RecipeCategory.BUILDING_BLOCKS, BlockRegistry.THATCH, 0.1f, 300)
             .unlockedBy(FabricRecipeProvider.getHasName(Items.HAY_BLOCK), FabricRecipeProvider.has(Items.HAY_BLOCK))
             .save(recipeExporter);

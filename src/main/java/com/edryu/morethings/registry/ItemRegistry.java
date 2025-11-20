@@ -5,11 +5,14 @@ import com.edryu.morethings.item.RopeItem;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BundleItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.StandingAndWallBlockItem;
+import net.minecraft.world.item.component.BundleContents;
 
 public class ItemRegistry {
     public static final Item ORB = registerItem(new Item(new Item.Properties().stacksTo(16)), "orb");
@@ -28,6 +31,8 @@ public class ItemRegistry {
     public static final Item SAPPHIRE = registerItem(new Item(new Item.Properties().stacksTo(16)), "sapphire");
     public static final Item TANZANITE = registerItem(new Item(new Item.Properties().stacksTo(16)), "tanzanite");
     public static final Item TOPAZ = registerItem(new Item(new Item.Properties().stacksTo(16)), "topaz");
+
+    public static final Item QUIVER = registerItem(new BundleItem((new Item.Properties()).stacksTo(1).component(DataComponents.BUNDLE_CONTENTS, BundleContents.EMPTY)), "quiver");
     
 	public static Item registerItem(Item item, String name) {
 		ResourceLocation itemID = ResourceLocation.fromNamespaceAndPath(MoreThingsMain.MOD_ID, name);

@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"end": "morethings:block/pulley_top",
-		"side": "morethings:block/pulley_side_rope"
+		"side": "morethings:block/pulley_side_chain"
 	},
 	"elements": [
 		{

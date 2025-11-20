@@ -1,0 +1,6 @@
+{
+    "parent": "morethings:item/quiver",
+    "textures": {
+        "layer0": "morethings:item/quiver_filled"
+    }
+}
