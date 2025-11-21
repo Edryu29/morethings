@@ -11,10 +11,10 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 
-public class RedstoneIlluminatorBlock extends Block {
+public class IlluminatorBlock extends Block {
     public static final IntegerProperty POWER = BlockStateProperties.POWER;
 
-    public RedstoneIlluminatorBlock(Properties settings) {
+    public IlluminatorBlock(Properties settings) {
         super(settings.lightLevel((state) -> 15 - state.getValue(POWER)));
         this.registerDefaultState(this.defaultBlockState().setValue(POWER, 0));
     }

@@ -263,6 +263,14 @@ public class RecipeProvider extends FabricRecipeProvider {
             .unlockedBy(FabricRecipeProvider.getHasName(Items.OAK_PLANKS), FabricRecipeProvider.has(Items.OAK_PLANKS))
             .save(recipeExporter);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.THATCH, 2)
+            .pattern("00 ")
+            .pattern("00 ")
+            .pattern("   ")
+            .define('0', Items.WHEAT)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.WHEAT), FabricRecipeProvider.has(Items.WHEAT))
+            .save(recipeExporter);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.THATCH_SLAB, 6)
             .pattern("000")
             .pattern("   ")
@@ -304,10 +312,6 @@ public class RecipeProvider extends FabricRecipeProvider {
             .define('1', Items.LEATHER)
             .define('2', Items.FEATHER)
             .unlockedBy(FabricRecipeProvider.getHasName(Items.LEATHER), FabricRecipeProvider.has(Items.LEATHER))
-            .save(recipeExporter);
-
-        SimpleCookingRecipeBuilder.smoking(Ingredient.of(Items.HAY_BLOCK), RecipeCategory.BUILDING_BLOCKS, BlockRegistry.THATCH, 0.1f, 300)
-            .unlockedBy(FabricRecipeProvider.getHasName(Items.HAY_BLOCK), FabricRecipeProvider.has(Items.HAY_BLOCK))
             .save(recipeExporter);
 
         SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.STONE), RecipeCategory.BUILDING_BLOCKS, BlockRegistry.STONE_PILLAR)

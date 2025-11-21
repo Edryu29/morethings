@@ -1,12 +1,18 @@
 {
-  "type": "minecraft:smoking",
-  "category": "food",
-  "cookingtime": 300,
-  "experience": 0.1,
-  "ingredient": {
-    "item": "minecraft:hay_block"
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "0": {
+      "item": "minecraft:wheat"
+    }
   },
+  "pattern": [
+    "00 ",
+    "00 ",
+    "   "
+  ],
   "result": {
+    "count": 2,
     "id": "morethings:thatch"
   }
 }
