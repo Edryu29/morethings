@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "0": {
+      "item": "minecraft:book"
+    }
+  },
+  "pattern": [
+    "   ",
+    "000",
+    "   "
+  ],
+  "result": {
+    "count": 1,
+    "id": "morethings:book_stack"
+  }
+}

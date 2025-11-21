@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "0": {
+      "item": "minecraft:stone_button"
+    },
+    "1": {
+      "item": "minecraft:glass_pane"
+    },
+    "2": {
+      "item": "minecraft:red_dye"
+    }
+  },
+  "pattern": [
+    " 2 ",
+    "111",
+    "101"
+  ],
+  "result": {
+    "count": 1,
+    "id": "morethings:red_button"
+  }
+}

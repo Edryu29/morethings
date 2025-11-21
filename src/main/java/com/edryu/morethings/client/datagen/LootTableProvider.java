@@ -33,6 +33,7 @@ public class LootTableProvider extends FabricBlockLootTableProvider {
                 dropSelf(BlockRegistry.COG);
                 dropSelf(BlockRegistry.PULLEY);
                 dropSelf(BlockRegistry.TURN_TABLE);
+                dropSelf(BlockRegistry.ILLUMINATOR);
                 dropSelf(BlockRegistry.CRANK);
                 dropSelf(BlockRegistry.CONSOLE);
                 dropSelf(BlockRegistry.RED_BUTTON);

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "0": {
+      "item": "minecraft:glass_pane"
+    },
+    "1": {
+      "item": "minecraft:iron_nugget"
+    },
+    "2": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "101",
+    "121",
+    "111"
+  ],
+  "result": {
+    "count": 1,
+    "id": "morethings:console"
+  }
+}

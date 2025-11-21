@@ -200,6 +200,15 @@ public class RecipeProvider extends FabricRecipeProvider {
             .unlockedBy(FabricRecipeProvider.getHasName(Items.REDSTONE), FabricRecipeProvider.has(Items.REDSTONE))
             .save(recipeExporter);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, BlockRegistry.ILLUMINATOR, 1)
+            .pattern(" 0 ")
+            .pattern("010")
+            .pattern(" 0 ")
+            .define('0', Items.REDSTONE)
+            .define('1', Items.SEA_LANTERN)
+            .unlockedBy(FabricRecipeProvider.getHasName(Items.REDSTONE), FabricRecipeProvider.has(Items.REDSTONE))
+            .save(recipeExporter);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, BlockRegistry.CRANK, 1)
             .pattern("   ")
             .pattern(" 1 ")

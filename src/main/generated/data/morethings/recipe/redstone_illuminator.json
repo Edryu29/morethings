@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "0": {
+      "item": "minecraft:redstone"
+    },
+    "1": {
+      "item": "minecraft:sea_lantern"
+    }
+  },
+  "pattern": [
+    " 0 ",
+    "010",
+    " 0 "
+  ],
+  "result": {
+    "count": 1,
+    "id": "morethings:redstone_illuminator"
+  }
+}

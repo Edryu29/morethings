@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "0": {
+      "item": "minecraft:string"
+    },
+    "1": {
+      "item": "minecraft:leather"
+    },
+    "2": {
+      "item": "minecraft:feather"
+    }
+  },
+  "pattern": [
+    "0  ",
+    "1  ",
+    "2  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "morethings:quiver"
+  }
+}

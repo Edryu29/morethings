@@ -52,6 +52,7 @@ public class TabRegistry {
             itemGroup.accept(BlockRegistry.COG.asItem());
             itemGroup.accept(BlockRegistry.PULLEY.asItem());
             itemGroup.accept(BlockRegistry.TURN_TABLE.asItem());
+            itemGroup.accept(BlockRegistry.ILLUMINATOR.asItem());
             itemGroup.accept(BlockRegistry.RED_BUTTON.asItem());
             itemGroup.accept(BlockRegistry.CONSOLE.asItem());
 

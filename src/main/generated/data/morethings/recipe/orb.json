@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "0": {
+      "item": "minecraft:glass"
+    },
+    "1": {
+      "item": "minecraft:lapis_lazuli"
+    }
+  },
+  "pattern": [
+    " 0 ",
+    "010",
+    " 0 "
+  ],
+  "result": {
+    "count": 1,
+    "id": "morethings:orb"
+  }
+}

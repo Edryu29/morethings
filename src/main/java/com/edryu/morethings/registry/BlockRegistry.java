@@ -56,6 +56,7 @@ public class BlockRegistry {
     public static final Block COG = registerBlock(new CogBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.COPPER_BLOCK)),"cog", true);
     public static final Block PULLEY = registerBlock(new PulleyBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BARREL)),"pulley", true);
     public static final Block TURN_TABLE = registerBlock(new TurnTableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DISPENSER)),"turn_table", true);
+    public static final Block ILLUMINATOR = registerBlock(new RedstoneIlluminatorBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SEA_LANTERN)),"redstone_illuminator", true);
     public static final Block CONSOLE = registerBlock(new ConsoleBlock(buttonSettings()),"console", true);
     public static final Block RED_BUTTON = registerBlock(new RedButtonBlock(buttonSettings()),"red_button", true);
 
