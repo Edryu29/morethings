@@ -166,7 +166,12 @@ public class RopeKnotBlock extends WaterloggedBlock implements EntityBlock {
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return Shapes.or( SHAPE,
+        VoxelShape fence_shape = SHAPE;
+        if (level.getBlockEntity(pos) instanceof RopeKnotBlockEntity ropeKnotBE) {
+            BlockState heldBlock = ropeKnotBE.getHeldBlock();
+            if (heldBlock != null) fence_shape = Shapes.or(SHAPE, heldBlock.getShape(level, pos));
+        }
+        return Shapes.or( fence_shape,
             state.getValue(NORTH) ? ROPE_NORTH : Shapes.empty(),
             state.getValue(SOUTH) ? ROPE_SOUTH : Shapes.empty(),
             state.getValue(EAST) ? ROPE_EAST : Shapes.empty(),
@@ -176,7 +181,12 @@ public class RopeKnotBlock extends WaterloggedBlock implements EntityBlock {
 
     @Override
 	protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return SHAPE;
+        VoxelShape fence_shape = SHAPE;
+        if (level.getBlockEntity(pos) instanceof RopeKnotBlockEntity ropeKnotBE) {
+            BlockState heldBlock = ropeKnotBE.getHeldBlock();
+            if (heldBlock != null) fence_shape = Shapes.or(SHAPE, heldBlock.getCollisionShape(level, pos));
+        }
+        return fence_shape;
 	}
 
     @Override
