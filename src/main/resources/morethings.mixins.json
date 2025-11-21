@@ -3,6 +3,7 @@
 	"package": "com.edryu.morethings.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
+		"LadderBlockMixin",
 		"LanternBlockMixin"
 	],
 	"injectors": {
