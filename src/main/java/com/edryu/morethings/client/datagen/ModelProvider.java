@@ -19,11 +19,6 @@ public class ModelProvider extends FabricModelProvider {
     public void generateItemModels(ItemModelGenerators itemModelGenerator) {
         itemModelGenerator.generateFlatItem(ItemRegistry.ORB, ModelTemplates.FLAT_ITEM);
         itemModelGenerator.generateFlatItem(ItemRegistry.BUNTING, ModelTemplates.FLAT_ITEM);
-
-        itemModelGenerator.generateFlatItem(ItemRegistry.BLUE_CRYSTAL, ModelTemplates.FLAT_ITEM);
-        itemModelGenerator.generateFlatItem(ItemRegistry.GREEN_CRYSTAL, ModelTemplates.FLAT_ITEM);
-        itemModelGenerator.generateFlatItem(ItemRegistry.PURPLE_CRYSTAL, ModelTemplates.FLAT_ITEM);
-        itemModelGenerator.generateFlatItem(ItemRegistry.RED_CRYSTAL, ModelTemplates.FLAT_ITEM);
         
         itemModelGenerator.generateFlatItem(ItemRegistry.CITRINE, ModelTemplates.FLAT_ITEM);
         itemModelGenerator.generateFlatItem(ItemRegistry.JADE, ModelTemplates.FLAT_ITEM);
@@ -37,7 +32,6 @@ public class ModelProvider extends FabricModelProvider {
         itemModelGenerator.generateFlatItem(BlockRegistry.DISPLAY.asItem(), ModelTemplates.FLAT_ITEM);
         itemModelGenerator.generateFlatItem(BlockRegistry.ROPE.asItem(), ModelTemplates.FLAT_ITEM);
         itemModelGenerator.generateFlatItem(BlockRegistry.TELESCOPE.asItem(), ModelTemplates.FLAT_ITEM);
-        itemModelGenerator.generateFlatItem(BlockRegistry.SPYGLASS_STAND.asItem(), ModelTemplates.FLAT_ITEM);
         itemModelGenerator.generateFlatItem(BlockRegistry.TERRARIUM.asItem(), ModelTemplates.FLAT_ITEM);
         itemModelGenerator.generateFlatItem(BlockRegistry.GLOBE.asItem(), ModelTemplates.FLAT_ITEM);
         itemModelGenerator.generateFlatItem(BlockRegistry.GLOBE_SEPIA.asItem(), ModelTemplates.FLAT_ITEM);

@@ -30,7 +30,6 @@ public class MoreThingsClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.BOAT_IN_A_JAR, RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.TERRARIUM, RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.TELESCOPE, RenderType.cutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.SPYGLASS_STAND, RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.GLOBE, RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.GLOBE_SEPIA, RenderType.cutout());
         BlockRenderLayerMap.INSTANCE.putBlock(BlockRegistry.RED_BUTTON, RenderType.cutout());

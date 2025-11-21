@@ -43,7 +43,6 @@ public class TabRegistry {
             itemGroup.accept(BlockRegistry.BOAT_IN_A_JAR.asItem());
             itemGroup.accept(BlockRegistry.TERRARIUM.asItem());
             itemGroup.accept(BlockRegistry.TELESCOPE.asItem());
-            itemGroup.accept(BlockRegistry.SPYGLASS_STAND.asItem());
 
             itemGroup.accept(BlockRegistry.BIG_CHAIN.asItem());
             itemGroup.accept(BlockRegistry.ROPE.asItem());
@@ -72,22 +71,8 @@ public class TabRegistry {
             itemGroup.accept(BlockRegistry.BAR_PANEL.asItem());
             itemGroup.accept(BlockRegistry.LATTICE.asItem());
 
-            itemGroup.accept(BlockRegistry.ACACIA_SHUTTER.asItem());
-            itemGroup.accept(BlockRegistry.BIRCH_SHUTTER.asItem());
-            itemGroup.accept(BlockRegistry.CHERRY_SHUTTER.asItem());
-            itemGroup.accept(BlockRegistry.DARK_OAK_SHUTTER.asItem());
-            itemGroup.accept(BlockRegistry.JUNGLE_SHUTTER.asItem());
-            itemGroup.accept(BlockRegistry.MANGROVE_SHUTTER.asItem());
-            itemGroup.accept(BlockRegistry.OAK_SHUTTER.asItem());
-            itemGroup.accept(BlockRegistry.PALE_OAK_SHUTTER.asItem());
-            itemGroup.accept(BlockRegistry.SPRUCE_SHUTTER.asItem());
-
-            itemGroup.accept(ItemRegistry.ORB);
             itemGroup.accept(ItemRegistry.QUIVER);
-            itemGroup.accept(ItemRegistry.BLUE_CRYSTAL);
-            itemGroup.accept(ItemRegistry.GREEN_CRYSTAL);
-            itemGroup.accept(ItemRegistry.PURPLE_CRYSTAL);
-            itemGroup.accept(ItemRegistry.RED_CRYSTAL);
+            itemGroup.accept(ItemRegistry.ORB);
 
             itemGroup.accept(ItemRegistry.CITRINE);
             itemGroup.accept(ItemRegistry.JADE);

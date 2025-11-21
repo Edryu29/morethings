@@ -44,7 +44,6 @@ public class BlockRegistry {
     public static final Block BOAT_IN_A_JAR = registerBlock(new BoatInAJarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)),"boat_in_a_jar", true);
     public static final Block TERRARIUM = registerBlock(new TerrariumBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.GLASS)),"terrarium", true);
     public static final Block TELESCOPE = registerBlock(new TelescopeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)),"telescope", true);
-    public static final Block SPYGLASS_STAND = registerBlock(new SpyglassStandBlock(BlockBehaviour.Properties.ofFullCopy(TELESCOPE)),"spyglass_stand", true);
     public static final Block GLOBE = registerBlock(new GlobeBlock(BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(2f, 4).noOcclusion()),"globe", true);
     public static final Block GLOBE_SEPIA = registerBlock(new GlobeBlock(BlockBehaviour.Properties.of().sound(SoundType.METAL).strength(2f, 4).noOcclusion()),"globe_sepia", true);
     
@@ -77,16 +76,6 @@ public class BlockRegistry {
     public static final Block PALE_OAK_PALISADE = registerBlock(new PalisadeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_FENCE)),"pale_oak_palisade", true);
     public static final Block SPRUCE_PALISADE = registerBlock(new PalisadeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_FENCE)),"spruce_palisade", true);
     public static final Block WARPED_PALISADE = registerBlock(new PalisadeBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_FENCE)),"warped_palisade", true);
-
-    public static final Block ACACIA_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_TRAPDOOR)),"acacia_shutter", true);
-    public static final Block BIRCH_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_TRAPDOOR)),"birch_shutter", true);
-    public static final Block CHERRY_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_TRAPDOOR)),"cherry_shutter", true);
-    public static final Block DARK_OAK_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_TRAPDOOR)),"dark_oak_shutter", true);
-    public static final Block JUNGLE_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_TRAPDOOR)),"jungle_shutter", true);
-    public static final Block MANGROVE_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_TRAPDOOR)),"mangrove_shutter", true);
-    public static final Block OAK_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR)),"oak_shutter", true);
-    public static final Block PALE_OAK_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_TRAPDOOR)),"pale_oak_shutter", true);
-    public static final Block SPRUCE_SHUTTER = registerBlock(new ShutterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_TRAPDOOR)),"spruce_shutter", true);
 
     public static BlockBehaviour.Properties bookPileSettings() {
         return BlockBehaviour.Properties.of().sound(SoundRegistry.BOOKS).strength(0.3f).noOcclusion();

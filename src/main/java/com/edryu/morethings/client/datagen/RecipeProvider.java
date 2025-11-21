@@ -107,15 +107,6 @@ public class RecipeProvider extends FabricRecipeProvider {
             .unlockedBy(FabricRecipeProvider.getHasName(Items.SPYGLASS), FabricRecipeProvider.has(Items.SPYGLASS))
             .save(recipeExporter);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegistry.SPYGLASS_STAND, 1)
-            .pattern(" 0 ")
-            .pattern(" 1 ")
-            .pattern("   ")
-            .define('0', Items.SPYGLASS)
-            .define('1', Items.COPPER_INGOT)
-            .unlockedBy(FabricRecipeProvider.getHasName(Items.SPYGLASS), FabricRecipeProvider.has(Items.SPYGLASS))
-            .save(recipeExporter);
-
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, BlockRegistry.GLOBE, 1)
             .pattern(" 0 ")
             .pattern("12 ")
@@ -318,22 +309,6 @@ public class RecipeProvider extends FabricRecipeProvider {
         //     .criterion(FabricRecipeProvider.hasItem(Items.STONE_BRICKS), FabricRecipeProvider.conditionsFromItem(Items.STONE_BRICKS))
         //     .offerTo(recipeExporter);
 
-        SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.BLUE_CRYSTAL)
-            .unlockedBy(FabricRecipeProvider.getHasName(Items.AMETHYST_SHARD), FabricRecipeProvider.has(Items.AMETHYST_SHARD))
-            .save(recipeExporter);
-
-        SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.GREEN_CRYSTAL)
-            .unlockedBy(FabricRecipeProvider.getHasName(Items.AMETHYST_SHARD), FabricRecipeProvider.has(Items.AMETHYST_SHARD))
-            .save(recipeExporter);
-
-        SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.PURPLE_CRYSTAL)
-            .unlockedBy(FabricRecipeProvider.getHasName(Items.AMETHYST_SHARD), FabricRecipeProvider.has(Items.AMETHYST_SHARD))
-            .save(recipeExporter);
-
-        SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.RED_CRYSTAL)
-            .unlockedBy(FabricRecipeProvider.getHasName(Items.AMETHYST_SHARD), FabricRecipeProvider.has(Items.AMETHYST_SHARD))
-            .save(recipeExporter);
-
         SingleItemRecipeBuilder.stonecutting(Ingredient.of(Items.AMETHYST_SHARD), RecipeCategory.MISC, ItemRegistry.CITRINE)
             .unlockedBy(FabricRecipeProvider.getHasName(Items.AMETHYST_SHARD), FabricRecipeProvider.has(Items.AMETHYST_SHARD))
             .save(recipeExporter);
@@ -370,16 +345,6 @@ public class RecipeProvider extends FabricRecipeProvider {
         // createPalisadeRecipe(BlockRegistry.PALE_OAK_PALISADE, Items.BIRCH_LOG, recipeExporter);
         createPalisadeRecipe(BlockRegistry.SPRUCE_PALISADE, Items.STRIPPED_SPRUCE_LOG, recipeExporter);
         createPalisadeRecipe(BlockRegistry.WARPED_PALISADE, Items.STRIPPED_WARPED_STEM, recipeExporter);
-
-        createShutterRecipe(BlockRegistry.ACACIA_SHUTTER, Items.ACACIA_SLAB, recipeExporter);
-        createShutterRecipe(BlockRegistry.BIRCH_SHUTTER, Items.BIRCH_SLAB, recipeExporter);
-        createShutterRecipe(BlockRegistry.CHERRY_SHUTTER, Items.CHERRY_SLAB, recipeExporter);
-        createShutterRecipe(BlockRegistry.DARK_OAK_SHUTTER, Items.DARK_OAK_SLAB, recipeExporter);
-        createShutterRecipe(BlockRegistry.JUNGLE_SHUTTER, Items.JUNGLE_SLAB, recipeExporter);
-        createShutterRecipe(BlockRegistry.MANGROVE_SHUTTER, Items.MANGROVE_SLAB, recipeExporter);
-        createShutterRecipe(BlockRegistry.OAK_SHUTTER, Items.OAK_SLAB, recipeExporter);
-        // createShutterRecipe(BlockRegistry.PALE_OAK_SHUTTER, Items.BIRCH_SLAB, recipeExporter);
-        createShutterRecipe(BlockRegistry.SPRUCE_SHUTTER, Items.SPRUCE_SLAB, recipeExporter);
     }
 
     public static void createPalisadeRecipe(ItemLike output, ItemLike ingredient, RecipeOutput recipeExporter) {
@@ -387,16 +352,6 @@ public class RecipeProvider extends FabricRecipeProvider {
             .pattern("00 ")
             .pattern("   ")
             .pattern("   ")
-            .define('0', ingredient)
-            .unlockedBy(FabricRecipeProvider.getHasName(ingredient), FabricRecipeProvider.has(ingredient))
-            .save(recipeExporter);
-	}
-
-    public static void createShutterRecipe(ItemLike output, ItemLike ingredient, RecipeOutput recipeExporter) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, output, 4)
-            .pattern("00 ")
-            .pattern("00 ")
-            .pattern("00 ")
             .define('0', ingredient)
             .unlockedBy(FabricRecipeProvider.getHasName(ingredient), FabricRecipeProvider.has(ingredient))
             .save(recipeExporter);

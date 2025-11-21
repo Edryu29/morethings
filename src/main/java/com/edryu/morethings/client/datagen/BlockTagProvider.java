@@ -16,7 +16,6 @@ import net.minecraft.world.level.block.Block;
 public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
     public static final TagKey<Block> PALISADES = registerTag("palisades");
-    public static final TagKey<Block> SHUTTERS = registerTag("shutters");
     public static final TagKey<Block> HANG_FROM_ROPES = registerTag("hang_from_ropes");
     public static final TagKey<Block> ROPE_SUPPORT = registerTag("rope_support");
     public static final TagKey<Block> UNMOVEABLE_BY_PULLEY = registerTag("unmoveable_by_pulley");
@@ -41,17 +40,6 @@ public class BlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(BlockRegistry.PALE_OAK_PALISADE)
                 .add(BlockRegistry.SPRUCE_PALISADE)
                 .add(BlockRegistry.WARPED_PALISADE);
-
-        getOrCreateTagBuilder(SHUTTERS)
-                .add(BlockRegistry.ACACIA_SHUTTER)
-                .add(BlockRegistry.BIRCH_SHUTTER)
-                .add(BlockRegistry.CHERRY_SHUTTER)
-                .add(BlockRegistry.DARK_OAK_SHUTTER)
-                .add(BlockRegistry.JUNGLE_SHUTTER)
-                .add(BlockRegistry.MANGROVE_SHUTTER)
-                .add(BlockRegistry.OAK_SHUTTER)
-                .add(BlockRegistry.PALE_OAK_SHUTTER)
-                .add(BlockRegistry.SPRUCE_SHUTTER);
     }
 
 	public static TagKey<Block> registerTag(String name) {
