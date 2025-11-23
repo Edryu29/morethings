@@ -38,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
 import com.edryu.morethings.client.datagen.BlockTagProvider;
 import com.edryu.morethings.registry.ItemRegistry;
 import com.edryu.morethings.registry.SoundRegistry;
-import com.edryu.morethings.util.MoreThingsHelper;
+import com.edryu.morethings.util.PulleyHelper;
 
 public class RopeBlock extends WaterloggedBlock {
 	public static final BooleanProperty KNOT = BooleanProperty.create("knot");
@@ -151,7 +151,7 @@ public class RopeBlock extends WaterloggedBlock {
         ItemStack stack = player.getMainHandItem();
         if (stack.is(this.asItem())) {
             if (!Screen.hasShiftDown()) return InteractionResult.PASS; 
-            if (MoreThingsHelper.addWindingDown(pos.below(), level, player, InteractionHand.MAIN_HAND, this)) {
+            if (PulleyHelper.addWindingDown(pos.below(), level, player, InteractionHand.MAIN_HAND, this)) {
                 SoundType soundType = state.getSoundType();
                 level.playSound(player, pos, soundType.getPlaceSound(), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
                 stack.consume(1, player);
@@ -165,7 +165,7 @@ public class RopeBlock extends WaterloggedBlock {
             }
             if (Screen.hasShiftDown()) {
                 if (level.getBlockState(pos.below()).is(this) || level.getBlockState(pos.above()).is(this)) {
-                    if (MoreThingsHelper.removeWindingDown(pos.below(), level, this)) {
+                    if (PulleyHelper.removeWindingDown(pos.below(), level, this)) {
                         level.playSound(player, pos, SoundRegistry.ROPE_SLIDE, SoundSource.BLOCKS, 1, 0.6F);
                         if (!player.isCreative()) player.addItem(new ItemStack(ItemRegistry.ROPE, 1));
                         return InteractionResult.SUCCESS;

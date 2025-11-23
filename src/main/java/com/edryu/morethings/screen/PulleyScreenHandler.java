@@ -2,7 +2,7 @@ package com.edryu.morethings.screen;
 
 import com.edryu.morethings.registry.ScreenRegistry;
 import com.edryu.morethings.util.BlockProperties.Winding;
-import com.edryu.morethings.util.MoreThingsHelper;
+import com.edryu.morethings.util.PulleyHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -32,7 +32,7 @@ public class PulleyScreenHandler extends AbstractContainerMenu {
         this.addSlot(new Slot(inventory, 0, 79, 39) {
             @Override
             public boolean mayPlace(ItemStack stack) {
-                return MoreThingsHelper.getWindingType(stack.getItem()) != Winding.NONE;
+                return PulleyHelper.getWindingType(stack.getItem()) != Winding.NONE;
             }
         });
 

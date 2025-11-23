@@ -59,7 +59,6 @@ public class LootTableProvider extends FabricBlockLootTableProvider {
                 dropSelf(BlockRegistry.GLOBE_SEPIA);
                 add(BlockRegistry.TELESCOPE, createDoorTable(BlockRegistry.TELESCOPE));
 
-
                 dropSelf(BlockRegistry.ACACIA_PALISADE);
                 dropSelf(BlockRegistry.BAMBOO_PALISADE);
                 dropSelf(BlockRegistry.BIRCH_PALISADE);

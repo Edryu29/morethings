@@ -286,9 +286,9 @@ public class RecipeProvider extends FabricRecipeProvider {
             .unlockedBy(FabricRecipeProvider.getHasName(BlockRegistry.THATCH), FabricRecipeProvider.has(BlockRegistry.THATCH))
             .save(recipeExporter);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.HAYSTACK, 4)
-            .pattern("00 ")
-            .pattern("00 ")
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, BlockRegistry.HAYSTACK, 1)
+            .pattern("0  ")
+            .pattern("0  ")
             .pattern("   ")
             .define('0', Items.HAY_BLOCK)
             .unlockedBy(FabricRecipeProvider.getHasName(Items.HAY_BLOCK), FabricRecipeProvider.has(Items.HAY_BLOCK))

@@ -28,10 +28,10 @@ public class TabRegistry {
             itemGroup.accept(BlockRegistry.PEDESTAL.asItem());
             itemGroup.accept(BlockRegistry.STONE_PILLAR.asItem());
             itemGroup.accept(BlockRegistry.BIG_CHAIN.asItem());
-            itemGroup.accept(BlockRegistry.HAYSTACK.asItem());
             itemGroup.accept(BlockRegistry.THATCH.asItem());
             itemGroup.accept(BlockRegistry.THATCH_SLAB.asItem());
             itemGroup.accept(BlockRegistry.THATCH_STAIRS.asItem());
+            itemGroup.accept(BlockRegistry.HAYSTACK.asItem());
 
             // SECOND ROW
             itemGroup.accept(BlockRegistry.GLOBE.asItem());
@@ -62,28 +62,28 @@ public class TabRegistry {
             itemGroup.accept(ItemRegistry.BUNTING);
             itemGroup.accept(ItemRegistry.QUIVER);
             itemGroup.accept(ItemRegistry.ORB);
-            itemGroup.accept(BlockRegistry.ACACIA_PALISADE.asItem());
-            itemGroup.accept(BlockRegistry.BAMBOO_PALISADE.asItem());
-            itemGroup.accept(BlockRegistry.BIRCH_PALISADE.asItem());
+            itemGroup.accept(ItemRegistry.RUBY);
+            itemGroup.accept(ItemRegistry.TOPAZ);
+            itemGroup.accept(ItemRegistry.CITRINE);
 
             // FIFTH ROW
-            itemGroup.accept(BlockRegistry.CHERRY_PALISADE.asItem());
-            itemGroup.accept(BlockRegistry.CRIMSON_PALISADE.asItem());
-            itemGroup.accept(BlockRegistry.DARK_OAK_PALISADE.asItem());
-            itemGroup.accept(BlockRegistry.JUNGLE_PALISADE.asItem());
-            itemGroup.accept(BlockRegistry.MANGROVE_PALISADE.asItem());
-            itemGroup.accept(BlockRegistry.OAK_PALISADE.asItem());
-            itemGroup.accept(BlockRegistry.PALE_OAK_PALISADE.asItem());
-            itemGroup.accept(BlockRegistry.SPRUCE_PALISADE.asItem());
-            itemGroup.accept(BlockRegistry.WARPED_PALISADE.asItem());
-
-             // SIXTH ROW
-            itemGroup.accept(ItemRegistry.CITRINE);
             itemGroup.accept(ItemRegistry.JADE);
-            itemGroup.accept(ItemRegistry.RUBY);
             itemGroup.accept(ItemRegistry.SAPPHIRE);
             itemGroup.accept(ItemRegistry.TANZANITE);
-            itemGroup.accept(ItemRegistry.TOPAZ);
+            itemGroup.accept(BlockRegistry.OAK_PALISADE.asItem());
+            itemGroup.accept(BlockRegistry.SPRUCE_PALISADE.asItem());
+            itemGroup.accept(BlockRegistry.BIRCH_PALISADE.asItem());
+            itemGroup.accept(BlockRegistry.JUNGLE_PALISADE.asItem());
+            itemGroup.accept(BlockRegistry.ACACIA_PALISADE.asItem());
+            itemGroup.accept(BlockRegistry.DARK_OAK_PALISADE.asItem());
+
+             // SIXTH ROW
+            itemGroup.accept(BlockRegistry.MANGROVE_PALISADE.asItem());
+            itemGroup.accept(BlockRegistry.CHERRY_PALISADE.asItem());
+            itemGroup.accept(BlockRegistry.PALE_OAK_PALISADE.asItem());
+            itemGroup.accept(BlockRegistry.BAMBOO_PALISADE.asItem());
+            itemGroup.accept(BlockRegistry.CRIMSON_PALISADE.asItem());
+            itemGroup.accept(BlockRegistry.WARPED_PALISADE.asItem());
         });
     }
 }
